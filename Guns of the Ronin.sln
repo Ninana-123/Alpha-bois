@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Guns of the Ronin", "Guns of the Ronin\Guns of the Ronin.vcxproj", "{79FFEDDE-5EC0-493D-A11D-A21F210CC871}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79FFEDDE-5EC0-493D-A11D-A21F210CC871}.Debug|x64.ActiveCfg = Debug|x64
+		{79FFEDDE-5EC0-493D-A11D-A21F210CC871}.Debug|x64.Build.0 = Debug|x64
+		{79FFEDDE-5EC0-493D-A11D-A21F210CC871}.Release|x64.ActiveCfg = Release|x64
+		{79FFEDDE-5EC0-493D-A11D-A21F210CC871}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F5DD9554-A913-49C6-AC19-CDCBDB774A6F}
+	EndGlobalSection
+EndGlobal
