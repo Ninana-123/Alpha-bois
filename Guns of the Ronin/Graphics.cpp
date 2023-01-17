@@ -1,9 +1,28 @@
 
-#include "Objects.h"
+#include "Graphics.h"
+
+void G_Init() {
+	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 20);
+}
 
 
+//Draws text contained in ch at coordinates (xPos, yPos) 
+//Color of text ignores alpha value stored in color
+void G_DrawText(char* ch, float xPos, float yPos, Color color) {
+	float boundaryX = AEGetWindowWidth() / 2.0f;
+	float boundaryY = AEGetWindowHeight() / 2.0f;
 
-void CreateRectMesh(AEGfxVertexList* pMesh, float width, float height) {
+	AEGfxPrint(font, ch, xPos / boundaryX, yPos / boundaryY, 1, color.r, color.g, color.b);
+
+}
+
+
+void G_SetFontSize(float size) {
+	AEGfxDestroyFont(font);
+	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", size);
+}
+
+void CreateQuadMesh(AEGfxVertexList* pMesh, float width, float height) {
 
 	AEGfxMeshStart();
 	// This shape has 2 triangles that makes up a square

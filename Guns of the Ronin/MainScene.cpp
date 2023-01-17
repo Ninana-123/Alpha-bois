@@ -1,8 +1,10 @@
 // ---------------------------------------------------------------------------
 // includes
 
+#include <iostream>
 #include "AEEngine.h"
-
+#include "Physics.h"
+#include "Graphics.h"
 
 
 // ---------------------------------------------------------------------------
@@ -32,6 +34,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// reset the system modules
 	AESysReset();
 
+	//initiate Graphics
+	G_Init();
+
 	// Game Loop
 	while (gGameRunning)
 	{
@@ -51,11 +56,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		AEGfxSetTransparency(1.0f);
 
 
+		char testCh[] = "TeStInG";
+		
+		G_DrawText(testCh, -200, 200);
+
+		
+
 		// Handling Input
 		AEInputUpdate();
 
 		// Your own update logic goes here
-
+		
 
 		// Your own rendering logic goes here
 
