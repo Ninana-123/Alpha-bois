@@ -6,6 +6,7 @@
 #include "Physics.h"
 #include "Graphics.h"
 #include "DummyPlayer.h"
+#include "Shop.h"
 
 // ---------------------------------------------------------------------------
 // main

@@ -8,6 +8,6 @@ struct PlayerInfo {
 };
 
 void LoadPlayer() {
-	PlayerInfo player1 = { 100, 1, 0, 10 };
+	PlayerInfo player1 = { 100, 1, 0, 10 };	// health, att, attspd, movementspd
 
 }
