@@ -17,32 +17,47 @@ void G_DrawText(char* ch, float xPos, float yPos, Color color) {
 }
 
 
-void G_SetFontSize(float size) {
+void G_SetFontSize(int size) {
 	AEGfxDestroyFont(font);
 	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", size);
 }
 
-void CreateQuadMesh(AEGfxVertexList* pMesh, float width, float height) {
+unsigned int createARGB(float r, float g, float b, float a)
+{
+	int ca = a * 255, cr = r * 255, cg = g * 255, cb = b * 255;
+	return ((ca & 0xff) << 24) + ((cr & 0xff) << 16) + ((cg & 0xff) << 8) + ((cb & 0xff));
+}
 
+AEGfxVertexList* CreateQuadMesh(float width, float height, Color color) {
+	AEGfxVertexList* pMesh;
+	unsigned int colorCode = createARGB(color.r, color.g, color.b, color.a);
 	AEGfxMeshStart();
 	// This shape has 2 triangles that makes up a square
 	// Color parameters represent colours as ARGB
 	// UV coordinates to read from loaded textures
 	AEGfxTriAdd(
-		-width / 2.0f, -height / 2.0f, 0xFFFF0000, 0.0f, 0.0f,
-		width / 2.0f, -height / 2.0f, 0xFF00FF00, 1.0f, 0.0f,
-		-width / 2.0f, height / 2.0f, 0xFF0000FF, 0.0f, 1.0f);
+		-width / 2.0f, -height / 2.0f, colorCode, 0.0f, 0.0f,
+		width / 2.0f, -height / 2.0f, colorCode, 1.0f, 0.0f,
+		-width / 2.0f, height / 2.0f, colorCode, 0.0f, 1.0f);
 	AEGfxTriAdd(
-		width / 2.0f, -height / 2.0f, 0xFFFF0000, 1.0f, 0.0f,
-		width / 2.0f, height / 2.0f, 0xFF00FF00, 1.0f, 1.0f,
-		-width / 2.0f, height / 2.0f, 0xFF0000FF, 0.0f, 1.0f);
+		width / 2.0f, -height / 2.0f, colorCode, 1.0f, 0.0f,
+		width / 2.0f, height / 2.0f, colorCode, 1.0f, 1.0f,
+		-width / 2.0f, height / 2.0f, colorCode, 0.0f, 1.0f);
 	// Saving the mesh (list of triangles) in pMesh
 	pMesh = AEGfxMeshEnd();
+
+	return pMesh;
 }
 
 void DrawMesh(Transform* trans) {
+
 	// Set the texture to pTex
-	AEGfxTextureSet(trans->texture, 0, 0);
+	AEGfxTexture* pTex = AEGfxTextureLoad("Assets/PlanetTexture.png");
+	AEGfxTextureSet(pTex, 0, 0);
+
+	//if(trans->texture)
+	//AEGfxTextureSet(trans->texture, 0, 0);
+	
 	// Create a scale matrix that scales by 100 x and y
 	AEMtx33 scale = { 0 };
 	AEMtx33Scale(&scale, trans->scale.x, trans->scale.y);

@@ -44,26 +44,26 @@ public:
 	}
 
 	//overloading * and *=
-	Vector2 operator*(float& const scale) {
+	Vector2 operator*(float const& scale) {
 		Vector2 vector;
 		vector.x = this->x * scale;
 		vector.y = this->y * scale;
 		return vector;
 	}
-	Vector2& operator*=(float& const scale) {
+	Vector2& operator*=(float const& scale) {
 		this->x *= scale;
 		this->y *= scale;
 		return *this;
 	}
 
 	//overloading / and /= 
-	Vector2 operator/(float& const scale) {
+	Vector2 operator/(float const& scale) {
 		Vector2 vector;
 		vector.x = this->x / scale;
 		vector.y = this->y / scale;
 		return vector;
 	}
-	Vector2& operator/=(float& const scale) {
+	Vector2& operator/=(float const& scale) {
 		this->x /= scale;
 		this->y /= scale;
 		return *this;
