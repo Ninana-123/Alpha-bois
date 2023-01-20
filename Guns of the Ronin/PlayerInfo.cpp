@@ -1,5 +1,7 @@
 #include "PlayerInfo.h"
 
+
+
 struct PlayerInfo {
 	int health;
 	int att;
@@ -11,3 +13,4 @@ void LoadPlayer() {
 	PlayerInfo player1 = { 100, 1, 0, 10 };	// health, att, attspd, movementspd
 
 }
+

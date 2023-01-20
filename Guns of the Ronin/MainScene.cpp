@@ -7,6 +7,7 @@
 #include "Graphics.h"
 #include "DummyPlayer.h"
 #include "Shop.h"
+#include "Player.h"
 
 // ---------------------------------------------------------------------------
 // main
@@ -40,6 +41,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	DummyPlayer dummyPlayer;
 	DummyPlayer_Init(&dummyPlayer);
+	
+	Player player;
+	Player_Init(&player);
 	// Game Loop
 	while (gGameRunning)
 	{
@@ -64,6 +68,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		G_DrawText(testCh, -200, 200);
 
 		DummyPlayer_Update(&dummyPlayer);
+
+		Player_Update(&player);
 
 		
 
