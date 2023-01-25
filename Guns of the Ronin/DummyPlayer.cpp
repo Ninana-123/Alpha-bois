@@ -1,7 +1,7 @@
 
 #include "DummyPlayer.h"
 
-
+// dvbdkvbvkfdabkakda
 void DummyPlayer_Init(DummyPlayer* dummyPlayer) {
 	dummyPlayer->transform.color = Color(1, 0, 0, 1);
 	CreateQuadMesh(20.0f, 20.0f, dummyPlayer->transform.color,dummyPlayer->transform);
