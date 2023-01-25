@@ -9,7 +9,7 @@ void Draw_Shrine_Init(Shrine* Shrines)
 	Shrines->transform.position = Vector2(150.f, 150.f);
 
 }
-
+//ASBVIJASBJILBLFBASBFASB
 
 void Draw_Shrine_Update(Shrine* Shrines)
 {
