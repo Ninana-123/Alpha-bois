@@ -8,6 +8,7 @@
 #include "DummyPlayer.h"
 #include "Shop.h"
 #include "Player.h"
+#include "draw_shrine.h"
 
 // ---------------------------------------------------------------------------
 // main
@@ -44,6 +45,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	
 	Player player;
 	Player_Init(&player);
+
+	Shrine Shrines;
+	Draw_Shrine_Init(&Shrines);
 	// Game Loop
 	while (gGameRunning)
 	{
@@ -71,6 +75,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		Player_Update(&player);
 
+		Draw_Shrine_Update(&Shrines);
 		
 
 		// Handling Input
