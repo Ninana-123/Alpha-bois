@@ -10,6 +10,7 @@ void Draw_Shrine_Init(Shrine* Shrines)
 
 }
 //ASBVIJASBJILBLFBASBFASB
+// BIASBIASJBFJI;ASBF;ASBGBI;ASBG;ASBG;BASGBAGAS
 
 void Draw_Shrine_Update(Shrine* Shrines)
 {
