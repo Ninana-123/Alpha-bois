@@ -48,6 +48,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	Shrine Shrines;
 	Draw_Shrine_Init(&Shrines);
+
+	Shop shop;
+	LoadShop(&shop);
+
 	// Game Loop
 	while (gGameRunning)
 	{
@@ -76,6 +80,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		Player_Update(&player);
 
 		Draw_Shrine_Update(&Shrines);
+
 		
 
 		// Handling Input
