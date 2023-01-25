@@ -97,6 +97,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="draw_shrine.cpp" />
     <ClCompile Include="DummyPlayer.cpp" />
     <ClCompile Include="MainScene.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -107,6 +108,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     <ClCompile Include="Shop.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="draw_shrine.h" />
     <ClInclude Include="DummyPlayer.h" />
     <ClInclude Include="EnemyController.h" />
     <ClInclude Include="Graphics.h" />
