@@ -46,8 +46,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Player player;
 	Player_Init(&player);
 
-	Shrine Shrines;
-	Draw_Shrine_Init(&Shrines);
+	Shrine Shrines, loading;
+	Draw_Shrine_Init(&Shrines, &loading);
 
 	Shop shop;
 	LoadShop(&shop);
@@ -72,7 +72,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		Player_Update(&player);
 
-		Draw_Shrine_Update(&Shrines);
+		Draw_Shrine_Update(&Shrines, &player, &loading);
 
 		
 
