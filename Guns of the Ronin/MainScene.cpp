@@ -8,6 +8,7 @@
 #include "DummyPlayer.h"
 #include "Shop.h"
 #include "Player.h"
+#include "draw_shrine.h"
 
 // ---------------------------------------------------------------------------
 // main
@@ -97,5 +98,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	AEGfxMeshFree(dummyPlayer.transform.mesh);
 
 	// free the system
-	AESysExit();
+	 	AESysExit();
 }
