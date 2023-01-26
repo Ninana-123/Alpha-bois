@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "draw_shrine.h"
 #include "EnemyController.h"
+#include "PlayerInfo.h"
 
 
 namespace {

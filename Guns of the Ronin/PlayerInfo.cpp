@@ -1,16 +1,17 @@
 #include "PlayerInfo.h"
 
 
-
-struct PlayerInfo {
-	int health;
-	int att;
-	int attspd;
-	int movementspd;
-};
-
-void LoadPlayer() {
-	PlayerInfo player1 = { 100, 1, 0, 10 };	// health, att, attspd, movementspd
-
+void PlayerInfo_Init(PlayerInfo* playerinfo) {
+	playerinfo->att = 1;
+	playerinfo->attspd = 1;
+	playerinfo->health = 10;
+	playerinfo->movementspd = 1;
 }
 
+void PlayerInfo_Update(int stats) {
+	stats++;
+}
+
+void PlayerInfo_Exit() {
+
+}
