@@ -34,6 +34,7 @@ struct SamuraiPool {
 	int activeSize;
 };
 
+void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos);
 
 void Init_SamuraiPool(SamuraiPool& pool);
 

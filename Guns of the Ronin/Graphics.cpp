@@ -54,8 +54,6 @@ void CreateQuadMesh(float width, float height, Color color, Transform &trans) {
 
 void DrawMesh(Transform* trans) {
 
-	// Set the texture to pTex
-	AEGfxTexture* pTex = AEGfxTextureLoad("Assets/PlanetTexture.png");
 
 
 	//if(trans->texture)
@@ -73,7 +71,7 @@ void DrawMesh(Transform* trans) {
 	AEGfxSetTransparency(1.0f);
 
 	//Set the texture
-	AEGfxTextureSet(pTex, 0, 0);
+	AEGfxTextureSet(trans->texture, 0, 0);
 	// Create a scale matrix that scales by 100 x and y
 	AEMtx33 scale = { 0 };
 	AEMtx33Scale(&scale, trans->scale.x, trans->scale.y);
