@@ -36,12 +36,13 @@ namespace {
 }
 
 void G_Init();
+void G_DestroyFont();
 void G_SetFontSize(int size);
 void G_DrawText(char* ch, float xPos, float yPos, Color color = Color(0, 0, 0));
 
 //Creates a rectangle mesh with width and height size
 //Stores the mesh created in pMesh
-AEGfxVertexList* CreateQuadMesh(float width, float height, Color color);
+void CreateQuadMesh(float width, float height, Color color, Transform &trans);
 
 void DrawMesh(Transform* trans);
 #endif // !GRAPHICS_H

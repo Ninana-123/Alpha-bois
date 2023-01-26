@@ -48,6 +48,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	Shrine Shrines;
 	Draw_Shrine_Init(&Shrines);
+
+	Shop shop;
+	LoadShop(&shop);
+
 	// Game Loop
 	while (gGameRunning)
 	{
@@ -56,26 +60,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		// Set the background
 		AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
-		// Tell the engine to get ready to draw something with texture.
-		AEGfxSetRenderMode(AE_GFX_RM_COLOR);
-		// Set the tint to white, so that the sprite can
-		// display the full range of colors (default is black).
-		AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
-		// Set blend mode to AE_GFX_BM_BLEND
-		// This will allow transparency.
-		AEGfxSetBlendMode(AE_GFX_BM_BLEND);
-		AEGfxSetTransparency(1.0f);
+
 
 
 		char testCh[] = "TeStInG";
 		
 		G_DrawText(testCh, -200, 200);
 
+
 		DummyPlayer_Update(&dummyPlayer);
 
 		Player_Update(&player);
 
 		Draw_Shrine_Update(&Shrines);
+
 		
 
 		// Handling Input
@@ -95,9 +93,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			gGameRunning = 0;
 	}
 
-
+	G_DestroyFont();
+	AEGfxTextureUnload(dummyPlayer.transform.texture);
 	AEGfxMeshFree(dummyPlayer.transform.mesh);
 
 	// free the system
-	AESysExit();
+	 	AESysExit();
 }

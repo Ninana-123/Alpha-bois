@@ -4,7 +4,7 @@
 
 void Player_Init(Player* Player) {
 	Player->transform.color = Color(1, 1, 1, 1);
-	Player->transform.mesh = CreateQuadMesh(20.0f, 20.0f, Player->transform.color);
+	CreateQuadMesh(20.0f, 20.0f, Player->transform.color, Player->transform);
 	Player->transform.position = Vector2(100.f, 100.f);
 }
 
@@ -49,5 +49,5 @@ void Player_Update(Player* Player) {
 
 	Player->transform.position += newPos;
 
-	DrawMesh(&Player->transform);
+	//DrawMesh(&Player->transform);
 }

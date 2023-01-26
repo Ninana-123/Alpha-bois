@@ -6,6 +6,7 @@ void G_Init() {
 }
 
 
+
 //Draws text contained in ch at coordinates (xPos, yPos) 
 //Color of text ignores alpha value stored in color
 void G_DrawText(char* ch, float xPos, float yPos, Color color) {
@@ -22,14 +23,18 @@ void G_SetFontSize(int size) {
 	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", size);
 }
 
+void G_DestroyFont() {
+	AEGfxDestroyFont(font);
+}
+
 unsigned int createARGB(float r, float g, float b, float a)
 {
-	int ca = a * 255, cr = r * 255, cg = g * 255, cb = b * 255;
+	int ca = int(a * 255), cr = int(r * 255), cg = int(g * 255), cb = int(b * 255);
 	return ((ca & 0xff) << 24) + ((cr & 0xff) << 16) + ((cg & 0xff) << 8) + ((cb & 0xff));
 }
 
-AEGfxVertexList* CreateQuadMesh(float width, float height, Color color) {
-	AEGfxVertexList* pMesh;
+void CreateQuadMesh(float width, float height, Color color, Transform &trans) {
+	//AEGfxVertexList* pMesh = 0;
 	unsigned int colorCode = createARGB(color.r, color.g, color.b, color.a);
 	AEGfxMeshStart();
 	// This shape has 2 triangles that makes up a square
@@ -44,20 +49,29 @@ AEGfxVertexList* CreateQuadMesh(float width, float height, Color color) {
 		width / 2.0f, height / 2.0f, colorCode, 1.0f, 1.0f,
 		-width / 2.0f, height / 2.0f, colorCode, 0.0f, 1.0f);
 	// Saving the mesh (list of triangles) in pMesh
-	pMesh = AEGfxMeshEnd();
-
-	return pMesh;
+	trans.mesh = AEGfxMeshEnd();
 }
 
 void DrawMesh(Transform* trans) {
 
-	// Set the texture to pTex
-	AEGfxTexture* pTex = AEGfxTextureLoad("Assets/PlanetTexture.png");
-	AEGfxTextureSet(pTex, 0, 0);
+
 
 	//if(trans->texture)
 	//AEGfxTextureSet(trans->texture, 0, 0);
 	
+
+	// Tell the engine to get ready to draw something with texture.
+	AEGfxSetRenderMode(AE_GFX_RM_COLOR);
+	// Set the tint to white, so that the sprite can
+	// display the full range of colors (default is black).
+	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
+	// Set blend mode to AE_GFX_BM_BLEND
+	// This will allow transparency.
+	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+	AEGfxSetTransparency(1.0f);
+
+	//Set the texture
+	AEGfxTextureSet(trans->texture, 0, 0);
 	// Create a scale matrix that scales by 100 x and y
 	AEMtx33 scale = { 0 };
 	AEMtx33Scale(&scale, trans->scale.x, trans->scale.y);
