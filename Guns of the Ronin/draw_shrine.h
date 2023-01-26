@@ -16,6 +16,7 @@ public:
 
 void Draw_Shrine_Init(Shrine* Shrines, Shrine* loading);
 void Draw_Shrine_Update(Shrine* Shrines, Player* Player, Shrine* loading);
+void Draw_Shrine(Shrine* Shrines, Shrine* loading);
 
 
 
