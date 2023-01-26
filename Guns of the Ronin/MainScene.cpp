@@ -53,10 +53,11 @@ void Update_Scene() {
 
 	Player_Update(&player);
 
-	Draw_Shrine_Update(&Shrines);
+	Draw_Shrine_Update(&Shrines, &player, &loading);
 
 	Update_Enemies(samPool, dummyPlayer.transform.position);
-
+	// if button "B" is pressed
+	Shop_Update(&shop, &playerinfo);
 
 }
 
@@ -65,7 +66,7 @@ void Draw_Scene() {
 	AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
 
 	Draw_Enemies(samPool);
-
+	Draw_Shrine(&Shrines, &loading);
 }
 
 void Free_Scene() {
@@ -115,7 +116,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		Update_Scene();
 
 		Draw_Scene();
-		
+
 		// Informing the system about the loop's end
 		AESysFrameEnd();
 
