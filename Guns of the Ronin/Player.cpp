@@ -72,10 +72,10 @@ void Player_Update(Player* Player) {
 		Vector2 normalizedDirection = direction.normalize();
 		projectile.velocity = normalizedDirection * 5.0f;
 		projectile.accelration = Vector2{ };
-		for (unsigned int i = 0; i < 5; i++) {
+		/*for (unsigned int i = 0; i < 5; i++) {
 			projectile.velocity += projectile.accelration * deltaTime;
 			projectile.position += projectile.velocity * deltaTime;
-		}
+		}*/
 		
 		CreateQuadMesh(500.f, 500.f, Color(1, 1, 1, 1),projectile.transform);
 		projectile.transform.position = projectile.position;
