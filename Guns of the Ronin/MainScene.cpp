@@ -37,7 +37,8 @@ void Init_Scene() {
 	Player_Init(&player);
 	Draw_Shrine_Init(&Shrines, &loading);
 	Init_Enemies(samPool);
-
+	Shop_Init(&shop);
+	PlayerInfo_Init(&playerinfo);
 }
 
 void Update_Scene() {
@@ -55,7 +56,7 @@ void Update_Scene() {
 	Draw_Shrine_Update(&Shrines, &player, &loading);
 
 	Update_Enemies(samPool, dummyPlayer.transform.position);
-	// if button "B" is pressed
+
 	Shop_Update(&shop, &playerinfo);
 
 }
@@ -112,9 +113,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		// Handling Input
 		AEInputUpdate();
 
-		Update_Scene();
-
 		Draw_Scene();
+
+		Update_Scene();	// Leave update to the last, so shop overlaps the gameplay
 
 		// Informing the system about the loop's end
 		AESysFrameEnd();
