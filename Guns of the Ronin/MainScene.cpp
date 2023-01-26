@@ -84,6 +84,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		Draw_Shrine_Update(&Shrines, &player, &loading);
 
+		Draw_Shrine(&Shrines, &loading);
+
 		Update_Enemies(samPool, dummyPlayer.transform.position);
 		
 
