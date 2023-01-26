@@ -54,7 +54,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Draw_Shrine_Init(&Shrines);
 
 	Shop shop;
-	LoadShop(&shop);
+	Shop_Init(&shop);
 
 	SamuraiPool samPool;
 	Init_Enemies(samPool);
@@ -86,6 +86,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		Update_Enemies(samPool, dummyPlayer.transform.position);
 		
+		
 
 
 
@@ -95,6 +96,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		Draw_Enemies(samPool);
 
+		// if button "B" is pressed
+		Shop_Update(&shop);
 
 		// Informing the system about the loop's end
 		AESysFrameEnd();

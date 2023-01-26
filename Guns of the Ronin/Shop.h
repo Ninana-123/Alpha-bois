@@ -2,11 +2,12 @@
 
 class Shop {
 public:
-	Transform transform;
-
-
+	Transform base;
+	Transform att;
+	Transform attspd;
+	Transform health;
+	bool b_Pressed;
 };
 
-void LoadShop();
-
-void LoadShop(Shop* Shop);
+void Shop_Init(Shop* shop);
+void Shop_Update(Shop *shop);
