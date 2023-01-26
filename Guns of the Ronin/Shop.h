@@ -1,4 +1,5 @@
 #pragma once
+#include "PlayerInfo.h"
 
 class Shop {
 public:
@@ -10,4 +11,4 @@ public:
 };
 
 void Shop_Init(Shop* shop);
-void Shop_Update(Shop *shop);
+void Shop_Update(Shop *shop, PlayerInfo *playerinfo);

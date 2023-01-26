@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "draw_shrine.h"
 #include "EnemyController.h"
+#include "PlayerInfo.h"
 
 
 
@@ -56,6 +57,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Shop shop;
 	Shop_Init(&shop);
 
+	PlayerInfo playerinfo;
+	PlayerInfo_Init(&playerinfo);
+
 	SamuraiPool samPool;
 	Init_Enemies(samPool);
 
@@ -97,7 +101,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		Draw_Enemies(samPool);
 
 		// if button "B" is pressed
-		Shop_Update(&shop);
+		Shop_Update(&shop, &playerinfo);
 
 		// Informing the system about the loop's end
 		AESysFrameEnd();

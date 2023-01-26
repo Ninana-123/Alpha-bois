@@ -1,6 +1,7 @@
 #include "Graphics.h"
 #include "Shop.h"
 #include "TimeManager.h"
+#include "PlayerInfo.h"
 
 bool checkBPressed = false;
 
@@ -22,7 +23,7 @@ void Shop_Init(Shop *shop) {
 	shop->health.position = Vector2(400.f, 100.f);
 }
 
-void Shop_Update(Shop *shop) {
+void Shop_Update(Shop *shop, PlayerInfo *playerinfo) {
 	
 	shop->b_Pressed = AEInputCheckTriggered(AEVK_B); 
 	
@@ -44,15 +45,16 @@ void Shop_Update(Shop *shop) {
 		DrawMesh(&shop->attspd);
 		DrawMesh(&shop->health);
 
-		G_SetFontSize(100);
 
 		char testCh[] = "SHOP";
-		G_DrawText(testCh, -150, 200, 1, Color(1, 0, 0, 1));
+		G_DrawText(testCh, -150, 200, 3, Color(1, 0, 0, 1));
 
-		G_SetFontSize(30);
 
 		char att[] = "ATTACK";
-		G_DrawText(att, -460.f, 90.f,1, Color(1, 0, 0, 1));
+		G_DrawText(att, -460.f, 90.f,2, Color(1, 0, 0, 1));
+		
+		// if att is clicked, call the playerinfo_update function and increment the stats by 1
+		PlayerInfo_Update(playerinfo->att);
 	}
 	
 }
