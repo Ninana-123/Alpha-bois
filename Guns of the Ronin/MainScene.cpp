@@ -17,10 +17,10 @@
 namespace {
 	DummyPlayer dummyPlayer;
 	Player player;
-	Shrine Shrines;
+	Shrine Shrines, loading;
 	Shop shop;
 	SamuraiPool samPool;
-
+	PlayerInfo playerinfo;
 }
 
 void Init_Scene() {
@@ -35,8 +35,7 @@ void Init_Scene() {
 
 	DummyPlayer_Init(&dummyPlayer);
 	Player_Init(&player);
-	Draw_Shrine_Init(&Shrines);
-	LoadShop(&shop);
+	Draw_Shrine_Init(&Shrines, &loading);
 	Init_Enemies(samPool);
 
 }
