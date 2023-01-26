@@ -49,5 +49,5 @@ void Player_Update(Player* Player) {
 
 	Player->transform.position += newPos;
 
-	//DrawMesh(&Player->transform);
+	DrawMesh(&Player->transform);
 }

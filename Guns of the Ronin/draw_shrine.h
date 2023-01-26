@@ -5,16 +5,17 @@
 
 #include "Graphics.h"
 #include "Physics.h"
+#include "Player.h"
 
 class Shrine {
 public:
 	Transform transform;
-	
+	bool hasbeenused;
 
 };
 
-void Draw_Shrine_Init(Shrine* Shrine);
-void Draw_Shrine_Update(Shrine* Shrine);
+void Draw_Shrine_Init(Shrine* Shrines, Shrine* loading);
+void Draw_Shrine_Update(Shrine* Shrines, Player* Player, Shrine* loading);
 
 
 
