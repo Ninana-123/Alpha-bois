@@ -53,12 +53,6 @@ void CreateQuadMesh(float width, float height, Color color, Transform &trans) {
 
 void DrawMesh(Transform* trans) {
 
-
-
-	//if(trans->texture)
-	//AEGfxTextureSet(trans->texture, 0, 0);
-	
-
 	// Tell the engine to get ready to draw something with texture.
 	AEGfxSetRenderMode(AE_GFX_RM_COLOR);
 	// Set the tint to white, so that the sprite can

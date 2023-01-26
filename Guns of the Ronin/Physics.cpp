@@ -3,6 +3,7 @@
 #include <AEEngine.h>
 #include <stdio.h>
 #include <time.h>
+#include <iostream>
 
 
 bool Col_Circle_Circle(Vector2 pos1, float radius1, Vector2 pos2, float radius2) {
@@ -15,9 +16,9 @@ bool Col_Circle_Circle(Vector2 pos1, float radius1, Vector2 pos2, float radius2)
 
 
 Vector2 RandomPoint_OutsideSqaure(float minDist, float maxDist, Vector2 centerPos) {
-	srand(time(NULL));
-	int randGrid = rand() % 8 + 1;
 
+	int randGrid = rand() % 8 + 1;
+	std::cout << randGrid;
 	float x = 0, y = 0;
 	float randX = AERandFloat(), randY = AERandFloat();
 	float gridWidth = maxDist - minDist;
@@ -33,7 +34,7 @@ Vector2 RandomPoint_OutsideSqaure(float minDist, float maxDist, Vector2 centerPo
 		y = centerPos.y + minDist + gridWidth - randY * gridWidth;
 		break;
 	case 2:
-		x = centerPos.x - minDist + randX * gridWidth;
+		x = centerPos.x - minDist + randX * minDist * 2;
 		y = centerPos.y + minDist + gridWidth - randY * gridWidth;
 		break;
 	case 3:
@@ -42,18 +43,18 @@ Vector2 RandomPoint_OutsideSqaure(float minDist, float maxDist, Vector2 centerPo
 		break;
 	case 4:
 		x = centerPos.x - minDist - gridWidth + randX * gridWidth;
-		y = centerPos.y + minDist - randY * gridWidth;
+		y = centerPos.y + minDist - randY * minDist * 2;
 		break;
 	case 5:
 		x = centerPos.x + minDist + randX * gridWidth;
-		y = centerPos.y + minDist - randY * gridWidth;
+		y = centerPos.y + minDist - randY * minDist * 2;
 		break;
 	case 6:
 		x = centerPos.x - minDist - gridWidth + randX * gridWidth;
 		y = centerPos.y - minDist - randY * gridWidth;
 		break;
 	case 7:
-		x = centerPos.x - minDist + randX * gridWidth;
+		x = centerPos.x - minDist + randX * minDist * 2;
 		y = centerPos.y - minDist - randY * gridWidth;
 		break;
 	case 8:

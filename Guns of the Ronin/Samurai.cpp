@@ -18,8 +18,8 @@ void SamuraiRemove(int index, SamuraiPool& pool) {
 //Spawning a new samurai
 void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
-		if (pool.activeSamurais[i]->enabled == 0) {
-			pool.activeSamurais[i]->enabled = 1;
+		if (pool.activeSamurais[i]->enabled == false) {
+			pool.activeSamurais[i]->enabled = true;
 			pool.activeSamurais[i]->health = HEALTH;
 			pool.activeSamurais[i]->transform.position = RandomPoint_OutsideSqaure(MIN_SPAWNDIST, MAX_SPAWNDIST, playerPos);
 			pool.activeSamurais[i]->curMoveSpeed = MS;
@@ -32,10 +32,10 @@ void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 void Init_SamuraiPool(SamuraiPool& pool) {
 	pool.activeSize = 0;
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
-		pool.samurais[i].enabled = 0;
+		pool.samurais[i].enabled = false;
 		pool.samurais[i].health = HEALTH;
 		pool.samurais[i].hitAnimTimer = 0;
-		CreateQuadMesh(30, 50, Color(0, 1, 0), pool.samurais[i].transform);
+		CreateQuadMesh(20, 20, Color(0, 1, 0), pool.samurais[i].transform);
 		pool.activeSamurais[i] = &pool.samurais[i];
 	}
 }

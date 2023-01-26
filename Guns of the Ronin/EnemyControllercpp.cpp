@@ -13,6 +13,7 @@ void Update_Enemies(SamuraiPool& pool, Vector2 playerPos) {
 		spawnTImer = 0;
 		SamuraiAdd(pool, playerPos);
 	}
+	//SamuraiAdd(pool, playerPos);
 	AI_Samurai(pool);
 }
 

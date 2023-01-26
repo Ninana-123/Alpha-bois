@@ -14,5 +14,6 @@ namespace {
 void Update_Time();
 void TimePause();
 void TimeResume();
+bool IsTime_Paused();
 
 #endif // !TIMEMANAGER_H

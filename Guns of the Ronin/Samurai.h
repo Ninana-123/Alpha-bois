@@ -8,8 +8,8 @@
 
 namespace {
 	enum { SAMURAI_COUNT = 50 };
-	float MIN_SPAWNDIST = 400;
-	float MAX_SPAWNDIST = 800;
+	float MIN_SPAWNDIST = 200;
+	float MAX_SPAWNDIST = 400;
 	int HEALTH = 75;
 	float MS = 100.0f;
 	float MAX_MS = 300.0f;

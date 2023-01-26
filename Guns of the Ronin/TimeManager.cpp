@@ -6,7 +6,7 @@ float deltaTime = 0;
 void Update_Time() {
 
 	if (!isPaused) {
-		deltaTime += (float)AEFrameRateControllerGetFrameTime();
+		deltaTime = (float)AEFrameRateControllerGetFrameTime();
 	}
 
 }
@@ -17,4 +17,8 @@ void TimePause() {
 
 void TimeResume() {
 	isPaused = false;
+}
+
+bool IsTime_Paused() {
+	return isPaused;
 }
