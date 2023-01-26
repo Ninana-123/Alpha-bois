@@ -5,10 +5,14 @@
 #include "AEEngine.h"
 #include "Physics.h"
 #include "Graphics.h"
+#include "TimeManager.h"
 #include "DummyPlayer.h"
 #include "Shop.h"
 #include "Player.h"
 #include "draw_shrine.h"
+#include "EnemyController.h"
+
+
 
 // ---------------------------------------------------------------------------
 // main
@@ -52,21 +56,27 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Shop shop;
 	LoadShop(&shop);
 
+	SamuraiPool samPool;
+	Init_Enemies(samPool);
+
 	// Game Loop
 	while (gGameRunning)
 	{
 		// Informing the system about the loop's start
 		AESysFrameStart();
 
-		// Set the background
-		AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
+		// Handling Input
+		AEInputUpdate();
 
 
+		
 
 		char testCh[] = "TeStInG";
 		
-		G_DrawText(testCh, -200, 200);
+		G_DrawText(testCh, -200, 200, 1.0f);
 
+
+		Update_Time();
 
 		DummyPlayer_Update(&dummyPlayer);
 
@@ -74,15 +84,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		Draw_Shrine_Update(&Shrines);
 
+		Update_Enemies(samPool, dummyPlayer.transform.position);
 		
 
-		// Handling Input
-		AEInputUpdate();
 
-		// Your own update logic goes here
-		
 
-		// Your own rendering logic goes here
+
+		// Set the background
+		AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
+
+		Draw_Enemies(samPool);
 
 
 		// Informing the system about the loop's end

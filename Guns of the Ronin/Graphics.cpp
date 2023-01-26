@@ -9,12 +9,11 @@ void G_Init() {
 
 //Draws text contained in ch at coordinates (xPos, yPos) 
 //Color of text ignores alpha value stored in color
-void G_DrawText(char* ch, float xPos, float yPos, Color color) {
+void G_DrawText(char* ch, float xPos, float yPos, float scale, Color color) {
 	float boundaryX = AEGetWindowWidth() / 2.0f;
 	float boundaryY = AEGetWindowHeight() / 2.0f;
 
-	AEGfxPrint(font, ch, xPos / boundaryX, yPos / boundaryY, 1, color.r, color.g, color.b);
-
+	AEGfxPrint(font, ch, xPos / boundaryX, yPos / boundaryY, scale, color.r, color.g, color.b);
 }
 
 

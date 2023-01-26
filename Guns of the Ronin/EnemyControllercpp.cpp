@@ -1,11 +1,14 @@
 
 #include "EnemyController.h"
-
-//extern float deltaTime;
+#include "TimeManager.h"
 float spawnTImer = 0;
 
+void Init_Enemies(SamuraiPool& pool) {
+	Init_SamuraiPool(pool);
+}
+
 void Update_Enemies(SamuraiPool& pool, Vector2 playerPos) {
-	//spawnTImer += deltaTime;
+	spawnTImer += deltaTime;
 	if (spawnTImer >= spawnRate_Samurai) {
 		spawnTImer = 0;
 		SamuraiAdd(pool, playerPos);
