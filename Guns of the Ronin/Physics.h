@@ -88,6 +88,8 @@ public:
 
 };
 
+enum DIRECTION { VERTICAL, HORIZONTAL };
+
 
 bool Col_Circle_Circle(Vector2 pos1, float radius1, Vector2 pos2, float radius2);
 

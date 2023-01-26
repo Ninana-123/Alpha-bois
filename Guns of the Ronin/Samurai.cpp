@@ -1,8 +1,6 @@
 
 #include "Samurai.h"
-
-extern float dt;
-
+#include "TimeManager.h"
 
 //When a samurai dies 
 void SamuraiRemove(int index, SamuraiPool& pool) {
@@ -35,14 +33,56 @@ void Init_SamuraiPool(SamuraiPool& pool) {
 		pool.samurais[i].enabled = false;
 		pool.samurais[i].health = HEALTH;
 		pool.samurais[i].hitAnimTimer = 0;
+		pool.samurais[i].aiState = MOVING;
 		CreateQuadMesh(20, 20, Color(0, 1, 0), pool.samurais[i].transform);
 		pool.activeSamurais[i] = &pool.samurais[i];
 	}
 }
 
-void AI_Samurai(SamuraiPool& pool) {
-
+void AI_Samurai(SamuraiPool& pool, Vector2 playerPos) {
+	for (int i = 0; i < pool.activeSize; i++) {
+		Samurai* curSamurai = pool.activeSamurais[i];
+		switch (curSamurai->aiState)
+		{
+		case MOVING:
+			curSamurai->targetPos = playerPos;
+			if (curSamurai->transform.position.within_dist(playerPos, 20)) {
+				curSamurai->aiState = ATTACKING;
+			}
+			else {
+				curSamurai->transform.position += (curSamurai->targetPos - curSamurai->transform.position).normalize() * MS * deltaTime;
+			}
+			break;
+		case ATTACKING:
+			if (!curSamurai->transform.position.within_dist(playerPos, 35)) {
+				curSamurai->aiState = MOVING;
+			}
+			break;
+		default:
+			break;
+		}
+	}
 }
+
+
+//Push Samurais in the specified direction to the specific wordPos in the according axis
+void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis) {
+	for (int i = 0; i < pool.activeSize; i++) {
+		switch (direction)
+		{
+		case VERTICAL:
+			pool.activeSamurais[i]->targetPos.y = targetAxis;
+			break;
+		case HORIZONTAL:
+			pool.activeSamurais[i]->targetPos.x = targetAxis;
+			break;
+		default:
+			break;
+		}
+
+	}
+}
+
 
 void Draw_Samurai(SamuraiPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {

@@ -3,20 +3,25 @@
 #include "TimeManager.h"
 float spawnTImer = 0;
 
-void Init_Enemies(SamuraiPool& pool) {
-	Init_SamuraiPool(pool);
+void Init_Enemies(SamuraiPool& samPool) {
+	Init_SamuraiPool(samPool);
+
 }
 
-void Update_Enemies(SamuraiPool& pool, Vector2 playerPos) {
+void Update_Enemies(SamuraiPool& samPool, Vector2 playerPos) {
 	spawnTImer += deltaTime;
 	if (spawnTImer >= spawnRate_Samurai) {
 		spawnTImer = 0;
-		SamuraiAdd(pool, playerPos);
+		SamuraiAdd(samPool, playerPos);
 	}
-	//SamuraiAdd(pool, playerPos);
-	AI_Samurai(pool);
+	AI_Samurai(samPool, playerPos);
 }
 
-void Draw_Enemies(SamuraiPool& pool) {
-	Draw_Samurai(pool);
+void Push_Enemies(SamuraiPool& samPool, DIRECTION direction, float targetAxis) {
+	Push_Samurai(samPool, direction, targetAxis);
+
+}
+
+void Draw_Enemies(SamuraiPool& samPool) {
+	Draw_Samurai(samPool);
 }
