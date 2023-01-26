@@ -1,15 +1,33 @@
 #include "PlayerInfo.h"
+#include <string>
+#include <iostream>
 
 
 void PlayerInfo_Init(PlayerInfo* playerinfo) {
-	playerinfo->att = 1;
-	playerinfo->attspd = 1;
+	playerinfo->att = 10;	// max 100 attack?
+	playerinfo->attspd = 1;	// max level 5 attack speed?
 	playerinfo->health = 10;
 	playerinfo->movementspd = 1;
+	//playerinfo->weaponlevel = 0;	
 }
 
-void PlayerInfo_Update(int stats) {
-	stats++;
+void PlayerInfo_Update(PlayerInfo *playerinfo, std::string name) {
+
+	if (name == "att") {
+		if (playerinfo->att == 100) {
+			std::cout << "max level 10" << '\n';
+		}
+		else {
+			playerinfo->att += 10;
+		}
+		
+	}
+	else if (name == "attspd"){
+		playerinfo->attspd++;
+	}
+	else if (name == "health") {
+		playerinfo->health++;
+	}
 }
 
 void PlayerInfo_Exit() {
