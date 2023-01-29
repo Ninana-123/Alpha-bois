@@ -7,16 +7,36 @@
 #include "Physics.h"
 #include "Player.h"
 
-class Shrine {
+namespace
+{
+	enum{Shrine_Count = 5};
+}
+
+class Shrine 
+{
 public:
 	Transform transform;
 	bool hasbeenused;
-
+	bool iscolliding;
+	float loadingbarpercentage;
+	Transform loading;
+	float timeElapsed;
 };
 
-void Draw_Shrine_Init(Shrine* Shrines, Shrine* loading);
-void Draw_Shrine_Update(Shrine* Shrines, Player* Player, Shrine* loading);
-void Draw_Shrine(Shrine* Shrines, Shrine* loading);
+struct ShrinePool 
+{
+public:
+	Shrine Shrines[Shrine_Count];
+	Shrine* activeShrine[Shrine_Count];
+	int activeSize;
+	
+};
+
+void Shrinepool_Init(ShrinePool& shrinePool);
+void ShrineAdd(ShrinePool& shrinePool);
+void ShrineDelete(int index, ShrinePool& shrinePool);
+void Shrine_Update(ShrinePool& shrinePool, Player& player);
+void Draw_Shrine(ShrinePool& shrinePool);
 
 
 
