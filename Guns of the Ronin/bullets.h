@@ -33,4 +33,6 @@ void Draw_Bullet(BulletPool& bullet);
 
 void Bullet_AI(BulletPool& pool);
 
+void BulletRemove(int index, BulletPool& pool);
+
 #endif 

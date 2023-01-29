@@ -59,12 +59,20 @@ void Update_Scene() {
 
 	Shop_Update(&shop, &playerinfo);
 
-	SetQuadPoints(dummyPlayer.transform, 30, 30);
+	
+
 	for (int i = 0; i < samPool.activeSize; ++i) {
 		SetQuadPoints(samPool.activeSamurais[i]->transform, 20, 20);
-		if (StaticCol_QuadQuad(dummyPlayer.transform, samPool.activeSamurais[i]->transform)) {
-			std::cout << "COLLIDED\n";
+
+		for (int u = 0; u < bulletPool.activeSize; ++u) {
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, 15, 15);
+			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, samPool.activeSamurais[i]->transform)) {
+				std::cout << "COLLIDED\n";
+				Dmg_Samurai(samPool, 50, i);
+				BulletRemove(u, bulletPool);
+			}
 		}
+		
 	}
 
 	Player_Update(&player, bulletPool);
