@@ -17,7 +17,10 @@ class Shrine
 public:
 	Transform transform;
 	bool hasbeenused;
-
+	bool iscolliding;
+	float loadingbarpercentage;
+	Transform loading;
+	float timeElapsed;
 };
 
 struct ShrinePool 
@@ -27,13 +30,13 @@ public:
 	Shrine* activeShrine[Shrine_Count];
 	int activeSize;
 	
-	
-
 };
 
-void Shrinepool_Init(ShrinePool&pool);
-void Shrine_Update(ShrinePool* Shrines, Player* Player);
-void Draw_Shrine(ShrinePool* Shrines, Shrine*loading);
+void Shrinepool_Init(ShrinePool& shrinePool);
+void ShrineAdd(ShrinePool& shrinePool);
+void ShrineDelete(int index, ShrinePool& shrinePool);
+void Shrine_Update(ShrinePool& shrinePool, Player& player);
+void Draw_Shrine(ShrinePool& shrinePool);
 
 
 
