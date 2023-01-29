@@ -12,7 +12,7 @@ namespace {
 
 void Init_Enemies(SamuraiPool& pool);
 
-void Update_Enemies(SamuraiPool& pool, Vector2 playerPos);
+void Update_Enemies(SamuraiPool& samPool, Player& player, PlayerInfo& playerInfo);
 
 void Draw_Enemies(SamuraiPool& pool);
 

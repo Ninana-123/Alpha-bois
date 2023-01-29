@@ -55,24 +55,28 @@ void Update_Scene() {
 
 	Draw_Shrine_Update(&Shrines, &player, &loading);
 
-	Update_Enemies(samPool, dummyPlayer.transform.position);
+	Update_Enemies(samPool, player, playerinfo);
 
 	Shop_Update(&shop, &playerinfo);
 
 	
-
+	SetQuadPoints(player.transform, 50, 50);
 	for (int i = 0; i < samPool.activeSize; ++i) {
 		SetQuadPoints(samPool.activeSamurais[i]->transform, 20, 20);
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			SetQuadPoints(bulletPool.activeBullets[u]->transform, 15, 15);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, samPool.activeSamurais[i]->transform)) {
-				std::cout << "COLLIDED\n";
 				Dmg_Samurai(samPool, 50, i);
 				BulletRemove(u, bulletPool);
 			}
-		}
-		
+		}				
+	}
+
+	std::cout << playerinfo.health << std::endl;
+
+	if (AEInputCheckTriggered(AEVK_T)) {
+		Push_Enemies(samPool, HORIZONTAL, -500);
 	}
 
 	Player_Update(&player, bulletPool);

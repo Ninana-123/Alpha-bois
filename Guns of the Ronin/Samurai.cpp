@@ -2,6 +2,7 @@
 #include "Samurai.h"
 #include "TimeManager.h"
 
+
 //When a samurai dies 
 void SamuraiRemove(int index, SamuraiPool& pool) {
 	pool.activeSamurais[index]->enabled = false;
@@ -39,7 +40,8 @@ void Init_SamuraiPool(SamuraiPool& pool) {
 	}
 }
 
-void AI_Samurai(SamuraiPool& pool, Vector2 playerPos) {
+void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
+	Vector2 playerPos = player.transform.position;
 	for (int i = 0; i < pool.activeSize; i++) {
 		Samurai* curSamurai = pool.activeSamurais[i];
 
@@ -63,17 +65,21 @@ void AI_Samurai(SamuraiPool& pool, Vector2 playerPos) {
 			break;
 		case BLOWNAWAY:
 			Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
-			curSamurai->transform.position += direction * MAX_MS * deltaTime;
-			if (curSamurai->transform.position.within_dist(curSamurai->targetPos, 1.0f)) {
+			curSamurai->transform.position += direction * SWEEP_MS * deltaTime;
+			if (curSamurai->transform.position.within_dist(curSamurai->targetPos, 15.0f)) {
 				curSamurai->aiState = MOVING;
 			}
 			break;
+		}
+
+		if (StaticCol_QuadQuad(curSamurai->transform, player.transform)) {
+			player_dmg(playerInfo, DAMAGE);
 		}
 	}
 }
 
 void Dmg_Samurai(SamuraiPool& pool, int dmg, int index) {
-	pool.activeSamurais[index]->health -= dmg;
+
 	if ((pool.activeSamurais[index]->health -= dmg) <= 0) {
 		SamuraiRemove(index, pool);
 	}
@@ -87,10 +93,10 @@ void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis) {
 		switch (direction)
 		{
 		case VERTICAL:
-			pool.activeSamurais[i]->targetPos.y = targetAxis;
+			pool.activeSamurais[i]->targetPos = Vector2(pool.activeSamurais[i]->transform.position.x, targetAxis);
 			break;
 		case HORIZONTAL:
-			pool.activeSamurais[i]->targetPos.x = targetAxis;
+			pool.activeSamurais[i]->targetPos = Vector2(targetAxis, pool.activeSamurais[i]->transform.position.y);
 			break;
 		default:
 			break;

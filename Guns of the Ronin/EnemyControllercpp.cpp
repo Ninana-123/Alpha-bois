@@ -1,6 +1,7 @@
 
 #include "EnemyController.h"
 #include "TimeManager.h"
+#include "Player.h"
 float spawnTImer = 0;
 
 void Init_Enemies(SamuraiPool& samPool) {
@@ -8,13 +9,13 @@ void Init_Enemies(SamuraiPool& samPool) {
 
 }
 
-void Update_Enemies(SamuraiPool& samPool, Vector2 playerPos) {
+void Update_Enemies(SamuraiPool& samPool, Player& player, PlayerInfo& playerInfo) {
 	spawnTImer += deltaTime;
 	if (spawnTImer >= spawnRate_Samurai) {
 		spawnTImer = 0;
-		SamuraiAdd(samPool, playerPos);
+		SamuraiAdd(samPool, player.transform.position);
 	}
-	//AI_Samurai(samPool, playerPos);
+	AI_Samurai(samPool, player, playerInfo);
 }
 
 void Push_Enemies(SamuraiPool& samPool, DIRECTION direction, float targetAxis) {

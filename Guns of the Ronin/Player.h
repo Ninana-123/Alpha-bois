@@ -20,7 +20,7 @@ void Player_Init(Player* Player,BulletPool &bulletPool);
 void Player_Update(Player* Player, BulletPool& bulletPool);
 void Draw_Player(Player* player, BulletPool& bulletPool);
 
-
+void player_dmg(PlayerInfo& info, int dmg);
 
 
 #endif
