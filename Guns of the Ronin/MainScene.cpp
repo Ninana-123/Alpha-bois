@@ -41,6 +41,7 @@ void Init_Scene() {
 	Init_Enemies(samPool);
 	Shop_Init(&shop);
 	PlayerInfo_Init(&playerinfo);
+	
 }
 
 void Update_Scene() {
@@ -75,7 +76,7 @@ void Update_Scene() {
 		}				
 	}
 
-	std::cout << playerinfo.health << std::endl;
+	//std::cout << playerinfo.health << std::endl;
 
 	if (AEInputCheckTriggered(AEVK_T)) {
 		Push_Enemies(samPool, HORIZONTAL, -500);
@@ -93,11 +94,13 @@ void Draw_Scene() {
 	Draw_Enemies(samPool);
 	Draw_Shrine( shrinePool);
 	Draw_Player(&player, bulletPool);
+	
 	if (playerinfo.playerDead) {
 		TimePause();
 		char dead[] = "DEAD";
 		G_DrawText(dead, 0.f, 0.f, 1.0f, Color(0, 0, 0));
 	}
+	Draw_Shop(&shop, &playerinfo);
 }
 
 void Free_Scene() {

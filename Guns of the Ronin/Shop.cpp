@@ -11,7 +11,7 @@ s32 mouse_y;
 s32* x = &mouse_x;
 s32* y = &mouse_y;
 
-void Shop_Init(Shop *shop) {
+void Shop_Init(Shop* shop) {
 	shop->base.color = Color(1, 1, 1, 1);
 	CreateQuadMesh(1200.0f, 700.0f, shop->base.color, shop->base);
 	shop->base.position = Vector2(0.f, 0.f);
@@ -29,10 +29,8 @@ void Shop_Init(Shop *shop) {
 	shop->health.position = Vector2(400.f, 100.f);
 }
 
-void Shop_Update(Shop *shop, PlayerInfo *playerinfo) {
-	
-	shop->b_Pressed = AEInputCheckTriggered(AEVK_B); 
-	
+void Draw_Shop(Shop* shop, PlayerInfo* playerinfo) {
+	shop->b_Pressed = AEInputCheckTriggered(AEVK_B);
 
 	if (shop->b_Pressed) {
 		if (checkBPressed == false) {
@@ -41,7 +39,7 @@ void Shop_Update(Shop *shop, PlayerInfo *playerinfo) {
 		else {
 			checkBPressed = false;
 		}
-		
+
 	}
 
 	if (checkBPressed == true) {
@@ -51,39 +49,71 @@ void Shop_Update(Shop *shop, PlayerInfo *playerinfo) {
 		DrawMesh(&shop->attspd);
 		DrawMesh(&shop->health);
 
-
 		char testCh[] = "SHOP";
-		G_DrawText(testCh, -150, 200, 3, Color(1, 0, 0, 1));
+		G_DrawText(testCh, -140, 200, 3, Color(1, 0, 0, 1));
 
-
+		// Attack
 		char att[] = "ATTACK";
-		G_DrawText(att, -460.f, 90.f,2, Color(1, 0, 0, 1));
-		
-		// if att is clicked, call the playerinfo_update function and increment the stats by 1
-		// CreateQuadMesh(200.0f, 100.0f, shop->att.color, shop->att);
-		// shop->att.position = Vector2(-400.f, 100.f);
+		G_DrawText(att, -475.f, 120.f, 1, Color(1, 0, 0, 1));
+
+		// Attack Speed
+		char att_str[20];
+		int player_att = playerinfo->att;
+		sprintf_s(att_str, "%d", player_att);
+		G_DrawText(att_str, -475.f, 90.f, 1, Color(1, 0, 0, 1));
+
+		char attspd1[] = "ATTACK";
+		G_DrawText(attspd1, -50.f, 120.f, 1, Color(1, 0, 0, 1));
+		char attspd2[] = "SPEED";
+		G_DrawText(attspd2, -50.f, 90.f, 1, Color(1, 0, 0, 1));
+
+		char attspd_str[20];
+		int player_attspd = playerinfo->attspd;
+		sprintf_s(attspd_str, "%d", player_attspd);
+		G_DrawText(attspd_str, -50.f, 60.f, 1, Color(1, 0, 0, 1));
+
+		// Health
+	}
+
+	else {
+		TimeResume();
+	}
+}
+void Shop_Update(Shop* shop, PlayerInfo* playerinfo) {
+
+	// if att is clicked, call the playerinfo_update function and increment the stats by 1
+	// CreateQuadMesh(200.0f, 100.0f, shop->att.color, shop->att);
+	// shop->att.position = Vector2(-400.f, 100.f);
+
+	
+
+	if (IsTime_Paused()) {
 		AEInputGetCursorPosition(x, y);
 		if (AEInputCheckTriggered(VK_LBUTTON)) {
+			std::cout << *x << "," << *y << std::endl;	// checking mouse position on the screen
 			// att
 			if (*x >= 300 && *x <= 500) {
 				if (*y >= 300 && *y <= 400) {
 					std::string name = "att";
 					PlayerInfo_Update(playerinfo, name);
-					std::cout << name << '\t' << playerinfo->att << '\n';
 				}
 			}
 
 			// attspd
-
+			if (*x >= 700 && *x <= 900) {
+				if (*y >= 300 && *y <= 400) {
+					std::string name = "attspd";
+					PlayerInfo_Update(playerinfo, name);
+				}
+			}
 			// health
 
 			// movementspd
 		}
+		//char att[] = "Attack: ";
+		//G_DrawText(att, 0.f, 0.f, 1.0f, Color(0, 0, 0));
+		
 	}
-	else {
-		TimeResume();
-	}
-	
 }
 
 void Shop_Exit() {

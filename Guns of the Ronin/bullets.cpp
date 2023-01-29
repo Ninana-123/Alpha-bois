@@ -27,7 +27,7 @@ void BulletAdd(BulletPool& pool,Vector2 playerPos ) {
 			pool.activeBullets[i]->enabled = true;
 			pool.activeBullets[i]->transform.position = playerPos;
 			
-			std::cout << playerPos.x << "," << playerPos.y<< std::endl;
+			//std::cout << playerPos.x << "," << playerPos.y<< std::endl;
 			pool.activeBullets[i]->direction =  (Vector2(mouseX >= halfX ? mouseX - halfX : -(halfX - mouseX),mouseY >= halfY ? -(mouseY - halfY) :halfY - mouseY) - playerPos).normalize();
 			pool.activeSize += 1; 
 			break;

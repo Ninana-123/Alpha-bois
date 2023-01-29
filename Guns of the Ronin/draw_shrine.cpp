@@ -64,7 +64,7 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 void Shrine_Update(ShrinePool& shrinePool, Player& player)
 {
 	duration += deltaTime;
-	std::cout << duration << std::endl;
+	//std::cout << duration << std::endl;
 	if (duration >= 1.f)
 	{
 		duration = 0;

@@ -11,4 +11,5 @@ public:
 };
 
 void Shop_Init(Shop* shop);
+void Draw_Shop(Shop* shop, PlayerInfo *playerinfo);
 void Shop_Update(Shop *shop, PlayerInfo *playerinfo);
