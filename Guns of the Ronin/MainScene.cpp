@@ -17,7 +17,8 @@
 namespace {
 	DummyPlayer dummyPlayer;
 	Player player;
-	Shrine Shrines, loading;
+	ShrinePool pool, Shrines;
+	Shrine  loading;
 	Shop shop;
 	SamuraiPool samPool;
 	PlayerInfo playerinfo;
@@ -35,7 +36,7 @@ void Init_Scene() {
 
 	DummyPlayer_Init(&dummyPlayer);
 	Player_Init(&player);
-	Draw_Shrine_Init(&Shrines, &loading);
+	Shrinepool_Init(pool);
 	Init_Enemies(samPool);
 
 }
@@ -52,7 +53,7 @@ void Update_Scene() {
 
 	Player_Update(&player);
 
-	Draw_Shrine_Update(&Shrines, &player, &loading);
+	Shrine_Update(&Shrines,&player);
 
 	Update_Enemies(samPool, dummyPlayer.transform.position);
 	// if button "B" is pressed
@@ -61,11 +62,11 @@ void Update_Scene() {
 }
 
 void Draw_Scene() {
-	// Set the background
+	// Set the background 
 	AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
 
 	Draw_Enemies(samPool);
-	Draw_Shrine(&Shrines, &loading);
+	Draw_Shrine(&Shrines,&loading);
 }
 
 void Free_Scene() {
