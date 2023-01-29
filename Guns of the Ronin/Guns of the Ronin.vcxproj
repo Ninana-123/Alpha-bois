@@ -97,6 +97,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bullets.cpp" />
     <ClCompile Include="draw_shrine.cpp" />
     <ClCompile Include="DummyPlayer.cpp" />
     <ClCompile Include="EnemyControllercpp.cpp" />
@@ -107,13 +108,16 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     <ClCompile Include="PlayerInfo.cpp" />
     <ClCompile Include="Samurai.cpp" />
     <ClCompile Include="Shop.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bullets.h" />
     <ClInclude Include="draw_shrine.h" />
     <ClInclude Include="DummyPlayer.h" />
     <ClInclude Include="EnemyController.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerInfo.h" />
