@@ -14,7 +14,7 @@ void Update_Enemies(SamuraiPool& samPool, Vector2 playerPos) {
 		spawnTImer = 0;
 		SamuraiAdd(samPool, playerPos);
 	}
-	AI_Samurai(samPool, playerPos);
+	//AI_Samurai(samPool, playerPos);
 }
 
 void Push_Enemies(SamuraiPool& samPool, DIRECTION direction, float targetAxis) {

@@ -49,7 +49,36 @@ void CreateQuadMesh(float width, float height, Color color, Transform &trans) {
 		-width / 2.0f, height / 2.0f, colorCode, 0.0f, 1.0f);
 	// Saving the mesh (list of triangles) in pMesh
 	trans.mesh = AEGfxMeshEnd();
+	trans.height = height;
+	trans.width = width;
 }
+
+void SetQuadPoints(Transform& trans, float height, float width) {
+	height /= 2.0f;
+	width /= 2.0f;
+	trans.quadPoints[0] = Vector2(trans.position.x - width, trans.position.y + height);
+	trans.quadPoints[1] = Vector2(trans.position.x + width, trans.position.y + height);
+	trans.quadPoints[2] = Vector2(trans.position.x - width, trans.position.y - height);
+	trans.quadPoints[2] = Vector2(trans.position.x + width, trans.position.y - height);
+}
+
+bool StaticCol_QuadQuad(Transform trans1, Transform trans2) {
+	bool collided = true;
+	if (trans1.quadPoints[0].x > trans2.quadPoints[1].x) {
+		collided = false;
+	}
+	if (trans2.quadPoints[0].x > trans1.quadPoints[1].x) {
+		collided = false;
+	}
+	if (trans1.quadPoints[0].y < trans2.quadPoints[2].y) {
+		collided = false;
+	}
+	if (trans2.quadPoints[0].y < trans1.quadPoints[2].y) {
+		collided = false;
+	}
+	return collided;
+}
+
 
 void DrawMesh(Transform* trans) {
 
@@ -70,7 +99,7 @@ void DrawMesh(Transform* trans) {
 	AEMtx33Scale(&scale, trans->scale.x, trans->scale.y);
 	// Create a rotation matrix that rotates by 45 degrees
 	AEMtx33 rotate = { 0 };
-	AEMtx33Rot(&rotate, trans->rotation * PI * 2);
+	AEMtx33Rot(&rotate, trans->rotation);
 	// Create a translation matrix that translates by
 	// 100 in the x-axis and 100 in the y-axis
 	AEMtx33 translate = { 0 };

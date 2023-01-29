@@ -27,6 +27,9 @@ struct Transform
 	Vector2 scale = { 1 , 1 };
 	AEGfxTexture* texture = 0;
 	Color color{ 0,0,0,1.0f };
+	//TL,TR,BL,BR
+	Vector2 quadPoints[4];
+	float height = 0, width = 0;
 };
 
 
@@ -39,11 +42,14 @@ void G_Init();
 void G_DestroyFont();
 void G_SetFontSize(int size);
 void G_DrawText(char* ch, float xPos, float yPos, float scale = 1.0f, Color color = Color(0, 0, 0));
+bool StaticCol_QuadQuad(Transform trans1, Transform trans2);
 
-//Creates a rectangle mesh with width and height size
-//Stores the mesh created in pMesh
-void CreateQuadMesh(float width, float height, Color color, Transform &trans);
-
+//Creates a rectangle mesh with its transform
 void DrawMesh(Transform* trans);
+
+void SetQuadPoints(Transform& trans, float height, float width);
+
+void CreateQuadMesh(float width, float height, Color color, Transform& trans);
+
 #endif // !GRAPHICS_H
 

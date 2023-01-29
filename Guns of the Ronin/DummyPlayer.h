@@ -10,7 +10,7 @@ class DummyPlayer {
 public:
 	Transform transform;
 	bool w_Pressed = false, a_Pressed = false, s_Pressed = false, d_Pressed = false;
-	float moveSpeed = 50.0f;
+	float moveSpeed = 200.0f;
 
 };
 

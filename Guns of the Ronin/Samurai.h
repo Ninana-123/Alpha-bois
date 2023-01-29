@@ -7,13 +7,13 @@
 #include "Physics.h"
 
 namespace {
-	enum AI_STATE { MOVING, ATTACKING };
-	enum { SAMURAI_COUNT = 50 };
+	enum AI_STATE { MOVING, ATTACKING, BLOWNAWAY };
+	enum { SAMURAI_COUNT = 5 };
 	float MIN_SPAWNDIST = 200;
 	float MAX_SPAWNDIST = 400;
-	int HEALTH = 75;
+	int HEALTH = 100;
 	float MS = 100.0f;
-	float MAX_MS = 300.0f;
+	float MAX_MS = 500.0f;
 	float HIT_ANIM_DURATION = 0.5f;
 	int EXP = 10;
 	int DAMAGE = 5;
@@ -45,5 +45,7 @@ void AI_Samurai(SamuraiPool& pool, Vector2 playerPos);
 void Draw_Samurai(SamuraiPool& pool);
 
 void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis = 400);
+
+void Dmg_Samurai(SamuraiPool& pool, int dmg, int index);
 
 #endif // !SAMURAI_H
