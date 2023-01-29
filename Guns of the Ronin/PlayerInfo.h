@@ -6,6 +6,7 @@ public:
 	int att;
 	int attspd;
 	int movementspd;
+	bool playerDead;
 	//int weaponlevel;	// kai, do check if weapon level == 0, collision, one bullet, etc.
 };
 

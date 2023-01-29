@@ -80,6 +80,9 @@ void Shop_Update(Shop *shop, PlayerInfo *playerinfo) {
 			// movementspd
 		}
 	}
+	else {
+		TimeResume();
+	}
 	
 }
 
