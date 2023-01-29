@@ -59,6 +59,14 @@ void Update_Scene() {
 
 	Shop_Update(&shop, &playerinfo);
 
+	SetQuadPoints(dummyPlayer.transform, 30, 30);
+	for (int i = 0; i < samPool.activeSize; ++i) {
+		SetQuadPoints(samPool.activeSamurais[i]->transform, 20, 20);
+		if (StaticCol_QuadQuad(dummyPlayer.transform, samPool.activeSamurais[i]->transform)) {
+			std::cout << "COLLIDED\n";
+		}
+	}
+
 }
 
 void Draw_Scene() {

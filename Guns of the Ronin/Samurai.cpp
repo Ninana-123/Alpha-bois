@@ -42,6 +42,7 @@ void Init_SamuraiPool(SamuraiPool& pool) {
 void AI_Samurai(SamuraiPool& pool, Vector2 playerPos) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		Samurai* curSamurai = pool.activeSamurais[i];
+
 		switch (curSamurai->aiState)
 		{
 		case MOVING:
@@ -50,7 +51,9 @@ void AI_Samurai(SamuraiPool& pool, Vector2 playerPos) {
 				curSamurai->aiState = ATTACKING;
 			}
 			else {
-				curSamurai->transform.position += (curSamurai->targetPos - curSamurai->transform.position).normalize() * MS * deltaTime;
+				Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
+				curSamurai->transform.position += direction * MS * deltaTime;
+				//curSamurai->transform.rotation = acosf(direction.x);
 			}
 			break;
 		case ATTACKING:
@@ -58,9 +61,21 @@ void AI_Samurai(SamuraiPool& pool, Vector2 playerPos) {
 				curSamurai->aiState = MOVING;
 			}
 			break;
-		default:
+		case BLOWNAWAY:
+			Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
+			curSamurai->transform.position += direction * MAX_MS * deltaTime;
+			if (curSamurai->transform.position.within_dist(curSamurai->targetPos, 1.0f)) {
+				curSamurai->aiState = MOVING;
+			}
 			break;
 		}
+	}
+}
+
+void Dmg_Samurai(SamuraiPool& pool, int dmg, int index) {
+	pool.activeSamurais[index]->health -= dmg;
+	if ((pool.activeSamurais[index]->health -= dmg) <= 0) {
+		SamuraiRemove(index, pool);
 	}
 }
 
@@ -68,6 +83,7 @@ void AI_Samurai(SamuraiPool& pool, Vector2 playerPos) {
 //Push Samurais in the specified direction to the specific wordPos in the according axis
 void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis) {
 	for (int i = 0; i < pool.activeSize; i++) {
+		pool.activeSamurais[i]->aiState = BLOWNAWAY;
 		switch (direction)
 		{
 		case VERTICAL:
