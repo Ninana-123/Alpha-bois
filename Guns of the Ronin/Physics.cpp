@@ -18,7 +18,7 @@ bool Col_Circle_Circle(Vector2 pos1, float radius1, Vector2 pos2, float radius2)
 Vector2 RandomPoint_OutsideSqaure(float minDist, float maxDist, Vector2 centerPos) {
 
 	int randGrid = rand() % 8 + 1;
-	std::cout << randGrid;
+	//std::cout << randGrid;
 	float x = 0, y = 0;
 	float randX = AERandFloat(), randY = AERandFloat();
 	float gridWidth = maxDist - minDist;
@@ -64,5 +64,10 @@ Vector2 RandomPoint_OutsideSqaure(float minDist, float maxDist, Vector2 centerPo
 	}
 	return Vector2(x, y);
 }
-
+Vector2 BulletDir(float mouseX, float mouseY, Vector2 PlayerPos) {
+	Vector2 direction;
+	direction.x = mouseX - PlayerPos.x;
+	direction.y = mouseY - PlayerPos.y;
+	return direction.normalize();
+}
 

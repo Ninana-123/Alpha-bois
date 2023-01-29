@@ -95,4 +95,7 @@ bool Col_Circle_Circle(Vector2 pos1, float radius1, Vector2 pos2, float radius2)
 
 Vector2 RandomPoint_OutsideSqaure(float minDist, float maxDist, Vector2 centerPos);
 
+Vector2 BulletDir(float playerX, float playerY, Vector2 PlayerPos);
+
+
 #endif // !PHYSICS_H

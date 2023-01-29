@@ -12,6 +12,7 @@
 #include "draw_shrine.h"
 #include "EnemyController.h"
 #include "PlayerInfo.h"
+#include "bullets.h"
 
 
 namespace {
@@ -21,6 +22,7 @@ namespace {
 	Shop shop;
 	SamuraiPool samPool;
 	PlayerInfo playerinfo;
+	BulletPool bulletPool;
 }
 
 void Init_Scene() {
@@ -34,7 +36,7 @@ void Init_Scene() {
 	G_Init();
 
 	DummyPlayer_Init(&dummyPlayer);
-	Player_Init(&player);
+	Player_Init(&player, bulletPool);
 	Draw_Shrine_Init(&Shrines, &loading);
 	Init_Enemies(samPool);
 	Shop_Init(&shop);
@@ -51,8 +53,6 @@ void Update_Scene() {
 
 	DummyPlayer_Update(&dummyPlayer);
 
-	Player_Update(&player);
-
 	Draw_Shrine_Update(&Shrines, &player, &loading);
 
 	Update_Enemies(samPool, dummyPlayer.transform.position);
@@ -67,6 +67,9 @@ void Update_Scene() {
 		}
 	}
 
+	Player_Update(&player, bulletPool);
+
+	
 }
 
 void Draw_Scene() {
@@ -75,6 +78,12 @@ void Draw_Scene() {
 
 	Draw_Enemies(samPool);
 	Draw_Shrine(&Shrines, &loading);
+	Draw_Player(&player, bulletPool);
+	if (playerinfo.playerDead) {
+		TimePause();
+		char dead[] = "DEAD";
+		G_DrawText(dead, 0.f, 0.f, 1.0f, Color(0, 0, 0));
+	}
 }
 
 void Free_Scene() {
@@ -121,9 +130,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		// Handling Input
 		AEInputUpdate();
 
-		Draw_Scene();
 
 		Update_Scene();	// Leave update to the last, so shop overlaps the gameplay
+
+		
+		Draw_Scene();
+
 
 		// Informing the system about the loop's end
 		AESysFrameEnd();
