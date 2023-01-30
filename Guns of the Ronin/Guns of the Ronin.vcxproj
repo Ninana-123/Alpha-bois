@@ -97,6 +97,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Abilities.cpp" />
     <ClCompile Include="bullets.cpp" />
     <ClCompile Include="Shrine.cpp" />
     <ClCompile Include="DummyPlayer.cpp" />
@@ -112,6 +113,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Abilities.h" />
     <ClInclude Include="bullets.h" />
     <ClInclude Include="Shrine.h" />
     <ClInclude Include="DummyPlayer.h" />
