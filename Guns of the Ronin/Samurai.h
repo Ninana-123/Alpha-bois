@@ -18,6 +18,8 @@ namespace {
 	float HIT_ANIM_DURATION = 0.5f;
 	int EXP = 10;
 	int DAMAGE = 5;
+	AEGfxVertexList* samuraiMesh = 0;
+	float HEIGHT = 20, WIDTH = 20;
 }
 
 class Samurai {
@@ -48,5 +50,7 @@ void Draw_Samurai(SamuraiPool& pool);
 void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis = 400);
 
 void Dmg_Samurai(SamuraiPool& pool, BulletPool &bullet, int index);
+
+void Free_Samurai();
 
 #endif // !SAMURAI_H

@@ -107,7 +107,7 @@ void Free_Scene() {
 	G_DestroyFont();
 	AEGfxTextureUnload(dummyPlayer.transform.texture);
 	AEGfxMeshFree(dummyPlayer.transform.mesh);
-
+	Free_Samurai();
 
 }
 
@@ -163,6 +163,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	Free_Scene();
+
 
 	// free the system
 	AESysExit();

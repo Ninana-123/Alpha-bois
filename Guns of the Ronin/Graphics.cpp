@@ -32,7 +32,7 @@ unsigned int createARGB(float r, float g, float b, float a)
 	return ((ca & 0xff) << 24) + ((cr & 0xff) << 16) + ((cg & 0xff) << 8) + ((cb & 0xff));
 }
 
-void CreateQuadMesh(float width, float height, Color color, Transform &trans) {
+void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh) {
 	//AEGfxVertexList* pMesh = 0;
 	unsigned int colorCode = createARGB(color.r, color.g, color.b, color.a);
 	AEGfxMeshStart();
@@ -48,10 +48,9 @@ void CreateQuadMesh(float width, float height, Color color, Transform &trans) {
 		width / 2.0f, height / 2.0f, colorCode, 1.0f, 1.0f,
 		-width / 2.0f, height / 2.0f, colorCode, 0.0f, 1.0f);
 	// Saving the mesh (list of triangles) in pMesh
-	trans.mesh = AEGfxMeshEnd();
-	trans.height = height;
-	trans.width = width;
+	mesh = AEGfxMeshEnd();
 }
+
 
 void SetQuadPoints(Transform& trans, float height, float width) {
 	height /= 2.0f;

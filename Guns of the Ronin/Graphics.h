@@ -49,7 +49,7 @@ void DrawMesh(Transform* trans);
 
 void SetQuadPoints(Transform& trans, float height, float width);
 
-void CreateQuadMesh(float width, float height, Color color, Transform& trans);
+void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh);
 
 #endif // !GRAPHICS_H
 
