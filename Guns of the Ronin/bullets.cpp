@@ -43,11 +43,15 @@ void Init_BulletPool(BulletPool& pool) {
 	halfY = AEGetWindowHeight() / 2.0f;
 	boundaryX = halfX + 100;
 	boundaryY = halfY + 100;
+	CreateQuadMesh(BULLET_WIDTH, BULLET_HEIGHT, Color(0, 0, 0), bulletMesh);
 	for (int i = 0; i < BULLET_COUNT; i++) {
 		pool.bullets[i].enabled = false;
+		pool.bullets[i].transform.height = BULLET_HEIGHT;
+		pool.bullets[i].transform.width = BULLET_WIDTH;
+		pool.bullets[i].transform.mesh = &bulletMesh;
 		//pool.bullets[i].dmg = PROJDAMAGE;
-		CreateQuadMesh(20, 20, Color(0, 0, 0), pool.bullets[i].transform);
 		pool.activeBullets[i] = &pool.bullets[i];
+
 	}
 }
 
@@ -77,3 +81,6 @@ void Bullet_AI(BulletPool& pool) {
 }
 
 
+void Free_Bullet() {
+	AEGfxMeshFree(bulletMesh);
+}

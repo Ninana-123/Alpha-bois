@@ -21,7 +21,7 @@ struct Color {
 
 struct Transform
 {
-	AEGfxVertexList* mesh = 0;
+	AEGfxVertexList** mesh = 0;
 	Vector2 position = {  };
 	float rotation = 0;
 	Vector2 scale = { 1 , 1 };

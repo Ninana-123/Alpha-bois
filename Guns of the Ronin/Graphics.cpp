@@ -111,5 +111,5 @@ void DrawMesh(Transform* trans) {
 	// Choose the transform to use
 	AEGfxSetTransform(transform.m);
 	// Actually drawing the mesh
-	AEGfxMeshDraw(trans->mesh, AE_GFX_MDM_TRIANGLES);
+	AEGfxMeshDraw(*trans->mesh, AE_GFX_MDM_TRIANGLES);
 }

@@ -30,15 +30,15 @@ void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 
 void Init_SamuraiPool(SamuraiPool& pool) {
 	pool.activeSize = 0;
-	CreateQuadMesh(WIDTH, HEIGHT, Color(0, 1, 0), samuraiMesh);
+	CreateQuadMesh(SAMURAI_WIDTH, SAMURAI_HEIGHT, Color(0, 1, 0), samuraiMesh);
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		pool.samurais[i].enabled = false;
 		pool.samurais[i].health = HEALTH;
 		pool.samurais[i].hitAnimTimer = 0;
 		pool.samurais[i].aiState = MOVING;
-		pool.samurais[i].transform.mesh = samuraiMesh;
-		pool.samurais[i].transform.height = HEIGHT;
-		pool.samurais[i].transform.width = WIDTH;
+		pool.samurais[i].transform.mesh = &samuraiMesh;
+		pool.samurais[i].transform.height = SAMURAI_HEIGHT;
+		pool.samurais[i].transform.width = SAMURAI_WIDTH;
 		pool.activeSamurais[i] = &pool.samurais[i];
 	}
 }

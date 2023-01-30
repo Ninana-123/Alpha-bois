@@ -9,11 +9,14 @@
 #include "DummyPlayer.h"
 #include "Shop.h"
 #include "Player.h"
-#include "draw_shrine.h"
+#include "Shrine.h"
 #include "EnemyController.h"
 #include "PlayerInfo.h"
 #include "bullets.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 
 namespace {
 	DummyPlayer dummyPlayer;
@@ -35,7 +38,7 @@ void Init_Scene() {
 	//initiate Graphics
 	G_Init();
 
-	DummyPlayer_Init(&dummyPlayer);
+	//DummyPlayer_Init(&dummyPlayer);
 	Shrinepool_Init(shrinePool);
 	Player_Init(&player, bulletPool);
 	Init_Enemies(samPool);
@@ -51,8 +54,9 @@ void Update_Scene() {
 
 
 	Update_Time();
+	SetQuadPoints(player.transform, 50, 50);
 
-	DummyPlayer_Update(&dummyPlayer);
+	//DummyPlayer_Update(&dummyPlayer);
 
 	Shrine_Update( shrinePool,  player);
 
@@ -63,7 +67,7 @@ void Update_Scene() {
 	Shop_Update(&shop, &playerinfo);
 
 	
-	SetQuadPoints(player.transform, 50, 50);
+
 	for (int i = 0; i < samPool.activeSize; ++i) {
 		SetQuadPoints(samPool.activeSamurais[i]->transform, 20, 20);
 
@@ -104,11 +108,17 @@ void Draw_Scene() {
 }
 
 void Free_Scene() {
+	
 	G_DestroyFont();
-	AEGfxTextureUnload(dummyPlayer.transform.texture);
-	AEGfxMeshFree(dummyPlayer.transform.mesh);
-	Free_Samurai();
+	
+	//AEGfxMeshFree(dummyPlayer.transform.mesh);
 
+	Free_Bullet();
+	Free_Shop();
+	Free_Shrines();
+	Free_Player();
+	//Free_Dummy();
+	Free_Samurai(); 
 }
 
 
@@ -121,6 +131,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
+
 	SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
 	UNREFERENCED_PARAMETER(hPrevInstance);
@@ -167,4 +178,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// free the system
 	AESysExit();
+	_CrtDumpMemoryLeaks();
 }

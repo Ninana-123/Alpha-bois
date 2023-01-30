@@ -25,9 +25,12 @@ void ObjectAdd(ObjectPool& pool) {
 //Init object pool
 void Init_ObjectPool(ObjectPool& pool) {
 	pool.activeSize = 0;
+	CreateQuadMesh(OBJECT_WIDTH, OBJECT_HEIGHT, Color(0, 1, 0), objectMesh);
 	for (int i = 0; i < OBJECT_COUNT; i++) {
 		pool.objects[i].enabled = false;
-		CreateQuadMesh(20, 20, Color(0, 1, 0), pool.objects[i].transform);
+		pool.objects[i].transform.mesh = &objectMesh;
+		pool.objects[i].transform.height = OBJECT_HEIGHT;
+		pool.objects[i].transform.width = OBJECT_WIDTH;
 		pool.activeObjects[i] = &pool.objects[i];
 	}
 }

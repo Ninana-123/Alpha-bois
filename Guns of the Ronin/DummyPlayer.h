@@ -6,6 +6,11 @@
 #include "Graphics.h"
 #include "Physics.h"
 
+namespace {
+	AEGfxVertexList* dummyMesh;
+	float DUMMY_HEIGHT = 40, DUMMY_WIDTH = 40;
+}
+
 class DummyPlayer {
 public:
 	Transform transform;
@@ -16,7 +21,7 @@ public:
 
 void DummyPlayer_Init(DummyPlayer* dummyPlayer);
 void DummyPlayer_Update(DummyPlayer* dummyPlayer);
-
+void Free_Dummy();
 
 
 #endif // !DUMMYPLAYER_H

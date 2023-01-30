@@ -6,7 +6,8 @@
 
 void Player_Init(Player* Player,BulletPool &bulletPool) {
 	Player->transform.color = Color(1, 1, 1, 1);
-	CreateQuadMesh(50.0f, 50.0f, Player->transform.color,Player->transform);
+	CreateQuadMesh(50.0f, 50.0f, Player->transform.color, playerMesh);
+	Player->transform.mesh = &playerMesh;
 	Player->transform.position = Vector2(100.f, 100.f);
 	Init_BulletPool(bulletPool);
 }
@@ -80,4 +81,9 @@ void player_dmg(PlayerInfo& info,int dmg) {
 	if (info.health < 0) {
 		info.playerDead= 1;
 	}
+}
+
+
+void Free_Player() {
+	AEGfxMeshFree(playerMesh);
 }

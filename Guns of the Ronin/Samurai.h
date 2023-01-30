@@ -19,7 +19,7 @@ namespace {
 	int EXP = 10;
 	int DAMAGE = 5;
 	AEGfxVertexList* samuraiMesh = 0;
-	float HEIGHT = 20, WIDTH = 20;
+	float SAMURAI_HEIGHT = 20, SAMURAI_WIDTH = 20;
 }
 
 class Samurai {

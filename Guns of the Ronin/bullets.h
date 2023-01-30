@@ -11,6 +11,8 @@
 namespace {
 	enum { BULLET_COUNT = 10 };
 	//int PROJDAMAGE = 50;
+	float BULLET_HEIGHT = 20, BULLET_WIDTH = 20;
+	AEGfxVertexList* bulletMesh = 0;
 }
 class Bullet {
 public:
@@ -35,5 +37,7 @@ void Draw_Bullet(BulletPool& bullet);
 void Bullet_AI(BulletPool& pool);
 
 void BulletRemove(int index, BulletPool& pool);
+
+void Free_Bullet();
 
 #endif 

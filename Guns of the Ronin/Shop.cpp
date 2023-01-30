@@ -12,20 +12,18 @@ s32* x = &mouse_x;
 s32* y = &mouse_y;
 
 void Shop_Init(Shop* shop) {
-	shop->base.color = Color(1, 1, 1, 1);
-	CreateQuadMesh(1200.0f, 700.0f, shop->base.color, shop->base);
+
+	CreateQuadMesh(SHOPWIDTH, SHOPHEIGHT, shopBGColor, shopMesh);
+	CreateQuadMesh(ICONWIDTH, ICONHEIGHT, iconColor, iconMesh);
+
+	shop->base.mesh = &shopMesh;
+	shop->att.mesh = &iconMesh;
+	shop->attspd.mesh = &iconMesh;
+	shop->health.mesh = &iconMesh;
+
 	shop->base.position = Vector2(0.f, 0.f);
-
-	shop->att.color = Color(0, 0, 0, 1);
-	CreateQuadMesh(200.0f, 100.0f, shop->att.color, shop->att);
 	shop->att.position = Vector2(-400.f, 100.f);
-
-	shop->attspd.color = Color(0, 0, 0, 1);
-	CreateQuadMesh(200.0f, 100.0f, shop->attspd.color, shop->attspd);
 	shop->attspd.position = Vector2(0.f, 100.f);
-
-	shop->health.color = Color(0, 0, 0, 1);
-	CreateQuadMesh(200.0f, 100.0f, shop->health.color, shop->health);
 	shop->health.position = Vector2(400.f, 100.f);
 }
 
@@ -117,5 +115,10 @@ void Shop_Update(Shop* shop, PlayerInfo* playerinfo) {
 }
 
 void Shop_Exit() {
+	
+}
 
+void Free_Shop() {
+	AEGfxMeshFree(shopMesh);
+	AEGfxMeshFree(iconMesh);
 }

@@ -10,6 +10,8 @@
 
 namespace {
 	enum { OBJECT_COUNT = 50 };
+	AEGfxVertexList* objectMesh;
+	float OBJECT_HEIGHT = 20, OBJECT_WIDTH = 20;
 }
 class Object {
 public:

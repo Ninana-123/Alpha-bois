@@ -10,6 +10,9 @@
 namespace
 {
 	enum{Shrine_Count = 5};
+	float SHRINE_HEIGHT = 50, SHRINE_WIDTH = 50;
+	AEGfxVertexList* shrineMesh;
+	AEGfxVertexList* loadingBarMesh;
 }
 
 class Shrine 
@@ -37,7 +40,7 @@ void ShrineAdd(ShrinePool& shrinePool);
 void ShrineDelete(int index, ShrinePool& shrinePool);
 void Shrine_Update(ShrinePool& shrinePool, Player& player);
 void Draw_Shrine(ShrinePool& shrinePool);
-
+void Free_Shrines();
 
 
 

@@ -1,5 +1,5 @@
 
-#include "draw_shrine.h"
+#include "Shrine.h"
 #include "Graphics.h"
 #include "DummyPlayer.h"
 #include "Player.h"
@@ -15,12 +15,15 @@ void Shrinepool_Init(ShrinePool& pool)
 {
 	duration = 0;
 	pool.activeSize = 0;
+	CreateQuadMesh(SHRINE_WIDTH, SHRINE_HEIGHT, Color(1, 1, 0, 1), shrineMesh);
 	for (int i = 0; i < Shrine_Count; i++)
 	{
 		pool.Shrines[i].hasbeenused = false;
-		CreateQuadMesh(40.0f, 40.0f, Color(1, 1, 0, 1), pool.Shrines[i].transform);
+		pool.Shrines[i].transform.height = SHRINE_HEIGHT;
+		pool.Shrines[i].transform.width = SHRINE_WIDTH;
+		pool.Shrines[i].transform.mesh = &shrineMesh;
+		pool.Shrines[i].loading.mesh = &loadingBarMesh;
 		pool.activeShrine[i] = &pool.Shrines[i];
-		CreateQuadMesh(40.0f, 20.0f, Color(0, 0, 0, 1), pool.Shrines[i].loading);
 		pool.activeShrine[i]->loadingbarpercentage = 0.f;
 		pool.activeShrine[i]->timeElapsed = 0;
 		pool.activeShrine[i]->iscolliding = false;
@@ -74,7 +77,6 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 	
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
-		SetQuadPoints(player.transform, 50, 50);
 		SetQuadPoints(shrinePool.activeShrine[i]->transform, 40.f, 40.f);
 		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 		{
@@ -88,7 +90,13 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 			{
 				shrinePool.activeShrine[i]->loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
 				shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 20);
-				CreateQuadMesh(40.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), shrinePool.Shrines[i].loading);
+				if (loadingBarMesh)
+				{
+					AEGfxMeshFree(loadingBarMesh);
+					loadingBarMesh = 0;
+				}
+				CreateQuadMesh(40.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
+				shrinePool.Shrines[i].loading.mesh = &loadingBarMesh;
 			}
 		}
 		else
@@ -113,4 +121,12 @@ void Draw_Shrine(ShrinePool& shrinePool)
 		
 	}
 	
+}
+
+void Free_Shrines() {
+	AEGfxMeshFree(shrineMesh);
+	if (loadingBarMesh) {
+		AEGfxMeshFree(loadingBarMesh);
+
+	}
 }
