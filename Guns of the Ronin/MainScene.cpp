@@ -28,7 +28,7 @@ namespace {
 void Init_Scene() {
 
 	// Changing the window title
-	AESysSetWindowTitle("My New Demo!");
+	AESysSetWindowTitle("Guns of the Ronin");
 	// reset the system modules
 	AESysReset();
 
