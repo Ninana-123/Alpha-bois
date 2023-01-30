@@ -6,6 +6,7 @@
 #include "Graphics.h"
 #include "Physics.h"
 #include "Player.h"
+#include "bullets.h"
 namespace {
 	enum AI_STATE { MOVING, ATTACKING, BLOWNAWAY };
 	enum { SAMURAI_COUNT = 50 };
@@ -46,6 +47,6 @@ void Draw_Samurai(SamuraiPool& pool);
 
 void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis = 400);
 
-void Dmg_Samurai(SamuraiPool& pool, int dmg, int index);
+void Dmg_Samurai(SamuraiPool& pool, BulletPool &bullet, int index);
 
 #endif // !SAMURAI_H

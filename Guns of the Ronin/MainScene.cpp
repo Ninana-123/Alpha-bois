@@ -70,7 +70,7 @@ void Update_Scene() {
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			SetQuadPoints(bulletPool.activeBullets[u]->transform, 15, 15);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, samPool.activeSamurais[i]->transform)) {
-				Dmg_Samurai(samPool, 50, i);
+				Dmg_Samurai(samPool, bulletPool, i);
 				BulletRemove(u, bulletPool);
 			}
 		}				

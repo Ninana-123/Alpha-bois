@@ -10,6 +10,7 @@
 
 namespace {
 	enum { BULLET_COUNT = 10 };
+	int PROJDAMAGE = 50;
 }
 class Bullet {
 public:
