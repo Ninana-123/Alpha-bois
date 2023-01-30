@@ -4,7 +4,7 @@
 
 
 void PlayerInfo_Init(PlayerInfo* playerinfo) {
-	playerinfo->att = 10;	// max 100 attack?
+	playerinfo->att =50;	// max 100 attack?
 	playerinfo->attspd = 1;	// max level 5 attack speed?
 	playerinfo->health = 10;
 	playerinfo->movementspd = 1;
@@ -18,7 +18,7 @@ void PlayerInfo_Update(PlayerInfo *playerinfo, std::string name) {
 			std::cout << "max level 10" << '\n';
 		}
 		else {
-			playerinfo->att += 10;
+			playerinfo->att *= 2;
 		}
 		
 	}

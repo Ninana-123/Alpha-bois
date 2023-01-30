@@ -28,7 +28,7 @@ namespace {
 void Init_Scene() {
 
 	// Changing the window title
-	AESysSetWindowTitle("My New Demo!");
+	AESysSetWindowTitle("Guns of the Ronin");
 	// reset the system modules
 	AESysReset();
 
@@ -70,7 +70,7 @@ void Update_Scene() {
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			SetQuadPoints(bulletPool.activeBullets[u]->transform, 15, 15);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, samPool.activeSamurais[i]->transform)) {
-				Dmg_Samurai(samPool, bulletPool, i);
+				Dmg_Samurai(samPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
 			}
 		}				

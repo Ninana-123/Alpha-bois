@@ -49,7 +49,7 @@ void Draw_Samurai(SamuraiPool& pool);
 
 void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis = 400);
 
-void Dmg_Samurai(SamuraiPool& pool, BulletPool &bullet, int index);
+void Dmg_Samurai(SamuraiPool& pool,PlayerInfo playerInfo, int index);
 
 void Free_Samurai();
 

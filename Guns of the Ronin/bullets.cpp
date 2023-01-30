@@ -25,7 +25,7 @@ void BulletAdd(BulletPool& pool,Vector2 playerPos ) {
 	for (int i = 0; i < BULLET_COUNT; i++) {
 		if (pool.activeBullets[i]->enabled == false) {
 			pool.activeBullets[i]->enabled = true;
-			pool.activeBullets[i]->dmg = PROJDAMAGE;
+			//pool.activeBullets[i]->dmg = PROJDAMAGE;
 			pool.activeBullets[i]->transform.position = playerPos;
 			
 			//std::cout << playerPos.x << "," << playerPos.y<< std::endl;
@@ -45,7 +45,7 @@ void Init_BulletPool(BulletPool& pool) {
 	boundaryY = halfY + 100;
 	for (int i = 0; i < BULLET_COUNT; i++) {
 		pool.bullets[i].enabled = false;
-		pool.bullets[i].dmg = PROJDAMAGE;
+		//pool.bullets[i].dmg = PROJDAMAGE;
 		CreateQuadMesh(20, 20, Color(0, 0, 0), pool.bullets[i].transform);
 		pool.activeBullets[i] = &pool.bullets[i];
 	}

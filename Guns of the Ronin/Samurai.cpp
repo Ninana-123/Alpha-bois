@@ -81,9 +81,9 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 	}
 }
 
-void Dmg_Samurai(SamuraiPool& pool, BulletPool &bullet, int index) {
+void Dmg_Samurai(SamuraiPool& pool, PlayerInfo playerInfo, int index) {
 
-	if ((pool.activeSamurais[index]->health -= bullet.activeBullets[index]->dmg) <= 0) {
+	if ((pool.activeSamurais[index]->health -=playerInfo.att) <= 0) {
 		SamuraiRemove(index, pool);
 	}
 }
