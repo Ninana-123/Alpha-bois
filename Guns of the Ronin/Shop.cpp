@@ -47,19 +47,19 @@ void Draw_Shop(Shop* shop, PlayerInfo* playerinfo) {
 		DrawMesh(&shop->attspd);
 		DrawMesh(&shop->health);
 
+		// Shop
 		char testCh[] = "SHOP";
 		G_DrawText(testCh, 0, 200, 2, Color(1, 1, 1, 1));
 
 		// Attack
 		char att[] = "ATTACK";
 		G_DrawText(att, -475.f, 120.f, 1, Color(1, 1, 1, 1));
-
-		// Attack Speed
 		char att_str[20];
 		int player_att = playerinfo->att;
 		sprintf_s(att_str, "%d", player_att);
 		G_DrawText(att_str, -475.f, 90.f, 1, Color(1, 1, 1, 1));
 
+		// Attack Speed
 		char attspd1[] = "ATTACK";
 		G_DrawText(attspd1, -50.f, 120.f, 1, Color(1, 1, 1, 1));
 		char attspd2[] = "SPEED";
@@ -70,6 +70,14 @@ void Draw_Shop(Shop* shop, PlayerInfo* playerinfo) {
 		sprintf_s(attspd_str, "%d", player_attspd);
 		G_DrawText(attspd_str, -50.f, 60.f, 1, Color(1, 1, 1, 1));
 
+		// Health
+		char health[] = "HEALTH";
+		G_DrawText(health, 350.f, 120.f, 1, Color(1, 1, 1, 1));
+
+		char health_str[20];
+		int player_health = playerinfo->health;
+		sprintf_s(health_str, "%d", player_health);
+		G_DrawText(health_str, 350.f, 90.f, 1, Color(1, 1, 1, 1));
 	}
 
 	else {
@@ -104,7 +112,12 @@ void Shop_Update(Shop* shop, PlayerInfo* playerinfo) {
 				}
 			}
 			// health
-
+			if (*x >= 1100 && *x <= 1300) {
+				if (*y >= 300 && *y <= 400) {
+					std::string name = "health";
+					PlayerInfo_Update(playerinfo, name);
+				}
+			}
 			// movementspd
 		}
 		//char att[] = "Attack: ";

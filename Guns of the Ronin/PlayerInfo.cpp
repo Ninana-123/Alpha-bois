@@ -27,7 +27,7 @@ void PlayerInfo_Update(PlayerInfo *playerinfo, std::string name) {
 		playerinfo->attspd++;
 	}
 	else if (name == "health") {
-		playerinfo->health++;
+		playerinfo->health += 10;
 	}
 }
 
