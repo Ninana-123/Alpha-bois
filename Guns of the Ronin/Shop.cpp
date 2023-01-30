@@ -71,7 +71,8 @@ void Draw_Shop(Shop* shop, PlayerInfo* playerinfo) {
 		int player_attspd = playerinfo->attspd;
 		sprintf_s(attspd_str, "%d", player_attspd);
 		G_DrawText(attspd_str, -50.f, 60.f, 1, Color(1, 0, 0, 1));
-
+		// AEGetWindowWidth
+		// AEGetWindowHeight
 		// Health
 	}
 

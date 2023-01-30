@@ -13,6 +13,7 @@
 #include "EnemyController.h"
 #include "PlayerInfo.h"
 #include "bullets.h"
+#include "Abilities.h"
 
 
 namespace {
@@ -23,6 +24,8 @@ namespace {
 	SamuraiPool samPool;
 	PlayerInfo playerinfo;
 	BulletPool bulletPool;
+	Vector2 vector;
+	Abilities ability;
 }
 
 void Init_Scene() {
@@ -41,6 +44,7 @@ void Init_Scene() {
 	Init_Enemies(samPool);
 	Shop_Init(&shop);
 	PlayerInfo_Init(&playerinfo);
+	Abilities_Init(&playerinfo);
 	
 }
 
@@ -62,7 +66,8 @@ void Update_Scene() {
 
 	Shop_Update(&shop, &playerinfo);
 
-	
+	Abilities_Update(&player, &playerinfo, vector, &ability);
+
 	SetQuadPoints(player.transform, 50, 50);
 	for (int i = 0; i < samPool.activeSize; ++i) {
 		SetQuadPoints(samPool.activeSamurais[i]->transform, 20, 20);
