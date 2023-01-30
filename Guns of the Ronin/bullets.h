@@ -10,13 +10,13 @@
 
 namespace {
 	enum { BULLET_COUNT = 10 };
-	int PROJDAMAGE = 50;
+	//int PROJDAMAGE = 50;
 }
 class Bullet {
 public:
 	Transform transform;
 	bool enabled;
-	int dmg;
+	//int dmg;
 	Vector2 direction;
 };
 
