@@ -21,14 +21,11 @@ void BulletRemove(int index, BulletPool& pool) {
 void BulletAdd(BulletPool& pool,Vector2 playerPos ) {
 	AEInputGetCursorPosition(&mouseX, &mouseY);
 
-	std::cout << mouseX << "," << mouseY << std::endl;
 	for (int i = 0; i < BULLET_COUNT; i++) {
 		if (pool.activeBullets[i]->enabled == false) {
 			pool.activeBullets[i]->enabled = true;
 			//pool.activeBullets[i]->dmg = PROJDAMAGE;
-			pool.activeBullets[i]->transform.position = playerPos;
-			
-			//std::cout << playerPos.x << "," << playerPos.y<< std::endl;
+			pool.activeBullets[i]->transform.position = playerPos;			
 			pool.activeBullets[i]->direction =  (Vector2(mouseX >= halfX ? mouseX - halfX : -(halfX - mouseX),mouseY >= halfY ? -(mouseY - halfY) :halfY - mouseY) - playerPos).normalize();
 			pool.activeSize += 1; 
 			break;

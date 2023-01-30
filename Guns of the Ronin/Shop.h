@@ -7,7 +7,7 @@ namespace {
 	AEGfxVertexList* shopMesh;
 	float SHOPHEIGHT = 800, SHOPWIDTH = 1200;
 
-	Color shopBGColor{ 1, 1, 1 };
+	Color shopBGColor{ 0.2f, 0.2f, 0.2f };
 	Color iconColor{ 1, 0, 0, 0.75f };
 }
 

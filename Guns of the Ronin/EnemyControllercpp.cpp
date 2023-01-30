@@ -11,11 +11,14 @@ void Init_Enemies(SamuraiPool& samPool) {
 
 void Update_Enemies(SamuraiPool& samPool, Player& player, PlayerInfo& playerInfo) {
 	spawnTImer += deltaTime;
-	if (spawnTImer >= spawnRate_Samurai) {
-		spawnTImer = 0;
-		SamuraiAdd(samPool, player.transform.position);
+	if (!IsTime_Paused()) {
+		if (spawnTImer >= spawnRate_Samurai) {
+			spawnTImer = 0;
+			SamuraiAdd(samPool, player.transform.position);
+		}
+		AI_Samurai(samPool, player, playerInfo);
 	}
-	AI_Samurai(samPool, player, playerInfo);
+
 }
 
 void Push_Enemies(SamuraiPool& samPool, DIRECTION direction, float targetAxis) {
