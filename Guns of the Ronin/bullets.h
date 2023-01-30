@@ -9,7 +9,7 @@
 
 
 namespace {
-	enum { BULLET_COUNT = 10 };
+	enum { BULLET_COUNT = 20 };
 	//int PROJDAMAGE = 50;
 	float BULLET_HEIGHT = 20, BULLET_WIDTH = 20;
 	AEGfxVertexList* bulletMesh = 0;

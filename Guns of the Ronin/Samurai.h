@@ -26,11 +26,10 @@ class Samurai {
 public:
 	Transform transform;
 	Vector2 colPos, targetPos, collider;
-	int health;
-	AI_STATE aiState;
-	bool enabled, playCollideAnim, playHitAnim;;
-	float collideAnimTimer, hitAnimTimer;
-	float curMoveSpeed;
+	int health = HEALTH;
+	AI_STATE aiState = MOVING;
+	bool enabled = false;
+	float timeSince_lastDmgDeal = 0;
 };
 
 struct SamuraiPool {

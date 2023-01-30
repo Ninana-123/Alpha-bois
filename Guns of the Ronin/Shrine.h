@@ -19,11 +19,11 @@ class Shrine
 {
 public:
 	Transform transform;
-	bool hasbeenused;
-	bool iscolliding;
-	float loadingbarpercentage;
+	bool hasbeenused = false;
+	bool iscolliding = false;
+	float loadingbarpercentage = 0;
 	Transform loading;
-	float timeElapsed;
+	float timeElapsed = 0;
 };
 
 struct ShrinePool 

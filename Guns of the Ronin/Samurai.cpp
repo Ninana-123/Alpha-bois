@@ -21,7 +21,6 @@ void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 			pool.activeSamurais[i]->enabled = true;
 			pool.activeSamurais[i]->health = HEALTH;
 			pool.activeSamurais[i]->transform.position = RandomPoint_OutsideSqaure(MIN_SPAWNDIST, MAX_SPAWNDIST, playerPos);
-			pool.activeSamurais[i]->curMoveSpeed = MS;
 			pool.activeSize += 1;
 			break;
 		}
@@ -34,7 +33,6 @@ void Init_SamuraiPool(SamuraiPool& pool) {
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		pool.samurais[i].enabled = false;
 		pool.samurais[i].health = HEALTH;
-		pool.samurais[i].hitAnimTimer = 0;
 		pool.samurais[i].aiState = MOVING;
 		pool.samurais[i].transform.mesh = &samuraiMesh;
 		pool.samurais[i].transform.height = SAMURAI_HEIGHT;
@@ -75,8 +73,12 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 			break;
 		}
 
+		curSamurai->timeSince_lastDmgDeal += deltaTime;
 		if (StaticCol_QuadQuad(curSamurai->transform, player.transform)) {
-			player_dmg(playerInfo, DAMAGE);
+			if (curSamurai->timeSince_lastDmgDeal > 0.5f) {
+				player_dmg(playerInfo, DAMAGE);
+				curSamurai->timeSince_lastDmgDeal = 0;
+			}
 		}
 	}
 }

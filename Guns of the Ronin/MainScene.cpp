@@ -52,10 +52,6 @@ void Init_Scene() {
 }
 
 void Update_Scene() {
-	char testCh[] = "TeStInG";
-
-	G_DrawText(testCh, -200, 200, 1.0f);
-
 
 	Update_Time();
 	SetQuadPoints(player.transform, 50, 50);
@@ -106,7 +102,7 @@ void Draw_Scene() {
 	if (playerinfo.playerDead) {
 		TimePause();
 		char dead[] = "DEAD";
-		G_DrawText(dead, 0.f, 0.f, 1.0f, Color(0, 0, 0));
+		G_DrawText(dead, -50.0f, 0.f, 2.0f, Color(0, 0, 0));
 	}
 	Draw_Shop(&shop, &playerinfo);
 }

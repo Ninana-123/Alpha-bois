@@ -36,6 +36,7 @@ void Draw_Shop(Shop* shop, PlayerInfo* playerinfo) {
 		}
 		else {
 			checkBPressed = false;
+			TimeResume();
 		}
 
 	}
@@ -78,10 +79,6 @@ void Draw_Shop(Shop* shop, PlayerInfo* playerinfo) {
 		int player_health = playerinfo->health;
 		sprintf_s(health_str, "%d", player_health);
 		G_DrawText(health_str, 350.f, 90.f, 1, Color(1, 1, 1, 1));
-	}
-
-	else {
-		TimeResume();
 	}
 }
 void Shop_Update(Shop* shop, PlayerInfo* playerinfo) {

@@ -19,8 +19,6 @@ public:
 	bool w_Pressed, a_Pressed, s_Pressed, d_Pressed, left_mouse_pressed;
 	float moveSpeed = 50.0f;
 
-
-
 };
 
 void Player_Init(Player* Player,BulletPool &bulletPool);
