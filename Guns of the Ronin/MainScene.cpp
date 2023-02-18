@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 
+
 namespace {
 	DummyPlayer dummyPlayer;
 	Player player;
@@ -159,7 +160,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		AEInputUpdate();
 
 
-		Update_Scene();	// Leave update to the last, so shop overlaps the gameplay
+		Update_Scene();	
 
 		
 		Draw_Scene();
