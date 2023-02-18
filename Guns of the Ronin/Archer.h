@@ -1,24 +1,23 @@
 #pragma once
-#pragma once
 
-#ifndef ENEMYARCHER_H
-#define ENEMYARCHER_H
+#ifndef ARCHER_H
+#define ARCHER_H
 
 #include "Graphics.h"
 #include "Physics.h"
 #include "Player.h"
 #include "bullets.h"
 namespace {
-	enum AI_STATE { MOVING, ATTACKING, BLOWNAWAY };
+	enum ARCHER_AI_STATE { ARCHER_MOVING, ARCHER_ATTACKING, ARCHER_BLOWNAWAY };
 	enum { ARCHER_COUNT = 50 };
-	float MIN_SPAWNDIST = 200;
-	float MAX_SPAWNDIST = 400;
-	int HEALTH = 100;
-	float MS = 100.0f;
-	float SWEEP_MS = 700.0f;
-	float HIT_ANIM_DURATION = 0.5f;
-	int EXP = 10;
-	int DAMAGE = 5;
+	float ARCHER_MIN_SPAWNDIST = 200;
+	float ARCHER_MAX_SPAWNDIST = 400;
+	int ARCHER_HEALTH = 100;
+	float ARCHER_MS = 100.0f;
+	float ARCHER_SWEEP_MS = 700.0f;
+	float ARCHER_HIT_ANIM_DURATION = 0.5f;
+	int ARCHER_EXP = 10;
+	int ARCHER_DAMAGE = 5;
 	AEGfxVertexList* archerMesh = 0;
 	float ARCHER_HEIGHT = 20, ARCHER_WIDTH = 20;
 }
@@ -27,8 +26,8 @@ class Archer {
 public:
 	Transform transform;
 	Vector2 colPos, targetPos, collider;
-	int health = HEALTH;
-	AI_STATE aiState = MOVING;
+	int health = ARCHER_HEALTH;
+	ARCHER_AI_STATE aiState = ARCHER_MOVING;
 	bool enabled = false;
 	float timeSince_lastDmgDeal = 0;
 };

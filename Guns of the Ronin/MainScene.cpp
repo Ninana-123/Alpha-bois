@@ -14,6 +14,7 @@
 #include "PlayerInfo.h"
 #include "bullets.h"
 #include "Abilities.h"
+#include "Archer.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -26,6 +27,7 @@ namespace {
 	ShrinePool shrinePool;
 	Shop shop;
 	SamuraiPool samPool;
+	ArcherPool archPool;
 	PlayerInfo playerinfo;
 	BulletPool bulletPool;
 	Vector2 vector;
@@ -45,7 +47,7 @@ void Init_Scene() {
 	//DummyPlayer_Init(&dummyPlayer);
 	Shrinepool_Init(shrinePool);
 	Player_Init(&player, bulletPool);
-	Init_Enemies(samPool);
+	Init_Enemies(samPool, archPool);
 	Shop_Init(&shop);
 	PlayerInfo_Init(&playerinfo);
 	Abilities_Init(&playerinfo);
@@ -63,12 +65,13 @@ void Update_Scene() {
 
 	
 
-	Update_Enemies(samPool, player, playerinfo);
+	Update_Enemies(samPool, archPool, player, playerinfo);
 
 	Shop_Update(&shop, &playerinfo);
 
 	Abilities_Update(&player, &playerinfo, vector, &ability);
 
+	// Player bullets collision with samurais
 	for (int i = 0; i < samPool.activeSize; ++i) {
 		SetQuadPoints(samPool.activeSamurais[i]->transform, 20, 20);
 
@@ -81,10 +84,23 @@ void Update_Scene() {
 		}				
 	}
 
+	// Player bullets collision with archers
+	for (int i = 0; i < archPool.activeSize; ++i) {
+		SetQuadPoints(archPool.activeArchers[i]->transform, 20, 20);
+
+		for (int u = 0; u < bulletPool.activeSize; ++u) {
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, 15, 15);
+			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, archPool.activeArchers[i]->transform)) {
+				Dmg_Archer(archPool, playerinfo, i);
+				BulletRemove(u, bulletPool);
+			}
+		}
+	}
+
 	//std::cout << playerinfo.health << std::endl;
 
 	if (AEInputCheckTriggered(AEVK_T)) {
-		Push_Enemies(samPool, HORIZONTAL, -500);
+		Push_Enemies(samPool, archPool, HORIZONTAL, -500);
 	}
 
 	Player_Update(&player, bulletPool);
@@ -96,7 +112,7 @@ void Draw_Scene() {
 	// Set the background 
 	AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
 
-	Draw_Enemies(samPool);
+	Draw_Enemies(samPool, archPool);
 	Draw_Shrine( shrinePool);
 	Draw_Player(&player, bulletPool);
 	
@@ -120,6 +136,7 @@ void Free_Scene() {
 	Free_Player();
 	//Free_Dummy();
 	Free_Samurai(); 
+	Free_Archer();
 }
 
 
