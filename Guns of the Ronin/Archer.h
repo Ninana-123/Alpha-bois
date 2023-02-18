@@ -7,6 +7,7 @@
 #include "Physics.h"
 #include "Player.h"
 #include "bullets.h"
+#include "EnemyProjectiles.h"
 namespace {
 	enum ARCHER_AI_STATE { ARCHER_MOVING, ARCHER_ATTACKING, ARCHER_BLOWNAWAY };
 	enum { ARCHER_COUNT = 50 };

@@ -15,6 +15,7 @@
 #include "bullets.h"
 #include "Abilities.h"
 #include "Archer.h"
+#include "EnemyProjectiles.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
