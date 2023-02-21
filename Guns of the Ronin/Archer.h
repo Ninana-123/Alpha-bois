@@ -18,7 +18,7 @@ namespace {
 	float ARCHER_SWEEP_MS = 700.0f;
 	float ARCHER_HIT_ANIM_DURATION = 0.5f;
 	int ARCHER_EXP = 10;
-	int ARCHER_DAMAGE = 5;
+	int ARCHER_DAMAGE = 50;
 	AEGfxVertexList* archerMesh = 0;
 	float ARCHER_HEIGHT = 20, ARCHER_WIDTH = 20;
 }
@@ -30,7 +30,7 @@ public:
 	int health = ARCHER_HEALTH;
 	ARCHER_AI_STATE aiState = ARCHER_MOVING;
 	bool enabled = false;
-	float timeSince_lastDmgDeal = 0;
+	float timeLastAttack = 0;
 };
 
 struct ArcherPool {
@@ -41,11 +41,11 @@ struct ArcherPool {
 
 void ArcherAdd(ArcherPool& pool, Vector2 playerPos);
 
-void Init_ArcherPool(ArcherPool& pool);
+void Init_ArcherPool(ArcherPool& pool, ProjectilePool &arrow);
 
-void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo);
+void AI_Archer(ArcherPool& pool, ProjectilePool& arrow, Player& player, PlayerInfo& playerInfo);
 
-void Draw_Archer(ArcherPool& pool);
+void Draw_Archer(ArcherPool& pool, ProjectilePool &arrow);
 
 void Push_Archer(ArcherPool& pool, DIRECTION direction, float targetAxis = 400);
 

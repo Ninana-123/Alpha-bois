@@ -5,12 +5,12 @@
 float spawnTImer = 0;
 float archerSpawnTimer = 0;
 
-void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool) {
+void Init_Enemies(SamuraiPool& samPool, ProjectilePool& arrow, ArcherPool &archPool) {
 	Init_SamuraiPool(samPool);
-	Init_ArcherPool(archPool);
+	Init_ArcherPool(archPool, arrow);
 }
 
-void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, Player& player, PlayerInfo& playerInfo) {
+void Update_Enemies(SamuraiPool& samPool, ProjectilePool& arrow, ArcherPool& archPool, Player& player, PlayerInfo& playerInfo) {
 	spawnTImer += deltaTime;
 	archerSpawnTimer += deltaTime;
 	if (!IsTime_Paused()) {
@@ -26,7 +26,8 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, Player& player, 
 			archerSpawnTimer = 0;
 			ArcherAdd(archPool, player.transform.position);
 		}
-		AI_Archer(archPool, player, playerInfo);
+		AI_Archer(archPool, arrow, player, playerInfo);
+		Projectile_AI(arrow);
 	}
 
 }
@@ -36,7 +37,7 @@ void Push_Enemies(SamuraiPool& samPool, ArcherPool& archPool, DIRECTION directio
 	Push_Archer(archPool, direction, targetAxis);
 }
 
-void Draw_Enemies(SamuraiPool& samPool, ArcherPool& archPool) {
+void Draw_Enemies(SamuraiPool& samPool, ArcherPool& archPool, ProjectilePool &arrow) {
 	Draw_Samurai(samPool);
-	Draw_Archer(archPool);
+	Draw_Archer(archPool, arrow);
 }

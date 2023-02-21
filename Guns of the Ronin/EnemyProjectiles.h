@@ -1,16 +1,15 @@
 #pragma once
 
-#ifndef ENEMYPROJECTILES_h
-#define ENEMYPROJECTILES_h
+#ifndef ENEMYPROJECTILES_H
+#define ENEMYPROJECTILES_H
 
 #include "Graphics.h"
 #include "Physics.h"
 #include <iostream>
-#include "Archer.h"
 
 
 namespace {
-	enum { PROJECTILE_COUNT = 50 };
+	enum { PROJECTILE_COUNT = 100 };
 	//int PROJDAMAGE = 50;
 	float PROJECTILE_HEIGHT = 20, PROJECTILE_WIDTH = 20;
 	AEGfxVertexList* projectileMesh = 0;
@@ -21,6 +20,7 @@ public:
 	bool enabled;
 	//int dmg;
 	Vector2 direction;
+	float timeSince_lastDmgDeal = 0;
 };
 
 struct ProjectilePool {
