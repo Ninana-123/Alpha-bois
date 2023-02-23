@@ -24,7 +24,10 @@ void ProjectileAdd(ProjectilePool& pool, Vector2 archPos, Vector2 playerPos) {
 		if (pool.activeProjectile[i]->enabled == false) {
 			pool.activeProjectile[i]->enabled = true;
 			pool.activeProjectile[i]->transform.position = archPos;
-			pool.activeProjectile[i]->direction = playerPos.normalize();
+			pool.activeProjectile[i]->direction = (playerPos - archPos).normalize();
+			//printf("%f\n", pool.activeProjectile[i]->direction);
+			 //pool.activeProjectile[i]->direction = Vector2(playerPos.x - projHalfX , playerPos.y - projHalfY).normalize();
+				//playerPos.normalize();
 			pool.activeSize += 1;
 			break;
 		}
@@ -38,14 +41,13 @@ void Init_ProjectilePool(ProjectilePool& pool) {
 	projHalfY = AEGetWindowHeight() / 2.0f;
 	projBoundaryX = projHalfX + 100;
 	projBoundaryY = projHalfY + 100;
-	CreateQuadMesh(PROJECTILE_WIDTH, PROJECTILE_HEIGHT, Color(0, 0, 0), projectileMesh);
-	for (int i = 0; i < BULLET_COUNT; i++) {
+	CreateQuadMesh(PROJECTILE_WIDTH, PROJECTILE_HEIGHT, Color(0, 0, 1), projectileMesh);
+	for (int i = 0; i < PROJECTILE_COUNT; i++) {
 		pool.projectile[i].enabled = false;
 		pool.projectile[i].transform.height = PROJECTILE_HEIGHT;
 		pool.projectile[i].transform.width = PROJECTILE_WIDTH;
 		pool.projectile[i].transform.mesh = &projectileMesh;
 		pool.activeProjectile[i] = &pool.projectile[i];
-
 	}
 }
 
@@ -58,7 +60,8 @@ void Draw_Projectile(ProjectilePool& pool) {
 
 void Projectile_AI(ProjectilePool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		pool.activeProjectile[i]->transform.position += pool.activeProjectile[i]->direction * deltaTime * 300.0f;
+		SetQuadPoints(pool.activeProjectile[i]->transform, 20, 20);
+		pool.activeProjectile[i]->transform.position += pool.activeProjectile[i]->direction * deltaTime * 200.0f;
 		if (pool.activeProjectile[i]->transform.position.x > projBoundaryX) {
 			ProjectileRemove(i, pool);
 		}

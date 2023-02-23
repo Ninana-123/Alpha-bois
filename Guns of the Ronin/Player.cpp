@@ -78,7 +78,7 @@ void Draw_Player(Player* player,BulletPool &bulletPool) {
 }
 void player_dmg(PlayerInfo& info,int dmg) {
 	info.health -= dmg;
-	if (info.health < 0) {
+	if (info.health <= 0) {
 		info.playerDead= 1;
 	}
 }
