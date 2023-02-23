@@ -9,9 +9,9 @@
 #include "Ninja.h"
 
 namespace {
-	float spawnRate_Samurai = 30000.0f;
-	float spawnRate_Archer = 50000.0f;
-	float spawnRate_Cannoneer = 10000.0f;
+	float spawnRate_Samurai = 3.0f;
+	float spawnRate_Archer = 5.0f;
+	float spawnRate_Cannoneer = 5.0f;
 	float spawnRate_Ninja = 3.0f;
 }
 

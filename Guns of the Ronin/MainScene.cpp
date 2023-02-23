@@ -124,6 +124,8 @@ void Update_Scene() {
 			SetQuadPoints(bulletPool.activeBullets[u]->transform, 15, 15);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, ninPool.activeNinjas[i]->transform)) {
 				if (ninPool.activeNinjas[i]->isHit == false) {
+					ninPool.activeNinjas[i]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWNDIST, NINJA_MAX_SPAWNDIST, player.transform.position);
+					//printf("teleport");
 					BulletRemove(u, bulletPool);
 					ninPool.activeNinjas[i]->isHit = true;
 				}
