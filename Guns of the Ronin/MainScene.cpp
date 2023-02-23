@@ -15,7 +15,8 @@
 #include "bullets.h"
 #include "Abilities.h"
 #include "Archer.h"
-#include "EnemyProjectiles.h"
+#include "ArcherArrow.h"
+#include "NinjaShuriken.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -34,7 +35,9 @@ namespace {
 	BulletPool bulletPool;
 	Vector2 vector;
 	Abilities ability;
-	ProjectilePool arrow;
+	ArrowPool arrow;
+	NinjaPool ninPool;
+	ShurikenPool shuriken;
 }
 
 void Init_Scene() {
@@ -50,7 +53,7 @@ void Init_Scene() {
 	//DummyPlayer_Init(&dummyPlayer);
 	Shrinepool_Init(shrinePool);
 	Player_Init(&player, bulletPool);
-	Init_Enemies(samPool, arrow, archPool, cPool);
+	Init_Enemies(samPool, archPool, cPool, ninPool);
 	Shop_Init(&shop);
 	PlayerInfo_Init(&playerinfo);
 	Abilities_Init(&playerinfo);
@@ -64,11 +67,11 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update( shrinePool,  player);
+	Shrine_Update(shrinePool, player);
 
-	
 
-	Update_Enemies(samPool, arrow, archPool, cPool, player, playerinfo);
+
+	Update_Enemies(samPool, archPool, cPool, ninPool, player, playerinfo);
 
 	Shop_Update(&shop, &playerinfo);
 
@@ -84,7 +87,7 @@ void Update_Scene() {
 				Dmg_Samurai(samPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
 			}
-		}				
+		}
 	}
 
 	// Player bullets collision with archers
@@ -100,6 +103,7 @@ void Update_Scene() {
 		}
 	}
 
+	//	Player bullets collision with cannoneers
 	for (int i = 0; i < cPool.activeSize; ++i) {
 		SetQuadPoints(cPool.activeCannoneers[i]->transform, 20, 20);
 
@@ -112,10 +116,23 @@ void Update_Scene() {
 		}
 	}
 
+	//	Player bullets collision with ninja
+	for (int i = 0; i < ninPool.activeSize; ++i) {
+		SetQuadPoints(ninPool.activeNinjas[i]->transform, 20, 20);
+
+		for (int u = 0; u < bulletPool.activeSize; ++u) {
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, 15, 15);
+			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, ninPool.activeNinjas[i]->transform)) {
+				Dmg_Ninja(ninPool, playerinfo, i);
+				BulletRemove(u, bulletPool);
+			}
+		}
+	}
+
 	//std::cout << playerinfo.health << std::endl;
 
 	if (AEInputCheckTriggered(AEVK_T)) {
-		Push_Enemies(samPool, archPool, HORIZONTAL, -500);
+		Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
 	}
 
 	Player_Update(&player, bulletPool);
@@ -127,7 +144,7 @@ void Draw_Scene() {
 	// Set the background 
 	AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
 
-	Draw_Enemies(samPool, archPool, arrow, cPool);
+	Draw_Enemies(samPool, archPool, cPool, ninPool);
 	Draw_Shrine( shrinePool);
 	Draw_Player(&player, bulletPool);
 	

@@ -60,10 +60,16 @@
     <ClCompile Include="Archer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyProjectiles.cpp">
+    <ClCompile Include="Cannoneer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cannoneer.cpp">
+    <ClCompile Include="NinjaShuriken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcherArrow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ninja.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,10 +116,16 @@
     <ClInclude Include="Archer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyProjectiles.h">
+    <ClInclude Include="Cannoneer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cannoneer.h">
+    <ClInclude Include="NinjaShuriken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcherArrow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ninja.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

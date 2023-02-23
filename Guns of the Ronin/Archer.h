@@ -7,7 +7,8 @@
 #include "Physics.h"
 #include "Player.h"
 #include "bullets.h"
-#include "EnemyProjectiles.h"
+#include "ArcherArrow.h"
+#include "TimeManager.h"
 namespace {
 	enum ARCHER_AI_STATE { ARCHER_MOVING, ARCHER_ATTACKING, ARCHER_BLOWNAWAY };
 	enum { ARCHER_COUNT = 50 };
@@ -18,7 +19,7 @@ namespace {
 	float ARCHER_SWEEP_MS = 700.0f;
 	float ARCHER_HIT_ANIM_DURATION = 0.5f;
 	int ARCHER_EXP = 10;
-	int ARCHER_DAMAGE = 50;
+	int ARCHER_DAMAGE = 15;
 	AEGfxVertexList* archerMesh = 0;
 	float ARCHER_HEIGHT = 20, ARCHER_WIDTH = 20;
 }
@@ -41,11 +42,11 @@ struct ArcherPool {
 
 void ArcherAdd(ArcherPool& pool, Vector2 playerPos);
 
-void Init_ArcherPool(ArcherPool& pool, ProjectilePool &arrow);
+void Init_ArcherPool(ArcherPool& pool);
 
-void AI_Archer(ArcherPool& pool, ProjectilePool& arrow, Player& player, PlayerInfo& playerInfo);
+void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo);
 
-void Draw_Archer(ArcherPool& pool, ProjectilePool &arrow);
+void Draw_Archer(ArcherPool& pool);
 
 void Push_Archer(ArcherPool& pool, DIRECTION direction, float targetAxis = 400);
 

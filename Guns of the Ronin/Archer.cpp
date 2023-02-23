@@ -1,8 +1,8 @@
 
 #include "Archer.h"
-#include "TimeManager.h"
 
-float attDelay = 2.0f;
+float archerAttDelay = 2.0f;
+ArrowPool arrow;
 
 //When a archer dies 
 void ArcherRemove(int index, ArcherPool& pool) {
@@ -28,7 +28,7 @@ void ArcherAdd(ArcherPool& pool, Vector2 playerPos) {
 	}
 }
 
-void Init_ArcherPool(ArcherPool& pool, ProjectilePool &arrow) {
+void Init_ArcherPool(ArcherPool& pool) {
 	pool.activeSize = 0;
 	CreateQuadMesh(ARCHER_WIDTH, ARCHER_HEIGHT, Color(1, 0, 0), archerMesh);
 	for (int i = 0; i < ARCHER_COUNT; i++) {
@@ -39,20 +39,20 @@ void Init_ArcherPool(ArcherPool& pool, ProjectilePool &arrow) {
 		pool.archers[i].transform.height = ARCHER_HEIGHT;
 		pool.archers[i].transform.width = ARCHER_WIDTH;
 		pool.activeArchers[i] = &pool.archers[i];
-		Init_ProjectilePool(arrow);
 	}
+	Init_ArrowPool(arrow);
 }
 
-void AI_Archer(ArcherPool& pool, ProjectilePool& arrow, Player& player, PlayerInfo& playerInfo) {
+void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 	Vector2 playerPos = player.transform.position;
 	for (int i = 0; i < pool.activeSize; i++) {
 		Archer* curArcher = pool.activeArchers[i];
-		Projectile* proj = arrow.activeProjectile[i];
+		Arrow* proj = arrow.activeArrow[i];
 		switch (curArcher->aiState)
 		{
 		case ARCHER_MOVING:
 			curArcher->targetPos = playerPos;
-			if (curArcher->transform.position.within_dist(playerPos, 200)) {
+			if (curArcher->transform.position.within_dist(playerPos, 300)) {
 				curArcher->aiState = ARCHER_ATTACKING;
 			}
 			else {
@@ -62,12 +62,12 @@ void AI_Archer(ArcherPool& pool, ProjectilePool& arrow, Player& player, PlayerIn
 			break;
 		case ARCHER_ATTACKING:
 			curArcher->timeLastAttack += deltaTime;
-			if (!curArcher->transform.position.within_dist(playerPos, 200)) {
+			if (!curArcher->transform.position.within_dist(playerPos, 300)) {
 				curArcher->aiState = ARCHER_MOVING;
 			}
 			else {
-				if (curArcher->timeLastAttack >= attDelay) {
-					ProjectileAdd(arrow, curArcher->transform.position, playerPos);
+				if (curArcher->timeLastAttack >= archerAttDelay) {
+					ArrowAdd(arrow, curArcher->transform.position, playerPos);
 					curArcher->timeLastAttack = 0;
 				}
 			}
@@ -91,6 +91,7 @@ void AI_Archer(ArcherPool& pool, ProjectilePool& arrow, Player& player, PlayerIn
 			}
 		}
 	}
+	Arrow_AI(arrow);
 }
 
 void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {
@@ -121,11 +122,11 @@ void Push_Archer(ArcherPool& pool, DIRECTION direction, float targetAxis) {
 }
 
 
-void Draw_Archer(ArcherPool& pool, ProjectilePool &arrow) {
+void Draw_Archer(ArcherPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		DrawMesh(&pool.activeArchers[i]->transform);
 	}
-	Draw_Projectile(arrow);
+	Draw_Arrow(arrow);
 }
 
 void Free_Archer() {

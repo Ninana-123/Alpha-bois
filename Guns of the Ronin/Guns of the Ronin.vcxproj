@@ -98,10 +98,12 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Abilities.cpp" />
+    <ClCompile Include="ArcherArrow.cpp" />
     <ClCompile Include="bullets.cpp" />
     <ClCompile Include="Archer.cpp" />
     <ClCompile Include="Cannoneer.cpp" />
-    <ClCompile Include="EnemyProjectiles.cpp" />
+    <ClCompile Include="Ninja.cpp" />
+    <ClCompile Include="NinjaShuriken.cpp" />
     <ClCompile Include="Shrine.cpp" />
     <ClCompile Include="DummyPlayer.cpp" />
     <ClCompile Include="EnemyControllercpp.cpp" />
@@ -117,10 +119,12 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Abilities.h" />
+    <ClInclude Include="ArcherArrow.h" />
     <ClInclude Include="bullets.h" />
     <ClInclude Include="Archer.h" />
-    <ClInclude Include="EnemyProjectiles.h" />
     <ClInclude Include="Cannoneer.h" />
+    <ClInclude Include="Ninja.h" />
+    <ClInclude Include="NinjaShuriken.h" />
     <ClInclude Include="Shrine.h" />
     <ClInclude Include="DummyPlayer.h" />
     <ClInclude Include="EnemyController.h" />
