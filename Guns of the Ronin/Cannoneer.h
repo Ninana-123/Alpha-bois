@@ -14,7 +14,7 @@ namespace {
 	enum { CANNONBALL_COUNT = 40 };
 	float C_MIN_SPAWNDIST = 300;
 	float C_MAX_SPAWNDIST = 400;
-	int C_HEALTH = 150;
+	int C_HEALTH = 250;
 	float C_MS = 100.0f;
 	float C_HIT_ANIM_DURATION = 0.5f;
 	int C_EXP = 10;

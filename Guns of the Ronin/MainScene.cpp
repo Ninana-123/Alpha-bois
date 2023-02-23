@@ -50,7 +50,7 @@ void Init_Scene() {
 	//DummyPlayer_Init(&dummyPlayer);
 	Shrinepool_Init(shrinePool);
 	Player_Init(&player, bulletPool);
-	Init_Enemies(samPool, arrow, archPool);
+	Init_Enemies(samPool, arrow, archPool, cPool);
 	Shop_Init(&shop);
 	PlayerInfo_Init(&playerinfo);
 	Abilities_Init(&playerinfo);
@@ -68,7 +68,7 @@ void Update_Scene() {
 
 	
 
-	Update_Enemies(samPool, arrow, archPool, player, playerinfo);
+	Update_Enemies(samPool, arrow, archPool, cPool, player, playerinfo);
 
 	Shop_Update(&shop, &playerinfo);
 
@@ -127,7 +127,7 @@ void Draw_Scene() {
 	// Set the background 
 	AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
 
-	Draw_Enemies(samPool, archPool, arrow);
+	Draw_Enemies(samPool, archPool, arrow, cPool);
 	Draw_Shrine( shrinePool);
 	Draw_Player(&player, bulletPool);
 	
