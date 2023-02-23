@@ -29,6 +29,7 @@ namespace {
 	Shop shop;
 	SamuraiPool samPool;
 	ArcherPool archPool;
+	CannoneerPool cPool;
 	PlayerInfo playerinfo;
 	BulletPool bulletPool;
 	Vector2 vector;
@@ -48,7 +49,7 @@ void Init_Scene() {
 	//DummyPlayer_Init(&dummyPlayer);
 	Shrinepool_Init(shrinePool);
 	Player_Init(&player, bulletPool);
-	Init_Enemies(samPool, archPool);
+	Init_Enemies(samPool, archPool, cPool);
 	Shop_Init(&shop);
 	PlayerInfo_Init(&playerinfo);
 	Abilities_Init(&playerinfo);
@@ -66,7 +67,7 @@ void Update_Scene() {
 
 	
 
-	Update_Enemies(samPool, archPool, player, playerinfo);
+	Update_Enemies(samPool, archPool,cPool, player, playerinfo);
 
 	Shop_Update(&shop, &playerinfo);
 
@@ -98,6 +99,18 @@ void Update_Scene() {
 		}
 	}
 
+	for (int i = 0; i < cPool.activeSize; ++i) {
+		SetQuadPoints(cPool.activeCannoneers[i]->transform, 20, 20);
+
+		for (int u = 0; u < bulletPool.activeSize; ++u) {
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, 15, 15);
+			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, cPool.activeCannoneers[i]->transform)) {
+				Dmg_Cannoneer(cPool, playerinfo, i);
+				BulletRemove(u, bulletPool);
+			}
+		}
+	}
+
 	//std::cout << playerinfo.health << std::endl;
 
 	if (AEInputCheckTriggered(AEVK_T)) {
@@ -113,7 +126,7 @@ void Draw_Scene() {
 	// Set the background 
 	AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
 
-	Draw_Enemies(samPool, archPool);
+	Draw_Enemies(samPool, archPool, cPool);
 	Draw_Shrine( shrinePool);
 	Draw_Player(&player, bulletPool);
 	
@@ -138,6 +151,7 @@ void Free_Scene() {
 	//Free_Dummy();
 	Free_Samurai(); 
 	Free_Archer();
+	Free_Cannoneer();
 }
 
 

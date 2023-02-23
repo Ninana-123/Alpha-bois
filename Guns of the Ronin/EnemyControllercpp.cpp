@@ -4,15 +4,18 @@
 #include "Player.h"
 float spawnTImer = 0;
 float archerSpawnTimer = 0;
+float cSpawnTimer = 3;
 
-void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool) {
+void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPool) {
 	Init_SamuraiPool(samPool);
 	Init_ArcherPool(archPool);
+	Init_CannoneerPool(cPool);
 }
 
-void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, Player& player, PlayerInfo& playerInfo) {
+void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPool, Player& player, PlayerInfo& playerInfo) {
 	spawnTImer += deltaTime;
 	archerSpawnTimer += deltaTime;
+	cSpawnTimer += deltaTime;
 	if (!IsTime_Paused()) {
 		// Samurai
 		if (spawnTImer >= spawnRate_Samurai) {
@@ -27,6 +30,12 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, Player& player, 
 			ArcherAdd(archPool, player.transform.position);
 		}
 		AI_Archer(archPool, player, playerInfo);
+
+		if (cSpawnTimer >= spawnRate_Cannoneer) {
+			cSpawnTimer = 0;
+			CannoneerAdd(cPool, player.transform.position);
+		}
+		AI_Cannoneer(cPool, player, playerInfo);
 	}
 
 }
@@ -36,7 +45,8 @@ void Push_Enemies(SamuraiPool& samPool, ArcherPool& archPool, DIRECTION directio
 	Push_Archer(archPool, direction, targetAxis);
 }
 
-void Draw_Enemies(SamuraiPool& samPool, ArcherPool& archPool) {
+void Draw_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPool) {
 	Draw_Samurai(samPool);
 	Draw_Archer(archPool);
+	Draw_Cannoneer(cPool);
 }

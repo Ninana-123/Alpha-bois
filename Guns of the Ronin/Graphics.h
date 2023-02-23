@@ -51,5 +51,7 @@ void SetQuadPoints(Transform& trans, float height, float width);
 
 void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh);
 
+void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh);
+
 #endif // !GRAPHICS_H
 

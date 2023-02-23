@@ -85,7 +85,7 @@ void DrawMesh(Transform* trans) {
 	AEGfxSetRenderMode(AE_GFX_RM_COLOR);
 	// Set the tint to white, so that the sprite can
 	// display the full range of colors (default is black).
-	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
+	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, trans->color.a);
 	// Set blend mode to AE_GFX_BM_BLEND
 	// This will allow transparency.
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
@@ -112,4 +112,19 @@ void DrawMesh(Transform* trans) {
 	AEGfxSetTransform(transform.m);
 	// Actually drawing the mesh
 	AEGfxMeshDraw(*trans->mesh, AE_GFX_MDM_TRIANGLES);
+}
+
+void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {
+	unsigned int colorCode = createARGB(color.r, color.g, color.b, color.a);
+	AEGfxMeshStart();
+	int noOfVertices = 32;
+	//Creating the circle shape
+	for (float i = 0; i < noOfVertices; ++i)
+	{
+		AEGfxTriAdd(
+			0.0f, 0.0f, colorCode, 0.0f, 0.0f,
+			cosf(i * 2 * PI / noOfVertices) * radius, sinf(i * 2 * PI / noOfVertices) * radius, colorCode, 0.0f, 0.0f,
+			cosf((i + 1) * 2 * PI / noOfVertices) * radius, sinf((i + 1) * 2 * PI / noOfVertices) * radius, colorCode, 0.0f, 0.0f);
+	}
+	mesh = AEGfxMeshEnd();
 }
