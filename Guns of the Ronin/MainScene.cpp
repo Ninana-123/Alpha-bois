@@ -123,8 +123,14 @@ void Update_Scene() {
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			SetQuadPoints(bulletPool.activeBullets[u]->transform, 15, 15);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, ninPool.activeNinjas[i]->transform)) {
-				Dmg_Ninja(ninPool, playerinfo, i);
-				BulletRemove(u, bulletPool);
+				if (ninPool.activeNinjas[i]->isHit == false) {
+					BulletRemove(u, bulletPool);
+					ninPool.activeNinjas[i]->isHit = true;
+				}
+				else {
+					Dmg_Ninja(ninPool, playerinfo, i);
+					BulletRemove(u, bulletPool);
+				}
 			}
 		}
 	}

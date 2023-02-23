@@ -14,7 +14,7 @@ namespace {
 	enum { NINJA_COUNT = 50 };
 	float NINJA_MIN_SPAWNDIST = 200;
 	float NINJA_MAX_SPAWNDIST = 400;
-	int NINJA_HEALTH = 100;
+	int NINJA_HEALTH = 50;
 	float NINJA_MS = 100.0f;
 	float NINJA_SWEEP_MS = 700.0f;
 	float NINJA_HIT_ANIM_DURATION = 0.5f;

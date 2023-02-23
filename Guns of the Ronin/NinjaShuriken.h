@@ -17,7 +17,7 @@ namespace {
 class Shuriken {
 public:
 	Transform transform;
-	bool enabled;
+	bool enabled = false;
 	//int dmg;
 	Vector2 direction;
 	float timeSince_lastDmgDeal = 0;

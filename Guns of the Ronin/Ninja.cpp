@@ -22,7 +22,7 @@ void NinjaAdd(NinjaPool& pool, Vector2 playerPos) {
 		if (pool.activeNinjas[i]->enabled == false) {
 			pool.activeNinjas[i]->enabled = true;
 			pool.activeNinjas[i]->health = NINJA_HEALTH;
-			pool.ninjas[i].isHit = false;
+			pool.activeNinjas[i]->isHit = false;
 			pool.activeNinjas[i]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWNDIST, NINJA_MAX_SPAWNDIST, playerPos);
 			pool.activeSize += 1;
 			break;
