@@ -10,6 +10,7 @@
 #include "Shop.h"
 #include "Player.h"
 #include "Shrine.h"
+#include "Explosion.h"
 #include "EnemyController.h"
 #include "PlayerInfo.h"
 #include "bullets.h"
@@ -26,7 +27,9 @@ namespace {
 	DummyPlayer dummyPlayer;
 	Player player;
 	ShrinePool shrinePool;
+	ExplosionPool explosionPool;
 	Shop shop;
+	Samurai samurai;
 	SamuraiPool samPool;
 	ArcherPool archPool;
 	PlayerInfo playerinfo;
@@ -48,6 +51,7 @@ void Init_Scene() {
 
 	//DummyPlayer_Init(&dummyPlayer);
 	Shrinepool_Init(shrinePool);
+	Explosionpool_Init(explosionPool);
 	Player_Init(&player, bulletPool);
 	Init_Enemies(samPool, arrow, archPool);
 	Shop_Init(&shop);
@@ -65,7 +69,7 @@ void Update_Scene() {
 
 	Shrine_Update( shrinePool,  player);
 
-	
+	Explosion_Update( explosionPool, samPool);
 
 	Update_Enemies(samPool, arrow, archPool, player, playerinfo);
 
@@ -107,8 +111,17 @@ void Update_Scene() {
 
 	Player_Update(&player, bulletPool);
 
+	if (AEInputCheckTriggered(AEVK_E)) {
+
+		for (int i = 0; i < 5; i++ )
+		{
+			CreateQuadMesh(25, 25, Color(1, 0, 0, 1), explosionMesh);
+		}
+	}
 	
 }
+
+
 
 void Draw_Scene() {
 	// Set the background 
@@ -116,6 +129,7 @@ void Draw_Scene() {
 
 	Draw_Enemies(samPool, archPool, arrow);
 	Draw_Shrine( shrinePool);
+	Draw_Explosions(explosionPool);
 	Draw_Player(&player, bulletPool);
 	
 	if (playerinfo.playerDead) {
@@ -139,6 +153,7 @@ void Free_Scene() {
 	//Free_Dummy();
 	Free_Samurai(); 
 	Free_Archer();
+	Free_Explosions();
 }
 
 
