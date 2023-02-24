@@ -12,13 +12,13 @@ void Explosionpool_Init(ExplosionPool& explosionPool)
 {
 	durations = 0;
 	explosionPool.activeSize = 0;
-	CreateQuadMesh(EXPLOSION_WIDTH, EXPLOSION_HEIGHT, Color(1, 0, 0, 1), explosionMesh);
+	CreateQuadMesh(EXPLOSION_WIDTH, EXPLOSION_HEIGHT, Color(1, 0, 0, 1), explosionsMesh);
 	for (int i = 0; i < Explosion_Count; i++)
 	{
 		explosionPool.Explosions[i].hasbeenused = false;
 		explosionPool.Explosions[i].transform.height = EXPLOSION_HEIGHT;
 		explosionPool.Explosions[i].transform.width = EXPLOSION_WIDTH;
-		explosionPool.Explosions[i].transform.mesh = &explosionMesh;
+		explosionPool.Explosions[i].transform.mesh = &explosionsMesh;
 		explosionPool.activeExplosion[i] = &explosionPool.Explosions[i];
 
 		explosionPool.activeExplosion[i]->timeElapsed = 0;
@@ -119,6 +119,6 @@ void Draw_Explosions(ExplosionPool& explosionPool)
 }
 
 void Free_Explosions() {
-	AEGfxMeshFree(explosionMesh);
+	AEGfxMeshFree(explosionsMesh);
 	
 }

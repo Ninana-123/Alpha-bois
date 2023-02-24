@@ -104,7 +104,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     <ClCompile Include="Cannoneer.cpp" />
     <ClCompile Include="Ninja.cpp" />
     <ClCompile Include="NinjaShuriken.cpp" />
-    <ClCompile Include="EnemyProjectiles.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Shrine.cpp" />
     <ClCompile Include="DummyPlayer.cpp" />
@@ -127,7 +126,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     <ClInclude Include="Cannoneer.h" />
     <ClInclude Include="Ninja.h" />
     <ClInclude Include="NinjaShuriken.h" />
-    <ClInclude Include="EnemyProjectiles.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="Shrine.h" />
     <ClInclude Include="DummyPlayer.h" />
