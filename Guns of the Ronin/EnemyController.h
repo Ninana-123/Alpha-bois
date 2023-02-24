@@ -23,5 +23,6 @@ void Draw_Enemies(SamuraiPool& pool, ArcherPool& archPool, CannoneerPool& cPool,
 
 void Push_Enemies(SamuraiPool& pool, ArcherPool& archPool, DIRECTION direction, float targetAxis, NinjaPool& ninPool);
 
+
 #endif // !1
 
