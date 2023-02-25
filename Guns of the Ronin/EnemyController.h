@@ -10,9 +10,9 @@
 
 namespace {
 	float spawnRate_Samurai = 3.0f;
-	float spawnRate_Archer = 5.0f;
-	float spawnRate_Cannoneer = 5.0f;
-	float spawnRate_Ninja = 3.0f;
+	float spawnRate_Archer = 1000000000.0f;
+	float spawnRate_Cannoneer = 1000000000.0f;
+	float spawnRate_Ninja = 100000000000.0f;
 }
 
 void Init_Enemies(SamuraiPool& pool, ArcherPool &archPool, CannoneerPool& cPool, NinjaPool &ninPool);
