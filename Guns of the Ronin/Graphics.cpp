@@ -2,7 +2,7 @@
 #include "Graphics.h"
 
 void G_Init() {
-	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 20);
+	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 100);
 }
 
 

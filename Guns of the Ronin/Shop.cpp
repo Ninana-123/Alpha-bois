@@ -21,10 +21,10 @@ void Shop_Init(Shop* shop) {
 	shop->attspd.mesh = &iconMesh;
 	shop->health.mesh = &iconMesh;
 
-	shop->base.position = Vector2(0.f, 0.f);
-	shop->att.position = Vector2(-400.f, 100.f);
-	shop->attspd.position = Vector2(0.f, 100.f);
-	shop->health.position = Vector2(400.f, 100.f);
+	shop->base.position = Vector2(0.0f, 0.0f);	
+	shop->att.position = Vector2(-30.0f, 110.0f);
+	shop->attspd.position = Vector2(-30.0f, 10.0f);
+	shop->health.position = Vector2(-30.0f, -90.0f);
 }
 
 void Draw_Shop(Shop* shop, PlayerInfo* playerinfo) {
@@ -49,45 +49,23 @@ void Draw_Shop(Shop* shop, PlayerInfo* playerinfo) {
 		DrawMesh(&shop->health);
 
 		// Shop
-		char testCh[] = "SHOP";
-		G_DrawText(testCh, 0, 200, 2, Color(1, 1, 1, 1));
+		char testCh[] = "GUNS OF RONIN";
+		G_DrawText(testCh, -210.0f, 200.0f, 0.5, Color(1, 1, 1, 1));
 
-		// Attack
-		char att[] = "ATTACK";
-		G_DrawText(att, -475.f, 120.f, 1, Color(1, 1, 1, 1));
-		char att_str[20];
-		int player_att = playerinfo->att;
-		sprintf_s(att_str, "%d", player_att);
-		G_DrawText(att_str, -475.f, 90.f, 1, Color(1, 1, 1, 1));
+		// Resume
+		char resumeButton[] = "Resume";
+		G_DrawText(resumeButton, -85.0f, 100.0f, 0.3, Color(1, 1, 1, 1));
 
-		// Attack Speed
-		char attspd1[] = "ATTACK";
-		G_DrawText(attspd1, -50.f, 120.f, 1, Color(1, 1, 1, 1));
-		char attspd2[] = "SPEED";
-		G_DrawText(attspd2, -50.f, 90.f, 1, Color(1, 1, 1, 1));
+		// Restart
+		char restartButton[] = "Restart";
+		G_DrawText(restartButton, -80.0f, 0.0f, 0.3, Color(1, 1, 1, 1));
 
-		char attspd_str[20];
-		int player_attspd = playerinfo->attspd;
-		sprintf_s(attspd_str, "%d", player_attspd);
-		G_DrawText(attspd_str, -50.f, 60.f, 1, Color(1, 1, 1, 1));
-
-		// Health
-		char health[] = "HEALTH";
-		G_DrawText(health, 350.f, 120.f, 1, Color(1, 1, 1, 1));
-
-		char health_str[20];
-		int player_health = playerinfo->health;
-		sprintf_s(health_str, "%d", player_health);
-		G_DrawText(health_str, 350.f, 90.f, 1, Color(1, 1, 1, 1));
+		// Main Menu
+		char attspd1[] = "Main Menu";
+		G_DrawText(attspd1, -105.0f, -100.0f, 0.3, Color(1, 1, 1, 1));
 	}
 }
 void Shop_Update(Shop* shop, PlayerInfo* playerinfo) {
-
-	// if att is clicked, call the playerinfo_update function and increment the stats by 1
-	// CreateQuadMesh(200.0f, 100.0f, shop->att.color, shop->att);
-	// shop->att.position = Vector2(-400.f, 100.f);
-
-	
 
 	if (IsTime_Paused()) {
 		AEInputGetCursorPosition(x, y);
@@ -115,10 +93,7 @@ void Shop_Update(Shop* shop, PlayerInfo* playerinfo) {
 					PlayerInfo_Update(playerinfo, name);
 				}
 			}
-			// movementspd
 		}
-		//char att[] = "Attack: ";
-		//G_DrawText(att, 0.f, 0.f, 1.0f, Color(0, 0, 0));
 		
 	}
 }

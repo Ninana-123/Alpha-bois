@@ -3,12 +3,12 @@
 
 namespace {
 	AEGfxVertexList* iconMesh;
-	float ICONHEIGHT = 100, ICONWIDTH = 200;
+	float ICONHEIGHT = 60, ICONWIDTH = 170;
 	AEGfxVertexList* shopMesh;
-	float SHOPHEIGHT = 800, SHOPWIDTH = 1200;
+	float SHOPHEIGHT = 900, SHOPWIDTH = 1600;
 
-	Color shopBGColor{ 0.2f, 0.2f, 0.2f };
-	Color iconColor{ 1, 0, 0, 0.75f };
+	Color shopBGColor{ 0.0f, 0.0f, 1.0f, 1.0f };
+	Color iconColor{ 1.0f, 0.0f, 0.0f, 0.75f };
 }
 
 class Shop {
