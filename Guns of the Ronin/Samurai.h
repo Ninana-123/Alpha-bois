@@ -9,7 +9,7 @@
 #include "bullets.h"
 namespace {
 	enum AI_STATE { MOVING, ATTACKING, BLOWNAWAY };
-	enum { SAMURAI_COUNT = 50 };
+	enum { SAMURAI_COUNT = 1 };
 	float MIN_SPAWNDIST = 200;
 	float MAX_SPAWNDIST = 400;
 	int HEALTH = 100;
@@ -51,5 +51,7 @@ void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis = 400
 void Dmg_Samurai(SamuraiPool& pool,PlayerInfo playerInfo, int index);
 
 void Free_Samurai();
+
+void SamuraiRemove(int index, SamuraiPool& pool);
 
 #endif // !SAMURAI_H

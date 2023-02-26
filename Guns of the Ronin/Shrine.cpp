@@ -89,7 +89,7 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 			else
 			{
 				shrinePool.activeShrine[i]->loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
-				shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 20);
+				shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 50);
 				if (loadingBarMesh)
 				{
 					AEGfxMeshFree(loadingBarMesh);
@@ -97,6 +97,7 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 				}
 				CreateQuadMesh(40.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
 				shrinePool.Shrines[i].loading.mesh = &loadingBarMesh;
+
 			}
 		}
 		else

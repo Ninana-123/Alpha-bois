@@ -6,8 +6,8 @@
 #include "AEMath.h"
 #include "TimeManager.h"
 #include "Samurai.h"
-float durations;
 
+float durations;
 void Explosionpool_Init(ExplosionPool& explosionPool)
 {
 	durations = 0;
@@ -20,9 +20,11 @@ void Explosionpool_Init(ExplosionPool& explosionPool)
 		explosionPool.Explosions[i].transform.width = EXPLOSION_WIDTH;
 		explosionPool.Explosions[i].transform.mesh = &explosionsMesh;
 		explosionPool.activeExplosion[i] = &explosionPool.Explosions[i];
-
 		explosionPool.activeExplosion[i]->timeElapsed = 0;
 		explosionPool.activeExplosion[i]->iscolliding = false;
+		
+
+
 	}
 
 	
@@ -41,7 +43,6 @@ void ExplosionAdd(ExplosionPool& explosionPool)
 			explosionPool.activeExplosion[i]->hasbeenused = true;
 			explosionPool.activeSize += 1;
 			explosionPool.activeExplosion[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight()/2.f, Vector2 (0,0));
-			//explosionPool.activeExplosion[i]->loadingbarpercentage = 0.f;
 			explosionPool.activeExplosion[i]->loading.position = explosionPool.activeExplosion[i]->transform.position;
 			explosionPool.activeExplosion[i]->timeElapsed = 0;
 			explosionPool.activeExplosion[i]->iscolliding = false;
@@ -65,41 +66,39 @@ void ExplosionDelete(int index, ExplosionPool& explosionPool)
 
 void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 {
+	
+	
 	durations += deltaTime;
-	//std::cout << duration << std::endl;
 	if (durations >= 1.f)
 	{
 		durations = 0;
 		ExplosionAdd(explosionPool);
-		
-		
 	}
-	
+
 	for (int i = 0; i < explosionPool.activeSize; i++)
 	{
 		SetQuadPoints(explosionPool.activeExplosion[i]->transform, 40.f, 40.f);
-		if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, pool.samurais->transform))
+		for (int j = 0; j < pool.activeSize; j++)
 		{
-			explosionPool.activeExplosion[i]->iscolliding = true;
-			explosionPool.activeExplosion[i]->timeElapsed += deltaTime;
-			if (explosionPool.activeExplosion[i]->timeElapsed >= 1.f)
+			if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, pool.activeSamurais[j]->transform))
 			{
-				ExplosionDelete(i, explosionPool);
+				explosionPool.activeExplosion[i]->iscolliding = true;
+				explosionPool.activeExplosion[i]->timeElapsed += deltaTime;
+				if (explosionPool.activeExplosion[i]->timeElapsed >= 1.f)
+				{
+					ExplosionDelete(i, explosionPool);
+					SamuraiRemove(j, pool);
+				}
+				
 			}
-			/*else
+			else
 			{
-				
-				ExplosionAdd(explosionPool);
-				
+				explosionPool.activeExplosion[i]->iscolliding = false;
 			}
-			*/
-		}
-		else
-		{
-			explosionPool.activeExplosion[i] ->iscolliding = false;
 		}
 	}
 }
+
 void Draw_Explosions(ExplosionPool& explosionPool)
 {
 	for (int i = 0; i < explosionPool.activeSize; i++)

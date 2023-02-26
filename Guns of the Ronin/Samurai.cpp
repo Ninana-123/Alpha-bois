@@ -6,6 +6,7 @@
 //When a samurai dies 
 void SamuraiRemove(int index, SamuraiPool& pool) {
 	pool.activeSamurais[index]->enabled = false;
+	
 	if (index < (pool.activeSize - 1)) {
 		Samurai* temp = pool.activeSamurais[index];
 		pool.activeSamurais[index] = pool.activeSamurais[pool.activeSize - 1];
