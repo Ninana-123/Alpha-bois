@@ -1,9 +1,9 @@
 
 #include "Graphics.h"
 
-void G_Init() {
-	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 100);
-}
+//void G_Init() {
+//	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 20);
+//}
 
 
 
