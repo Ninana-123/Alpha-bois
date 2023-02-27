@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 
+//float timeSincePause = 0.0f;
 
 namespace {
 	DummyPlayer dummyPlayer;
@@ -41,6 +42,8 @@ namespace {
 	ArrowPool arrow;
 	NinjaPool ninPool;
 	ShurikenPool shuriken;
+	ProjectilePool arrow;
+	//PlayerInfo in;
 }
 
 void Init_Scene() {
@@ -143,10 +146,29 @@ void Update_Scene() {
 	}
 
 	//std::cout << playerinfo.health << std::endl;
-
+	//wind sweep
 	if (AEInputCheckTriggered(AEVK_T)) {
 		Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
 	}
+
+	//heal player
+	if (AEInputCheckTriggered(AEVK_H)) {
+		Heal_player(playerinfo);
+		std::cout << playerinfo.health << std::endl;
+	}
+
+	//timeSincePause += deltaTime;
+
+	//time freeze for enemy
+	if (AEInputCheckTriggered(AEVK_P)) {
+		//TimePauseEnemy();
+		//timeSincePause = 0.0f;
+	}
+
+	/*if (timeSincePause >= 2.0f) {
+		TimeEnemyResume();
+	}*/
+
 
 	Player_Update(&player, bulletPool);
 
