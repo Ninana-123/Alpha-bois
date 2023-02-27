@@ -69,7 +69,7 @@ void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 	
 	
 	durations += deltaTime;
-	if (durations >= 1.f)
+	if (durations >= 100000.f)
 	{
 		durations = 0;
 		ExplosionAdd(explosionPool);
