@@ -9,7 +9,7 @@
 #include "bullets.h"
 namespace {
 	enum AI_STATE { MOVING, ATTACKING, BLOWNAWAY };
-	enum { SAMURAI_COUNT = 1 };
+	enum { SAMURAI_COUNT = 10 };
 	float MIN_SPAWNDIST = 200;
 	float MAX_SPAWNDIST = 400;
 	int HEALTH = 100;

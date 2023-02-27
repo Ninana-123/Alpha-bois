@@ -90,6 +90,7 @@ void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 					SamuraiRemove(j, pool);
 				}
 				
+				
 			}
 			else
 			{
