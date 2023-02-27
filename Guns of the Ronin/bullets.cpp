@@ -29,6 +29,7 @@ void BulletAdd(BulletPool& pool,Vector2 playerPos ) {
 			pool.activeBullets[i]->direction =  (Vector2(mouseX >= halfX ? mouseX - halfX : -(halfX - mouseX),mouseY >= halfY ? -(mouseY - halfY) :halfY - mouseY) - playerPos).normalize();
 			pool.activeSize += 1; 
 			pool.activeBullets[i]->transform.texture = BulletAsset;
+			pool.activeBullets[i]->transform.rotation = std::atan2(pool.activeBullets[i]->direction.y, pool.activeBullets[i]->direction.x);
 			//pool.activeBullets[i]->transform.scale = { 1,12 };
 			break;
 		}

@@ -5,7 +5,7 @@
 
 float spawnTImer = 0;
 float archerSpawnTimer = 0;
-float cSpawnTimer = 10;
+float cSpawnTimer = 0;
 float ninjaSpawnTimer = 0;
 
 void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPool, NinjaPool &ninPool) {

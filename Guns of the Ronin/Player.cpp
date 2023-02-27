@@ -8,9 +8,9 @@ void Player_Init(Player* Player,BulletPool &bulletPool) {
 	Player->transform.color = Color(1, 1, 1, 1);
 	CreateQuadMesh(50.0f, 50.0f, Player->transform.color, playerMesh);
 	Player->transform.mesh = &playerMesh;
+	Ronin1Asset = AEGfxTextureLoad("Assets/RoninWalking1.png");
 	Player->transform.texture = Ronin1Asset;
 	Player->transform.scale = { 5, 5 };
-	Ronin1Asset = AEGfxTextureLoad("Assets/RoninWalking1.png");
 	Player->transform.position = Vector2(100.f, 100.f);
 	Init_BulletPool(bulletPool);
 }
