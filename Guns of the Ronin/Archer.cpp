@@ -1,4 +1,3 @@
-
 #include "Archer.h"
 
 float archerAttDelay = 2.0f;
@@ -71,7 +70,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 					curArcher->timeLastAttack = 0;
 				}
 			}
-			
+
 			break;
 		case ARCHER_BLOWNAWAY:
 			Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
@@ -82,53 +81,12 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 			break;
 		}
 
-void AI_Archer(ArcherPool& pool, ProjectilePool& arrow, Player& player, PlayerInfo& playerInfo) {
-	if (!IsTime_Paused_Enemy()) {
-		Vector2 playerPos = player.transform.position;
-		for (int i = 0; i < pool.activeSize; i++) {
-			Archer* curArcher = pool.activeArchers[i];
-			Projectile* proj = arrow.activeProjectile[i];
-			switch (curArcher->aiState)
-			{
-			case ARCHER_MOVING:
-				curArcher->targetPos = playerPos;
-				if (curArcher->transform.position.within_dist(playerPos, 200)) {
-					curArcher->aiState = ARCHER_ATTACKING;
-				}
-				else {
-					Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
-					curArcher->transform.position += direction * ARCHER_MS * deltaTime;
-				}
-				break;
-			case ARCHER_ATTACKING:
-				curArcher->timeLastAttack += deltaTime;
-				if (!curArcher->transform.position.within_dist(playerPos, 200)) {
-					curArcher->aiState = ARCHER_MOVING;
-				}
-				else {
-					if (curArcher->timeLastAttack >= attDelay) {
-						ProjectileAdd(arrow, curArcher->transform.position, playerPos);
-						curArcher->timeLastAttack = 0;
-					}
-				}
-
-				break;
-			case ARCHER_BLOWNAWAY:
-				Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
-				curArcher->transform.position += direction * ARCHER_SWEEP_MS * deltaTime;
-				if (curArcher->transform.position.within_dist(curArcher->targetPos, 15.0f)) {
-					curArcher->aiState = ARCHER_MOVING;
-				}
-				break;
-			}
-
-			proj->timeSince_lastDmgDeal += deltaTime;
-			if (StaticCol_QuadQuad(proj->transform, player.transform)) {
-				if (proj->timeSince_lastDmgDeal > 1.0f) {
-					player_dmg(playerInfo, ARCHER_DAMAGE);
-					proj->timeSince_lastDmgDeal = 0;
-					//printf("collided");
-				}
+		proj->timeSince_lastDmgDeal += deltaTime;
+		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
+			if (proj->timeSince_lastDmgDeal > 1.0f) {
+				player_dmg(playerInfo, ARCHER_DAMAGE);
+				proj->timeSince_lastDmgDeal = 0;
+				//printf("collided");
 			}
 		}
 	}
@@ -140,10 +98,6 @@ void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {
 	if ((pool.activeArchers[index]->health -= playerInfo.att) <= 0) {
 		ArcherRemove(index, pool);
 	}
-}
-
-void Pause_Archer() {
-
 }
 
 

@@ -42,7 +42,6 @@ namespace {
 	ArrowPool arrow;
 	NinjaPool ninPool;
 	ShurikenPool shuriken;
-	ProjectilePool arrow;
 	//PlayerInfo in;
 }
 
