@@ -22,7 +22,6 @@ void ArcherAdd(ArcherPool& pool, Vector2 playerPos) {
 			pool.activeArchers[i]->health = ARCHER_HEALTH;
 			pool.activeArchers[i]->transform.texture = asset;
 			pool.activeArchers[i]->transform.scale = { 5, 5 };
-			pool.activeArchers[i]->transform.rotation = 135;
 			pool.activeArchers[i]->transform.position = RandomPoint_OutsideSqaure(ARCHER_MIN_SPAWNDIST, ARCHER_MAX_SPAWNDIST, playerPos);
 			pool.activeSize += 1;
 			break;
