@@ -41,7 +41,7 @@ void Init_ArcherPool(ArcherPool& pool) {
 		pool.archers[i].transform.width = ARCHER_WIDTH;
 		pool.activeArchers[i] = &pool.archers[i];
 	}
-	asset = AEGfxTextureLoad("Assets/Archer.png");
+	asset = AEGfxTextureLoad("Assets/Archer1.png");
 	Init_ArrowPool(arrow);
 }
 

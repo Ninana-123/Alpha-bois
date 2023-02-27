@@ -21,6 +21,8 @@ void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 		if (pool.activeSamurais[i]->enabled == false) {
 			pool.activeSamurais[i]->enabled = true;
 			pool.activeSamurais[i]->health = HEALTH;
+			pool.activeSamurais[i]->transform.texture = Samurai1Asset;
+			pool.activeSamurais[i]->transform.scale = { 5, 5 };
 			pool.activeSamurais[i]->transform.position = RandomPoint_OutsideSqaure(MIN_SPAWNDIST, MAX_SPAWNDIST, playerPos);
 			pool.activeSize += 1;
 			break;
@@ -40,6 +42,7 @@ void Init_SamuraiPool(SamuraiPool& pool) {
 		pool.samurais[i].transform.width = SAMURAI_WIDTH;
 		pool.activeSamurais[i] = &pool.samurais[i];
 	}
+	Samurai1Asset = AEGfxTextureLoad("Assets/Samurai1.png");
 }
 
 void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {

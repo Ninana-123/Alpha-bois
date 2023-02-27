@@ -28,6 +28,8 @@ void BulletAdd(BulletPool& pool,Vector2 playerPos ) {
 			pool.activeBullets[i]->transform.position = playerPos;			
 			pool.activeBullets[i]->direction =  (Vector2(mouseX >= halfX ? mouseX - halfX : -(halfX - mouseX),mouseY >= halfY ? -(mouseY - halfY) :halfY - mouseY) - playerPos).normalize();
 			pool.activeSize += 1; 
+			pool.activeBullets[i]->transform.texture = BulletAsset;
+			//pool.activeBullets[i]->transform.scale = { 1,12 };
 			break;
 		}
 	}
@@ -35,6 +37,7 @@ void BulletAdd(BulletPool& pool,Vector2 playerPos ) {
 
 //Init Bullet pool
 void Init_BulletPool(BulletPool& pool) {
+	BulletAsset = AEGfxTextureLoad("Assets/Bullet.png");
 	pool.activeSize = 0;
 	halfX = AEGetWindowWidth() / 2.0f;
 	halfY = AEGetWindowHeight() / 2.0f;

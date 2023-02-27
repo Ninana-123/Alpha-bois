@@ -37,6 +37,9 @@ struct Transform
 namespace {
 	s8 font;
 	AEGfxTexture *asset;
+	AEGfxTexture* Samurai1Asset;
+	AEGfxTexture* Ronin1Asset;
+	AEGfxTexture* BulletAsset;
 }
 
 void G_Init();
