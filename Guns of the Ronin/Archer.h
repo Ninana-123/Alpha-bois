@@ -11,7 +11,7 @@
 #include "TimeManager.h"
 namespace {
 	enum ARCHER_AI_STATE { ARCHER_MOVING, ARCHER_ATTACKING, ARCHER_BLOWNAWAY };
-	enum { ARCHER_COUNT = 50 };
+	enum { ARCHER_COUNT = 3 };
 	float ARCHER_MIN_SPAWNDIST = 200;
 	float ARCHER_MAX_SPAWNDIST = 400;
 	int ARCHER_HEALTH = 100;

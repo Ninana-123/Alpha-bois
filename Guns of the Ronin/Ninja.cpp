@@ -23,6 +23,8 @@ void NinjaAdd(NinjaPool& pool, Vector2 playerPos) {
 			pool.activeNinjas[i]->enabled = true;
 			pool.activeNinjas[i]->health = NINJA_HEALTH;
 			pool.activeNinjas[i]->isHit = false;
+			pool.activeNinjas[i]->transform.texture = asset;
+			pool.activeNinjas[i]->transform.scale = { 3,3 };
 			pool.activeNinjas[i]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWNDIST, NINJA_MAX_SPAWNDIST, playerPos);
 			pool.activeSize += 1;
 			break;
@@ -44,6 +46,7 @@ void Init_NinjaPool(NinjaPool& pool) {
 		pool.activeNinjas[i] = &pool.ninjas[i];
 	}
 	Init_ShurikenPool(shuriken);
+	asset = AEGfxTextureLoad("Assets/Ninja1.PNG");
 }
 
 void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {

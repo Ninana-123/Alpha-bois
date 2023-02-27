@@ -20,6 +20,8 @@ void CannoneerAdd(CannoneerPool& pool, Vector2 playerPos) {
 		if (pool.activeCannoneers[i]->enabled == false) {
 			pool.activeCannoneers[i]->enabled = true;
 			pool.activeCannoneers[i]->health = C_HEALTH;
+			pool.activeCannoneers[i]->transform.texture = asset;
+			pool.activeCannoneers[i]->transform.scale = { 3, 3 };
 			pool.activeCannoneers[i]->transform.position = RandomPoint_OutsideSqaure(C_MIN_SPAWNDIST, C_MAX_SPAWNDIST, playerPos);
 			pool.activeSize += 1;
 			break;
@@ -49,6 +51,8 @@ void Init_CannoneerPool(CannoneerPool& pool) {
 		pool.cannonBalls[i].transform.width = CB_WIDTH;
 		pool.cannonBalls[i].exploded = false;
 	}
+	asset = AEGfxTextureLoad("Assets/Cannon1.PNG");
+	cannonballs = AEGfxTextureLoad("Assets/CannonBall.PNG");
 }
 
 void AI_Cannoneer(CannoneerPool& pool, Player& player, PlayerInfo& playerInfo) {
@@ -76,6 +80,8 @@ void AI_Cannoneer(CannoneerPool& pool, Player& player, PlayerInfo& playerInfo) {
 			pool.cannonBalls[pool.activeCBSize].halfTotalDist = (player.transform.position - curCannoneer->transform.position).magnitude() / 2.0f;
 			pool.cannonBalls[pool.activeCBSize].reachedMaxScale = false;
 			pool.cannonBalls[pool.activeCBSize].transform.color.a = 1.0f;
+			pool.cannonBalls[pool.activeCBSize].transform.texture = cannonballs;
+			pool.cannonBalls[pool.activeCBSize].transform.scale = { 2,2 };
 			pool.activeCBSize += 1;
 			curCannoneer->aiState = C_RELOADING;
 			break;

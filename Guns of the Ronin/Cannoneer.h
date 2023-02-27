@@ -10,7 +10,7 @@
 #include "bullets.h"
 namespace {
 	enum C_AI_STATE { C_ATTACKING, C_RELOADING };
-	enum { CANNONEER_COUNT = 8 };
+	enum { CANNONEER_COUNT = 3 };
 	enum { CANNONBALL_COUNT = 40 };
 	float C_MIN_SPAWNDIST = 300;
 	float C_MAX_SPAWNDIST = 400;

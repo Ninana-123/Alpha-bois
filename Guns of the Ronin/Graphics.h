@@ -37,6 +37,7 @@ struct Transform
 namespace {
 	s8 font;
 	AEGfxTexture *asset;
+	AEGfxTexture* cannonballs;
 }
 
 void G_Init();
