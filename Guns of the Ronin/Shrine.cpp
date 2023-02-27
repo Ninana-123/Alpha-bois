@@ -12,6 +12,7 @@
 float duration;
 float timeSincePause = 0.0f;
 
+
 void Shrinepool_Init(ShrinePool& pool)
 {
 	duration = 0;
@@ -28,11 +29,12 @@ void Shrinepool_Init(ShrinePool& pool)
 		pool.activeShrine[i]->loadingbarpercentage = 0.f;
 		pool.activeShrine[i]->timeElapsed = 0;
 		pool.activeShrine[i]->iscolliding = false;
+
 	}
+	asset = AEGfxTextureLoad("Assets/Freeze.png");
 
-	
+
 }
-
 
 	void ShrineAdd(ShrinePool & shrinePool)
 	{
@@ -48,11 +50,15 @@ void Shrinepool_Init(ShrinePool& pool)
 				shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
 				shrinePool.activeShrine[i]->timeElapsed = 0;
 				shrinePool.activeShrine[i]->iscolliding = false;
+				shrinePool.activeShrine[i]->transform.texture = asset;
+				shrinePool.activeShrine[i]->transform.scale = { 2, 2};
 				break;
+				
 			}
 		}
 
 	}
+	
 
 
 void ShrineDelete(int index, ShrinePool& shrinePool)
