@@ -1,4 +1,3 @@
-
 #include "Archer.h"
 
 float archerAttDelay = 2.0f;

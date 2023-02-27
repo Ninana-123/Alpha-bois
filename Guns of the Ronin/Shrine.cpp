@@ -33,25 +33,27 @@ void Shrinepool_Init(ShrinePool& pool)
 	
 }
 
-void ShrineAdd(ShrinePool& shrinePool)
-{
 
-	for (int i = 0; i < Shrine_Count; i++)
+	void ShrineAdd(ShrinePool & shrinePool)
 	{
-		if (shrinePool.activeShrine[i]->hasbeenused == false)
+
+		for (int i = 0; i < Shrine_Count; i++)
 		{
-			shrinePool.activeShrine[i]->hasbeenused = true;
-			shrinePool.activeSize += 1;
-			shrinePool.activeShrine[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight()/2.f, Vector2 (0,0));
-			shrinePool.activeShrine[i]->loadingbarpercentage = 0.f;
-			shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
-			shrinePool.activeShrine[i]->timeElapsed = 0;
-			shrinePool.activeShrine[i]->iscolliding = false;
-			break;
+			if (shrinePool.activeShrine[i]->hasbeenused == false)
+			{
+				shrinePool.activeShrine[i]->hasbeenused = true;
+				shrinePool.activeSize += 1;
+				shrinePool.activeShrine[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+				shrinePool.activeShrine[i]->loadingbarpercentage = 0.f;
+				shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
+				shrinePool.activeShrine[i]->timeElapsed = 0;
+				shrinePool.activeShrine[i]->iscolliding = false;
+				break;
+			}
 		}
+
 	}
 
-}
 
 void ShrineDelete(int index, ShrinePool& shrinePool)
 {
@@ -67,53 +69,54 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 
 void Shrine_Update(ShrinePool& shrinePool, Player& player)
 {
-	duration += deltaTime;
-	//std::cout << duration << std::endl;
-	if (duration >= 1.f)
-	{
-		duration = 0;
-		ShrineAdd(shrinePool);
-		
-	}
-
-	timeSincePause += deltaTime;
-	
-	for (int i = 0; i < shrinePool.activeSize; i++)
-	{
-		SetQuadPoints(shrinePool.activeShrine[i]->transform, 40.f, 40.f);
-		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
+		duration += deltaTime;
+		//std::cout << duration << std::endl;
+		if (duration >= 1.f)
 		{
-			shrinePool.activeShrine[i]->iscolliding = true;
-			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
-			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
-			{	
-				TimePauseEnemy();
-				timeSincePause = 0.0f;
-				ShrineDelete(i, shrinePool);
+			duration = 0;
+			ShrineAdd(shrinePool);
+
+		}
+
+		timeSincePause += deltaTime;
+
+		for (int i = 0; i < shrinePool.activeSize; i++)
+		{
+			SetQuadPoints(shrinePool.activeShrine[i]->transform, 40.f, 40.f);
+			if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
+			{
+				shrinePool.activeShrine[i]->iscolliding = true;
+				shrinePool.activeShrine[i]->timeElapsed += deltaTime;
+				if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
+				{
+					TimePauseEnemy();
+					timeSincePause = 0.0f;
+					ShrineDelete(i, shrinePool);
+				}
+				else
+				{
+					shrinePool.activeShrine[i]->loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
+					shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 50);
+					if (loadingBarMesh)
+					{
+						AEGfxMeshFree(loadingBarMesh);
+						loadingBarMesh = 0;
+					}
+					CreateQuadMesh(40.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
+					shrinePool.Shrines[i].loading.mesh = &loadingBarMesh;
+
+				}
 			}
 			else
 			{
-				shrinePool.activeShrine[i]->loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
-				shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 50);
-				if (loadingBarMesh)
-				{
-					AEGfxMeshFree(loadingBarMesh);
-					loadingBarMesh = 0;
-				}
-				CreateQuadMesh(40.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
-				shrinePool.Shrines[i].loading.mesh = &loadingBarMesh;
-
+				shrinePool.activeShrine[i]->iscolliding = false;
 			}
 		}
-		else
-		{
-			shrinePool.activeShrine[i] ->iscolliding = false;
+		if (timeSincePause >= 2.0f) {
+			TimeEnemyResume();
 		}
 	}
-	if (timeSincePause >= 2.0f) {
-		TimeEnemyResume();
-	}
-}
+
 void Draw_Shrine(ShrinePool& shrinePool)
 {
 	for (int i = 0; i < shrinePool.activeSize; i++)
