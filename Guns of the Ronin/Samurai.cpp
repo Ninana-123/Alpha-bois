@@ -42,42 +42,44 @@ void Init_SamuraiPool(SamuraiPool& pool) {
 }
 
 void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
-	Vector2 playerPos = player.transform.position;
-	for (int i = 0; i < pool.activeSize; i++) {
-		Samurai* curSamurai = pool.activeSamurais[i];
+	if (!IsTime_Paused_Enemy()) {
+		Vector2 playerPos = player.transform.position;
+		for (int i = 0; i < pool.activeSize; i++) {
+			Samurai* curSamurai = pool.activeSamurais[i];
 
-		switch (curSamurai->aiState)
-		{
-		case MOVING:
-			curSamurai->targetPos = playerPos;
-			if (curSamurai->transform.position.within_dist(playerPos, 20)) {
-				curSamurai->aiState = ATTACKING;
-			}
-			else {
+			switch (curSamurai->aiState)
+			{
+			case MOVING:
+				curSamurai->targetPos = playerPos;
+				if (curSamurai->transform.position.within_dist(playerPos, 20)) {
+					curSamurai->aiState = ATTACKING;
+				}
+				else {
+					Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
+					curSamurai->transform.position += direction * MS * deltaTime;
+					//curSamurai->transform.rotation = acosf(direction.x);
+				}
+				break;
+			case ATTACKING:
+				if (!curSamurai->transform.position.within_dist(playerPos, 35)) {
+					curSamurai->aiState = MOVING;
+				}
+				break;
+			case BLOWNAWAY:
 				Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
-				curSamurai->transform.position += direction * MS * deltaTime;
-				//curSamurai->transform.rotation = acosf(direction.x);
+				curSamurai->transform.position += direction * SWEEP_MS * deltaTime;
+				if (curSamurai->transform.position.within_dist(curSamurai->targetPos, 15.0f)) {
+					curSamurai->aiState = MOVING;
+				}
+				break;
 			}
-			break;
-		case ATTACKING:
-			if (!curSamurai->transform.position.within_dist(playerPos, 35)) {
-				curSamurai->aiState = MOVING;
-			}
-			break;
-		case BLOWNAWAY:
-			Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
-			curSamurai->transform.position += direction * SWEEP_MS * deltaTime;
-			if (curSamurai->transform.position.within_dist(curSamurai->targetPos, 15.0f)) {
-				curSamurai->aiState = MOVING;
-			}
-			break;
-		}
 
-		curSamurai->timeSince_lastDmgDeal += deltaTime;
-		if (StaticCol_QuadQuad(curSamurai->transform, player.transform)) {
-			if (curSamurai->timeSince_lastDmgDeal > 0.5f) {
-				player_dmg(playerInfo, DAMAGE);
-				curSamurai->timeSince_lastDmgDeal = 0;
+			curSamurai->timeSince_lastDmgDeal += deltaTime;
+			if (StaticCol_QuadQuad(curSamurai->transform, player.transform)) {
+				if (curSamurai->timeSince_lastDmgDeal > 0.5f) {
+					player_dmg(playerInfo, DAMAGE);
+					curSamurai->timeSince_lastDmgDeal = 0;
+				}
 			}
 		}
 	}

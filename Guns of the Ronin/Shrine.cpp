@@ -10,6 +10,7 @@
 //float  storedTimeElapsed = 0.0f;
 //static float loadingBarPercentage = storedloadingBarPercentage;
 float duration;
+float timeSincePause = 0.0f;
 
 void Shrinepool_Init(ShrinePool& pool)
 {
@@ -74,6 +75,8 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 		ShrineAdd(shrinePool);
 		
 	}
+
+	timeSincePause += deltaTime;
 	
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
@@ -82,8 +85,10 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 		{
 			shrinePool.activeShrine[i]->iscolliding = true;
 			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
-			if (shrinePool.activeShrine[i]->timeElapsed >= 5.f)
-			{
+			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
+			{	
+				TimePauseEnemy();
+				timeSincePause = 0.0f;
 				ShrineDelete(i, shrinePool);
 			}
 			else
@@ -103,6 +108,9 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 		{
 			shrinePool.activeShrine[i] ->iscolliding = false;
 		}
+	}
+	if (timeSincePause >= 2.0f) {
+		TimeEnemyResume();
 	}
 }
 void Draw_Shrine(ShrinePool& shrinePool)
