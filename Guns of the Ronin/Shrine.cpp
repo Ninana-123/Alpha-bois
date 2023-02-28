@@ -75,48 +75,34 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 
 void Shrine_Update(ShrinePool& shrinePool, Player& player)
 {
-		duration += deltaTime;
-		//std::cout << duration << std::endl;
-		if (duration >= 1.f)
+	duration += deltaTime;
+	//std::cout << duration << std::endl;
+	if (duration >= 1.f)
+	{
+		duration = 0;
+		ShrineAdd(shrinePool);
+
+	}
+
+	timeSincePause += deltaTime;
+
+	for (int i = 0; i < shrinePool.activeSize; i++)
+	{
+		SetQuadPoints(shrinePool.activeShrine[i]->transform, 40.f, 40.f);
+		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 		{
-			duration = 0;
-			ShrineAdd(shrinePool);
-
-		}
-
-		timeSincePause += deltaTime;
-
-		for (int i = 0; i < shrinePool.activeSize; i++)
-		{
-			SetQuadPoints(shrinePool.activeShrine[i]->transform, 40.f, 40.f);
-			if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
+			shrinePool.activeShrine[i]->iscolliding = true;
+			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
+			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
 			{
-				shrinePool.activeShrine[i]->iscolliding = true;
-				shrinePool.activeShrine[i]->timeElapsed += deltaTime;
-				if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
-				{
-					TimePauseEnemy();
-					timeSincePause = 0.0f;
-					ShrineDelete(i, shrinePool);
-				}
-				else
-				{
-					shrinePool.activeShrine[i]->loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
-					shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 50);
-					if (loadingBarMesh)
-					{
-						AEGfxMeshFree(loadingBarMesh);
-						loadingBarMesh = 0;
-					}
-					CreateQuadMesh(40.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
-					shrinePool.Shrines[i].loading.mesh = &loadingBarMesh;
-
-				}
+				TimePauseEnemy();
+				timeSincePause = 0.0f;
+				ShrineDelete(i, shrinePool);
 			}
 			else
 			{
 				shrinePool.activeShrine[i]->loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
-				shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 50);
+				shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 90);
 				if (loadingBarMesh)
 				{
 					AEGfxMeshFree(loadingBarMesh);
@@ -125,13 +111,18 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 				CreateQuadMesh(40.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
 				shrinePool.activeShrine[i]->loading.mesh = &loadingBarMesh;
 
-				shrinePool.activeShrine[i]->iscolliding = false;
 			}
 		}
-		if (timeSincePause >= 2.0f) {
-			TimeEnemyResume();
+		else
+		{
+			shrinePool.activeShrine[i]->iscolliding = false;
 		}
 	}
+	if (timeSincePause >= 2.0f) {
+		TimeEnemyResume();
+	}
+}
+
 
 void Draw_Shrine(ShrinePool& shrinePool)
 {
