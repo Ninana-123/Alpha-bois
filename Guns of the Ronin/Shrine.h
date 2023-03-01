@@ -32,7 +32,7 @@ public:
 	float loadingbarpercentage = 0;
 	Transform loading;
 	float timeElapsed = 0;
-	enum Types { Freeze, Push, Heal, Explosion, TotalShrines };
+	enum Types { Freeze, Push, Heal, TotalShrines };
 	Types types;
 };
 

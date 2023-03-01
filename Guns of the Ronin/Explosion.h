@@ -10,7 +10,7 @@
 
 namespace
 {
-	enum{Explosion_Count=5 };
+	enum{Explosion_Count = 5};
 	float EXPLOSION_HEIGHT = 0, EXPLOSION_WIDTH = 0;
 	AEGfxVertexList* explosionsMesh;
 	//AEGfxVertexList* loadingBarMesh;
@@ -22,7 +22,7 @@ public:
 	Transform transform;
 	bool hasbeenused = false;
 	bool iscolliding = false;
-	
+	bool damagedByExplosion =false;
 	//float loadingbarpercentage = 0;
 	Transform loading;
 	float timeElapsed = 0;

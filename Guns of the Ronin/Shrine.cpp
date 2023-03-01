@@ -39,7 +39,7 @@ void Shrinepool_Init(ShrinePool& pool)
 	assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
 	assetheal = AEGfxTextureLoad("Assets/Health.png");
 	assetwind = AEGfxTextureLoad("Assets/Wind.png");
-	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
+	//assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
 
 
 
@@ -115,12 +115,6 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 		duration = 0;
 		ShrineAdd(shrinePool);
 
-	}
-	if (AEInputCheckTriggered(AEVK_T)) {
-		Heal_player(playerinfos);
-
-		//Push_Enemies(samPools, archPools, HORIZONTAL, -500, ninPools);
-		//std::cout << "Push tower" << std::endl;
 	}
 
 	timeSincePause += deltaTime;
