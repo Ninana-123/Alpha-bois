@@ -67,9 +67,8 @@ void ExplosionDelete(int index, ExplosionPool& explosionPool)
 void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 {
 	
-	
 	durations += deltaTime;
-	if (durations >= 1.f)
+	if (durations >= 100000.f)
 	{
 		durations = 0;
 		ExplosionAdd(explosionPool);
@@ -86,13 +85,7 @@ void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 		{
 			if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, pool.activeSamurais[j]->transform))
 			{
-				/*explosionPool.activeExplosion[i]->iscolliding = true;
-				explosionPool.activeExplosion[i]->timeElapsed += deltaTime;*/
-				/*if (explosionPool.activeExplosion[i]->timeElapsed >= 1.f)
-				{*/
-					ExplosionDelete(i, explosionPool);
 					SamuraiRemove(j, pool);
-				//}
 			}
 			else
 			{

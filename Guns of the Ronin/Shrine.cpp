@@ -5,10 +5,9 @@
 #include "Player.h"
 #include "AEMath.h"
 #include "TimeManager.h"
+#include "EnemyController.h"
+#include "random"
 
-//float storedloadingBarPercentage = 0.0f;
-//float  storedTimeElapsed = 0.0f;
-//static float loadingBarPercentage = storedloadingBarPercentage;
 float duration;
 float timeSincePause = 0.0f;
 
@@ -36,30 +35,41 @@ void Shrinepool_Init(ShrinePool& pool)
 
 }
 
-	void ShrineAdd(ShrinePool & shrinePool)
+
+int Random(int min, int max)
+{
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> dis(min, max);
+	return dis(gen);
+}
+
+void ShrineAdd(ShrinePool & shrinePool)
+{
+
+	for (int i = 0; i < Shrine_Count; i++)
 	{
-
-		for (int i = 0; i < Shrine_Count; i++)
+		if (shrinePool.activeShrine[i]->hasbeenused == false)
 		{
-			if (shrinePool.activeShrine[i]->hasbeenused == false)
-			{
-				shrinePool.activeShrine[i]->hasbeenused = true;
-				shrinePool.activeSize += 1;
-				shrinePool.activeShrine[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-				shrinePool.activeShrine[i]->loadingbarpercentage = 0.f;
-				shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
-				shrinePool.activeShrine[i]->timeElapsed = 0;
-				shrinePool.activeShrine[i]->iscolliding = false;
-				shrinePool.activeShrine[i]->transform.texture = asset;
-				shrinePool.activeShrine[i]->transform.scale = { 2, 2};
-				break;
+			shrinePool.activeShrine[i]->hasbeenused = true;
+			shrinePool.activeSize += 1;
+			shrinePool.activeShrine[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+			shrinePool.activeShrine[i]->loadingbarpercentage = 0.f;
+			shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
+			shrinePool.activeShrine[i]->timeElapsed = 0;
+			shrinePool.activeShrine[i]->iscolliding = false;
+			shrinePool.activeShrine[i]->transform.texture = asset;
+			shrinePool.activeShrine[i]->transform.scale = { 2, 2};
+
+			shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
+			std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
+			break;
 				
-			}
 		}
-
 	}
-	
 
+}
+	
 
 void ShrineDelete(int index, ShrinePool& shrinePool)
 {
@@ -95,9 +105,26 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
 			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
 			{
-				TimePauseEnemy();
-				timeSincePause = 0.0f;
-				ShrineDelete(i, shrinePool);
+				if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+				{
+					TimePauseEnemy();
+					timeSincePause = 0.0f;
+					ShrineDelete(i, shrinePool);
+					std::cout << "Freeze tower" << std::endl;
+				}
+				else if (shrinePool.activeShrine[i]->types == Shrine::Push)
+				{
+					Push_Enemies(samPools, archPools, HORIZONTAL, -500, ninPools);
+					ShrineDelete(i, shrinePool);
+					std::cout << "Push tower" << std::endl;
+				}
+				else if (shrinePool.activeShrine[i]->types == Shrine::Heal)
+				{
+					Heal_player(playerinfos);
+					ShrineDelete(i, shrinePool);
+					std::cout << "Heal tower" << std::endl;
+					std::cout << playerinfos.health << std::endl;
+				}
 			}
 			else
 			{
