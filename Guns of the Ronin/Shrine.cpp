@@ -83,9 +83,9 @@ void ShrineAdd(ShrinePool & shrinePool)
 				shrinePool.activeShrine[i]->transform.texture = assetwind;
 			}
 
-			else if (shrinePool.activeShrine[i]->types == Shrine::Explosion) {
+			/*else if (shrinePool.activeShrine[i]->types == Shrine::Explosion) {
 				shrinePool.activeShrine[i]->transform.texture = assetexplosion;
-			}
+			}*/
 
 			std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
 			break;
@@ -153,10 +153,10 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 					std::cout << "Heal tower" << std::endl;
 					std::cout << playerinfo.health << std::endl;
 				}
-				if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
+				/*if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
 				{
 					ExplosionYes();
-				}
+				}*/
 				
 			}
 			else
