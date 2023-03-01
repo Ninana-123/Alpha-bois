@@ -21,7 +21,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 	cSpawnTimer += deltaTime;
 	ninjaSpawnTimer += deltaTime;
 
-	if (!IsTime_Paused()) {
+	if (!IsTime_Paused() && !IsTime_Paused_Enemy()) {
 		// Samurai
 		if (spawnTImer >= spawnRate_Samurai) {
 			spawnTImer = 0;

@@ -4,13 +4,16 @@
 #include "DummyPlayer.h"
 #include "Player.h"
 #include "AEMath.h"
+#include "Physics.h"
 #include "TimeManager.h"
 #include "EnemyController.h"
 #include "random"
 
 float duration;
 float timeSincePause = 0.0f;
-
+AEGfxTexture *assetfreeze;
+AEGfxTexture *assetheal;
+AEGfxTexture *assetwind;
 
 void Shrinepool_Init(ShrinePool& pool)
 {
@@ -30,7 +33,10 @@ void Shrinepool_Init(ShrinePool& pool)
 		pool.activeShrine[i]->iscolliding = false;
 
 	}
-	asset = AEGfxTextureLoad("Assets/Freeze.png");
+	assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
+	assetheal = AEGfxTextureLoad("Assets/Health.png");
+	assetwind = AEGfxTextureLoad("Assets/Wind.png");
+
 
 
 }
@@ -46,6 +52,7 @@ int Random(int min, int max)
 
 void ShrineAdd(ShrinePool & shrinePool)
 {
+	
 
 	for (int i = 0; i < Shrine_Count; i++)
 	{
@@ -58,15 +65,28 @@ void ShrineAdd(ShrinePool & shrinePool)
 			shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
 			shrinePool.activeShrine[i]->timeElapsed = 0;
 			shrinePool.activeShrine[i]->iscolliding = false;
-			shrinePool.activeShrine[i]->transform.texture = asset;
 			shrinePool.activeShrine[i]->transform.scale = { 2, 2};
 
 			shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
+			if (shrinePool.activeShrine[i]->types == Shrine::Freeze) {
+				shrinePool.activeShrine[i]->transform.texture = assetfreeze;
+			}
+
+			else if (shrinePool.activeShrine[i]->types == Shrine::Heal) {
+				shrinePool.activeShrine[i]->transform.texture = assetheal;
+			}
+
+			else if (shrinePool.activeShrine[i]->types == Shrine::Push) {
+				shrinePool.activeShrine[i]->transform.texture = assetwind;
+			}
 			std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
 			break;
-				
+			
+
 		}
 	}
+
+	
 
 }
 	
@@ -83,6 +103,7 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
+
 void Shrine_Update(ShrinePool& shrinePool, Player& player)
 {
 	duration += deltaTime;
@@ -93,9 +114,14 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 		ShrineAdd(shrinePool);
 
 	}
+	if (AEInputCheckTriggered(AEVK_T)) {
+		Heal_player(playerinfos);
+
+		//Push_Enemies(samPools, archPools, HORIZONTAL, -500, ninPools);
+		//std::cout << "Push tower" << std::endl;
+	}
 
 	timeSincePause += deltaTime;
-
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
 		SetQuadPoints(shrinePool.activeShrine[i]->transform, 40.f, 40.f);
@@ -112,7 +138,7 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 					ShrineDelete(i, shrinePool);
 					std::cout << "Freeze tower" << std::endl;
 				}
-				else if (shrinePool.activeShrine[i]->types == Shrine::Push)
+				 if (shrinePool.activeShrine[i]->types == Shrine::Push)
 				{
 					Push_Enemies(samPools, archPools, HORIZONTAL, -500, ninPools);
 					ShrineDelete(i, shrinePool);
