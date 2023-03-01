@@ -21,7 +21,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool,CannoneerPool& cP
 
 void Draw_Enemies(SamuraiPool& pool, ArcherPool& archPool, CannoneerPool& cPool, NinjaPool &ninPool);
 
-void Push_Enemies(SamuraiPool& pool, ArcherPool& archPool, DIRECTION direction, float targetAxis, NinjaPool& ninPool);
+void Push_Enemies(SamuraiPool& samPool, ArcherPool& archPool, DIRECTION direction, float targetAxis, NinjaPool& ninPool);
 
 
 #endif // !1

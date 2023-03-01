@@ -142,9 +142,9 @@ void Update_Scene() {
 
 	//std::cout << playerinfo.health << std::endl;
 	//wind sweep
-	if (AEInputCheckTriggered(AEVK_T)) {
-		Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
-	}
+	//if (AEInputCheckTriggered(AEVK_T)) {
+	//	Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
+	//}
 
 	//heal player
 	if (AEInputCheckTriggered(AEVK_H)) {
