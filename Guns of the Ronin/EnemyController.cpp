@@ -15,13 +15,13 @@ void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPo
 	Init_NinjaPool(ninPool);
 }
 
-void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPool, NinjaPool &ninPool, Player& player, PlayerInfo& playerInfo) {
+void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPool, NinjaPool& ninPool, Player& player, PlayerInfo& playerInfo) {
 	spawnTImer += deltaTime;
 	archerSpawnTimer += deltaTime;
 	cSpawnTimer += deltaTime;
 	ninjaSpawnTimer += deltaTime;
 
-	if (!IsTime_Paused()) {
+	if (!IsTime_Paused() && !IsTime_Paused_Enemy()) {
 		// Samurai
 		if (spawnTImer >= spawnRate_Samurai) {
 			spawnTImer = 0;
@@ -29,13 +29,13 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		}
 		AI_Samurai(samPool, player, playerInfo);
 
-		// Archer
-		if (archerSpawnTimer >= spawnRate_Archer) {
-			archerSpawnTimer = 0;
-			ArcherAdd(archPool, player.transform.position);
-		}
-		AI_Archer(archPool, player, playerInfo);
-		
+		//// Archer
+		//if (archerSpawnTimer >= spawnRate_Archer) {
+		//	archerSpawnTimer = 0;
+		//	ArcherAdd(archPool, player.transform.position);
+		//}
+		//AI_Archer(archPool, player, playerInfo);
+
 
 		// Cannoneer
 	//	if (cSpawnTimer >= spawnRate_Cannoneer) {
@@ -45,11 +45,11 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 	//	AI_Cannoneer(cPool, player, playerInfo);
 
 	//	// Ninja
-		if (ninjaSpawnTimer >= spawnRate_Ninja) {
+		/*if (ninjaSpawnTimer >= spawnRate_Ninja) {
 			ninjaSpawnTimer = 0;
 			NinjaAdd(ninPool, player.transform.position);
 		}
-		AI_Ninja(ninPool, player, playerInfo);
+		AI_Ninja(ninPool, player, playerInfo);*/
 	}
 
 }

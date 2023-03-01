@@ -22,6 +22,7 @@ public:
 	Transform transform;
 	bool hasbeenused = false;
 	bool iscolliding = false;
+	
 	//float loadingbarpercentage = 0;
 	Transform loading;
 	float timeElapsed = 0;

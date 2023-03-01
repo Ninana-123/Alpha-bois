@@ -9,6 +9,7 @@
 #include "Archer.h"
 #include "Samurai.h"
 #include "Ninja.h"
+#include "PlayerInfo.h"
 namespace
 {
 	enum{Shrine_Count = 5};
@@ -17,7 +18,6 @@ namespace
 	AEGfxVertexList* loadingBarMesh;
 	NinjaPool ninPools;
 	ArcherPool archPools;
-	SamuraiPool samPools;
 	PlayerInfo playerinfos;
 }
 
@@ -48,7 +48,7 @@ public:
 void Shrinepool_Init(ShrinePool& shrinePool);
 void ShrineAdd(ShrinePool& shrinePool);
 void ShrineDelete(int index, ShrinePool& shrinePool);
-void Shrine_Update(ShrinePool& shrinePool, Player& player);
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo);
 void Draw_Shrine(ShrinePool& shrinePool);
 void Free_Shrines();
 

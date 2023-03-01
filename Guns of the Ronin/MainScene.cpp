@@ -42,7 +42,7 @@ namespace {
 	ArrowPool arrow;
 	NinjaPool ninPool;
 	ShurikenPool shuriken;
-	//PlayerInfo in;
+	
 }
 
 void Init_Scene() {
@@ -69,7 +69,7 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update(shrinePool, player);
+	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo);
 
 	Explosion_Update( explosionPool, samPool);
 

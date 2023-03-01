@@ -22,11 +22,7 @@ void Explosionpool_Init(ExplosionPool& explosionPool)
 		explosionPool.activeExplosion[i] = &explosionPool.Explosions[i];
 		explosionPool.activeExplosion[i]->timeElapsed = 0;
 		explosionPool.activeExplosion[i]->iscolliding = false;
-		
-
-
 	}
-
 	
 }
 
@@ -68,7 +64,7 @@ void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 {
 	
 	durations += deltaTime;
-	if (durations >= 100000.f)
+	if (durations >= 1.f)
 	{
 		durations = 0;
 		ExplosionAdd(explosionPool);
@@ -83,10 +79,21 @@ void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 		SetQuadPoints(explosionPool.activeExplosion[i]->transform, 40.f, 40.f);
 		for (int j = 0; j < pool.activeSize; j++)
 		{
-			if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, pool.activeSamurais[j]->transform))
+			if (!pool.activeSamurais[j]->damagedByExplosion)
 			{
-					SamuraiRemove(j, pool);
+				if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, pool.activeSamurais[j]->transform))
+				{
+					pool.activeSamurais[j]->health -= 100;
+					pool.activeSamurais[j]->damagedByExplosion = true;
+					std::cout << "Health:" << pool.activeSamurais[j]->health << std::endl;
+					if (pool.activeSamurais[j]->health <= 0) {
+						SamuraiRemove(j, pool);
+					}
+					
+				}
 			}
+			
+			
 			else
 			{
 				explosionPool.activeExplosion[i]->iscolliding = false;

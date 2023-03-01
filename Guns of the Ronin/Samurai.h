@@ -30,6 +30,8 @@ public:
 	AI_STATE aiState = MOVING;
 	bool enabled = false;
 	float timeSince_lastDmgDeal = 0;
+	bool damagedByExplosion = false;
+	int ID;
 };
 
 struct SamuraiPool {

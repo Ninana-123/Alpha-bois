@@ -7,6 +7,7 @@
 #include "TimeManager.h"
 #include "EnemyController.h"
 #include "random"
+#include "PlayerInfo.h"
 
 float duration;
 float timeSincePause = 0.0f;
@@ -83,7 +84,7 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
-void Shrine_Update(ShrinePool& shrinePool, Player& player)
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo)
 {
 	duration += deltaTime;
 	//std::cout << duration << std::endl;
@@ -112,19 +113,20 @@ void Shrine_Update(ShrinePool& shrinePool, Player& player)
 					ShrineDelete(i, shrinePool);
 					std::cout << "Freeze tower" << std::endl;
 				}
-				else if (shrinePool.activeShrine[i]->types == Shrine::Push)
+				if (shrinePool.activeShrine[i]->types == Shrine::Push)
 				{
-					Push_Enemies(samPools, archPools, HORIZONTAL, -500, ninPools);
+					Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
 					ShrineDelete(i, shrinePool);
 					std::cout << "Push tower" << std::endl;
 				}
-				else if (shrinePool.activeShrine[i]->types == Shrine::Heal)
+				if (shrinePool.activeShrine[i]->types == Shrine::Heal)
 				{
-					Heal_player(playerinfos);
+					Heal_player(playerinfo);
 					ShrineDelete(i, shrinePool);
 					std::cout << "Heal tower" << std::endl;
-					std::cout << playerinfos.health << std::endl;
+					std::cout << playerinfo.health << std::endl;
 				}
+				
 			}
 			else
 			{
