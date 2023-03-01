@@ -10,6 +10,7 @@
 #include "Samurai.h"
 #include "Ninja.h"
 #include "PlayerInfo.h"
+#include "Explosion.h"
 namespace
 {
 	enum{Shrine_Count = 5};
@@ -19,6 +20,7 @@ namespace
 	NinjaPool ninPools;
 	ArcherPool archPools;
 	PlayerInfo playerinfos;
+	ExplosionPool exPools;
 }
 
 class Shrine
@@ -30,7 +32,7 @@ public:
 	float loadingbarpercentage = 0;
 	Transform loading;
 	float timeElapsed = 0;
-	enum Types { Freeze, Push, Heal, TotalShrines };
+	enum Types { Freeze, Push, Heal, Explosion, TotalShrines };
 	Types types;
 };
 

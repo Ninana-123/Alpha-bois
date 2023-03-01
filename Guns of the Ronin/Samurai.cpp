@@ -96,6 +96,11 @@ void Dmg_Samurai(SamuraiPool& pool, PlayerInfo playerInfo, int index) {
 	}
 }
 
+void Die_Samurai(SamuraiPool& pool, int index) {
+	if ((pool.activeSamurais[index]->health ) <= 0) {
+		SamuraiRemove(index, pool);
+	}
+}
 
 //Push Samurais in the specified direction to the specific wordPos in the according axis
 void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis) {

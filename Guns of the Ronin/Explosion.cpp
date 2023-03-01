@@ -10,25 +10,31 @@
 float durations;
 void Explosionpool_Init(ExplosionPool& explosionPool)
 {
-	durations = 0;
-	explosionPool.activeSize = 0;
-	CreateQuadMesh(EXPLOSION_WIDTH, EXPLOSION_HEIGHT, Color(1, 0, 0, 1), explosionsMesh);
-	for (int i = 0; i < Explosion_Count; i++)
-	{
-		explosionPool.Explosions[i].hasbeenused = false;
-		explosionPool.Explosions[i].transform.height = EXPLOSION_HEIGHT;
-		explosionPool.Explosions[i].transform.width = EXPLOSION_WIDTH;
-		explosionPool.Explosions[i].transform.mesh = &explosionsMesh;
-		explosionPool.activeExplosion[i] = &explosionPool.Explosions[i];
-		explosionPool.activeExplosion[i]->timeElapsed = 0;
-		explosionPool.activeExplosion[i]->iscolliding = false;
-	}
-	
+	//if (IsExplosionTriggered())
+	//{
+		{
+			durations = 0;
+			explosionPool.activeSize = 0;
+			CreateQuadMesh(EXPLOSION_WIDTH, EXPLOSION_HEIGHT, Color(1, 0, 0, 1), explosionsMesh);
+			for (int i = 0; i < Explosion_Count; i++)
+			{
+				explosionPool.Explosions[i].hasbeenused = false;
+				explosionPool.Explosions[i].transform.height = EXPLOSION_HEIGHT;
+				explosionPool.Explosions[i].transform.width = EXPLOSION_WIDTH;
+				explosionPool.Explosions[i].transform.mesh = &explosionsMesh;
+				explosionPool.activeExplosion[i] = &explosionPool.Explosions[i];
+				explosionPool.activeExplosion[i]->timeElapsed = 0;
+				explosionPool.activeExplosion[i]->iscolliding = false;
+			}
+
+		}
+	//}
 }
 
 void ExplosionAdd(ExplosionPool& explosionPool)
 {
-
+	//if (IsExplosionTriggered())
+	//{
 	for (int i = 0; i < Explosion_Count; i++)
 	{
 		if (explosionPool.activeExplosion[i]->hasbeenused == false)
@@ -38,89 +44,108 @@ void ExplosionAdd(ExplosionPool& explosionPool)
 			}
 			explosionPool.activeExplosion[i]->hasbeenused = true;
 			explosionPool.activeSize += 1;
-			explosionPool.activeExplosion[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight()/2.f, Vector2 (0,0));
+			explosionPool.activeExplosion[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
 			explosionPool.activeExplosion[i]->loading.position = explosionPool.activeExplosion[i]->transform.position;
 			explosionPool.activeExplosion[i]->timeElapsed = 0;
 			explosionPool.activeExplosion[i]->iscolliding = false;
 			break;
 		}
+		//}
 	}
-
 }
 
 void ExplosionDelete(int index, ExplosionPool& explosionPool)
 {
-	explosionPool.activeExplosion[index]->hasbeenused = false;
-	if (index < (explosionPool.activeSize - 1))
-	{
-		Explosion* temp = explosionPool.activeExplosion[index];
-		explosionPool.activeExplosion[index] = explosionPool.activeExplosion[explosionPool.activeSize - 1];
-		explosionPool.activeExplosion[explosionPool.activeSize - 1] = temp;
-	}
-	explosionPool.activeSize -= 1;
+	//if (IsExplosionTriggered())
+	//{
+		explosionPool.activeExplosion[index]->hasbeenused = false;
+		if (index < (explosionPool.activeSize - 1))
+		{
+			Explosion* temp = explosionPool.activeExplosion[index];
+			explosionPool.activeExplosion[index] = explosionPool.activeExplosion[explosionPool.activeSize - 1];
+			explosionPool.activeExplosion[explosionPool.activeSize - 1] = temp;
+		}
+		explosionPool.activeSize -= 1;
+	//}
 }
 
 void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 {
-	
-	durations += deltaTime;
-	if (durations >= 1.f)
-	{
-		durations = 0;
-		ExplosionAdd(explosionPool);
-	}
-
-	for (int i = 0; i < explosionPool.activeSize; i++)
-	{
-		if (explosionPool.activeExplosion[i]->timeElapsed >= 1.f)
+	//if (IsExplosionTriggered())
+	//{
+		durations += deltaTime;
+		if (durations >= 1.f)
 		{
-			ExplosionDelete(i, explosionPool);
+			durations = 0;
+			ExplosionAdd(explosionPool);
 		}
-		SetQuadPoints(explosionPool.activeExplosion[i]->transform, 40.f, 40.f);
-		for (int j = 0; j < pool.activeSize; j++)
+
+		for (int i = 0; i < explosionPool.activeSize; i++)
 		{
-			if (!pool.activeSamurais[j]->damagedByExplosion)
+			if (explosionPool.activeExplosion[i]->timeElapsed >= 1.f)
+			{
+				ExplosionDelete(i, explosionPool);
+			}
+			SetQuadPoints(explosionPool.activeExplosion[i]->transform, 40.f, 40.f);
+			for (int j = 0; j < pool.activeSize; j++)
 			{
 				if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, pool.activeSamurais[j]->transform))
 				{
-					pool.activeSamurais[j]->health -= 100;
-					pool.activeSamurais[j]->damagedByExplosion = true;
-					std::cout << "Health:" << pool.activeSamurais[j]->health << std::endl;
-					if (pool.activeSamurais[j]->health <= 0) {
-						SamuraiRemove(j, pool);
+					if (!pool.activeSamurais[j]->damagedByExplosion)
+					{
+						pool.activeSamurais[j]->health -= 50;
+						pool.activeSamurais[j]->damagedByExplosion = true;
+						std::cout << "Health:" << pool.activeSamurais[j]->health << std::endl;
+						if (pool.activeSamurais[j]->health <= 0) {
+							SamuraiRemove(j, pool);
+						}
 					}
-					
+					pool.activeSamurais[j]->isCollidingWithExplosion = true;
 				}
 			}
-			
-			
-			else
+		}
+
+		for (int j = 0; j < pool.activeSize; j++)
+		{
+			pool.activeSamurais[j]->isCollidingWithExplosion = false;
+			for (int i = 0; i < explosionPool.activeSize; i++)
 			{
-				explosionPool.activeExplosion[i]->iscolliding = false;
+				if (StaticCol_QuadQuad(pool.activeSamurais[j]->transform, explosionPool.activeExplosion[i]->transform))
+				{
+					pool.activeSamurais[j]->isCollidingWithExplosion = true;
+				}
+			}
+			if (!pool.activeSamurais[j]->isCollidingWithExplosion && pool.activeSamurais[j]->damagedByExplosion)
+			{
+				pool.activeSamurais[j]->damagedByExplosion = false;
 			}
 		}
-	}
+	//}
 }
 
 void Draw_Explosions(ExplosionPool& explosionPool)
 {
-	for (int i = 0; i < explosionPool.activeSize; i++)
-	{
-
-		if (explosionPool.activeExplosion[i]->hasbeenused)
+	//if (IsExplosionTriggered())
+	//{
+		for (int i = 0; i < explosionPool.activeSize; i++)
 		{
-			DrawMesh(&explosionPool.activeExplosion[i]->transform);
-			if (explosionPool.activeExplosion[i]->iscolliding)
-			{	
-				ExplosionDelete(i, explosionPool);
+
+			if (explosionPool.activeExplosion[i]->hasbeenused)
+			{
+				DrawMesh(&explosionPool.activeExplosion[i]->transform);
+				if (explosionPool.activeExplosion[i]->iscolliding)
+				{
+					ExplosionDelete(i, explosionPool);
+				}
 			}
+
 		}
-		
-	}
-	
+	//}
 }
 
 void Free_Explosions() {
-	AEGfxMeshFree(explosionsMesh);
-	
+	//if (IsExplosionTriggered())
+	//{
+		AEGfxMeshFree(explosionsMesh);
+	//}
 }

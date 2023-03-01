@@ -27,10 +27,22 @@ void TimeEnemyResume() {
 	enemypause = false;
 }
 
+void ExplosionYes() {
+	explosiontrigger = true;
+}
+
+void ExplosionNo() {
+	explosiontrigger = false;
+}
+
 bool IsTime_Paused() {
 	return isPaused;
 }
 
 bool IsTime_Paused_Enemy() {
 	return enemypause;
+}
+
+bool IsExplosionTriggered() {
+	return explosiontrigger;
 }

@@ -1,5 +1,6 @@
 
 #include "Shrine.h"
+#include "Explosion.h"
 #include "Graphics.h"
 #include "DummyPlayer.h"
 #include "Player.h"
@@ -15,6 +16,7 @@ float timeSincePause = 0.0f;
 AEGfxTexture *assetfreeze;
 AEGfxTexture *assetheal;
 AEGfxTexture *assetwind;
+AEGfxTexture* assetexplosion;
 
 void Shrinepool_Init(ShrinePool& pool)
 {
@@ -37,6 +39,7 @@ void Shrinepool_Init(ShrinePool& pool)
 	assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
 	assetheal = AEGfxTextureLoad("Assets/Health.png");
 	assetwind = AEGfxTextureLoad("Assets/Wind.png");
+	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
 
 
 
@@ -53,8 +56,6 @@ int Random(int min, int max)
 
 void ShrineAdd(ShrinePool & shrinePool)
 {
-	
-
 	for (int i = 0; i < Shrine_Count; i++)
 	{
 		if (shrinePool.activeShrine[i]->hasbeenused == false)
@@ -69,6 +70,7 @@ void ShrineAdd(ShrinePool & shrinePool)
 			shrinePool.activeShrine[i]->transform.scale = { 2, 2};
 
 			shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
+			//arranges PNG image according to type of shrine
 			if (shrinePool.activeShrine[i]->types == Shrine::Freeze) {
 				shrinePool.activeShrine[i]->transform.texture = assetfreeze;
 			}
@@ -80,15 +82,15 @@ void ShrineAdd(ShrinePool & shrinePool)
 			else if (shrinePool.activeShrine[i]->types == Shrine::Push) {
 				shrinePool.activeShrine[i]->transform.texture = assetwind;
 			}
+
+			else if (shrinePool.activeShrine[i]->types == Shrine::Explosion) {
+				shrinePool.activeShrine[i]->transform.texture = assetexplosion;
+			}
+
 			std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
 			break;
-			
-
 		}
 	}
-
-	
-
 }
 	
 
@@ -150,6 +152,10 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 					ShrineDelete(i, shrinePool);
 					std::cout << "Heal tower" << std::endl;
 					std::cout << playerinfo.health << std::endl;
+				}
+				if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
+				{
+					ExplosionYes();
 				}
 				
 			}

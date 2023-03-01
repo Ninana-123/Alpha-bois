@@ -31,6 +31,7 @@ public:
 	bool enabled = false;
 	float timeSince_lastDmgDeal = 0;
 	bool damagedByExplosion = false;
+	bool isCollidingWithExplosion = false;
 	int ID;
 };
 
@@ -51,6 +52,8 @@ void Draw_Samurai(SamuraiPool& pool);
 void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis = 400);
 
 void Dmg_Samurai(SamuraiPool& pool,PlayerInfo playerInfo, int index);
+
+void Die_Samurai(SamuraiPool& pool, int index);
 
 void Free_Samurai();
 
