@@ -38,7 +38,7 @@ void ExplosionAdd(ExplosionPool& explosionPool)
 	for (int i = 0; i < Explosion_Count; i++)
 	{
 		if (explosionPool.activeExplosion[i]->hasbeenused == false)
-		{
+	{
 			if (explosionPool.activeExplosion[i]->iscolliding == true) {
 				continue; // skip this explosion
 			}

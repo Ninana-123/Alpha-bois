@@ -167,13 +167,7 @@ void Update_Scene() {
 
 	Player_Update(&player, bulletPool);
 
-	if (AEInputCheckTriggered(AEVK_E)) {
-
-		for (int i = 0; i < 5; i++ )
-		{
-			CreateQuadMesh(25, 25, Color(1, 0, 0, 1), explosionMesh);
-		}
-	}
+	
 	
 }
 

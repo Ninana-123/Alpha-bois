@@ -89,6 +89,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 				if (proj->timeSince_lastDmgDeal > 1.0f) {
 					player_dmg(playerInfo, ARCHER_DAMAGE);
 					proj->timeSince_lastDmgDeal = 0;
+					ArrowRemove(i, arrow);
 					//printf("collided");
 				}
 			}

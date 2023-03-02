@@ -94,6 +94,7 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 			if (proj->timeSince_lastDmgDeal > 1.0f) {
 				player_dmg(playerInfo, NINJA_DAMAGE);
 				proj->timeSince_lastDmgDeal = 0;
+				ShurikenRemove(i, shuriken);
 			}
 		}
 	}
