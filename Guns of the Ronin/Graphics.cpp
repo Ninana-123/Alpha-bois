@@ -128,3 +128,39 @@ void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {
 	}
 	mesh = AEGfxMeshEnd();
 }
+
+void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh) {
+	//float BG_Width = 1.0f / 4.0f;
+	AEGfxMeshStart();
+	AEGfxTriAdd(
+		-0.5f, -0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 1.0f,
+		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
+		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
+	);
+	AEGfxTriAdd(
+		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
+		0.5f, 0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 0.0f,
+		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
+	);
+	mesh = AEGfxMeshEnd();
+}
+
+void DrawSprite(Transform* trans,int index) {
+	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
+	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
+	AEGfxSetTransparency(1.0f);
+	AEGfxTextureSet(trans->texture, (trans->height / trans->width)*index, 0.f);
+
+	AEMtx33 scale = { 0 };
+	AEMtx33Scale(&scale, trans->scale.x, trans->scale.y);
+	AEMtx33 rotate = { 0 };
+	AEMtx33Rot(&rotate, trans->rotation);
+	AEMtx33 translate = { 0 };
+	AEMtx33Trans(&translate, trans->position.x, trans->position.y);
+	AEMtx33 transform = { 0 };
+	AEMtx33Concat(&transform, &rotate, &scale);
+	AEMtx33Concat(&transform, &translate, &transform);
+	AEGfxSetTransform(transform.m);
+	AEGfxMeshDraw(*trans->mesh, AE_GFX_MDM_TRIANGLES);
+}

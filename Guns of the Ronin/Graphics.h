@@ -40,7 +40,7 @@ namespace {
 	AEGfxTexture* cannonballs;
 }
 
-void G_Init();
+//void G_Init();
 void G_DestroyFont();
 void G_SetFontSize(int size);
 void G_DrawText(char* ch, float xPos, float yPos, float scale = 1.0f, Color color = Color(0, 0, 0));
@@ -54,6 +54,11 @@ void SetQuadPoints(Transform& trans, float height, float width);
 void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh);
 
 void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh);
+
+void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh);
+
+void DrawSprite(Transform* trans, int index);
+
 
 #endif // !GRAPHICS_H
 

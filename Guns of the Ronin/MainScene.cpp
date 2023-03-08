@@ -18,13 +18,15 @@
 #include "Archer.h"
 #include "ArcherArrow.h"
 #include "NinjaShuriken.h"
+#include "MainScene.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
 
 //float timeSincePause = 0.0f;
-
+AEGfxTexture* LevelBG;
+Level level;
 namespace {
 	DummyPlayer dummyPlayer;
 	Player player;
@@ -42,6 +44,7 @@ namespace {
 	ArrowPool arrow;
 	NinjaPool ninPool;
 	ShurikenPool shuriken;
+
 	
 }
 
@@ -59,7 +62,15 @@ void Init_Scene() {
 	Shop_Init(&shop);
 	PlayerInfo_Init(&playerinfo);
 	Abilities_Init(&playerinfo);
-	
+	LevelBG = AEGfxTextureLoad("Assets/GameBG1.png");
+	CreateSpriteMesh(&level.transform, levelMesh);
+	level.transform.texture = LevelBG;
+	level.transform.position = { 0.0f,0.0f };
+	level.transform.scale = { 1600.0f,900.0f };
+	level.transform.height = 1.0f;
+	level.transform.width = 1.0f;
+	level.transform.rotation = 0.0f;
+	level.transform.mesh = &levelMesh;
 }
 
 void Update_Scene() {
@@ -176,7 +187,8 @@ void Update_Scene() {
 void Draw_Scene() {
 	// Set the background 
 	AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
-
+	int index = 0;
+	DrawSprite(&level.transform, index);
 	Draw_Enemies(samPool, archPool, cPool, ninPool);
 	Draw_Shrine( shrinePool);
 	Draw_Explosions(explosionPool);
@@ -205,6 +217,8 @@ void Free_Scene() {
 	Free_Archer();
 	Free_Cannoneer();
 	Free_Explosions();
+	AEGfxMeshFree(levelMesh);
+	AEGfxTextureUnload(LevelBG);
 }
 
 
