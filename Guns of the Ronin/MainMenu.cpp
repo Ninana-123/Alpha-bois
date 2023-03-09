@@ -31,7 +31,7 @@ void Init_Menu() {
 	
 	
 	CreateSpriteMesh(&mainMenu.transform, BGMesh);
-	mainMenu.transform.texture = MainMenuBG;
+	mainMenu.transform.texture = &MainMenuBG;
 	mainMenu.transform.position = { 0.0f,0.0f };
 	mainMenu.transform.scale = { 1600.0f,900.0f };
 	mainMenu.transform.height = 1.0f;
@@ -40,7 +40,7 @@ void Init_Menu() {
 	mainMenu.transform.mesh = &BGMesh;
 
 	CreateSpriteMesh(&playButton.transform, playMesh);
-	playButton.transform.texture = buttons;
+	playButton.transform.texture = &buttons;
 	playButton.transform.position = { -81.0f,-151.0f };
 	playButton.transform.scale = { 250.0f,125.0f };
 	playButton.transform.height = 1.0f;

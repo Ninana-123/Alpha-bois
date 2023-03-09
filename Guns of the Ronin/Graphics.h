@@ -65,13 +65,15 @@ public:
 		trans -> the transform to apply the sprite animation to 
 	*/
 	void Update_SpriteAnim(Transform& trans);
-
+	//Change the animation to the next frame
+	void NextFrame(Transform& trans);
 	//Play the animation
 	void PlayAnim();
 	//Pause the animtion, when PlayAnim() is called resume from the previously played frame
 	void PauseAnim();
-	//Stop the animation, resets the animation frame to the first frame
-	void StopAnim();
+	//Reset the animation frames
+	void ResetAnim(Transform& trans);
+	
 
 private:
 

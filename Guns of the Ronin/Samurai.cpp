@@ -55,9 +55,10 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 			{
 			case MOVING:
 				curSamurai->targetPos = playerPos;
-				curSamurai->anim.StopAnim();
-				if (curSamurai->transform.position.within_dist(playerPos, 65)) {
+				if (curSamurai->transform.position.within_dist(playerPos, 55)) {
 					curSamurai->aiState = ATTACKING;
+					curSamurai->anim.PlayAnim();
+					curSamurai->anim.NextFrame(curSamurai->transform);
 				}
 				else {
 					Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
@@ -66,9 +67,9 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 				}
 				break;
 			case ATTACKING:
-				curSamurai->anim.PlayAnim();
-				if (!curSamurai->transform.position.within_dist(playerPos, 65)) {
+				if (!curSamurai->transform.position.within_dist(playerPos, 55)) {
 					curSamurai->aiState = MOVING;
+					curSamurai->anim.ResetAnim(curSamurai->transform);
 				}
 				break;
 			case BLOWNAWAY:
