@@ -24,6 +24,8 @@ namespace {
 	//CannonBall(CB) variables 
 	AEGfxVertexList* cannonBallMesh = 0;
 	AEGfxVertexList* explosionMesh = 0;
+	AEGfxTexture* cannoneerTexture = 0;
+	AEGfxTexture* cannonBallTexture = 0;
 	float C_HEIGHT = 25, C_WIDTH = 25;
 	float CB_MAXSCALE = 2.0f;
 	float CB_MS = 200;

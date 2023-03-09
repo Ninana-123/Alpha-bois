@@ -13,6 +13,7 @@ namespace {
 	//int PROJDAMAGE = 50;
 	float SHURIKEN_HEIGHT = 20, SHURIKEN_WIDTH = 20;
 	AEGfxVertexList* shurikenMesh = 0;
+	AEGfxTexture* shurikenTexture = 0;
 }
 class Shuriken {
 public:

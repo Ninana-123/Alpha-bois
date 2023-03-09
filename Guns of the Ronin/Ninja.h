@@ -21,6 +21,7 @@ namespace {
 	int NINJA_EXP = 10;
 	int NINJA_DAMAGE = 20;
 	AEGfxVertexList* ninjaMesh = 0;
+	AEGfxTexture* ninjaTexture = 0;
 	float NINJA_HEIGHT = 20, NINJA_WIDTH = 20;
 }
 

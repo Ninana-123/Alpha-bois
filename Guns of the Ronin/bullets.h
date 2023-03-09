@@ -13,6 +13,7 @@ namespace {
 	//int PROJDAMAGE = 50;
 	float BULLET_HEIGHT = 20, BULLET_WIDTH = 20;
 	AEGfxVertexList* bulletMesh = 0;
+	AEGfxTexture* bulletTexture = 0;
 }
 class Bullet {
 public:

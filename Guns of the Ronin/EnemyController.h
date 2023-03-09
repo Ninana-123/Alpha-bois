@@ -9,10 +9,10 @@
 #include "Ninja.h"
 
 namespace {
-	float spawnRate_Samurai = 3.0f;
-	float spawnRate_Archer = 1.0f;
-	float spawnRate_Cannoneer = 1.0f;
-	float spawnRate_Ninja = 1.0f;
+	float spawnRate_Samurai = 1.0f;
+	float spawnRate_Archer = 100.0f;
+	float spawnRate_Cannoneer = 100.0f;
+	float spawnRate_Ninja = 100.0f;
 }
 
 void Init_Enemies(SamuraiPool& pool, ArcherPool &archPool, CannoneerPool& cPool, NinjaPool &ninPool);

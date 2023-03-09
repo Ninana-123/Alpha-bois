@@ -21,7 +21,6 @@ void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 		if (pool.activeSamurais[i]->enabled == false) {
 			pool.activeSamurais[i]->enabled = true;
 			pool.activeSamurais[i]->health = HEALTH;
-			pool.activeSamurais[i]->transform.texture = asset;
 			pool.activeSamurais[i]->transform.scale = { 5, 5 };
 			pool.activeSamurais[i]->transform.position = RandomPoint_OutsideSqaure(MIN_SPAWNDIST, MAX_SPAWNDIST, playerPos);
 			pool.activeSize += 1;
@@ -32,7 +31,7 @@ void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 
 void Init_SamuraiPool(SamuraiPool& pool) {
 	pool.activeSize = 0;
-	CreateQuadMesh(SAMURAI_WIDTH, SAMURAI_HEIGHT, Color(0, 1, 0), samuraiMesh);
+	CreateQuadMesh(SAMURAI_WIDTH, SAMURAI_HEIGHT, Color(0, 1, 0), samuraiMesh, 0.5f, 1.0f);
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		pool.samurais[i].enabled = false;
 		pool.samurais[i].health = HEALTH;
@@ -40,9 +39,10 @@ void Init_SamuraiPool(SamuraiPool& pool) {
 		pool.samurais[i].transform.mesh = &samuraiMesh;
 		pool.samurais[i].transform.height = SAMURAI_HEIGHT;
 		pool.samurais[i].transform.width = SAMURAI_WIDTH;
+		pool.samurais[i].transform.texture = &samuraiTexture;
 		pool.activeSamurais[i] = &pool.samurais[i];
 	}
-	asset = AEGfxTextureLoad("Assets/Samurai1.png");
+	samuraiTexture = AEGfxTextureLoad("Assets/Samurai_Combined.png");
 }
 
 void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
@@ -50,12 +50,13 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 		Vector2 playerPos = player.transform.position;
 		for (int i = 0; i < pool.activeSize; i++) {
 			Samurai* curSamurai = pool.activeSamurais[i];
-
+			
 			switch (curSamurai->aiState)
 			{
 			case MOVING:
 				curSamurai->targetPos = playerPos;
-				if (curSamurai->transform.position.within_dist(playerPos, 20)) {
+				curSamurai->anim.StopAnim();
+				if (curSamurai->transform.position.within_dist(playerPos, 65)) {
 					curSamurai->aiState = ATTACKING;
 				}
 				else {
@@ -65,7 +66,8 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 				}
 				break;
 			case ATTACKING:
-				if (!curSamurai->transform.position.within_dist(playerPos, 35)) {
+				curSamurai->anim.PlayAnim();
+				if (!curSamurai->transform.position.within_dist(playerPos, 65)) {
 					curSamurai->aiState = MOVING;
 				}
 				break;
@@ -77,6 +79,7 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 				}
 				break;
 			}
+			curSamurai->anim.Update_SpriteAnim(curSamurai->transform);
 
 			curSamurai->timeSince_lastDmgDeal += deltaTime;
 			if (StaticCol_QuadQuad(curSamurai->transform, player.transform)) {
@@ -85,6 +88,11 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 					curSamurai->timeSince_lastDmgDeal = 0;
 				}
 			}
+		}
+	}
+	else {
+		for (int i = 0; i < pool.activeSize; i++) {
+			pool.activeSamurais[i]->anim.PauseAnim();
 		}
 	}
 }
@@ -130,4 +138,5 @@ void Draw_Samurai(SamuraiPool& pool) {
 
 void Free_Samurai() {
 	AEGfxMeshFree(samuraiMesh);
+	AEGfxTextureUnload(samuraiTexture);
 }

@@ -10,6 +10,7 @@
 
 namespace {
 	AEGfxVertexList* playerMesh;
+	AEGfxTexture* playerTexture = 0;
 	float PLAYER_WIDTH = 50, PLAYER_HEIGHT = 50;
 }
 

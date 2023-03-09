@@ -72,15 +72,15 @@ void ShrineAdd(ShrinePool & shrinePool)
 			shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
 			//arranges PNG image according to type of shrine
 			if (shrinePool.activeShrine[i]->types == Shrine::Freeze) {
-				shrinePool.activeShrine[i]->transform.texture = assetfreeze;
+				shrinePool.activeShrine[i]->transform.texture = &assetfreeze;
 			}
 
 			else if (shrinePool.activeShrine[i]->types == Shrine::Heal) {
-				shrinePool.activeShrine[i]->transform.texture = assetheal;
+				shrinePool.activeShrine[i]->transform.texture = &assetheal;
 			}
 
 			else if (shrinePool.activeShrine[i]->types == Shrine::Push) {
-				shrinePool.activeShrine[i]->transform.texture = assetwind;
+				shrinePool.activeShrine[i]->transform.texture = &assetwind;
 			}
 
 			/*else if (shrinePool.activeShrine[i]->types == Shrine::Explosion) {
@@ -202,4 +202,8 @@ void Free_Shrines() {
 		AEGfxMeshFree(loadingBarMesh);
 
 	}
+
+	AEGfxTextureUnload(assetfreeze);
+	AEGfxTextureUnload(assetheal);
+	AEGfxTextureUnload(assetwind);
 }

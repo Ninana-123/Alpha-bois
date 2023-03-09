@@ -13,6 +13,7 @@ namespace {
 	//int PROJDAMAGE = 50;
 	float ARROW_HEIGHT = 20, ARROW_WIDTH = 20;
 	AEGfxVertexList* arrowMesh = 0;
+	AEGfxTexture* arrowTexture = 0;
 }
 class Arrow {
 public:

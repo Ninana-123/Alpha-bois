@@ -19,6 +19,7 @@ namespace {
 	int EXP = 10;
 	int DAMAGE = 5;
 	AEGfxVertexList* samuraiMesh = 0;
+	AEGfxTexture* samuraiTexture = 0;
 	float SAMURAI_HEIGHT = 20, SAMURAI_WIDTH = 20;
 }
 
@@ -33,6 +34,7 @@ public:
 	bool damagedByExplosion = false;
 	bool isCollidingWithExplosion = false;
 	int ID;
+	Sprite_Animation anim{ 2,2,1 };
 };
 
 struct SamuraiPool {

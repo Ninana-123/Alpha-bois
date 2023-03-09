@@ -24,7 +24,7 @@ void ShurikenAdd(ShurikenPool& pool, Vector2 ninPos, Vector2 playerPos) {
 		if (pool.activeShuriken[i]->enabled == false) {
 			pool.activeShuriken[i]->enabled = true;
 			pool.activeShuriken[i]->transform.position = ninPos;
-			pool.activeShuriken[i]->transform.texture = asset;
+			pool.activeShuriken[i]->transform.texture = &shurikenTexture;
 			pool.activeShuriken[i]->transform.scale = { 2,2 };
 			pool.activeShuriken[i]->direction = (playerPos - ninPos).normalize();
 			pool.activeSize += 1;
@@ -48,7 +48,7 @@ void Init_ShurikenPool(ShurikenPool& pool) {
 		pool.shuriken[i].transform.mesh = &shurikenMesh;
 		pool.activeShuriken[i] = &pool.shuriken[i];
 	}
-	asset = AEGfxTextureLoad("Assets/Shuriken1.PNG");
+	shurikenTexture = AEGfxTextureLoad("Assets/Shuriken1.PNG");
 }
 
 //Draw active projectile
@@ -82,4 +82,6 @@ void Shuriken_AI(ShurikenPool& pool) {
 
 void Free_Shuriken() {
 	AEGfxMeshFree(shurikenMesh);
+
+	AEGfxTextureUnload(shurikenTexture);
 }

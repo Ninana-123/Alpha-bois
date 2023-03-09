@@ -24,7 +24,7 @@ void ArrowAdd(ArrowPool& pool, Vector2 archPos, Vector2 playerPos) {
 		if (pool.activeArrow[i]->enabled == false) {
 			pool.activeArrow[i]->enabled = true;
 			pool.activeArrow[i]->transform.position = archPos;
-			pool.activeArrow[i]->transform.texture = asset;
+			pool.activeArrow[i]->transform.texture = &arrowTexture;
 			pool.activeArrow[i]->transform.scale = { 2, 2 };
 			pool.activeArrow[i]->transform.rotation = std::atan2(playerPos.y - archPos.y, playerPos.x - archPos.x);
 			pool.activeArrow[i]->direction = (playerPos - archPos).normalize();
@@ -49,7 +49,7 @@ void Init_ArrowPool(ArrowPool& pool) {
 		pool.arrow[i].transform.mesh = &arrowMesh;
 		pool.activeArrow[i] = &pool.arrow[i];
 	}
-	asset = AEGfxTextureLoad("Assets/Arrow.png");
+	arrowTexture = AEGfxTextureLoad("Assets/Arrow.png");
 }
 
 //Draw active projectile
@@ -83,4 +83,5 @@ void Arrow_AI(ArrowPool& pool) {
 
 void Free_Arrow() {
 	AEGfxMeshFree(arrowMesh);
+	AEGfxTextureUnload(arrowTexture);
 }

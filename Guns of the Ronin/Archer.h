@@ -21,6 +21,7 @@ namespace {
 	int ARCHER_EXP = 10;
 	int ARCHER_DAMAGE = 15;
 	AEGfxVertexList* archerMesh = 0;
+	AEGfxTexture* archerTexture = 0;
 	float ARCHER_HEIGHT = 20, ARCHER_WIDTH = 20;
 }
 

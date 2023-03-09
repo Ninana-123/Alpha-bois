@@ -50,8 +50,8 @@ void Update_Menu() {
 	*MouseX = *MouseX - 800;
 	*MouseY = (*MouseY - 450) * -1;
 	left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
-	std::cout << "Mouse_X: " << *MouseX << std::endl;
-	std::cout << "Mouse_Y: " <<*MouseY << std::endl;
+	//std::cout << "Mouse_X: " << *MouseX << std::endl;
+	//std::cout << "Mouse_Y: " <<*MouseY << std::endl;
 
 	if ((int)*MouseX > -93 && (int)*MouseX < 142 && (int)*MouseY > -205 && (int)*MouseY < -91) {
 		playHover = true;
@@ -161,6 +161,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
+	// Enable run-time memory check for debug builds.
+	#if defined(DEBUG) | defined(_DEBUG)
+		_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	#endif
+
 	srand((unsigned int)time(NULL));
 
 	SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);

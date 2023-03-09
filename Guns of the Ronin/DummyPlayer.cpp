@@ -7,7 +7,7 @@ void DummyPlayer_Init(DummyPlayer* dummyPlayer) {
 	CreateQuadMesh(DUMMY_WIDTH, DUMMY_HEIGHT, dummyPlayer->transform.color, dummyMesh);
 
 	// Set the texture
-	dummyPlayer->transform.texture = AEGfxTextureLoad("Assets/PlanetTexture.png");
+	//dummyPlayer->transform.texture = AEGfxTextureLoad("Assets/PlanetTexture.png");
 }
 
 void DummyPlayer_Update(DummyPlayer* dummyPlayer) {

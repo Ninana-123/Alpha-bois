@@ -8,8 +8,8 @@ void Player_Init(Player* Player,BulletPool &bulletPool) {
 	Player->transform.color = Color(1, 1, 1, 1);
 	CreateQuadMesh(50.0f, 50.0f, Player->transform.color, playerMesh);
 	Player->transform.mesh = &playerMesh;
-	asset = AEGfxTextureLoad("Assets/RoninWalking1.png");
-	Player->transform.texture = asset;
+	playerTexture = AEGfxTextureLoad("Assets/RoninWalking1.png");
+	Player->transform.texture = &playerTexture;
 	Player->transform.scale = { 2, 2 };
 	Player->transform.position = Vector2(100.f, 100.f);
 	Init_BulletPool(bulletPool);
@@ -94,4 +94,5 @@ void Heal_player(PlayerInfo& info) {
 
 void Free_Player() {
 	AEGfxMeshFree(playerMesh);
+	AEGfxTextureUnload(playerTexture);
 }

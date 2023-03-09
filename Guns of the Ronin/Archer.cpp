@@ -20,7 +20,7 @@ void ArcherAdd(ArcherPool& pool, Vector2 playerPos) {
 		if (pool.activeArchers[i]->enabled == false) {
 			pool.activeArchers[i]->enabled = true;
 			pool.activeArchers[i]->health = ARCHER_HEALTH;
-			pool.activeArchers[i]->transform.texture = asset;
+			pool.activeArchers[i]->transform.texture = &archerTexture;
 			pool.activeArchers[i]->transform.scale = { 4, 4 };
 			pool.activeArchers[i]->transform.position = RandomPoint_OutsideSqaure(ARCHER_MIN_SPAWNDIST, ARCHER_MAX_SPAWNDIST, playerPos);
 			pool.activeSize += 1;
@@ -41,7 +41,7 @@ void Init_ArcherPool(ArcherPool& pool) {
 		pool.archers[i].transform.width = ARCHER_WIDTH;
 		pool.activeArchers[i] = &pool.archers[i];
 	}
-	asset = AEGfxTextureLoad("Assets/Archer1.png");
+	archerTexture = AEGfxTextureLoad("Assets/Archer1.png");
 	Init_ArrowPool(arrow);
 }
 
@@ -135,4 +135,5 @@ void Draw_Archer(ArcherPool& pool) {
 
 void Free_Archer() {
 	AEGfxMeshFree(archerMesh);
+	AEGfxTextureUnload(archerTexture);
 }

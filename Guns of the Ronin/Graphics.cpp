@@ -1,6 +1,6 @@
 
 #include "Graphics.h"
-
+#include "TimeManager.h"
 //void G_Init() {
 //	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 20);
 //}
@@ -32,7 +32,7 @@ unsigned int createARGB(float r, float g, float b, float a)
 	return ((ca & 0xff) << 24) + ((cr & 0xff) << 16) + ((cg & 0xff) << 8) + ((cb & 0xff));
 }
 
-void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh) {
+void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float texture_w, float texture_h) {
 	//AEGfxVertexList* pMesh = 0;
 	unsigned int colorCode = createARGB(color.r, color.g, color.b, color.a);
 	AEGfxMeshStart();
@@ -41,12 +41,12 @@ void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& me
 	// UV coordinates to read from loaded textures
 	AEGfxTriAdd(
 		-width / 2.0f, -height / 2.0f, colorCode, 0.0f, 0.0f,
-		width / 2.0f, -height / 2.0f, colorCode, 1.0f, 0.0f,
-		-width / 2.0f, height / 2.0f, colorCode, 0.0f, 1.0f);
+		width / 2.0f, -height / 2.0f, colorCode, texture_w, 0.0f,
+		-width / 2.0f, height / 2.0f, colorCode, 0.0f, texture_h);
 	AEGfxTriAdd(
-		width / 2.0f, -height / 2.0f, colorCode, 1.0f, 0.0f,
-		width / 2.0f, height / 2.0f, colorCode, 1.0f, 1.0f,
-		-width / 2.0f, height / 2.0f, colorCode, 0.0f, 1.0f);
+		width / 2.0f, -height / 2.0f, colorCode, texture_w, 0.0f,
+		width / 2.0f, height / 2.0f, colorCode, texture_w, texture_h,
+		-width / 2.0f, height / 2.0f, colorCode, 0.0f, texture_h);
 	// Saving the mesh (list of triangles) in pMesh
 	mesh = AEGfxMeshEnd();
 }
@@ -79,20 +79,39 @@ bool StaticCol_QuadQuad(Transform trans1, Transform trans2) {
 }
 
 
+
+
 void DrawMesh(Transform* trans) {
 
-	// Tell the engine to get ready to draw something with texture.
-	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
-	// Set the tint to white, so that the sprite can
-	// display the full range of colors (default is black).
-	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, trans->color.a);
-	// Set blend mode to AE_GFX_BM_BLEND
-	// This will allow transparency.
-	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
-	AEGfxSetTransparency(1.0f);
+	//If the transform has texture, draw the texture
+	if (trans->texture) {
+		// Tell the engine to get ready to draw something with texture.
+		AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
+		// Set the tint to white, so that the sprite can
+		// display the full range of colors (default is black).
+		AEGfxSetTintColor(1.0f, 1.0f, 1.0f, trans->color.a);
+		// Set blend mode to AE_GFX_BM_BLEND
+		// This will allow transparency.
+		AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+		AEGfxSetTransparency(1.0f);
 
-	//Set the texture
-	AEGfxTextureSet(trans->texture, 0, 0);
+		//Set the texture map 
+		//If using sprite animation use class Sprite_Animation to update texture offset
+		AEGfxTextureSet(*trans->texture, trans->texture_offset_x, trans->texture_offset_y);
+	}
+	//Otherwise draw simple colours
+	else {
+		// Tell the engine to get ready to draw something with texture.
+		AEGfxSetRenderMode(AE_GFX_RM_COLOR);
+		// Set the tint to white, so that the sprite can
+		// display the full range of colors (default is black).
+		AEGfxSetTintColor(1.0f, 1.0f, 1.0f, trans->color.a);
+		// Set blend mode to AE_GFX_BM_BLEND
+		// This will allow transparency.
+		AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+		AEGfxSetTransparency(1.0f);
+	}
+	
 	// Create a scale matrix that scales by 100 x and y
 	AEMtx33 scale = { 0 };
 	AEMtx33Scale(&scale, trans->scale.x, trans->scale.y);
@@ -127,4 +146,64 @@ void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {
 			cosf((i + 1) * 2 * PI / noOfVertices) * radius, sinf((i + 1) * 2 * PI / noOfVertices) * radius, colorCode, 0.0f, 0.0f);
 	}
 	mesh = AEGfxMeshEnd();
+}
+
+
+Sprite_Animation::Sprite_Animation() {
+
+}
+Sprite_Animation::Sprite_Animation(float frame_Rate, int x_Count, int y_Count, Anim_Mode mode) :
+	frameRate{ frame_Rate }, x_count{ x_Count }, y_count{ y_Count }, playMode{ mode }
+{
+	frame_count = x_count * y_count;
+	texture_width = 1.0f / x_count;
+	texture_height = 1.0f / y_count;
+	frame_time = 1.0f / frameRate;
+}
+
+void Sprite_Animation::PlayAnim() {
+	play_anim = true;
+}
+
+void Sprite_Animation::PauseAnim() {
+	play_anim = false;
+}
+
+void Sprite_Animation::StopAnim() {
+	play_anim = false;
+	texture_index_x = 0;
+	texture_index_y = 0;
+	frame_current = 0;
+	anim_timer = 0;
+}
+void Sprite_Animation::Update_SpriteAnim(Transform& trans) {
+	//If animation is not supposed to play
+	if (!play_anim) {
+		return;
+	}
+
+	anim_timer += deltaTime;
+	if (anim_timer >= frame_time) {
+		++frame_current;
+		anim_timer = 0;
+		trans.texture_offset_x = texture_width * texture_index_x;
+		trans.texture_offset_y = texture_height * texture_index_y;
+		++texture_index_x;
+		if (texture_index_x > x_count - 1) {
+			texture_index_x = 0;
+			++texture_index_y;
+			if (texture_index_y > y_count - 1) {
+				texture_index_y = 0;
+			}
+		}
+
+		if (frame_current > frame_count) {
+			frame_current = 1;
+			if (playMode == Anim_Mode::ONE_TIME) {
+				play_anim = false;
+			}
+		}
+	}
+
+
 }
