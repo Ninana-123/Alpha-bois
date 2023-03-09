@@ -169,12 +169,37 @@ void Sprite_Animation::PauseAnim() {
 	play_anim = false;
 }
 
-void Sprite_Animation::StopAnim() {
+void Sprite_Animation::ResetAnim(Transform& trans) {
 	play_anim = false;
 	texture_index_x = 0;
 	texture_index_y = 0;
-	frame_current = 0;
+	trans.texture_offset_x = 0;
+	trans.texture_offset_y = 0;
+	frame_current = 1;
 	anim_timer = 0;
+}
+
+
+void Sprite_Animation::NextFrame(Transform& trans) {
+	++frame_current;
+	
+	++texture_index_x;
+	if (texture_index_x > x_count - 1) {
+		texture_index_x = 0;
+		++texture_index_y;
+		if (texture_index_y > y_count - 1) {
+			texture_index_y = 0;
+		}
+	}
+	trans.texture_offset_x = texture_width * texture_index_x;
+	trans.texture_offset_y = texture_height * texture_index_y;
+
+	if (frame_current > frame_count) {
+		frame_current = 1;
+		if (playMode == Anim_Mode::ONE_TIME) {
+			play_anim = false;
+		}
+	}
 }
 void Sprite_Animation::Update_SpriteAnim(Transform& trans) {
 	//If animation is not supposed to play
@@ -184,26 +209,43 @@ void Sprite_Animation::Update_SpriteAnim(Transform& trans) {
 
 	anim_timer += deltaTime;
 	if (anim_timer >= frame_time) {
-		++frame_current;
+		NextFrame(trans);
 		anim_timer = 0;
-		trans.texture_offset_x = texture_width * texture_index_x;
-		trans.texture_offset_y = texture_height * texture_index_y;
-		++texture_index_x;
-		if (texture_index_x > x_count - 1) {
-			texture_index_x = 0;
-			++texture_index_y;
-			if (texture_index_y > y_count - 1) {
-				texture_index_y = 0;
-			}
-		}
-
-		if (frame_current > frame_count) {
-			frame_current = 1;
-			if (playMode == Anim_Mode::ONE_TIME) {
-				play_anim = false;
-			}
-		}
 	}
 
+}
+void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh) {
+	//float BG_Width = 1.0f / 4.0f;
+	AEGfxMeshStart();
+	AEGfxTriAdd(
+		-0.5f, -0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 1.0f,
+		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
+		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
+	);
+	AEGfxTriAdd(
+		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
+		0.5f, 0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 0.0f,
+		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
+	);
+	mesh = AEGfxMeshEnd();
+}
 
+void DrawSprite(Transform* trans,int index) {
+	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
+	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
+	AEGfxSetTransparency(1.0f);
+	AEGfxTextureSet(*trans->texture, (trans->height / trans->width)*index, 0.f);
+
+	AEMtx33 scale = { 0 };
+	AEMtx33Scale(&scale, trans->scale.x, trans->scale.y);
+	AEMtx33 rotate = { 0 };
+	AEMtx33Rot(&rotate, trans->rotation);
+	AEMtx33 translate = { 0 };
+	AEMtx33Trans(&translate, trans->position.x, trans->position.y);
+	AEMtx33 transform = { 0 };
+	AEMtx33Concat(&transform, &rotate, &scale);
+	AEMtx33Concat(&transform, &translate, &transform);
+	AEGfxSetTransform(transform.m);
+	AEGfxMeshDraw(*trans->mesh, AE_GFX_MDM_TRIANGLES);
 }

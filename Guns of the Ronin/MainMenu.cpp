@@ -1,15 +1,12 @@
-#include <iostream>
-#include "AEEngine.h"
-#include "TimeManager.h"
-#include "Graphics.h"
-#include "Mainscene.h"
-#include "GSM.h"
-#include <AEGraphics.h>
+#include "MainMenu.h"
 
 
 AEGfxTexture* MainMenuBG;
-AEGfxVertexList* BGMesh;
-int BGIndex = 0;
+//AEGfxVertexList* BGMesh;
+//int BGIndex = 0;
+
+AEGfxTexture* buttons;
+//AEGfxVertexList* playMesh;
 
 s32 MousePosX;
 s32 MousePosY;
@@ -22,26 +19,35 @@ bool tutHover = false;
 bool exitHover = false;
 bool left_mouse_pressed;
 
+Menu mainMenu;
+Menu playButton;
 void Init_Menu() {
 	// Changing the window title
 	AESysSetWindowTitle("Guns of the Ronin");
 	// reset the system modules
 	AESysReset();
 	MainMenuBG = AEGfxTextureLoad("Assets/MainMenu.png");
+	buttons = AEGfxTextureLoad("Assets/buttonsspritesheet.png");
 	
-	float BG_Width = 1.0f / 4.0f;
-	AEGfxMeshStart();
-	AEGfxTriAdd(
-		-0.5f, -0.5f, 0xFFFFFFFF, BGIndex * BG_Width, 1.0f,
-		0.5f, -0.5f, 0xFFFFFFFF, (BGIndex + 1) * BG_Width, 1.0f,
-		-0.5f, 0.5f, 0xFFFFFFFF, BGIndex * BG_Width, 0.0f
-	);
-	AEGfxTriAdd(
-		0.5f, -0.5f, 0xFFFFFFFF, (BGIndex + 1) * BG_Width, 1.0f,
-		0.5f, 0.5f, 0xFFFFFFFF, (BGIndex + 1) * BG_Width, 0.0f,
-		-0.5f, 0.5f, 0xFFFFFFFF, BGIndex * BG_Width, 0.0f
-	);
-	BGMesh = AEGfxMeshEnd();
+	
+	CreateSpriteMesh(&mainMenu.transform, BGMesh);
+	mainMenu.transform.texture = MainMenuBG;
+	mainMenu.transform.position = { 0.0f,0.0f };
+	mainMenu.transform.scale = { 1600.0f,900.0f };
+	mainMenu.transform.height = 1.0f;
+	mainMenu.transform.width = 4.0f;
+	mainMenu.transform.rotation = 0.0f;
+	mainMenu.transform.mesh = &BGMesh;
+
+	CreateSpriteMesh(&playButton.transform, playMesh);
+	playButton.transform.texture = buttons;
+	playButton.transform.position = { -81.0f,-151.0f };
+	playButton.transform.scale = { 250.0f,125.0f };
+	playButton.transform.height = 1.0f;
+	playButton.transform.width = 8.0f;
+	playButton.transform.rotation = 0.0f;
+	playButton.transform.mesh = &playMesh;
+
 }
 
 void Update_Menu() {
@@ -53,7 +59,7 @@ void Update_Menu() {
 	//std::cout << "Mouse_X: " << *MouseX << std::endl;
 	//std::cout << "Mouse_Y: " <<*MouseY << std::endl;
 
-	if ((int)*MouseX > -93 && (int)*MouseX < 142 && (int)*MouseY > -205 && (int)*MouseY < -91) {
+	if ((int)*MouseX > -200 && (int)*MouseX < 33 && (int)*MouseY > -195 && (int)*MouseY < -97) {
 		playHover = true;
 		if (left_mouse_pressed) {
 			gGameStateNext = GS_LEVEL1;
@@ -76,77 +82,21 @@ void Update_Menu() {
 }
 
 void Draw_Menu(){
-	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
-	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
-	AEGfxSetTransparency(1.0f);
-	AEGfxTextureSet(MainMenuBG, 0.f, 0.f);
-
-	AEMtx33 scale = { 0 };
-	AEMtx33Scale(&scale, 1600.f, 900.f);
-	AEMtx33 rotate = { 0 };
-	AEMtx33Rot(&rotate, 0);
-	AEMtx33 translate = { 0 };
-	AEMtx33Trans(&translate, 0.f, 0.f);
-	AEMtx33 transform = { 0 };
-	AEMtx33Concat(&transform, &rotate, &scale);
-	AEMtx33Concat(&transform, &translate, &transform);
-	AEGfxSetTransform(transform.m);
-	AEGfxMeshDraw(BGMesh, AE_GFX_MDM_TRIANGLES);
+	int index = 0;
+	DrawSprite(&mainMenu.transform,index);
+	DrawSprite(&playButton.transform, index);
 
 	if (playHover == true) {
-		AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
-		AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
-		AEGfxSetTransparency(1.0f);
-		AEGfxTextureSet(MainMenuBG, 1.f/4.f, 0.f);
-
-		AEMtx33 scale = { 0 };
-		AEMtx33Scale(&scale, 1600.f, 900.f);
-		AEMtx33 rotate = { 0 };
-		AEMtx33Rot(&rotate, 0);
-		AEMtx33 translate = { 0 };
-		AEMtx33Trans(&translate, 0.f, 0.f);
-		AEMtx33 transform = { 0 };
-		AEMtx33Concat(&transform, &rotate, &scale);
-		AEMtx33Concat(&transform, &translate, &transform);
-		AEGfxSetTransform(transform.m);
-		AEGfxMeshDraw(BGMesh, AE_GFX_MDM_TRIANGLES);
+		//AEGfxTextureUnload(buttons);
+		DrawSprite(&playButton.transform, index+1);
 	}
 	if (tutHover == true) {
-		AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
-		AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
-		AEGfxSetTransparency(1.0f);
-		AEGfxTextureSet(MainMenuBG, 2.f/4.f, 0.f);
-
-		AEMtx33 scale = { 0 };
-		AEMtx33Scale(&scale, 1600.f, 900.f);
-		AEMtx33 rotate = { 0 };
-		AEMtx33Rot(&rotate, 0);
-		AEMtx33 translate = { 0 };
-		AEMtx33Trans(&translate, 0.f, 0.f);
-		AEMtx33 transform = { 0 };
-		AEMtx33Concat(&transform, &rotate, &scale);
-		AEMtx33Concat(&transform, &translate, &transform);
-		AEGfxSetTransform(transform.m);
-		AEGfxMeshDraw(BGMesh, AE_GFX_MDM_TRIANGLES);
+		DrawSprite(&mainMenu.transform, index + 2);
 	}
 	if (exitHover == true) {
-		AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
-		AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
-		AEGfxSetTransparency(1.0f);
-		AEGfxTextureSet(MainMenuBG, 3.f/4.f, 0.f);
-
-		AEMtx33 scale = { 0 };
-		AEMtx33Scale(&scale, 1600.f, 900.f);
-		AEMtx33 rotate = { 0 };
-		AEMtx33Rot(&rotate, 0);
-		AEMtx33 translate = { 0 };
-		AEMtx33Trans(&translate, 0.f, 0.f);
-		AEMtx33 transform = { 0 };
-		AEMtx33Concat(&transform, &rotate, &scale);
-		AEMtx33Concat(&transform, &translate, &transform);
-		AEGfxSetTransform(transform.m);
-		AEGfxMeshDraw(BGMesh, AE_GFX_MDM_TRIANGLES);
+		DrawSprite(&mainMenu.transform, index + 3);
 	}
+
 }
 
 void Free_Menu() {
