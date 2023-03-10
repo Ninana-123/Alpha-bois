@@ -88,6 +88,7 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 				if (curSamurai->timeSince_lastDmgDeal > 0.5f) {
 					player_dmg(playerInfo, DAMAGE);
 					curSamurai->timeSince_lastDmgDeal = 0;
+					std::cout << playerInfo.health << std::endl;
 				}
 			}
 		}

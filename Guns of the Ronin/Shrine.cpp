@@ -46,6 +46,9 @@ void Shrinepool_Init(ShrinePool& pool)
 	assetwind = AEGfxTextureLoad("Assets/Wind.png");*/
 	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
 	//assetgod = AEGfxTextureLoad("Assets/Freeze.png");
+	assetwind = AEGfxTextureLoad("Assets/Wind.png");
+	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
+
 
 
 }

@@ -117,6 +117,9 @@
     <ClCompile Include="HighScore.cpp">
       <Filter>Source Files\Etc</Filter>
     </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shrine.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="HighScore.h">
       <Filter>Header Files\Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
