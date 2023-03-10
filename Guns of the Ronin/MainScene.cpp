@@ -20,6 +20,7 @@
 #include "NinjaShuriken.h"
 #include "MainScene.h"
 #include "HealthBar.h"
+#include "Void.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -48,6 +49,7 @@ namespace {
 	int index;
 	Health health;
 	BarPool barPool;
+	VoidPool voidPool;
 
 	
 }
@@ -78,6 +80,7 @@ void Init_Scene() {
 
 	Reset_TimeMan();
 	HealthBar_Init(barPool, &health, playerinfo, samPool, archPool, ninPool, cPool);
+	Voidpool_Init(voidPool);
 }
 
 void Update_Scene() {
@@ -88,10 +91,11 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool,index);
+	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool,index, voidPool);
 
 	Explosion_Update( explosionPool, samPool);
 
+	Void_Update( voidPool, samPool,archPool);
 
 	Update_Enemies(samPool, archPool, cPool, ninPool, player, playerinfo);
 
@@ -203,6 +207,7 @@ void Draw_Scene() {
 	Draw_Explosions(explosionPool);
 	Draw_Player(&player, bulletPool);
 	HealthBar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
+	Draw_Void(voidPool);
 	
 	if (playerinfo.playerDead) {
 		TimePause();
@@ -230,6 +235,7 @@ void Free_Scene() {
 	AEGfxMeshFree(levelMesh);
 	AEGfxTextureUnload(LevelBG);
 	HealthBar_Free();
+	Free_Void();
 }
 
 

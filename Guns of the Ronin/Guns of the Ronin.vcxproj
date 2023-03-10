@@ -121,6 +121,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="HealthBar.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="Void.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Abilities.h" />
@@ -148,6 +149,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     <ClInclude Include="Samurai.h" />
     <ClInclude Include="Shop.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="Void.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

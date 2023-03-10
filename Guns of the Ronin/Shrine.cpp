@@ -18,6 +18,7 @@ AEGfxTexture *assetheal;
 AEGfxTexture *assetwind;
 AEGfxTexture* assetexplosion;
 AEGfxTexture* assetgod;
+AEGfxTexture* assetvoid;
 
 s32 mousePosX;
 s32 mousePosY;
@@ -48,8 +49,8 @@ void Shrinepool_Init(ShrinePool& pool)
 	assetwind = AEGfxTextureLoad("Assets/Wind.png");*/
 	//assetgod = AEGfxTextureLoad("Assets/Freeze.png");
 	//assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
-	assetgod = AEGfxTextureLoad("Assets/Explosion.png");
-
+	//assetgod = AEGfxTextureLoad("Assets/God.png");
+	assetvoid = AEGfxTextureLoad("Assets/Void.png");
 
 
 }
@@ -80,24 +81,33 @@ void ShrineAdd(ShrinePool & shrinePool)
 
 			shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
 			//arranges PNG image according to type of shrine
-			/*if (shrinePool.activeShrine[i]->types == Shrine::Freeze) {
-				shrinePool.activeShrine[i]->transform.texture = assetfreeze;
+			/*if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+			{
+				shrinePool.activeShrine[i]->transform.texture = &assetfreeze;
 			}
 
-			else if (shrinePool.activeShrine[i]->types == Shrine::Heal) {
+			else if (shrinePool.activeShrine[i]->types == Shrine::Heal) 
+			{
 				shrinePool.activeShrine[i]->transform.texture = &assetheal;
 			}
 
-			else if (shrinePool.activeShrine[i]->types == Shrine::Push) {
-				shrinePool.activeShrine[i]->transform.texture = assetwind;
+			else if (shrinePool.activeShrine[i]->types == Shrine::Push) 
+			{
+				shrinePool.activeShrine[i]->transform.texture = &assetwind;
 			}*/
 
-			/*if (shrinePool.activeShrine[i]->types == Shrine::Explosion) {
+		/*	if (shrinePool.activeShrine[i]->types == Shrine::Explosion) 
+			{
 				shrinePool.activeShrine[i]->transform.texture =&assetexplosion;
 			}*/
 
-			if (shrinePool.activeShrine[i]->types == Shrine::God) {
+			/*if (shrinePool.activeShrine[i]->types == Shrine::God) 
+			{
 				shrinePool.activeShrine[i]->transform.texture = &assetgod;
+			}*/
+
+			if (shrinePool.activeShrine[i]->types == Shrine::Void) {
+				shrinePool.activeShrine[i]->transform.texture = &assetvoid;
 			}
 			std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
 			break;
@@ -118,7 +128,7 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool,int index)
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool,int index, VoidPool& voidPool)
 {
 	duration += deltaTime;
 	//std::cout << duration << std::endl;
@@ -165,32 +175,41 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 				}*/
 				/*if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
 				{
-					duration += deltaTime;
-					if (duration >= 1.f)
+					
+					for (int i = 0; i < Explosion_Count; i++)
 					{
-						duration = 0;
 						ExplosionAdd(explosionPool);
 					}
 					Explosion_Update(explosionPool, samPool);
+					ShrineDelete(i, shrinePool);
 				}*/
-				if (shrinePool.activeShrine[i]->types == Shrine::God)
+				if (shrinePool.activeShrine[i]->types == Shrine::Void)
 				{
 					
-					for (int i = 0; i < samPool.activeSize; ++i)
+					for (int k = 0;k < Explosion_Count; k++)
 					{
-						if(IsButtonHover(samPool.activeSamurais[i]->transform.position.x, samPool.activeSamurais[i]->transform.position.y, samPool.activeSamurais[i]->transform.width, samPool.activeSamurais[i]->transform.height, mouseX, mouseY))
-						{
-							std::cout << "in" << std::endl;
-
-							if (AEInputCheckTriggered(AEVK_LBUTTON))
-							{
-								std::cout << "pressed" << std::endl;
-								SamuraiRemove(index, samPool);
-							}
-						}
+						VoidAdd(voidPool);
 					}
-
+					Void_Update(voidPool, samPool, archPool);
+					ShrineDelete(i, shrinePool);
+					
 				}
+				//if (shrinePool.activeShrine[i]->types == Shrine::God)
+				//{
+				//	for (int i = 0; i < samPool.activeSize; ++i)
+				//	{
+				//		if(IsButtonHover(samPool.activeSamurais[i]->transform.position.x, samPool.activeSamurais[i]->transform.position.y,
+				//			samPool.activeSamurais[i]->transform.width, samPool.activeSamurais[i]->transform.height, mouseX, mouseY))
+				//		{
+				//			//std::cout << "in" << std::endl;
+				//			if (AEInputCheckTriggered(AEVK_LBUTTON))
+				//			{
+				//				//std::cout << "pressed" << std::endl;
+				//				SamuraiRemove(index, samPool);
+				//			}
+				//		}
+				//	}
+				//}
 				
 			}
 			else
@@ -202,7 +221,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 					AEGfxMeshFree(loadingBarMesh);
 					loadingBarMesh = 0;
 				}
-				CreateQuadMesh(40.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
+				CreateQuadMesh(150.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
 				shrinePool.activeShrine[i]->loading.mesh = &loadingBarMesh;
 
 			}

@@ -120,6 +120,9 @@
     <ClCompile Include="HealthBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Void.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shrine.h">
@@ -195,6 +198,9 @@
       <Filter>Header Files\Etc</Filter>
     </ClInclude>
     <ClInclude Include="HealthBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Void.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

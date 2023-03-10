@@ -11,6 +11,9 @@
 #include "Ninja.h"
 #include "PlayerInfo.h"
 #include "Explosion.h"
+#include "Void.h"
+
+
 namespace
 {
 	enum{Shrine_Count = 5};
@@ -32,7 +35,7 @@ public:
 	float loadingbarpercentage = 0;
 	Transform loading;
 	float timeElapsed = 0;
-	enum Types { God, TotalShrines };
+	enum Types { Void, TotalShrines };
 	Types types;
 };
 
@@ -50,7 +53,8 @@ public:
 void Shrinepool_Init(ShrinePool& shrinePool);
 void ShrineAdd(ShrinePool& shrinePool);
 void ShrineDelete(int index, ShrinePool& shrinePool);
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool,int inddex);
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool,
+NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool,int inddex, VoidPool& voidPool);
 void Draw_Shrine(ShrinePool& shrinePool);
 void Free_Shrines();
 
