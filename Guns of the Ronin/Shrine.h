@@ -16,7 +16,7 @@
 
 namespace
 {
-	enum{Shrine_Count = 5};
+	enum{Shrine_Count = 10};
 	float SHRINE_HEIGHT = 50, SHRINE_WIDTH = 50;
 	AEGfxVertexList* shrineMesh;
 	AEGfxVertexList* loadingBarMesh;
@@ -35,7 +35,7 @@ public:
 	float loadingbarpercentage = 0;
 	Transform loading;
 	float timeElapsed = 0;
-	enum Types { Void, TotalShrines };
+	enum Types { Freeze, Heal, Push, Explosion, God, Void, TotalShrines };
 	Types types;
 };
 

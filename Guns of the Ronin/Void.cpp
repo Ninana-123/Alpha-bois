@@ -25,7 +25,7 @@ void Voidpool_Init(VoidPool& voidPool)
 				voidPool.activeVoid[i]->timeElapsed = 0;
 				voidPool.activeVoid[i]->iscolliding = false;
 				voidPool.activeVoid[i]->transform.texture = &assetblackhole;
-				voidPool.activeVoid[i]->transform.scale = { 1,1 };
+				voidPool.activeVoid[i]->transform.scale = { 1.5,1.5 };
 			}
 			assetblackhole = AEGfxTextureLoad("Assets/Blackhole1.png");
 
