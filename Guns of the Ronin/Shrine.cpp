@@ -10,6 +10,7 @@
 #include "EnemyController.h"
 #include "random"
 #include "PlayerInfo.h"
+#include "Samurai.h"
 
 float duration;
 float timeSincePause = 0.0f;
@@ -17,6 +18,10 @@ AEGfxTexture *assetfreeze;
 AEGfxTexture *assetheal;
 AEGfxTexture *assetwind;
 AEGfxTexture* assetexplosion;
+AEGfxTexture* assetgod;
+
+s32 MouseX, MouseY;
+
 
 void Shrinepool_Init(ShrinePool& pool)
 {
@@ -36,11 +41,11 @@ void Shrinepool_Init(ShrinePool& pool)
 		pool.activeShrine[i]->iscolliding = false;
 
 	}
-	assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
+	/*assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
 	assetheal = AEGfxTextureLoad("Assets/Health.png");
-	assetwind = AEGfxTextureLoad("Assets/Wind.png");
-	//assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
-
+	assetwind = AEGfxTextureLoad("Assets/Wind.png");*/
+	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
+	//assetgod = AEGfxTextureLoad("Assets/Freeze.png");
 
 
 }
@@ -71,7 +76,7 @@ void ShrineAdd(ShrinePool & shrinePool)
 
 			shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
 			//arranges PNG image according to type of shrine
-			if (shrinePool.activeShrine[i]->types == Shrine::Freeze) {
+			/*if (shrinePool.activeShrine[i]->types == Shrine::Freeze) {
 				shrinePool.activeShrine[i]->transform.texture = assetfreeze;
 			}
 
@@ -81,11 +86,16 @@ void ShrineAdd(ShrinePool & shrinePool)
 
 			else if (shrinePool.activeShrine[i]->types == Shrine::Push) {
 				shrinePool.activeShrine[i]->transform.texture = assetwind;
-			}
-
-			/*else if (shrinePool.activeShrine[i]->types == Shrine::Explosion) {
-				shrinePool.activeShrine[i]->transform.texture = assetexplosion;
 			}*/
+
+			 if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
+			 {
+				shrinePool.activeShrine[i]->transform.texture = assetexplosion;
+			 }
+			 /*if (shrinePool.activeShrine[i]->types == Shrine::God)
+			 {
+				 shrinePool.activeShrine[i]->transform.texture = assetgod;
+			 }*/
 
 			std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
 			break;
@@ -106,7 +116,7 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo)
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, int index)
 {
 	duration += deltaTime;
 	//std::cout << duration << std::endl;
@@ -127,7 +137,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
 			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
 			{
-				if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+				/*if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
 				{
 					TimePauseEnemy();
 					timeSincePause = 0.0f;
@@ -146,10 +156,38 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 					ShrineDelete(i, shrinePool);
 					std::cout << "Heal tower" << std::endl;
 					std::cout << playerinfo.health << std::endl;
-				}
-				/*if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
+				}*/
+				if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
 				{
-					ExplosionYes();
+					//shrinePool.activeShrine[i]->inshrine = true; 
+					explosionCount = 0;
+					duration += deltaTime;
+					if (duration >= 1.f)
+					{
+						duration = 0;
+						ExplosionAdd(explosionPool);
+					}
+					Explosion_Update(explosionPool, samPool);
+				}
+				else
+				{
+					shrinePool.activeShrine[i]->inshrine = false;
+				}
+			
+				/*if (shrinePool.activeShrine[i]->types == Shrine::God)
+				{
+					AEInputGetCursorPosition(&MouseX, &MouseY);
+					for (int i = 0; i < samPool.activeSize; ++i)
+					{
+						if (AEInputCheckCurr(AEVK_LBUTTON))
+						{
+							if (MouseX == samPool.activeSamurais[i]->transform.position.x && MouseY == samPool.activeSamurais[i]->transform.position.y)
+							{
+								SamuraiRemove(index, samPool);
+							}
+						}
+					}
+
 				}*/
 				
 			}
