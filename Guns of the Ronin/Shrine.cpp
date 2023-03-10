@@ -39,7 +39,7 @@ void Shrinepool_Init(ShrinePool& pool)
 	assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
 	assetheal = AEGfxTextureLoad("Assets/Health.png");
 	assetwind = AEGfxTextureLoad("Assets/Wind.png");
-	//assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
+	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
 
 
 
@@ -83,9 +83,9 @@ void ShrineAdd(ShrinePool & shrinePool)
 				shrinePool.activeShrine[i]->transform.texture = &assetwind;
 			}
 
-			/*else if (shrinePool.activeShrine[i]->types == Shrine::Explosion) {
-				shrinePool.activeShrine[i]->transform.texture = assetexplosion;
-			}*/
+			else if (shrinePool.activeShrine[i]->types == Shrine::Explosion) {
+				shrinePool.activeShrine[i]->transform.texture = &assetexplosion;
+			}
 
 			std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
 			break;
@@ -147,10 +147,10 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 					std::cout << "Heal tower" << std::endl;
 					std::cout << playerinfo.health << std::endl;
 				}
-				/*if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
+				if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
 				{
 					ExplosionYes();
-				}*/
+				}
 				
 			}
 			else

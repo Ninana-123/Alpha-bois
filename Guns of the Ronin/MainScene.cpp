@@ -19,6 +19,7 @@
 #include "ArcherArrow.h"
 #include "NinjaShuriken.h"
 #include "MainScene.h"
+#include "HealthBar.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -44,7 +45,8 @@ namespace {
 	ArrowPool arrow;
 	NinjaPool ninPool;
 	ShurikenPool shuriken;
-
+	Health health;
+	BarPool barPool;
 	
 }
 
@@ -71,10 +73,12 @@ void Init_Scene() {
 	level.transform.width = 1.0f;
 	level.transform.rotation = 0.0f;
 	level.transform.mesh = &levelMesh;
+	HealthBar_Init(barPool, &health, playerinfo, samPool, archPool, ninPool, cPool);
 }
 
 void Update_Scene() {
 
+	//healthbar(playerinfo, &health);
 	Update_Time();
 	SetQuadPoints(player.transform, 50, 50);
 
@@ -178,6 +182,7 @@ void Update_Scene() {
 
 	Player_Update(&player, bulletPool);
 
+	HealthBar_Update(barPool, &health, playerinfo, &player, samPool, archPool, ninPool, cPool);
 	
 	
 }
@@ -193,6 +198,7 @@ void Draw_Scene() {
 	Draw_Shrine( shrinePool);
 	Draw_Explosions(explosionPool);
 	Draw_Player(&player, bulletPool);
+	HealthBar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
 	
 	if (playerinfo.playerDead) {
 		TimePause();
@@ -219,6 +225,7 @@ void Free_Scene() {
 	Free_Explosions();
 	AEGfxMeshFree(levelMesh);
 	AEGfxTextureUnload(LevelBG);
+	HealthBar_Free();
 }
 
 
