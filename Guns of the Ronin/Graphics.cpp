@@ -249,3 +249,20 @@ void DrawSprite(Transform* trans,int index) {
 	AEGfxSetTransform(transform.m);
 	AEGfxMeshDraw(*trans->mesh, AE_GFX_MDM_TRIANGLES);
 }
+
+bool IsButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y){
+	float area_x_start, area_x_end, area_y_start, area_y_end;
+	area_x_start = area_center_x - (0.5 * area_width);
+	area_x_end = area_center_x + (0.5 * area_width);
+	area_y_start = area_center_y - (0.5 * area_height);
+	area_y_end = area_center_y + (0.5 * area_height);
+
+	if (*mouse_x > area_x_start && *mouse_x < area_x_end && *mouse_y < area_y_start && *mouse_y > area_y_end)
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
+
+}
