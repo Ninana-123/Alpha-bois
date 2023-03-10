@@ -1,6 +1,7 @@
 
 #include "Samurai.h"
 #include "TimeManager.h"
+#include "HighScore.h"
 
 
 //When a samurai dies 
@@ -102,6 +103,7 @@ void Dmg_Samurai(SamuraiPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeSamurais[index]->health -=playerInfo.att) <= 0) {
 		SamuraiRemove(index, pool);
+		Add_Score(SAMURAI_KILLSCORE);
 	}
 }
 

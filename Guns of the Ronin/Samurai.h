@@ -10,6 +10,7 @@
 namespace {
 	enum AI_STATE { MOVING, ATTACKING, BLOWNAWAY };
 	enum { SAMURAI_COUNT = 3 };
+	const int SAMURAI_KILLSCORE = 50;
 	float MIN_SPAWNDIST = 200;
 	float MAX_SPAWNDIST = 400;
 	int HEALTH = 100;

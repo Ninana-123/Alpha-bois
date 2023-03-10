@@ -3,10 +3,16 @@
 
 float deltaTime = 0;
 
+void Reset_TimeMan() {
+	curGameTime = 0;
+	deltaTime = 0;
+}
+
 void Update_Time() {
 
 	if (!isPaused) {
 		deltaTime = (float)AEFrameRateControllerGetFrameTime();
+		curGameTime += deltaTime;
 	}
 
 }

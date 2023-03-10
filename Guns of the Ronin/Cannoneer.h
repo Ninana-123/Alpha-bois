@@ -12,6 +12,9 @@ namespace {
 	enum C_AI_STATE { C_ATTACKING, C_RELOADING };
 	enum { CANNONEER_COUNT =03 };
 	enum { CANNONBALL_COUNT = 40 };
+	const int CANNONEER_KILLSCORE = 150;
+
+
 	float C_MIN_SPAWNDIST = 300;
 	float C_MAX_SPAWNDIST = 400;
 	int C_HEALTH = 250;

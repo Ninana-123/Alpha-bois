@@ -126,6 +126,10 @@ void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh);
 
 void DrawSprite(Transform* trans, int index);
 
+void FlipTexture_x(Transform& trans);
+
+void FlipTexture_y(Transform& trans);
+
 
 #endif // !GRAPHICS_H
 
