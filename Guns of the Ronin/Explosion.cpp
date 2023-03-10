@@ -71,13 +71,16 @@ void ExplosionDelete(int index, ExplosionPool& explosionPool)
 
 void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 {
-	
+	//if (IsExplosionTriggered())
+	//{
 		/*durations += deltaTime;
 		if (durations >= 1.f)
 		{
 			durations = 0;
 			ExplosionAdd(explosionPool);
 		}*/
+	if (explosionCount < Explosion_Count)
+	{
 
 		for (int i = 0; i < explosionPool.activeSize; i++)
 		{
@@ -113,7 +116,6 @@ void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 				{
 					pool.activeSamurais[j]->isCollidingWithExplosion = true;
 					ExplosionDelete(i, explosionPool);
-
 				}
 			}
 			if (!pool.activeSamurais[j]->isCollidingWithExplosion && pool.activeSamurais[j]->damagedByExplosion)
@@ -121,7 +123,7 @@ void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 				pool.activeSamurais[j]->damagedByExplosion = false;
 			}
 		}
-	//}
+	}
 	//}
 }
 
