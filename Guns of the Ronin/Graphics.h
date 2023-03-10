@@ -23,7 +23,7 @@ struct Transform
 {
 	AEGfxVertexList** mesh = 0;
 	Vector2 position = {  };
-	float rotation = 3.14159;
+	float rotation = 3.14159f;
 	Vector2 scale = { 1 , 1 };
 	AEGfxTexture** texture = 0;
 	Color color{ 0,0,0,1.0f };

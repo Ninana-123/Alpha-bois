@@ -43,6 +43,9 @@
     <Filter Include="Source Files\Player">
       <UniqueIdentifier>{cefd2b2b-9be9-454e-b387-44872a614b24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Etc">
+      <UniqueIdentifier>{8a400ace-e274-4a5f-b263-c12b2df6f1bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shrine.cpp">
@@ -110,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="Shop.cpp">
       <Filter>Source Files\Test / Obsolete</Filter>
+    </ClCompile>
+    <ClCompile Include="HighScore.cpp">
+      <Filter>Source Files\Etc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
