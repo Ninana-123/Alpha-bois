@@ -82,7 +82,7 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo);
+	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool);
 
 	Explosion_Update( explosionPool, samPool);
 

@@ -6,7 +6,11 @@
 void PlayerInfo_Init(PlayerInfo* playerinfo) {
 	playerinfo->att =50;	// max 100 attack?
 	playerinfo->attspd = 1;	// max level 5 attack speed?
+<<<<<<< HEAD
 	playerinfo->health = 100;
+=======
+	playerinfo->health = 1000;
+>>>>>>> parent of 3a8ccde (Merge branch 'Sheen')
 	playerinfo->movementspd = 2;
 	playerinfo->dash = 0;
 	//playerinfo->weaponlevel = 0;	
