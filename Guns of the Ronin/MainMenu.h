@@ -14,13 +14,17 @@ namespace{
 	AEGfxVertexList* BGMesh = 0;
 	AEGfxVertexList* playMesh = 0;
 	AEGfxVertexList* guideMesh = 0;
-	AEGfxVertexList* exitMesh = 0;
+	AEGfxVertexList* highscoreMesh = 0;
+	AEGfxVertexList* quitMesh = 0;
+	AEGfxVertexList* creditMesh = 0;
 
 }
 
-class Menu {
+class MainMenu {
 public:
 	Transform transform;
+	int spriteIndex = 0;
+
 };
 
 void Init_Menu();

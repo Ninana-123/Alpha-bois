@@ -35,6 +35,7 @@ namespace {
 	Shop shop;
 	Samurai samurai;
 	SamuraiPool samPool;
+	SamuraiPool pool;
 	ArcherPool archPool;
 	CannoneerPool cPool;
 	PlayerInfo playerinfo;
@@ -44,7 +45,7 @@ namespace {
 	ArrowPool arrow;
 	NinjaPool ninPool;
 	ShurikenPool shuriken;
-
+	int index;
 	
 }
 
@@ -82,7 +83,7 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo);
+	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool, index);
 
 	Explosion_Update( explosionPool, samPool);
 
@@ -176,6 +177,9 @@ void Update_Scene() {
 	/*if (timeSincePause >= 2.0f) {
 		TimeEnemyResume();
 	}*/
+
+
+	
 
 
 	Player_Update(&player, bulletPool);

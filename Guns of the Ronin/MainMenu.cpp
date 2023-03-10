@@ -14,39 +14,84 @@ s32 MousePosY;
 s32* MouseX = &MousePosX;
 s32* MouseY = &MousePosY;
 
-bool playHover = false;
-bool tutHover = false;
-bool exitHover = false;
+float buttonScaleX = 250.0f;
+float buttonScaleY = -125.0f;
+
+float buttonsY = -151.0f;
+
+float playButtonX = -81.0f;
+float guideButtonX = playButtonX + buttonScaleX;
+float highscoreButtonX = guideButtonX + buttonScaleX;
+float quitButtonX = highscoreButtonX + buttonScaleX;
+
+float creditsButtonX;
+float creditsButtonY;
+
 bool left_mouse_pressed;
 
-Menu mainMenu;
-Menu playButton;
+MainMenu mainMenu;
+MainMenu playButton;
+MainMenu guideButton;
+MainMenu highscoreButton;
+MainMenu quitButton;
+
 void Init_Menu() {
 	// Changing the window title
 	AESysSetWindowTitle("Guns of the Ronin");
 	// reset the system modules
 	AESysReset();
 	MainMenuBG = AEGfxTextureLoad("Assets/MainMenu.png");
-	buttons = AEGfxTextureLoad("Assets/buttonsspritesheet.png");
-	
-	
-	CreateSpriteMesh(&mainMenu.transform, BGMesh);
+	buttons = AEGfxTextureLoad("Assets/buttonspritesheet.png");
+
+	//CreateSpriteMesh(&mainMenu.transform, BGMesh);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), BGMesh, 0.25f, 1.0f);
 	mainMenu.transform.texture = &MainMenuBG;
 	mainMenu.transform.position = { 0.0f,0.0f };
-	mainMenu.transform.scale = { 1600.0f,900.0f };
+	mainMenu.transform.scale = { 1600.0f,-900.0f };
 	mainMenu.transform.height = 1.0f;
 	mainMenu.transform.width = 4.0f;
 	mainMenu.transform.rotation = 0.0f;
+	mainMenu.spriteIndex = 0;
 	mainMenu.transform.mesh = &BGMesh;
 
-	CreateSpriteMesh(&playButton.transform, playMesh);
+	//CreateSpriteMesh(&playButton.transform, playMesh);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), playMesh, 1.0f / 10.0f, 1.0f);
 	playButton.transform.texture = &buttons;
-	playButton.transform.position = { -81.0f,-151.0f };
-	playButton.transform.scale = { 250.0f,125.0f };
+	playButton.transform.position = { playButtonX,buttonsY };
+	playButton.transform.scale = { buttonScaleX,buttonScaleY };
 	playButton.transform.height = 1.0f;
-	playButton.transform.width = 8.0f;
+	playButton.transform.width = 10.0f;
 	playButton.transform.rotation = 0.0f;
 	playButton.transform.mesh = &playMesh;
+
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), guideMesh, 1.0f / 10.0f, 1.0f);
+	guideButton.transform.texture = &buttons;
+	guideButton.transform.position = { guideButtonX,buttonsY };
+	guideButton.transform.scale = { buttonScaleX,buttonScaleY };
+	guideButton.transform.height = 1.0f;
+	guideButton.transform.width = 10.0f;
+	guideButton.transform.rotation = 0.0f;
+	guideButton.transform.mesh = &guideMesh;
+	
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), highscoreMesh, 1.0f / 10.0f, 1.0f);
+	highscoreButton.transform.texture = &buttons;
+	highscoreButton.transform.position = { highscoreButtonX,buttonsY };
+	highscoreButton.transform.scale = { buttonScaleX,buttonScaleY };
+	highscoreButton.transform.height = 1.0f;
+	highscoreButton.transform.width = 10.0f;
+	highscoreButton.transform.rotation = 0.0f;
+	highscoreButton.transform.mesh = &highscoreMesh;
+	
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), quitMesh, 1.0f / 10.0f, 1.0f);
+	quitButton.transform.texture = &buttons;
+	quitButton.transform.position = { quitButtonX,buttonsY };
+	quitButton.transform.scale = { buttonScaleX,buttonScaleY };
+	quitButton.transform.height = 1.0f;
+	quitButton.transform.width = 10.0f;
+	quitButton.transform.rotation = 0.0f;
+	quitButton.transform.mesh = &quitMesh;
+
+
 
 }
 
@@ -55,47 +100,43 @@ void Update_Menu() {
 	AEInputGetCursorPosition(MouseX, MouseY);
 	*MouseX = *MouseX - 800;
 	*MouseY = (*MouseY - 450) * -1;
+		//std::cout << "Mouse_X: " << *MouseX << std::endl;
+		//std::cout << "Mouse_Y: " << *MouseY << std::endl;
 	left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
-	//std::cout << "Mouse_X: " << *MouseX << std::endl;
-	//std::cout << "Mouse_Y: " <<*MouseY << std::endl;
 
-	if ((int)*MouseX > -200 && (int)*MouseX < 33 && (int)*MouseY > -195 && (int)*MouseY < -97) {
-		playHover = true;
+	if (IsButtonHover(playButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
+		playButton.spriteIndex = 1;
 		if (left_mouse_pressed) {
 			gGameStateNext = GS_LEVEL1;
 		}
 	}
-	else playHover = false;
-	
-	if ((int)*MouseX > 176 && (int)*MouseX < 507 && (int)*MouseY > -205 && (int)*MouseY < -91) {
-		tutHover = true;
-	}
-	else tutHover = false;
+	else playButton.spriteIndex = 0;
 
-	if ((int)*MouseX > 546 && (int)*MouseX < 781 && (int)*MouseY > -205 && (int)*MouseY < -91) {
-		exitHover = true;
+	if (IsButtonHover(guideButtonX,buttonsY,buttonScaleX,buttonScaleY,MouseX,MouseY)) {
+		guideButton.spriteIndex = 5;
 	}
-	else exitHover = false;
+	else guideButton.spriteIndex = 4;
+
+	if (IsButtonHover(highscoreButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
+		highscoreButton.spriteIndex = 9;
+	}
+	else highscoreButton.spriteIndex = 8;
+
+	if (IsButtonHover(quitButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
+		quitButton.spriteIndex = 2;
+	}
+	else quitButton.spriteIndex = 3;
 
 
 
 }
 
-void Draw_Menu(){
-	int index = 0;
-	DrawSprite(&mainMenu.transform,index);
-	DrawSprite(&playButton.transform, index);
-
-	if (playHover == true) {
-		//AEGfxTextureUnload(buttons);
-		DrawSprite(&playButton.transform, index+1);
-	}
-	if (tutHover == true) {
-		DrawSprite(&mainMenu.transform, index + 2);
-	}
-	if (exitHover == true) {
-		DrawSprite(&mainMenu.transform, index + 3);
-	}
+void Draw_Menu() {
+	DrawSprite(&mainMenu.transform, mainMenu.spriteIndex);
+	DrawSprite(&playButton.transform, playButton.spriteIndex);
+	DrawSprite(&guideButton.transform, guideButton.spriteIndex);
+	DrawSprite(&highscoreButton.transform, highscoreButton.spriteIndex);
+	DrawSprite(&quitButton.transform, quitButton.spriteIndex);
 
 }
 
@@ -112,9 +153,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int       nCmdShow)
 {
 	// Enable run-time memory check for debug builds.
-	#if defined(DEBUG) | defined(_DEBUG)
-		_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
-	#endif
+#if defined(DEBUG) | defined(_DEBUG)
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
 
 	srand((unsigned int)time(NULL));
 

@@ -21,6 +21,7 @@ namespace
 	ArcherPool archPools;
 	PlayerInfo playerinfos;
 	ExplosionPool exPools;
+
 }
 
 class Shrine
@@ -32,8 +33,9 @@ public:
 	float loadingbarpercentage = 0;
 	Transform loading;
 	float timeElapsed = 0;
-	enum Types { Freeze, Push, Heal, TotalShrines };
+	enum Types {  Explosion, TotalShrines };
 	Types types;
+	bool inshrine = false;
 };
 
 
@@ -50,7 +52,7 @@ public:
 void Shrinepool_Init(ShrinePool& shrinePool);
 void ShrineAdd(ShrinePool& shrinePool);
 void ShrineDelete(int index, ShrinePool& shrinePool);
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo);
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, int index);
 void Draw_Shrine(ShrinePool& shrinePool);
 void Free_Shrines();
 
