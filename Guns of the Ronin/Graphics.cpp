@@ -214,6 +214,15 @@ void Sprite_Animation::Update_SpriteAnim(Transform& trans) {
 	}
 
 }
+
+void FlipTexture_x(Transform& trans) {
+	trans.scale.x *= -1;
+}
+
+void FlipTexture_y(Transform& trans) {
+	trans.scale.y *= -1;
+}
+
 void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh) {
 	//float BG_Width = 1.0f / 4.0f;
 	AEGfxMeshStart();

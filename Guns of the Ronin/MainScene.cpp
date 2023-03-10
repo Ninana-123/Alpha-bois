@@ -71,6 +71,8 @@ void Init_Scene() {
 	level.transform.width = 1.0f;
 	level.transform.rotation = 0.0f;
 	level.transform.mesh = &levelMesh;
+
+	Reset_TimeMan();
 }
 
 void Update_Scene() {

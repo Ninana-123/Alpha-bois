@@ -5,6 +5,7 @@
 #include <AEEngine.h>
 
 extern float deltaTime;
+float curGameTime = 0;
 
 
 namespace {
@@ -13,6 +14,7 @@ namespace {
 	bool explosiontrigger = false;
 }
 
+void Reset_TimeMan();
 void Update_Time();
 void TimePause();
 void TimeResume();

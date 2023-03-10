@@ -127,6 +127,9 @@ void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh);
 void DrawSprite(Transform* trans, int index);
 
 bool IsButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y);
+void FlipTexture_x(Transform& trans);
+
+void FlipTexture_y(Transform& trans);
 
 
 #endif // !GRAPHICS_H

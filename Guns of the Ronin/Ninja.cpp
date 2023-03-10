@@ -1,6 +1,8 @@
 
 #include "Ninja.h"
 #include "TimeManager.h"
+#include "HighScore.h"
+
 
 float ninjaAttDelay = 2.0f;
 ShurikenPool shuriken;
@@ -105,6 +107,7 @@ void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeNinjas[index]->health -= playerInfo.att) <= 0) {
 		NinjaRemove(index, pool);
+		Add_Score(NINJA_KILLSCORE);
 	}
 }
 
