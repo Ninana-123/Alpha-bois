@@ -73,19 +73,21 @@ void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 {
 	//if (IsExplosionTriggered())
 	//{
-		durations += deltaTime;
+		/*durations += deltaTime;
 		if (durations >= 1.f)
 		{
 			durations = 0;
 			ExplosionAdd(explosionPool);
-		}
+		}*/
+	if (explosionCount < Explosion_Count)
+	{
 
 		for (int i = 0; i < explosionPool.activeSize; i++)
 		{
-			if (explosionPool.activeExplosion[i]->timeElapsed >= 1.f)
+			/*if (explosionPool.activeExplosion[i]->timeElapsed >= 1.f)
 			{
 				ExplosionDelete(i, explosionPool);
-			}
+			}*/
 			SetQuadPoints(explosionPool.activeExplosion[i]->transform, 40.f, 40.f);
 			for (int j = 0; j < pool.activeSize; j++)
 			{
@@ -113,6 +115,7 @@ void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 				if (StaticCol_QuadQuad(pool.activeSamurais[j]->transform, explosionPool.activeExplosion[i]->transform))
 				{
 					pool.activeSamurais[j]->isCollidingWithExplosion = true;
+					ExplosionDelete(i, explosionPool);
 				}
 			}
 			if (!pool.activeSamurais[j]->isCollidingWithExplosion && pool.activeSamurais[j]->damagedByExplosion)
@@ -120,6 +123,7 @@ void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool)
 				pool.activeSamurais[j]->damagedByExplosion = false;
 			}
 		}
+	}
 	//}
 }
 

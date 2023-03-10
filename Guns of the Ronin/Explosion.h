@@ -11,9 +11,10 @@
 namespace
 {
 	enum{Explosion_Count = 5};
-	float EXPLOSION_HEIGHT = 0, EXPLOSION_WIDTH = 0;
+	float EXPLOSION_HEIGHT = 50, EXPLOSION_WIDTH = 50;
 	AEGfxVertexList* explosionsMesh;
 	//AEGfxVertexList* loadingBarMesh;
+	int explosionCount = 100;
 }
 
 class Explosion 

@@ -44,6 +44,7 @@ namespace {
 	ArrowPool arrow;
 	NinjaPool ninPool;
 	ShurikenPool shuriken;
+	int index;
 
 	
 }
@@ -82,7 +83,7 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool);
+	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool,index);
 
 	Explosion_Update( explosionPool, samPool);
 
