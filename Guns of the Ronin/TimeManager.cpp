@@ -1,11 +1,14 @@
 
 #include "TimeManager.h"
+#include "HighScore.h"
 
 float deltaTime = 0;
+float curGameTime = 0;	
 
 void Reset_TimeMan() {
 	curGameTime = 0;
 	deltaTime = 0;
+	Reset_HighScore();
 }
 
 void Update_Time() {

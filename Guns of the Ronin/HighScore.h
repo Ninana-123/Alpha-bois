@@ -6,15 +6,13 @@
 
 #include "TimeManager.h"
 
-int curHighScore;
+extern int curHighScore;
 
-void Add_Score(int val) {
-	curHighScore += val;
-}
+void Reset_HighScore();
 
-int Finalize_HighScore() {
-	curHighScore += static_cast<int>(curGameTime * 10.0f);
-}
+void Add_Score(int val);
+
+int Finalize_HighScore();
 
 
 #endif // !1

@@ -5,7 +5,7 @@
 #include <AEEngine.h>
 
 extern float deltaTime;
-float curGameTime = 0;
+extern float curGameTime;
 
 
 namespace {
