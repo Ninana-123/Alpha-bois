@@ -2,11 +2,8 @@
 
 
 AEGfxTexture* MainMenuBG;
-//AEGfxVertexList* BGMesh;
-//int BGIndex = 0;
 
 AEGfxTexture* buttons;
-//AEGfxVertexList* playMesh;
 
 s32 MousePosX;
 s32 MousePosY;
@@ -24,8 +21,8 @@ float guideButtonX = playButtonX + buttonScaleX;
 float highscoreButtonX = guideButtonX + buttonScaleX;
 float quitButtonX = highscoreButtonX + buttonScaleX;
 
-float creditsButtonX;
-float creditsButtonY;
+//float creditsButtonX;
+//float creditsButtonY;
 
 bool left_mouse_pressed;
 
@@ -40,7 +37,7 @@ void Init_Menu() {
 	AESysSetWindowTitle("Guns of the Ronin");
 	// reset the system modules
 	AESysReset();
-	MainMenuBG = AEGfxTextureLoad("Assets/MainMenu.png");
+	MainMenuBG = AEGfxTextureLoad("Assets/MainMenuSakura.png");
 	buttons = AEGfxTextureLoad("Assets/buttonspritesheet.png");
 
 	//CreateSpriteMesh(&mainMenu.transform, BGMesh);
@@ -96,6 +93,9 @@ void Init_Menu() {
 }
 
 void Update_Menu() {
+	static float frameTimer = 0;
+	frameTimer += deltaTime;
+
 	Update_Time();
 	AEInputGetCursorPosition(MouseX, MouseY);
 	*MouseX = *MouseX - 800;
@@ -103,6 +103,14 @@ void Update_Menu() {
 		//std::cout << "Mouse_X: " << *MouseX << std::endl;
 		//std::cout << "Mouse_Y: " << *MouseY << std::endl;
 	left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
+
+	if (frameTimer >= 0.3f) {
+		mainMenu.sakuraAnim.PlayAnim();
+		mainMenu.sakuraAnim.NextFrame(mainMenu.transform);
+		mainMenu.sakuraAnim.Update_SpriteAnim(mainMenu.transform);
+		frameTimer = 0;
+	}
+
 
 	if (IsButtonHover(playButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
 		playButton.spriteIndex = 1;
@@ -123,16 +131,17 @@ void Update_Menu() {
 	else highscoreButton.spriteIndex = 8;
 
 	if (IsButtonHover(quitButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
-		quitButton.spriteIndex = 2;
+		quitButton.spriteIndex = 3;
 	}
-	else quitButton.spriteIndex = 3;
+	else quitButton.spriteIndex = 2;
 
 
 
 }
 
 void Draw_Menu() {
-	DrawSprite(&mainMenu.transform, mainMenu.spriteIndex);
+	DrawMesh(&mainMenu.transform);
+	//DrawSprite(&mainMenu.transform, mainMenu.spriteIndex);
 	DrawSprite(&playButton.transform, playButton.spriteIndex);
 	DrawSprite(&guideButton.transform, guideButton.spriteIndex);
 	DrawSprite(&highscoreButton.transform, highscoreButton.spriteIndex);
@@ -142,7 +151,12 @@ void Draw_Menu() {
 
 void Free_Menu() {
 	AEGfxMeshFree(BGMesh);
+	AEGfxMeshFree(playMesh);
+	AEGfxMeshFree(guideMesh);
+	AEGfxMeshFree(highscoreMesh);
+	AEGfxMeshFree(quitMesh);
 	AEGfxTextureUnload(MainMenuBG);
+	AEGfxTextureUnload(buttons);
 }
 // ---------------------------------------------------------------------------
 // main

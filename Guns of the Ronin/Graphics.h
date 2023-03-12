@@ -122,7 +122,7 @@ void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& me
 
 void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh);
 
-void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh);
+//oid CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh);
 
 void DrawSprite(Transform* trans, int index);
 

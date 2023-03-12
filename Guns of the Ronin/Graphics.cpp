@@ -223,21 +223,21 @@ void FlipTexture_y(Transform& trans) {
 	trans.scale.y *= -1;
 }
 
-void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh) {
-	//float BG_Width = 1.0f / 4.0f;
-	AEGfxMeshStart();
-	AEGfxTriAdd(
-		-0.5f, -0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 1.0f,
-		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
-		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
-	);
-	AEGfxTriAdd(
-		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
-		0.5f, 0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 0.0f,
-		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
-	);
-	mesh = AEGfxMeshEnd();
-}
+//void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh) {
+//	//float BG_Width = 1.0f / 4.0f;
+//	AEGfxMeshStart();
+//	AEGfxTriAdd(
+//		-0.5f, -0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 1.0f,
+//		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
+//		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
+//	);
+//	AEGfxTriAdd(
+//		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
+//		0.5f, 0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 0.0f,
+//		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
+//	);
+//	mesh = AEGfxMeshEnd();
+//}
 
 void DrawSprite(Transform* trans,int index) {
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);

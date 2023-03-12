@@ -67,10 +67,10 @@ void Init_Scene() {
 	PlayerInfo_Init(&playerinfo);
 	Abilities_Init(&playerinfo);
 	LevelBG = AEGfxTextureLoad("Assets/GameBG1.png");
-	CreateSpriteMesh(&level.transform, levelMesh);
+	CreateQuadMesh(1.f,1.f,Color(1,1,1), levelMesh);
 	level.transform.texture = &LevelBG;
 	level.transform.position = { 0.0f,0.0f };
-	level.transform.scale = { 1600.0f,900.0f };
+	level.transform.scale = { 1600.0f,-900.0f };
 	level.transform.height = 1.0f;
 	level.transform.width = 1.0f;
 	level.transform.rotation = 0.0f;

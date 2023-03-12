@@ -16,7 +16,7 @@ namespace{
 	AEGfxVertexList* guideMesh = 0;
 	AEGfxVertexList* highscoreMesh = 0;
 	AEGfxVertexList* quitMesh = 0;
-	AEGfxVertexList* creditMesh = 0;
+	//AEGfxVertexList* creditMesh = 0;
 
 }
 
@@ -24,6 +24,7 @@ class MainMenu {
 public:
 	Transform transform;
 	int spriteIndex = 0;
+	Sprite_Animation sakuraAnim{ 4.f,4,1};
 
 };
 

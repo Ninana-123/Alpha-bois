@@ -65,7 +65,7 @@ void Draw_Bullet(BulletPool& pool) {
 
 void Bullet_AI(BulletPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		pool.activeBullets[i]->transform.position += pool.activeBullets[i]->direction * deltaTime * 300.0f;
+		pool.activeBullets[i]->transform.position += pool.activeBullets[i]->direction * deltaTime * 500.0f;
 		if (pool.activeBullets[i]->transform.position.x > boundaryX) {
 			BulletRemove(i, pool);
 		}

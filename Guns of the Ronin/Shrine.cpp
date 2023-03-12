@@ -41,9 +41,9 @@ void Shrinepool_Init(ShrinePool& pool)
 		pool.activeShrine[i]->iscolliding = false;
 
 	}
-	/*assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
+	assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
 	assetheal = AEGfxTextureLoad("Assets/Health.png");
-	assetwind = AEGfxTextureLoad("Assets/Wind.png");*/
+	assetwind = AEGfxTextureLoad("Assets/Wind.png");
 	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
 	//assetgod = AEGfxTextureLoad("Assets/Freeze.png");
 	assetwind = AEGfxTextureLoad("Assets/Wind.png");
@@ -93,7 +93,7 @@ void ShrineAdd(ShrinePool & shrinePool)
 
 			 if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
 			 {
-				shrinePool.activeShrine[i]->transform.texture = assetexplosion;
+				shrinePool.activeShrine[i]->transform.texture = &assetexplosion;
 			 }
 			 /*if (shrinePool.activeShrine[i]->types == Shrine::God)
 			 {
