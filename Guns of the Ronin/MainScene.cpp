@@ -14,12 +14,12 @@
 #include "EnemyController.h"
 #include "PlayerInfo.h"
 #include "bullets.h"
-#include "Abilities.h"
 #include "Archer.h"
 #include "ArcherArrow.h"
 #include "NinjaShuriken.h"
 #include "MainScene.h"
 #include "HealthBar.h"
+#include "Void.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -36,19 +36,19 @@ namespace {
 	Shop shop;
 	Samurai samurai;
 	SamuraiPool samPool;
-	SamuraiPool pool;
 	ArcherPool archPool;
 	CannoneerPool cPool;
 	PlayerInfo playerinfo;
 	BulletPool bulletPool;
 	Vector2 vector;
-	Abilities ability;
 	ArrowPool arrow;
 	NinjaPool ninPool;
 	ShurikenPool shuriken;
 	int index;
 	Health health;
 	BarPool barPool;
+	VoidPool voidPool;
+
 	
 }
 
@@ -65,7 +65,6 @@ void Init_Scene() {
 	Init_Enemies(samPool, archPool, cPool, ninPool);
 	Shop_Init(&shop);
 	PlayerInfo_Init(&playerinfo);
-	Abilities_Init(&playerinfo);
 	LevelBG = AEGfxTextureLoad("Assets/GameBG1.png");
 	CreateQuadMesh(1.f,1.f,Color(1,1,1), levelMesh);
 	level.transform.texture = &LevelBG;
@@ -78,6 +77,7 @@ void Init_Scene() {
 
 	Reset_TimeMan();
 	HealthBar_Init(barPool, &health, playerinfo, samPool, archPool, ninPool, cPool);
+	Voidpool_Init(voidPool);
 }
 
 void Update_Scene() {
@@ -88,16 +88,15 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool, index);
+	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool,index, voidPool);
 
 	Explosion_Update( explosionPool, samPool);
 
+	Void_Update( voidPool, samPool,archPool);
 
 	Update_Enemies(samPool, archPool, cPool, ninPool, player, playerinfo);
 
 	Shop_Update(&shop, &playerinfo);
-
-	Abilities_Update(&player, &playerinfo, vector, &ability);
 
 	// Player bullets collision with samurais
 	for (int i = 0; i < samPool.activeSize; ++i) {
@@ -184,9 +183,6 @@ void Update_Scene() {
 	}*/
 
 
-	
-
-
 	Player_Update(&player, bulletPool);
 
 	HealthBar_Update(barPool, &health, playerinfo, &player, samPool, archPool, ninPool, cPool);
@@ -206,6 +202,7 @@ void Draw_Scene() {
 	Draw_Explosions(explosionPool);
 	Draw_Player(&player, bulletPool);
 	HealthBar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
+	Draw_Void(voidPool);
 	
 	if (playerinfo.playerDead) {
 		TimePause();
@@ -233,6 +230,7 @@ void Free_Scene() {
 	AEGfxMeshFree(levelMesh);
 	AEGfxTextureUnload(LevelBG);
 	HealthBar_Free();
+	Free_Void();
 }
 
 

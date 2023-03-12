@@ -4,7 +4,7 @@
 #include "HighScore.h"
 
 
-float ninjaAttDelay = 2.0f;
+float ninjaAttDelay = 1.0f;
 ShurikenPool shuriken;
 
 //When a Ninja dies 

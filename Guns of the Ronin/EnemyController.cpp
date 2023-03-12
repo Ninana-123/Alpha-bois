@@ -29,27 +29,27 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		}
 		AI_Samurai(samPool, player, playerInfo);
 
-		//// Archer
-	//	if (archerSpawnTimer >= spawnRate_Archer) {
-	//		archerSpawnTimer = 0;
-	//		ArcherAdd(archPool, player.transform.position);
-	//	}
-	//	AI_Archer(archPool, player, playerInfo);
+		// Archer
+		if (archerSpawnTimer >= spawnRate_Archer) {
+			archerSpawnTimer = 0;
+			ArcherAdd(archPool, player.transform.position);
+		}
+		AI_Archer(archPool, player, playerInfo);
 
 
-	//	// Cannoneer
-	//	if (cSpawnTimer >= spawnRate_Cannoneer) {
-	//		cSpawnTimer = 0;
-	//		CannoneerAdd(cPool, player.transform.position);
-	//	}
-	//	AI_Cannoneer(cPool, player, playerInfo);
+		// Cannoneer
+		if (cSpawnTimer >= spawnRate_Cannoneer) {
+			cSpawnTimer = 0;
+			CannoneerAdd(cPool, player.transform.position);
+		}
+		AI_Cannoneer(cPool, player, playerInfo);
 
-	////	// Ninja
-	//	if (ninjaSpawnTimer >= spawnRate_Ninja) {
-	//		ninjaSpawnTimer = 0;
-	//		NinjaAdd(ninPool, player.transform.position);
-	//	}
-	//	AI_Ninja(ninPool, player, playerInfo);
+	//	// Ninja
+		if (ninjaSpawnTimer >= spawnRate_Ninja) {
+			ninjaSpawnTimer = 0;
+			NinjaAdd(ninPool, player.transform.position);
+		}
+		AI_Ninja(ninPool, player, playerInfo);
 	}
 
 }

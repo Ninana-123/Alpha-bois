@@ -23,7 +23,6 @@ public:
 	bool hasbeenused = false;
 	bool iscolliding = false;
 	bool damagedByExplosion =false;
-	//float loadingbarpercentage = 0;
 	Transform loading;
 	float timeElapsed = 0;
 };

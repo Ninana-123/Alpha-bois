@@ -11,9 +11,12 @@
 #include "Ninja.h"
 #include "PlayerInfo.h"
 #include "Explosion.h"
+#include "Void.h"
+
+
 namespace
 {
-	enum{Shrine_Count = 5};
+	enum{Shrine_Count = 10};
 	float SHRINE_HEIGHT = 50, SHRINE_WIDTH = 50;
 	AEGfxVertexList* shrineMesh;
 	AEGfxVertexList* loadingBarMesh;
@@ -21,7 +24,6 @@ namespace
 	ArcherPool archPools;
 	PlayerInfo playerinfos;
 	ExplosionPool exPools;
-
 }
 
 class Shrine
@@ -33,9 +35,8 @@ public:
 	float loadingbarpercentage = 0;
 	Transform loading;
 	float timeElapsed = 0;
-	enum Types {  Explosion, TotalShrines };
+	enum Types { Freeze, Heal, Push, Explosion, God, Void, TotalShrines };
 	Types types;
-	bool inshrine = false;
 };
 
 
@@ -52,7 +53,8 @@ public:
 void Shrinepool_Init(ShrinePool& shrinePool);
 void ShrineAdd(ShrinePool& shrinePool);
 void ShrineDelete(int index, ShrinePool& shrinePool);
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, int index);
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool,
+NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool,int inddex, VoidPool& voidPool);
 void Draw_Shrine(ShrinePool& shrinePool);
 void Free_Shrines();
 

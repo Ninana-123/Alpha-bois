@@ -93,9 +93,6 @@
     <ClCompile Include="GSM.cpp">
       <Filter>Source Files\Game Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Abilities.cpp">
-      <Filter>Source Files\Player</Filter>
-    </ClCompile>
     <ClCompile Include="bullets.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
@@ -118,6 +115,9 @@
       <Filter>Source Files\Etc</Filter>
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Void.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,9 +179,6 @@
     <ClInclude Include="Object.h">
       <Filter>Header Files\Test / Obsolete</Filter>
     </ClInclude>
-    <ClInclude Include="Abilities.h">
-      <Filter>Header Files\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
@@ -195,6 +192,9 @@
       <Filter>Header Files\Etc</Filter>
     </ClInclude>
     <ClInclude Include="HealthBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Void.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
