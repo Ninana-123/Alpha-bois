@@ -5,7 +5,7 @@
 
 #include "Graphics.h"
 #include "Physics.h"
-#include "bullets.h"
+#include "Bullets.h"
 #include "PlayerInfo.h"
 
 namespace {

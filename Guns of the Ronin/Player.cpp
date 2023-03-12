@@ -11,7 +11,7 @@ void Player_Init(Player* Player,BulletPool &bulletPool) {
 	playerTexture = AEGfxTextureLoad("Assets/RoninWalking1.png");
 	Player->transform.texture = &playerTexture;
 	Player->transform.scale = { 2, 2 };
-	Player->transform.position = Vector2(100.f, 100.f);
+	Player->transform.position = {100.f,100.f};
 	Init_BulletPool(bulletPool);
 }
 

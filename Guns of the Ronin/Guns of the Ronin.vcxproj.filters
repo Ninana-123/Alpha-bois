@@ -93,7 +93,7 @@
     <ClCompile Include="GSM.cpp">
       <Filter>Source Files\Game Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="bullets.cpp">
+    <ClCompile Include="Bullets.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -119,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="Void.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Guide.cpp">
+      <Filter>Source Files\Game Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,7 +188,7 @@
     <ClInclude Include="PlayerInfo.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
-    <ClInclude Include="bullets.h">
+    <ClInclude Include="Bullets.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
     <ClInclude Include="HighScore.h">
@@ -196,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="Void.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Guide.h">
+      <Filter>Header Files\Game Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

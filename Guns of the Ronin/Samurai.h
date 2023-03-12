@@ -6,7 +6,7 @@
 #include "Graphics.h"
 #include "Physics.h"
 #include "Player.h"
-#include "bullets.h"
+#include "Bullets.h"
 namespace {
 	enum AI_STATE { MOVING, ATTACKING, BLOWNAWAY };
 	enum { SAMURAI_COUNT = 3 };

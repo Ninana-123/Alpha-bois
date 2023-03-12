@@ -7,7 +7,7 @@
 #include "Graphics.h"
 #include "Physics.h"
 #include "Player.h"
-#include "bullets.h"
+#include "Bullets.h"
 namespace {
 	enum C_AI_STATE { C_ATTACKING, C_RELOADING };
 	enum { CANNONEER_COUNT =03 };

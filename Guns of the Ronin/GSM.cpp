@@ -2,6 +2,7 @@
 #include "GSMList.h"
 #include "MainMenu.h"
 #include "MainScene.h"
+#include "Guide.h"
 #include "GSM.h"
 
 unsigned int	gGameStateInit;
@@ -48,6 +49,11 @@ void GameStateMgrUpdate()
 		GameStateDraw = Draw_Scene;
 		GameStateFree = Free_Scene;
 		break;
+	case GS_GUIDE:
+		GameStateInit = Init_Guide;
+		GameStateUpdate = Update_Guide;
+		GameStateDraw = Draw_Guide;
+		GameStateFree = Free_Guide;
 	default:
 		break;
 	}

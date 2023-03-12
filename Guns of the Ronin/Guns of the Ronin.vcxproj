@@ -98,9 +98,10 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArcherArrow.cpp" />
-    <ClCompile Include="bullets.cpp" />
+    <ClCompile Include="Bullets.cpp" />
     <ClCompile Include="Archer.cpp" />
     <ClCompile Include="Cannoneer.cpp" />
+    <ClCompile Include="Guide.cpp" />
     <ClCompile Include="HighScore.cpp" />
     <ClCompile Include="Ninja.cpp" />
     <ClCompile Include="NinjaShuriken.cpp" />
@@ -124,9 +125,10 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArcherArrow.h" />
-    <ClInclude Include="bullets.h" />
+    <ClInclude Include="Bullets.h" />
     <ClInclude Include="Archer.h" />
     <ClInclude Include="Cannoneer.h" />
+    <ClInclude Include="Guide.h" />
     <ClInclude Include="HighScore.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="Ninja.h" />

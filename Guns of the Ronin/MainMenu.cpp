@@ -1,6 +1,5 @@
 #include "MainMenu.h"
 
-
 AEGfxTexture* MainMenuBG;
 
 AEGfxTexture* buttons;
@@ -122,6 +121,9 @@ void Update_Menu() {
 
 	if (IsButtonHover(guideButtonX,buttonsY,buttonScaleX,buttonScaleY,MouseX,MouseY)) {
 		guideButton.spriteIndex = 5;
+		if (left_mouse_pressed) {
+			gGameStateNext = GS_GUIDE;
+		}
 	}
 	else guideButton.spriteIndex = 4;
 
@@ -141,7 +143,6 @@ void Update_Menu() {
 
 void Draw_Menu() {
 	DrawMesh(&mainMenu.transform);
-	//DrawSprite(&mainMenu.transform, mainMenu.spriteIndex);
 	DrawSprite(&playButton.transform, playButton.spriteIndex);
 	DrawSprite(&guideButton.transform, guideButton.spriteIndex);
 	DrawSprite(&highscoreButton.transform, highscoreButton.spriteIndex);
