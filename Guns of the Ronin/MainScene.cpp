@@ -14,7 +14,6 @@
 #include "EnemyController.h"
 #include "PlayerInfo.h"
 #include "bullets.h"
-#include "Abilities.h"
 #include "Archer.h"
 #include "ArcherArrow.h"
 #include "NinjaShuriken.h"
@@ -42,7 +41,6 @@ namespace {
 	PlayerInfo playerinfo;
 	BulletPool bulletPool;
 	Vector2 vector;
-	Abilities ability;
 	ArrowPool arrow;
 	NinjaPool ninPool;
 	ShurikenPool shuriken;
@@ -67,7 +65,6 @@ void Init_Scene() {
 	Init_Enemies(samPool, archPool, cPool, ninPool);
 	Shop_Init(&shop);
 	PlayerInfo_Init(&playerinfo);
-	Abilities_Init(&playerinfo);
 	LevelBG = AEGfxTextureLoad("Assets/GameBG1.png");
 	CreateSpriteMesh(&level.transform, levelMesh);
 	level.transform.texture = &LevelBG;
@@ -100,8 +97,6 @@ void Update_Scene() {
 	Update_Enemies(samPool, archPool, cPool, ninPool, player, playerinfo);
 
 	Shop_Update(&shop, &playerinfo);
-
-	Abilities_Update(&player, &playerinfo, vector, &ability);
 
 	// Player bullets collision with samurais
 	for (int i = 0; i < samPool.activeSize; ++i) {

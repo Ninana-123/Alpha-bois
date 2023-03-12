@@ -25,7 +25,7 @@ void ShurikenAdd(ShurikenPool& pool, Vector2 ninPos, Vector2 playerPos) {
 			pool.activeShuriken[i]->enabled = true;
 			pool.activeShuriken[i]->transform.position = ninPos;
 			pool.activeShuriken[i]->transform.texture = &shurikenTexture;
-			pool.activeShuriken[i]->transform.scale = { 2,2 };
+			//pool.activeShuriken[i]->transform.scale = { 2,2 };
 			pool.activeShuriken[i]->direction = (playerPos - ninPos).normalize();
 			pool.activeSize += 1;
 			break;
@@ -63,7 +63,7 @@ void Draw_Shuriken(ShurikenPool& pool) {
 void Shuriken_AI(ShurikenPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		SetQuadPoints(pool.activeShuriken[i]->transform, 20, 20);
-		pool.activeShuriken[i]->transform.position += pool.activeShuriken[i]->direction * deltaTime * 200.0f;
+		pool.activeShuriken[i]->transform.position += pool.activeShuriken[i]->direction * deltaTime * 400.0f;
 		if (pool.activeShuriken[i]->transform.position.x > shurikenBoundaryX) {
 			ShurikenRemove(i, pool);
 		}

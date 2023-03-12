@@ -15,12 +15,12 @@ namespace {
 	const int NINJA_KILLSCORE = 100;
 	float NINJA_MIN_SPAWNDIST = 200;
 	float NINJA_MAX_SPAWNDIST = 400;
-	int NINJA_HEALTH = 50;
+	int NINJA_HEALTH = 100;
 	float NINJA_MS = 100.0f;
 	float NINJA_SWEEP_MS = 700.0f;
 	float NINJA_HIT_ANIM_DURATION = 0.5f;
 	int NINJA_EXP = 10;
-	int NINJA_DAMAGE = 20;
+	int NINJA_DAMAGE = 50;
 	AEGfxVertexList* ninjaMesh = 0;
 	AEGfxTexture* ninjaTexture = 0;
 	float NINJA_HEIGHT = 20, NINJA_WIDTH = 20;

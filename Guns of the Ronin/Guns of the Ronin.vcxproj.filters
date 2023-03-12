@@ -93,9 +93,6 @@
     <ClCompile Include="GSM.cpp">
       <Filter>Source Files\Game Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Abilities.cpp">
-      <Filter>Source Files\Player</Filter>
-    </ClCompile>
     <ClCompile Include="bullets.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
@@ -181,9 +178,6 @@
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Header Files\Test / Obsolete</Filter>
-    </ClInclude>
-    <ClInclude Include="Abilities.h">
-      <Filter>Header Files\Player</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files\Player</Filter>
