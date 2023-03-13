@@ -11,22 +11,22 @@
 float Durations;
 void Voidpool_Init(VoidPool& voidPool)
 {
-			Durations = 0;
-			voidPool.activeSize = 0;
-			CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh);
-			for (int i = 0; i < Void_Count; i++)
-			{
-				voidPool.Voids[i].hasbeenused = false;
-				voidPool.Voids[i].transform.height = VOID_HEIGHT;
-				voidPool.Voids[i].transform.width = VOID_WIDTH;
-				voidPool.Voids[i].transform.mesh = &voidMesh;
-				voidPool.activeVoid[i] = &voidPool.Voids[i];
-				voidPool.activeVoid[i]->timeElapsed = 0;
-				voidPool.activeVoid[i]->iscolliding = false;
-				voidPool.activeVoid[i]->transform.texture = &assetblackhole;
-				voidPool.activeVoid[i]->transform.scale = { 1.5,1.5 };
-			}
-			assetblackhole = AEGfxTextureLoad("Assets/Blackhole1.png");
+	Durations = 0;
+	voidPool.activeSize = 0;
+	CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh);
+	for (int i = 0; i < Void_Count; i++)
+	{
+		voidPool.Voids[i].hasbeenused = false;
+		voidPool.Voids[i].transform.height = VOID_HEIGHT;
+		voidPool.Voids[i].transform.width = VOID_WIDTH;
+		voidPool.Voids[i].transform.mesh = &voidMesh;
+		voidPool.activeVoid[i] = &voidPool.Voids[i];
+		voidPool.activeVoid[i]->timeElapsed = 0;
+		voidPool.activeVoid[i]->iscolliding = false;
+		voidPool.activeVoid[i]->transform.texture = &assetblackhole;
+		voidPool.activeVoid[i]->transform.scale = { 1.5,1.5 };
+	}
+	assetblackhole = AEGfxTextureLoad("Assets/Blackhole1.png");
 
 		
 }
@@ -170,25 +170,24 @@ void Draw_Void(VoidPool& voidPool)
 {
 	//if (IsExplosionTriggered())
 	//{
-		for (int i = 0; i < voidPool.activeSize; i++)
+	for (int i = 0; i < voidPool.activeSize; i++)
+	{
+
+		if (voidPool.activeVoid[i]->hasbeenused)
 		{
-
-			if (voidPool.activeVoid[i]->hasbeenused)
+			DrawMesh(&voidPool.activeVoid[i]->transform);
+			if (voidPool.activeVoid[i]->iscolliding)
 			{
-				DrawMesh(&voidPool.activeVoid[i]->transform);
-				if (voidPool.activeVoid[i]->iscolliding)
-				{
-					VoidDelete(i, voidPool);
-				}
+				VoidDelete(i, voidPool);
 			}
-
 		}
-	
+
+	}
 }
 
 void Free_Void()
 {
 	
-		AEGfxMeshFree(voidMesh);
+	AEGfxMeshFree(voidMesh);
 
 }
