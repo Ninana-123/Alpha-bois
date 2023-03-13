@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "TimeManager.h"
 
-
+float dirSpeed = 2.f;
 
 
 void Player_Init(Player* Player,BulletPool &bulletPool) {
@@ -44,7 +44,7 @@ void Player_Update(Player* Player,BulletPool &bulletPool) {
 			newPos.x = Player->moveSpeed * deltaTime;
 		}
 
-		acc = (newPos * 2);
+		acc = (newPos * dirSpeed);
 		vel = (vel + acc);
 		newPos = (newPos + vel);
 		Player->left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);

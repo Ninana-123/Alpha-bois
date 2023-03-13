@@ -10,6 +10,8 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
+extern s8 font;
+
 namespace{
 	AEGfxVertexList* BGMesh = 0;
 	AEGfxVertexList* playMesh = 0;

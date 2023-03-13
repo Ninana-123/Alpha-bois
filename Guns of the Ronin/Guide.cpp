@@ -268,8 +268,8 @@ void Draw_Guide() {
 	DrawMesh(&ninja.transform);
 	DrawMesh(&cannon.transform);
 
-	DrawSprite(&WASD.transform,WASD.spriteIndex);
-	DrawSprite(&click.transform, click.spriteIndex);
+	DrawStaticSprite(&WASD.transform,WASD.spriteIndex);
+	DrawStaticSprite(&click.transform, click.spriteIndex);
 
 	Draw_Player(&player, bulletPool);
 }

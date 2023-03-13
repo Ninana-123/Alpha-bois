@@ -11,7 +11,7 @@
 #define PAUSEMENU_H
 
 namespace {
-	AEGfxVertexList* BGMesh = 0;
+	AEGfxVertexList* pauseMesh = 0;
 	AEGfxVertexList* resumeMesh = 0;
 	AEGfxVertexList* restartMesh = 0;
 	AEGfxVertexList* mainmenuMesh = 0;

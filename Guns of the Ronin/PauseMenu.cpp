@@ -20,13 +20,13 @@ void Init_PauseMenu() {
 
 	PauseMenuBG = AEGfxTextureLoad("Assets/pauseMenu.png");
 
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), BGMesh, 1.f, 1.0f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), pauseMesh, 1.f, 1.0f);
 	pauseMenu.transform.texture = &PauseMenuBG;
 	pauseMenu.transform.position = { 0.0f,0.0f };
 	pauseMenu.transform.scale = { 1600.0f,-900.0f };
 	pauseMenu.transform.rotation = 0.0f;
 	//pauseMenu.spriteIndex = 0;
-	pauseMenu.transform.mesh = &BGMesh;
+	pauseMenu.transform.mesh = &pauseMesh;
 
 }
 
@@ -61,6 +61,6 @@ void Draw_PauseMenu() {
 }
 
 void Free_PauseMenu() {
-	AEGfxMeshFree(BGMesh);
+	AEGfxMeshFree(pauseMesh);
 	AEGfxTextureUnload(PauseMenuBG);
 }
