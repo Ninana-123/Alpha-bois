@@ -108,6 +108,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="GSM.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Shrine.cpp" />
     <ClCompile Include="DummyPlayer.cpp" />
     <ClCompile Include="EnemyController.cpp" />
@@ -138,6 +139,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     <ClInclude Include="GSMList.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MainScene.h" />
+    <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Shrine.h" />
     <ClInclude Include="DummyPlayer.h" />
     <ClInclude Include="EnemyController.h" />
