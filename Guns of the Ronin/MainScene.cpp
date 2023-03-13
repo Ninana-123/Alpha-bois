@@ -87,7 +87,7 @@ void Update_Scene() {
 
 	//healthbar(playerinfo, &health);
 	Update_Time();
-	SetQuadPoints(player.transform, 50, 50);
+	SetQuadPoints(player.transform, player.transform.height, player.transform.width);
 
 	//DummyPlayer_Update(&dummyPlayer);
 
