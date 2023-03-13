@@ -51,6 +51,7 @@ void Init_NinjaPool(NinjaPool& pool) {
 	ninjaTexture = AEGfxTextureLoad("Assets/Ninja1.PNG");
 }
 
+// Ninja movement, attacking state, wind shrine 
 void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 	Vector2 playerPos = player.transform.position;
 	for (int i = 0; i < pool.activeSize; i++) {
@@ -103,6 +104,7 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 	Shuriken_AI(shuriken);
 }
 
+// Player projectile colliding with ninja
 void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeNinjas[index]->health -= playerInfo.att) <= 0) {
@@ -112,7 +114,7 @@ void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index) {
 }
 
 
-//Push Ninjas in the specified direction to the specific wordPos in the according axis
+// Push Ninjas in the specified direction to the specific wordPos in the according axis
 void Push_Ninja(NinjaPool& pool, DIRECTION direction, float targetAxis) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		pool.activeNinjas[i]->aiState = NINJA_BLOWNAWAY;
@@ -131,7 +133,7 @@ void Push_Ninja(NinjaPool& pool, DIRECTION direction, float targetAxis) {
 	}
 }
 
-
+// Draw ninja, and shuriken
 void Draw_Ninja(NinjaPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		DrawMesh(&pool.activeNinjas[i]->transform);
@@ -139,6 +141,7 @@ void Draw_Ninja(NinjaPool& pool) {
 	Draw_Shuriken(shuriken);
 }
 
+// Free assets
 void Free_Ninja() {
 	AEGfxMeshFree(ninjaMesh);
 	AEGfxTextureUnload(ninjaTexture);

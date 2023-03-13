@@ -5,6 +5,7 @@
 
 float arrowHalfX, arrowHalfY;
 float arrowBoundaryX, arrowBoundaryY;
+float arrowSpeed = 200.f;
 
 //When a projectile dies / destroyed / you want to hide it / etc..
 void ArrowRemove(int index, ArrowPool& pool) {
@@ -61,10 +62,11 @@ void Draw_Arrow(ArrowPool& pool) {
 	
 }
 
+// Arrow direction, Arrow boundary - if out of the boundary / screen, delete it
 void Arrow_AI(ArrowPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		SetQuadPoints(pool.activeArrow[i]->transform, 20, 20);
-		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * 200.0f;
+		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * arrowSpeed;
 		if (pool.activeArrow[i]->transform.position.x > arrowBoundaryX) {
 			ArrowRemove(i, pool);
 		}

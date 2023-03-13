@@ -1,7 +1,6 @@
 #include "Archer.h"
 #include "HighScore.h"
 
-
 float archerAttDelay = 2.0f;
 ArrowPool arrow;
 
@@ -47,6 +46,7 @@ void Init_ArcherPool(ArcherPool& pool) {
 	Init_ArrowPool(arrow);
 }
 
+// Archer movement, attacking, wind shrine activation
 void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 		Vector2 playerPos = player.transform.position;
 		for (int i = 0; i < pool.activeSize; i++) {
@@ -86,6 +86,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 				break;
 			}
 
+			// Arrow collision with player
 			proj->timeSince_lastDmgDeal += deltaTime;
 			if (StaticCol_QuadQuad(proj->transform, player.transform)) {
 				if (proj->timeSince_lastDmgDeal > 1.0f) {
@@ -99,6 +100,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 		Arrow_AI(arrow);
 	}
 
+// Player projectile colliding with archers
 void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeArchers[index]->health -= playerInfo.att) <= 0) {
@@ -127,7 +129,7 @@ void Push_Archer(ArcherPool& pool, DIRECTION direction, float targetAxis) {
 	}
 }
 
-
+// Draw archer and arrow
 void Draw_Archer(ArcherPool& pool) {
 
 	for (int i = 0; i < pool.activeSize; i++) {
@@ -136,6 +138,7 @@ void Draw_Archer(ArcherPool& pool) {
 	Draw_Arrow(arrow);
 }
 
+// Free assets/mesh
 void Free_Archer() {
 	AEGfxMeshFree(archerMesh);
 	AEGfxTextureUnload(archerTexture);

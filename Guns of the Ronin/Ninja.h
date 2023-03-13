@@ -20,7 +20,7 @@ namespace {
 	float NINJA_SWEEP_MS = 700.0f;
 	float NINJA_HIT_ANIM_DURATION = 0.5f;
 	int NINJA_EXP = 10;
-	int NINJA_DAMAGE = 50;
+	int NINJA_DAMAGE = 5;
 	AEGfxVertexList* ninjaMesh = 0;
 	AEGfxTexture* ninjaTexture = 0;
 	float NINJA_HEIGHT = 20, NINJA_WIDTH = 20;

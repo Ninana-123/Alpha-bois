@@ -5,6 +5,7 @@
 
 float shurikenHalfX, shurikenHalfY;
 float shurikenBoundaryX, shurikenBoundaryY;
+float shurikenSpeed = 400.f;
 
 //When a projectile dies / destroyed / you want to hide it / etc..
 void ShurikenRemove(int index, ShurikenPool& pool) {
@@ -60,10 +61,11 @@ void Draw_Shuriken(ShurikenPool& pool) {
 
 }
 
+// Remove shuriken if out of boundary
 void Shuriken_AI(ShurikenPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		SetQuadPoints(pool.activeShuriken[i]->transform, 20, 20);
-		pool.activeShuriken[i]->transform.position += pool.activeShuriken[i]->direction * deltaTime * 400.0f;
+		pool.activeShuriken[i]->transform.position += pool.activeShuriken[i]->direction * deltaTime * shurikenSpeed;
 		if (pool.activeShuriken[i]->transform.position.x > shurikenBoundaryX) {
 			ShurikenRemove(i, pool);
 		}
@@ -79,7 +81,7 @@ void Shuriken_AI(ShurikenPool& pool) {
 	}
 }
 
-
+// Free assets
 void Free_Shuriken() {
 	AEGfxMeshFree(shurikenMesh);
 
