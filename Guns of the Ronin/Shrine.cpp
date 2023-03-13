@@ -26,8 +26,13 @@ s32 mousePosY;
 s32* mouseX = &mousePosX;
 s32* mouseY = &mousePosY;
 
+float HalfX;
+float HalfY;
+
 void Shrinepool_Init(ShrinePool& pool)
 {
+	HalfX = (float) AEGetWindowWidth() / 2.0f;
+	HalfY = (float)AEGetWindowHeight() / 2.0f;
 	duration = 0;
 	pool.activeSize = 0;
 	CreateQuadMesh(SHRINE_WIDTH, SHRINE_HEIGHT, Color(1, 1, 0, 1), shrineMesh);
@@ -81,7 +86,7 @@ void ShrineAdd(ShrinePool & shrinePool)
 
 			shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
 			//arranges PNG image according to type of shrine
-			if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+			/*if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
 			{
 				shrinePool.activeShrine[i]->transform.texture = &assetfreeze;
 			}
@@ -94,21 +99,21 @@ void ShrineAdd(ShrinePool & shrinePool)
 			else if (shrinePool.activeShrine[i]->types == Shrine::Push) 
 			{
 				shrinePool.activeShrine[i]->transform.texture = &assetwind;
-			}
+			}*/
 
-			else if (shrinePool.activeShrine[i]->types == Shrine::Explosion) 
+			/* if (shrinePool.activeShrine[i]->types == Shrine::Explosion) 
 			{
 				shrinePool.activeShrine[i]->transform.texture =&assetexplosion;
-			}
+			}*/
 
-			else if (shrinePool.activeShrine[i]->types == Shrine::God) 
+			 if (shrinePool.activeShrine[i]->types == Shrine::God) 
 			{
 				shrinePool.activeShrine[i]->transform.texture = &assetgod;
 			}
-
-			else if (shrinePool.activeShrine[i]->types == Shrine::Void) {
+			
+			/* if (shrinePool.activeShrine[i]->types == Shrine::Void) {
 				shrinePool.activeShrine[i]->transform.texture = &assetvoid;
-			}
+			}*/
 			std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
 			break;
 		}
@@ -128,13 +133,13 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool,int index, VoidPool& voidPool)
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool,int index, VoidPool& voidPool, CannoneerPool& canPool)
 {
 	duration += deltaTime;
 	//std::cout << duration << std::endl;
 	AEInputGetCursorPosition(mouseX, mouseY);
-	*mouseX = *mouseX - 800;
-	*mouseY = (*mouseY - 450) * -1;
+	/**mouseX = *mouseX - 800;
+	*mouseY = (*mouseY - 450) * -1;*/
 
 	if (duration >= 1.f)
 	{
@@ -143,17 +148,36 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 
 	}
 
+	Vector2 PositionMouse = Vector2(*mouseX >= HalfX ? *mouseX - HalfX : -(HalfX - *mouseX), *mouseY >= HalfY ? -(*mouseY - HalfY) : HalfY - *mouseY);
 	timeSincePause += deltaTime;
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
 		SetQuadPoints(shrinePool.activeShrine[i]->transform, 40.f, 40.f);
+
+		//if (shrinePool.activeShrine[i]->types == Shrine::God)
+		//{
+		//	for (int u = 0; u < samPool.activeSize; ++u)
+		//	{
+		//		if (IsButtonHover(samPool.activeSamurais[u]->transform.position.x, samPool.activeSamurais[u]->transform.position.y,
+		//			samPool.activeSamurais[u]->transform.width *(samPool.activeSamurais[u]->transform.scale.x), 
+		//			samPool.activeSamurais[u]->transform.height *(samPool.activeSamurais[u]->transform.scale.y), (s32*)&PositionMouse.x, (s32*)&PositionMouse.y))
+		//		{
+		//			//std::cout << "in" << std::endl;
+		//			if (AEInputCheckTriggered(AEVK_LBUTTON))
+		//			{
+		//				//std::cout << "pressed" << std::endl;
+		//				SamuraiRemove(u, samPool);
+		//			}
+		//		}
+		//	}
+		//}
 		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 		{
 			shrinePool.activeShrine[i]->iscolliding = true;
 			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
 			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
 			{
-				if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+				/*if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
 				{
 					TimePauseEnemy();
 					timeSincePause = 0.0f;
@@ -174,46 +198,47 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 					ShrineDelete(i, shrinePool);
 					std::cout << "Heal tower" << std::endl;
 					std::cout << playerinfo.health << std::endl;
-				}
+				}*/
 
-				if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
-				{
-					
-					for (int i = 0; i < Explosion_Count; i++)
-					{
-						ExplosionAdd(explosionPool);
-					}
-					Explosion_Update(explosionPool, samPool);
-					ShrineDelete(i, shrinePool);
-				}
-				if (shrinePool.activeShrine[i]->types == Shrine::Void)
-				{
-					
-					for (int k = 0;k < Explosion_Count; k++)
+				//if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
+				//{
+				//	
+				//	for (int i = 0; i < Explosion_Count; i++)
+				//	{
+				//		ExplosionAdd(explosionPool);
+				//	}
+				//	Explosion_Update(explosionPool, archPool,  canPool, ninPool);
+				//	ShrineDelete(i, shrinePool);
+				//	
+				//}
+
+				/*if (shrinePool.activeShrine[i]->types == Shrine::Void)
+				{					
+					for (int k = 0;k < Void_Count; k++)
 					{
 						VoidAdd(voidPool);
 					}
-					Void_Update(voidPool, samPool, archPool);
+					Void_Update(voidPool, samPool, archPool, canPool);
 					ShrineDelete(i, shrinePool);
 					
+				}*/
+
+				if (shrinePool.activeShrine[i]->types == Shrine::God)
+				{
+					for (int u = 0; u < samPool.activeSize; ++u)
+					{
+						/*if (IsButtonHover(samPool.activeSamurais[u]->transform.position.x, samPool.activeSamurais[u]->transform.position.y,
+							samPool.activeSamurais[u]->transform.width, samPool.activeSamurais[u]->transform.height, mouseX, mouseY))
+						{*/
+						//std::cout << "in" << std::endl;
+						if (AEInputCheckTriggered(AEVK_LBUTTON))
+						{
+							//std::cout << "pressed" << std::endl;
+							SamuraiRemove(u, samPool);
+						}
+						ShrineDelete(i, shrinePool);
+					}
 				}
-				//if (shrinePool.activeShrine[i]->types == Shrine::God)
-				//{
-				//	for (int i = 0; i < samPool.activeSize; ++i)
-				//	{
-				//		if(IsButtonHover(samPool.activeSamurais[i]->transform.position.x, samPool.activeSamurais[i]->transform.position.y,
-				//			samPool.activeSamurais[i]->transform.width, samPool.activeSamurais[i]->transform.height, mouseX, mouseY))
-				//		{
-				//			//std::cout << "in" << std::endl;
-				//			if (AEInputCheckTriggered(AEVK_LBUTTON))
-				//			{
-				//				//std::cout << "pressed" << std::endl;
-				//				SamuraiRemove(index, samPool);
-				//			}
-				//		}
-				//	}
-				//}
-				
 			}
 			else
 			{
@@ -234,9 +259,11 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 			shrinePool.activeShrine[i]->iscolliding = false;
 		}
 	}
-	if (timeSincePause >= 2.0f) {
+	if (timeSincePause >= 2.0f)
+	{
 		TimeEnemyResume();
 	}
+	
 }
 
 

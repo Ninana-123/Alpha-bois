@@ -90,11 +90,11 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool,index, voidPool);
+	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool,index, voidPool, cPool);
 
-	Explosion_Update( explosionPool, samPool);
+	Explosion_Update( explosionPool,  archPool,  cPool,  ninPool);
 
-	Void_Update( voidPool, samPool,archPool);
+	Void_Update( voidPool, samPool,archPool,cPool);
 
 	Update_Enemies(samPool, archPool, cPool, ninPool, player, playerinfo);
 

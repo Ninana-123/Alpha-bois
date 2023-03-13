@@ -9,7 +9,8 @@
 #include "Bullets.h"
 #include "ArcherArrow.h"
 #include "TimeManager.h"
-namespace {
+namespace
+{
 	enum ARCHER_AI_STATE { ARCHER_MOVING, ARCHER_ATTACKING, ARCHER_BLOWNAWAY };
 	enum { ARCHER_COUNT = 3 };
 	int const ARCHER_KILLSCORE = 50;
@@ -34,6 +35,8 @@ public:
 	ARCHER_AI_STATE aiState = ARCHER_MOVING;
 	bool enabled = false;
 	float timeLastAttack = 0;
+	bool damagedByExplosion = false;
+	bool isCollidingWithExplosion = false;
 };
 
 struct ArcherPool {
@@ -56,4 +59,5 @@ void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index);
 
 void Free_Archer();
 
+void ArcherRemove(int index, ArcherPool& pool);
 #endif // !ARCHER_H
