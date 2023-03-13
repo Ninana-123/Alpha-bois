@@ -34,6 +34,7 @@ public:
 	ARCHER_AI_STATE aiState = ARCHER_MOVING;
 	bool enabled = false;
 	float timeLastAttack = 0;
+	Sprite_Animation anim{ 1,4,1 };
 };
 
 struct ArcherPool {
