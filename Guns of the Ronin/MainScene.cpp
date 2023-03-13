@@ -18,6 +18,7 @@
 #include "ArcherArrow.h"
 #include "NinjaShuriken.h"
 #include "MainScene.h"
+#include "MainMenu.h"
 #include "HealthBar.h"
 #include "Void.h"
 #include "PauseMenu.h"
@@ -98,7 +99,7 @@ void Update_Scene() {
 
 	Update_Enemies(samPool, archPool, cPool, ninPool, player, playerinfo);
 
-	Shop_Update(&shop, &playerinfo);
+	//Shop_Update(&shop, &playerinfo);
 
 	Update_PauseMenu();
 
@@ -198,6 +199,9 @@ void Update_Scene() {
 
 
 void Draw_Scene() {
+
+	char strBuffer[1024];
+
 	// Set the background 
 	AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
 	DrawMesh(&level.transform);
@@ -211,15 +215,16 @@ void Draw_Scene() {
 	
 	if (playerinfo.playerDead) {
 		TimePause();
-		char dead[] = "DEAD";
-		G_DrawText(dead, -50.0f, 0.f, 2.0f, Color(0, 0, 0));
+		sprintf_s(strBuffer, " DEAD");
+		AEGfxPrint(font, strBuffer, 0.0f, 0.0f, 5.0f, 0, 0, 0);
+		//G_DrawText(dead, -50.0f, 0.f, 2.0f, Color(0, 0, 0));
 	}
 	Draw_Shop(&shop, &playerinfo);
 }
 
 void Free_Scene() {
 	
-	G_DestroyFont();
+	//G_DestroyFont();
 	
 	//AEGfxMeshFree(dummyPlayer.transform.mesh);
 	Free_PauseMenu();

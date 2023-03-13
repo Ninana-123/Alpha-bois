@@ -2,13 +2,16 @@
 
 AEGfxTexture* MainMenuBG;
 
-AEGfxTexture* buttons;
+AEGfxTexture* buttonsSprite;
 
 s32 MousePosX;
 s32 MousePosY;
 
 s32* MouseX = &MousePosX;
 s32* MouseY = &MousePosY;
+
+float BGScaleX = 1600.0f;
+float BGScaleY = 900.0f;
 
 float buttonScaleX = 250.0f;
 float buttonScaleY = -125.0f;
@@ -31,19 +34,21 @@ MainMenu guideButton;
 MainMenu highscoreButton;
 MainMenu quitButton;
 
+s8 font;
+
 void Init_Menu() {
 	// Changing the window title
 	AESysSetWindowTitle("Guns of the Ronin");
 	// reset the system modules
 	AESysReset();
 	MainMenuBG = AEGfxTextureLoad("Assets/MainMenuSakura.png");
-	buttons = AEGfxTextureLoad("Assets/buttonspritesheet.png");
+	buttonsSprite = AEGfxTextureLoad("Assets/buttonspritesheet.png");
 
 	//CreateSpriteMesh(&mainMenu.transform, BGMesh);
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), BGMesh, 0.25f, 1.0f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), BGMesh, 1.0f/4.0f, 1.0f);
 	mainMenu.transform.texture = &MainMenuBG;
 	mainMenu.transform.position = { 0.0f,0.0f };
-	mainMenu.transform.scale = { 1600.0f,-900.0f };
+	mainMenu.transform.scale = { BGScaleX,-BGScaleY };
 	mainMenu.transform.height = 1.0f;
 	mainMenu.transform.width = 4.0f;
 	mainMenu.transform.rotation = 0.0f;
@@ -52,7 +57,7 @@ void Init_Menu() {
 
 	//CreateSpriteMesh(&playButton.transform, playMesh);
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), playMesh, 1.0f / 10.0f, 1.0f);
-	playButton.transform.texture = &buttons;
+	playButton.transform.texture = &buttonsSprite;
 	playButton.transform.position = { playButtonX,buttonsY };
 	playButton.transform.scale = { buttonScaleX,buttonScaleY };
 	playButton.transform.height = 1.0f;
@@ -61,7 +66,7 @@ void Init_Menu() {
 	playButton.transform.mesh = &playMesh;
 
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), guideMesh, 1.0f / 10.0f, 1.0f);
-	guideButton.transform.texture = &buttons;
+	guideButton.transform.texture = &buttonsSprite;
 	guideButton.transform.position = { guideButtonX,buttonsY };
 	guideButton.transform.scale = { buttonScaleX,buttonScaleY };
 	guideButton.transform.height = 1.0f;
@@ -70,7 +75,7 @@ void Init_Menu() {
 	guideButton.transform.mesh = &guideMesh;
 	
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), highscoreMesh, 1.0f / 10.0f, 1.0f);
-	highscoreButton.transform.texture = &buttons;
+	highscoreButton.transform.texture = &buttonsSprite;
 	highscoreButton.transform.position = { highscoreButtonX,buttonsY };
 	highscoreButton.transform.scale = { buttonScaleX,buttonScaleY };
 	highscoreButton.transform.height = 1.0f;
@@ -79,7 +84,7 @@ void Init_Menu() {
 	highscoreButton.transform.mesh = &highscoreMesh;
 	
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), quitMesh, 1.0f / 10.0f, 1.0f);
-	quitButton.transform.texture = &buttons;
+	quitButton.transform.texture = &buttonsSprite;
 	quitButton.transform.position = { quitButtonX,buttonsY };
 	quitButton.transform.scale = { buttonScaleX,buttonScaleY };
 	quitButton.transform.height = 1.0f;
@@ -99,8 +104,8 @@ void Update_Menu() {
 	AEInputGetCursorPosition(MouseX, MouseY);
 	*MouseX = *MouseX - 800;
 	*MouseY = (*MouseY - 450) * -1;
-		//std::cout << "Mouse_X: " << *MouseX << std::endl;
-		//std::cout << "Mouse_Y: " << *MouseY << std::endl;
+	std::cout << "Mouse_X: " << *MouseX << std::endl;
+	std::cout << "Mouse_Y: " << *MouseY << std::endl;
 	left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
 
 	if (frameTimer >= 0.3f) {
@@ -134,19 +139,20 @@ void Update_Menu() {
 
 	if (IsButtonHover(quitButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
 		quitButton.spriteIndex = 3;
+		if (left_mouse_pressed) {
+			gGameStateNext = GS_QUIT;
+		}
 	}
 	else quitButton.spriteIndex = 2;
-
-
 
 }
 
 void Draw_Menu() {
 	DrawMesh(&mainMenu.transform);
-	DrawSprite(&playButton.transform, playButton.spriteIndex);
-	DrawSprite(&guideButton.transform, guideButton.spriteIndex);
-	DrawSprite(&highscoreButton.transform, highscoreButton.spriteIndex);
-	DrawSprite(&quitButton.transform, quitButton.spriteIndex);
+	DrawStaticSprite(&playButton.transform, playButton.spriteIndex);
+	DrawStaticSprite(&guideButton.transform, guideButton.spriteIndex);
+	DrawStaticSprite(&highscoreButton.transform, highscoreButton.spriteIndex);
+	DrawStaticSprite(&quitButton.transform, quitButton.spriteIndex);
 
 }
 
@@ -157,7 +163,7 @@ void Free_Menu() {
 	AEGfxMeshFree(highscoreMesh);
 	AEGfxMeshFree(quitMesh);
 	AEGfxTextureUnload(MainMenuBG);
-	AEGfxTextureUnload(buttons);
+	AEGfxTextureUnload(buttonsSprite);
 }
 // ---------------------------------------------------------------------------
 // main
@@ -183,10 +189,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	int gGameRunning = 1;
 
-	// Initialization of your own variables go here
+	AESysSetWindowTitle("Guns of the Ronin");
 
 	// Using custom window procedure
 	AESysInit(hInstance, nCmdShow, 1600, 900, 1, 60, true, NULL);
+
+	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 20);
 
 	GameStateMgrInit(GS_MAINMENU);
 
@@ -229,6 +237,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		gGameStateCurr = gGameStateNext;
 	}
 
+	AEGfxDestroyFont(font);
 	// free the system
 	AESysExit();
 }

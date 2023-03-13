@@ -103,14 +103,14 @@ private:
 	float frame_time = 0;
 };
 
-namespace {
-	s8 font;
-}
+//namespace {
+//	s8 font;
+//}
 
 //void G_Init();
-void G_DestroyFont();
-void G_SetFontSize(int size);
-void G_DrawText(char* ch, float xPos, float yPos, float scale = 1.0f, Color color = Color(0, 0, 0));
+//void G_DestroyFont();
+//void G_SetFontSize(int size);
+//void G_DrawText(char* ch, float xPos, float yPos, float scale = 1.0f, Color color = Color(0, 0, 0));
 bool StaticCol_QuadQuad(Transform trans1, Transform trans2);
 
 //Creates a rectangle mesh with its transform
@@ -124,9 +124,10 @@ void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh);
 
 //oid CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh);
 
-void DrawSprite(Transform* trans, int index);
+void DrawStaticSprite(Transform* trans, int index);
 
 bool IsButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y);
+
 void FlipTexture_x(Transform& trans);
 
 void FlipTexture_y(Transform& trans);

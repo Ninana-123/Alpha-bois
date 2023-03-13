@@ -48,21 +48,21 @@ void Draw_Shop(Shop* shop, PlayerInfo* playerinfo) {
 		DrawMesh(&shop->attspd);
 		DrawMesh(&shop->health);
 
-		// Shop
-		char testCh[] = "GUNS OF RONIN";
-		G_DrawText(testCh, -210.0f, 200.0f, 0.5, Color(1, 1, 1, 1));
+		//// Shop
+		//char testCh[] = "GUNS OF RONIN";
+		//G_DrawText(testCh, -210.0f, 200.0f, 0.5, Color(1, 1, 1, 1));
 
-		// Resume
-		char resumeButton[] = "Resume";
-		G_DrawText(resumeButton, -85.0f, 100.0f, 0.3, Color(1, 1, 1, 1));
+		//// Resume
+		//char resumeButton[] = "Resume";
+		//G_DrawText(resumeButton, -85.0f, 100.0f, 0.3, Color(1, 1, 1, 1));
 
-		// Restart
-		char restartButton[] = "Restart";
-		G_DrawText(restartButton, -80.0f, 0.0f, 0.3, Color(1, 1, 1, 1));
+		//// Restart
+		//char restartButton[] = "Restart";
+		//G_DrawText(restartButton, -80.0f, 0.0f, 0.3, Color(1, 1, 1, 1));
 
-		// Main Menu
-		char attspd1[] = "Main Menu";
-		G_DrawText(attspd1, -105.0f, -100.0f, 0.3, Color(1, 1, 1, 1));
+		//// Main Menu
+		//char attspd1[] = "Main Menu";
+		//G_DrawText(attspd1, -105.0f, -100.0f, 0.3, Color(1, 1, 1, 1));
 	}
 }
 void Shop_Update(Shop* shop, PlayerInfo* playerinfo) {

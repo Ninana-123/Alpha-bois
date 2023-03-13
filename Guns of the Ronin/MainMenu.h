@@ -10,6 +10,8 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
+extern s8 font;
+
 namespace{
 	AEGfxVertexList* BGMesh = 0;
 	AEGfxVertexList* playMesh = 0;
@@ -24,7 +26,7 @@ class MainMenu {
 public:
 	Transform transform;
 	int spriteIndex = 0;
-	Sprite_Animation sakuraAnim{ 4.f,4,1};
+	Sprite_Animation sakuraAnim{ 2.f,4,1};
 
 };
 

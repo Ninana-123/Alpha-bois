@@ -9,22 +9,22 @@
 
 //Draws text contained in ch at coordinates (xPos, yPos) 
 //Color of text ignores alpha value stored in color
-void G_DrawText(char* ch, float xPos, float yPos, float scale, Color color) {
-	float boundaryX = AEGetWindowWidth() / 2.0f;
-	float boundaryY = AEGetWindowHeight() / 2.0f;
+//void G_DrawText(char* ch, float xPos, float yPos, float scale, Color color) {
+//	float boundaryX = AEGetWindowWidth() / 2.0f;
+//	float boundaryY = AEGetWindowHeight() / 2.0f;
+//
+//	AEGfxPrint(font, ch, xPos / boundaryX, yPos / boundaryY, scale, color.r, color.g, color.b);
+//}
 
-	AEGfxPrint(font, ch, xPos / boundaryX, yPos / boundaryY, scale, color.r, color.g, color.b);
-}
+//
+//void G_SetFontSize(int size) {
+//	AEGfxDestroyFont(font);
+//	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", size);
+//}
 
-
-void G_SetFontSize(int size) {
-	AEGfxDestroyFont(font);
-	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", size);
-}
-
-void G_DestroyFont() {
-	AEGfxDestroyFont(font);
-}
+//void G_DestroyFont() {
+//	AEGfxDestroyFont(font);
+//}
 
 unsigned int createARGB(float r, float g, float b, float a)
 {
@@ -239,7 +239,7 @@ void FlipTexture_y(Transform& trans) {
 //	mesh = AEGfxMeshEnd();
 //}
 
-void DrawSprite(Transform* trans,int index) {
+void DrawStaticSprite(Transform* trans,int index) {
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
