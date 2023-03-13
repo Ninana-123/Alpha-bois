@@ -34,7 +34,8 @@ void ArcherAdd(ArcherPool& pool, Vector2 playerPos) {
 void Init_ArcherPool(ArcherPool& pool) {
 	pool.activeSize = 0;
 	CreateQuadMesh(ARCHER_WIDTH, ARCHER_HEIGHT, Color(1, 0, 0), archerMesh);
-	for (int i = 0; i < ARCHER_COUNT; i++) {
+	for (int i = 0; i < ARCHER_COUNT; i++) 
+	{
 		pool.archers[i].enabled = false;
 		pool.archers[i].health = ARCHER_HEALTH;
 		pool.archers[i].aiState = ARCHER_MOVING;

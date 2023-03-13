@@ -9,7 +9,6 @@
 #include "vector"
 
 float Durations;
-
 void Voidpool_Init(VoidPool& voidPool)
 {
 			Durations = 0;
@@ -67,24 +66,28 @@ void VoidDelete(int index, VoidPool& voidPool)
 	
 }
 
-void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool)
+void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& canPool)
 {
 	
-		/*Durations += deltaTime;
-		if (Durations >= 1.f)
-		{
-			Durations = 0;
-			VoidAdd(voidPool);
-		}*/
-		/*if (voidCount < Void_Count)
-		{*/
+	/*Durations += deltaTime;
+	if (Durations >= 1.f)
+	{
+		Durations = 0;
+		VoidAdd(voidPool);
+	}*/
+	/*if (voidCount < Void_Count)
+	{*/
 
-		// Loop through all active voids in the VoidPool
+	// Loop through all active voids in the VoidPool
 	for (int i = 0; i < voidPool.activeSize; i++)
 	{
-		// Check for collision with samurais
-		// Create an empty vector to store the indices of the collided samurais
+		voidPool.activeVoid[i]->timeElapsed += deltaTime;
+		// Check for collision with enemies
+		// Create empty vectors to store the indices of the collided enemies
 		std::vector<int> collidedSamurais;
+		std::vector<int> collidedCannoners;
+		std::vector<int> collidedArchers;
+
 		// Loop through all active samurais in the SamuraiPool
 		for (int j = 0; j < samPool.activeSize; j++)
 		{
@@ -96,20 +99,54 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool)
 			}
 		}
 
-		// Remove the collided samurais outside of the inner loop
+		// Loop through all active cannoners in the CannonerPool
+		for (int j = 0; j < canPool.activeSize; j++)
+		{
+			// Check if the void and the cannoner intersect
+			if (StaticCol_QuadQuad(voidPool.activeVoid[i]->transform, canPool.activeCannoneers[j]->transform))
+			{
+				// If there is a collision, add the index of the collided cannoner to the vector
+				collidedCannoners.push_back(j);
+			}
+		}
+
+		// Loop through all active archers in the ArcherPool
+		for (int j = 0; j < archPool.activeSize; j++)
+		{
+			// Check if the void and the archer intersect
+			if (StaticCol_QuadQuad(voidPool.activeVoid[i]->transform, archPool.activeArchers[j]->transform))
+			{
+				// If there is a collision, add the index of the collided archer to the vector
+				collidedArchers.push_back(j);
+			}
+		}
+
+		// Remove the collided enemies outside of the inner loop
 		// Loop backwards through the indices of the collided samurais
 		for (int j = collidedSamurais.size() - 1; j >= 0; j--)
 		{
 			// Remove the collided samurai from the SamuraiPool
 			SamuraiRemove(collidedSamurais[j], samPool);
 		}
+		// Loop backwards through the indices of the collided cannoners
+		for (int j = collidedCannoners.size() - 1; j >= 0; j--)
+		{
+			// Remove the collided cannoner from the CannonerPool
+			CannoneerRemove(collidedCannoners[j], canPool);
+		}
+		// Loop backwards through the indices of the collided archers
+		for (int j = collidedArchers.size() - 1; j >= 0; j--)
+		{
+			// Remove the collided archer from the ArcherPool
+			ArcherRemove(collidedArchers[j], archPool);
+		}
 
 		// Remove the void if there are no collided samurais
 		// If the vector of collided samurais is empty
-		if (collidedSamurais.empty())
+		if (collidedSamurais.empty() && collidedCannoners.empty() && collidedArchers.empty())
 		{
-			// Check if the void has been active for more than 1 second
-			if (voidPool.activeVoid[i]->timeElapsed >= 1.f)
+			// Check if the void has been active for more than 4 seconds else remove them
+			if (voidPool.activeVoid[i]->timeElapsed >= 1000.f)
 			{
 				// If the void has been active for more than 1 second, remove it from the VoidPool
 				VoidDelete(i, voidPool);

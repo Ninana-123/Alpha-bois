@@ -7,6 +7,9 @@
 #include "Physics.h"
 #include "Player.h"
 #include "Samurai.h"
+#include "Cannoneer.h"
+#include "Archer.h"
+#include "Ninja.h"
 
 namespace
 {
@@ -25,6 +28,7 @@ public:
 	bool damagedByExplosion =false;
 	Transform loading;
 	float timeElapsed = 0;
+	float timeActive=0;
 };
 
 struct ExplosionPool 
@@ -39,7 +43,7 @@ public:
 void Explosionpool_Init(ExplosionPool& explosionPool);
 void ExplosionAdd(ExplosionPool& explosionPool);
 void ExplosionDelete(int index, ExplosionPool& explosionPool);
-void Explosion_Update(ExplosionPool& explosionPool, SamuraiPool& pool);
+void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, CannoneerPool& canPool, NinjaPool& ninPool);
 void Draw_Explosions(ExplosionPool& explosionPool);
 void Free_Explosions();
 
