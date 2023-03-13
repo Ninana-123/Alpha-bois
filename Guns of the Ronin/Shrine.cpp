@@ -86,7 +86,7 @@ void ShrineAdd(ShrinePool & shrinePool)
 
 			shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
 			//arranges PNG image according to type of shrine
-			/*if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+			if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
 			{
 				shrinePool.activeShrine[i]->transform.texture = &assetfreeze;
 			}
@@ -99,21 +99,22 @@ void ShrineAdd(ShrinePool & shrinePool)
 			else if (shrinePool.activeShrine[i]->types == Shrine::Push) 
 			{
 				shrinePool.activeShrine[i]->transform.texture = &assetwind;
-			}*/
+			}
 
-			/* if (shrinePool.activeShrine[i]->types == Shrine::Explosion) 
+			 if (shrinePool.activeShrine[i]->types == Shrine::Explosion) 
 			{
 				shrinePool.activeShrine[i]->transform.texture =&assetexplosion;
-			}*/
+			}
 
 			 if (shrinePool.activeShrine[i]->types == Shrine::God) 
 			{
 				shrinePool.activeShrine[i]->transform.texture = &assetgod;
 			}
 			
-			/* if (shrinePool.activeShrine[i]->types == Shrine::Void) {
+			 if (shrinePool.activeShrine[i]->types == Shrine::Void) 
+			{
 				shrinePool.activeShrine[i]->transform.texture = &assetvoid;
-			}*/
+			}
 			std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
 			break;
 		}
@@ -177,7 +178,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
 			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
 			{
-				/*if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+				if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
 				{
 					TimePauseEnemy();
 					timeSincePause = 0.0f;
@@ -198,21 +199,21 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 					ShrineDelete(i, shrinePool);
 					std::cout << "Heal tower" << std::endl;
 					std::cout << playerinfo.health << std::endl;
-				}*/
+				}
 
-				//if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
-				//{
-				//	
-				//	for (int i = 0; i < Explosion_Count; i++)
-				//	{
-				//		ExplosionAdd(explosionPool);
-				//	}
-				//	Explosion_Update(explosionPool, archPool,  canPool, ninPool);
-				//	ShrineDelete(i, shrinePool);
-				//	
-				//}
+				if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
+				{
+					
+					for (int i = 0; i < Explosion_Count; i++)
+					{
+						ExplosionAdd(explosionPool);
+					}
+					Explosion_Update(explosionPool, archPool,  canPool, ninPool);
+					ShrineDelete(i, shrinePool);
+					
+				}
 
-				/*if (shrinePool.activeShrine[i]->types == Shrine::Void)
+				if (shrinePool.activeShrine[i]->types == Shrine::Void)
 				{					
 					for (int k = 0;k < Void_Count; k++)
 					{
@@ -221,7 +222,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 					Void_Update(voidPool, samPool, archPool, canPool);
 					ShrineDelete(i, shrinePool);
 					
-				}*/
+				}
 
 				if (shrinePool.activeShrine[i]->types == Shrine::God)
 				{
@@ -236,7 +237,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 							//std::cout << "pressed" << std::endl;
 							SamuraiRemove(u, samPool);
 						}
-						ShrineDelete(i, shrinePool);
+						//ShrineDelete(i, shrinePool);
 					}
 				}
 			}
