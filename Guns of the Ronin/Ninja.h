@@ -35,6 +35,8 @@ public:
 	bool enabled = false;
 	float timeLastAttack = 0;
 	bool isHit = false;
+	bool damagedByExplosion = false;
+	bool isCollidingWithExplosion = false;
 };
 
 struct NinjaPool {
@@ -56,5 +58,7 @@ void Push_Ninja(NinjaPool& pool, DIRECTION direction, float targetAxis = 400);
 void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index);
 
 void Free_Ninja();
+
+void NinjaRemove(int index, NinjaPool& pool);
 
 #endif // !NINJA_H
