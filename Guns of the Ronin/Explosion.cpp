@@ -73,122 +73,130 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 		}*/
 	/*if (explosionCount < Explosion_Count)
 	{*/ 
+
+
+	// Loop over all active explosions in the explosion pool
+	for (int i = 0; i < explosionPool.activeSize; i++)
+	{
+		SetQuadPoints(explosionPool.activeExplosion[i]->transform, 40.f, 40.f);
+
+		// Loop over all active archers in the archer pool
+		for (int j = 0; j < archPool.activeSize; j++)
+		{
+			// Check for collision between the explosion and the archer
+			if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, archPool.activeArchers[j]->transform))
+			{
+				// If the archer has not already been damaged by this explosion, subtract health
+				if (!archPool.activeArchers[j]->damagedByExplosion)
+				{
+					archPool.activeArchers[j]->health -= 50;
+					archPool.activeArchers[j]->damagedByExplosion = true;
+					std::cout << "Health:" << archPool.activeArchers[j]->health << std::endl;
+					// If the archer's health is now zero or less, remove it from the pool
+					if (archPool.activeArchers[j]->health <= 0) 
+					{
+						ArcherRemove(j, archPool);
+					}
+				}
+				archPool.activeArchers[j]->isCollidingWithExplosion = true;
+			}
+		}
+			
+		for (int z = 0; z < canPool.activeSize; z++)
+		{
+			if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, canPool.activeCannoneers[z]->transform))
+			{
+				if (!canPool.activeCannoneers[z]->damagedByExplosion)
+				{
+					canPool.activeCannoneers[z]->health -= 50;
+					canPool.activeCannoneers[z]->damagedByExplosion = true;
+					//std::cout << "Health:" << canPool.activeArchers[j]->health << std::endl;
+					if (canPool.activeCannoneers[z]->health <= 0)
+					{
+						CannoneerRemove(z, canPool);
+					}
+				}
+				canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
+			}
+		}
+			
+		for (int k = 0; k < ninPool.activeSize; k++)
+		{
+			if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, ninPool.activeNinjas[k]->transform))
+			{
+				if (!ninPool.activeNinjas[k]->damagedByExplosion)
+				{
+					ninPool.activeNinjas[k]->health -= 50;
+					ninPool.activeNinjas[k]->damagedByExplosion = true;
+					std::cout << "Health:" << ninPool.activeNinjas[k]->health << std::endl;
+					if (ninPool.activeNinjas[k]->health <= 0)
+					{
+						NinjaRemove(k, ninPool);
+					}
+				}
+				ninPool.activeNinjas[k]->isCollidingWithExplosion = true;
+			}
+		}
+		// Removing the explosion after 4 seconds 
+		explosionPool.activeExplosion[i]->timeElapsed += deltaTime;
+		if (explosionPool.activeExplosion[i]->timeElapsed >= 400.0f)
+		{
+			ExplosionDelete(i, explosionPool);
+		}
+	}
+
+	for (int j = 0; j < archPool.activeSize; j++)
+	{
+		archPool.activeArchers[j]->isCollidingWithExplosion = false;
 		for (int i = 0; i < explosionPool.activeSize; i++)
 		{
-			SetQuadPoints(explosionPool.activeExplosion[i]->transform, 40.f, 40.f);
-			for (int j = 0; j < archPool.activeSize; j++)
+			if (StaticCol_QuadQuad(archPool.activeArchers[j]->transform, explosionPool.activeExplosion[i]->transform))
 			{
-				if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, archPool.activeArchers[j]->transform))
-				{
-					if (!archPool.activeArchers[j]->damagedByExplosion)
-					{
-						archPool.activeArchers[j]->health -= 50;
-						archPool.activeArchers[j]->damagedByExplosion = true;
-						std::cout << "Health:" << archPool.activeArchers[j]->health << std::endl;
-						if (archPool.activeArchers[j]->health <= 0) 
-						{
-							ArcherRemove(j, archPool);
-						}
-					}
-					archPool.activeArchers[j]->isCollidingWithExplosion = true;
-				}
-			}
-			
-			for (int z = 0; z < canPool.activeSize; z++)
-			{
-				if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, canPool.activeCannoneers[z]->transform))
-				{
-					if (!canPool.activeCannoneers[z]->damagedByExplosion)
-					{
-						canPool.activeCannoneers[z]->health -= 50;
-						canPool.activeCannoneers[z]->damagedByExplosion = true;
-						//std::cout << "Health:" << canPool.activeArchers[j]->health << std::endl;
-						if (canPool.activeCannoneers[z]->health <= 0)
-						{
-							CannoneerRemove(z, canPool);
-						}
-					}
-					canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
-				}
-			}
-			
-			for (int k = 0; k < ninPool.activeSize; k++)
-			{
-				if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, ninPool.activeNinjas[k]->transform))
-				{
-					if (!ninPool.activeNinjas[k]->damagedByExplosion)
-					{
-						ninPool.activeNinjas[k]->health -= 50;
-						ninPool.activeNinjas[k]->damagedByExplosion = true;
-						std::cout << "Health:" << ninPool.activeNinjas[k]->health << std::endl;
-						if (ninPool.activeNinjas[k]->health <= 0)
-						{
-							NinjaRemove(k, ninPool);
-						}
-					}
-					ninPool.activeNinjas[k]->isCollidingWithExplosion = true;
-				}
-			}
-			// Removing the explosion after 4 seconds 
-			explosionPool.activeExplosion[i]->timeElapsed += deltaTime;
-			if (explosionPool.activeExplosion[i]->timeElapsed >= 400.0f)
-			{
+				archPool.activeArchers[j]->isCollidingWithExplosion = true;
 				ExplosionDelete(i, explosionPool);
 			}
 		}
-
-		for (int j = 0; j < archPool.activeSize; j++)
+		if (!archPool.activeArchers[j]->isCollidingWithExplosion && archPool.activeArchers[j]->damagedByExplosion)
 		{
-			archPool.activeArchers[j]->isCollidingWithExplosion = false;
-			for (int i = 0; i < explosionPool.activeSize; i++)
-			{
-				if (StaticCol_QuadQuad(archPool.activeArchers[j]->transform, explosionPool.activeExplosion[i]->transform))
-				{
-					archPool.activeArchers[j]->isCollidingWithExplosion = true;
-					ExplosionDelete(i, explosionPool);
-				}
-			}
-			if (!archPool.activeArchers[j]->isCollidingWithExplosion && archPool.activeArchers[j]->damagedByExplosion)
-			{
-				archPool.activeArchers[j]->damagedByExplosion = false;
-			}
-
+			archPool.activeArchers[j]->damagedByExplosion = false;
 		}
 
-		for (int z= 0; z < canPool.activeSize; z++)
+	}
+
+	for (int z= 0; z < canPool.activeSize; z++)
+	{
+		canPool.activeCannoneers[z]->isCollidingWithExplosion = false;
+		for (int i = 0; i < explosionPool.activeSize; i++)
 		{
-			canPool.activeCannoneers[z]->isCollidingWithExplosion = false;
-			for (int i = 0; i < explosionPool.activeSize; i++)
+			if (StaticCol_QuadQuad(canPool.activeCannoneers[z]->transform, explosionPool.activeExplosion[i]->transform))
 			{
-				if (StaticCol_QuadQuad(canPool.activeCannoneers[z]->transform, explosionPool.activeExplosion[i]->transform))
-				{
-					canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
-					ExplosionDelete(i, explosionPool);
-				}
-			}
-			if (!canPool.activeCannoneers[z]->isCollidingWithExplosion && canPool.activeCannoneers[z]->damagedByExplosion)
-			{
-				canPool.activeCannoneers[z]->damagedByExplosion = false;
+				canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
+				ExplosionDelete(i, explosionPool);
 			}
 		}
-
-		for (int k = 0; k < ninPool.activeSize; k++)
+		if (!canPool.activeCannoneers[z]->isCollidingWithExplosion && canPool.activeCannoneers[z]->damagedByExplosion)
 		{
-			ninPool.activeNinjas[k]->isCollidingWithExplosion = false;
-			for (int i = 0; i < explosionPool.activeSize; i++)
-			{
-				if (StaticCol_QuadQuad(ninPool.activeNinjas[k]->transform, explosionPool.activeExplosion[i]->transform))
-				{
-					ninPool.activeNinjas[k]->isCollidingWithExplosion = true;
-					ExplosionDelete(i, explosionPool);
-				}
-			}
-			if (!ninPool.activeNinjas[k]->isCollidingWithExplosion && ninPool.activeNinjas[k]->damagedByExplosion)
-			{
-				ninPool.activeNinjas[k]->damagedByExplosion = false;
-			}
-
+			canPool.activeCannoneers[z]->damagedByExplosion = false;
 		}
+	}
+
+	for (int k = 0; k < ninPool.activeSize; k++)
+	{
+		ninPool.activeNinjas[k]->isCollidingWithExplosion = false;
+		for (int i = 0; i < explosionPool.activeSize; i++)
+		{
+			if (StaticCol_QuadQuad(ninPool.activeNinjas[k]->transform, explosionPool.activeExplosion[i]->transform))
+			{
+				ninPool.activeNinjas[k]->isCollidingWithExplosion = true;
+				ExplosionDelete(i, explosionPool);
+			}
+		}
+		if (!ninPool.activeNinjas[k]->isCollidingWithExplosion && ninPool.activeNinjas[k]->damagedByExplosion)
+		{
+			ninPool.activeNinjas[k]->damagedByExplosion = false;
+		}
+
+	}
 	//}
 }
 
