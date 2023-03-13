@@ -4,7 +4,7 @@
 
 s32 mouseX, mouseY;
 float halfX, halfY;
-float boundaryX, boundaryY;
+float screenBoundaryX, screenBboundaryY;
 
 //When a Bullet dies / destroyed / you want to hide it / etc..
 void BulletRemove(int index, BulletPool& pool) {
@@ -41,8 +41,8 @@ void Init_BulletPool(BulletPool& pool) {
 	pool.activeSize = 0;
 	halfX = AEGetWindowWidth() / 2.0f;
 	halfY = AEGetWindowHeight() / 2.0f;
-	boundaryX = halfX + 100;
-	boundaryY = halfY + 100;
+	screenBoundaryX = halfX + 100;
+	screenBboundaryY = halfY + 100;
 	CreateQuadMesh(BULLET_WIDTH, BULLET_HEIGHT, Color(0, 0, 0), bulletMesh);
 	for (int i = 0; i < BULLET_COUNT; i++) {
 		pool.bullets[i].enabled = false;
@@ -66,16 +66,16 @@ void Draw_Bullet(BulletPool& pool) {
 void Bullet_AI(BulletPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		pool.activeBullets[i]->transform.position += pool.activeBullets[i]->direction * deltaTime * 500.0f;
-		if (pool.activeBullets[i]->transform.position.x > boundaryX) {
+		if (pool.activeBullets[i]->transform.position.x > screenBoundaryX) {
 			BulletRemove(i, pool);
 		}
-		else if (pool.activeBullets[i]->transform.position.x < -boundaryX) {
+		else if (pool.activeBullets[i]->transform.position.x < -screenBoundaryX) {
 			BulletRemove(i, pool);
 		}
-		else if (pool.activeBullets[i]->transform.position.y > boundaryY) {
+		else if (pool.activeBullets[i]->transform.position.y > screenBboundaryY) {
 			BulletRemove(i, pool);
 		}
-		else if (pool.activeBullets[i]->transform.position.y < -boundaryY) {
+		else if (pool.activeBullets[i]->transform.position.y < -screenBboundaryY) {
 			BulletRemove(i, pool);
 		}
 	}

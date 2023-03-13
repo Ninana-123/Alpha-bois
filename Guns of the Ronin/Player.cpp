@@ -4,58 +4,101 @@
 float dirSpeed = 2.f;
 
 
-void Player_Init(Player* Player,BulletPool &bulletPool) {
-	Player->transform.color = Color(1, 1, 1, 1);
-	CreateQuadMesh(50.0f, 50.0f, Player->transform.color, playerMesh);
-	Player->transform.mesh = &playerMesh;
-	playerTexture = AEGfxTextureLoad("Assets/RoninWalking1.png");
-	Player->transform.texture = &playerTexture;
-	Player->transform.scale = { 2, 2 };
-	Player->transform.position = {0.f,0.f};
+void Player_Init(Player* player,BulletPool &bulletPool) {
+
+	player->transform.color = Color(1, 1, 1, 1);
+	CreateQuadMesh(1.0f, 1.0f, player->transform.color, playerMesh,1.0f/5.0f,1.0f);
+	playerTexture = AEGfxTextureLoad("Assets/RoninSpriteSheet.png");
+	player->transform.texture = &playerTexture;
+	player->transform.scale = { 100.f, 100.f };
+	player->transform.height = 1.0f;
+	player->transform.width = 4.0f;
+	player->transform.position = {0.f,0.f};
+	player->transform.mesh = &playerMesh;
+
+
 	Init_BulletPool(bulletPool);
 }
 
 
 
-void Player_Update(Player* Player,BulletPool &bulletPool) {
+void Player_Update(Player* player,BulletPool &bulletPool) {
 	if (!IsTime_Paused()) {
 		
+		static float frameTimer = 0;
+		frameTimer += deltaTime;
+
+		bool textureFlipped = false;
 
 		Vector2 newPos{ };
 		Vector2 vel{ };
 		Vector2 acc{ };
 
-		Player->w_Pressed = AEInputCheckCurr(AEVK_W);
-		Player->a_Pressed = AEInputCheckCurr(AEVK_A);
-		Player->s_Pressed = AEInputCheckCurr(AEVK_S);
-		Player->d_Pressed = AEInputCheckCurr(AEVK_D);
+		player->w_Pressed = AEInputCheckCurr(AEVK_W);
+		player->a_Pressed = AEInputCheckCurr(AEVK_A);
+		player->s_Pressed = AEInputCheckCurr(AEVK_S);
+		player->d_Pressed = AEInputCheckCurr(AEVK_D);
+		
 
-
-		if (Player->w_Pressed) {
-			newPos.y = Player->moveSpeed * deltaTime;
+		if (player->w_Pressed) {
+			newPos.y = player->moveSpeed * deltaTime;
+			if (frameTimer >= 0.2f) {
+				player->animation.PlayAnim();
+				player->animation.NextFrame(player->transform);
+				player->animation.Update_SpriteAnim(player->transform);
+				frameTimer = 0;
+			}
 		}
-		if (Player->a_Pressed) {
-			newPos.x = -Player->moveSpeed * deltaTime;
+		if (player->a_Pressed && !(textureFlipped)) {
+			newPos.x = -player->moveSpeed * deltaTime;
+			FlipTexture_x(player->transform);
+			textureFlipped = true;
+			if (frameTimer >= 0.2f) {
+				player->animation.PlayAnim();
+				player->animation.NextFrame(player->transform);
+				player->animation.Update_SpriteAnim(player->transform);
+				frameTimer = 0;
+			}
 		}
-		if (Player->s_Pressed) {
-			newPos.y = -Player->moveSpeed * deltaTime;
+		else if(!player->a_Pressed) {
+			textureFlipped = false;
 		}
-		if (Player->d_Pressed) {
-			newPos.x = Player->moveSpeed * deltaTime;
+		if (player->s_Pressed) {
+			newPos.y = -player->moveSpeed * deltaTime;
+			if (frameTimer >= 0.2f) {
+				player->animation.PlayAnim();
+				player->animation.NextFrame(player->transform);
+				player->animation.Update_SpriteAnim(player->transform);
+				frameTimer = 0;
+			}
+		}
+		if (player->d_Pressed && (textureFlipped)) {
+			newPos.x = player->moveSpeed * deltaTime;
+			FlipTexture_x(player->transform);
+			textureFlipped = true;
+			if (frameTimer >= 0.2f) {
+				player->animation.PlayAnim();
+				player->animation.NextFrame(player->transform);
+				player->animation.Update_SpriteAnim(player->transform);
+				frameTimer = 0;
+			}
+		}
+		else { 
+			textureFlipped = false; 
 		}
 
 		acc = (newPos * dirSpeed);
 		vel = (vel + acc);
 		newPos = (newPos + vel);
-		Player->left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
+		player->left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
 
-		if (Player->left_mouse_pressed) {
-			BulletAdd(bulletPool,Player->transform.position);
+		if (player->left_mouse_pressed) {
+			BulletAdd(bulletPool,player->transform.position);
 	
 		}
 
 
-		Player->transform.position += newPos;
+		player->transform.position += newPos;
 		Bullet_AI(bulletPool);
 	}
 

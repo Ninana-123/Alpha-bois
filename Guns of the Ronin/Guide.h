@@ -8,6 +8,7 @@
 #include <AEGraphics.h>
 #include "Player.h"
 #include "Bullets.h"
+#include "MainMenu.h"
 
 #ifndef GUIDE_H
 #define GUIDE_H

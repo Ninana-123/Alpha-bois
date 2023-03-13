@@ -255,6 +255,9 @@ void Update_Guide() {
 }
 
 void Draw_Guide() {
+
+	char strBuffer[1024];
+
 	DrawMesh(&guideBG.transform);
 	DrawMesh(&explosionShrine.transform);
 	DrawMesh(&freezeShrine.transform);
@@ -270,6 +273,9 @@ void Draw_Guide() {
 
 	DrawStaticSprite(&WASD.transform,WASD.spriteIndex);
 	DrawStaticSprite(&click.transform, click.spriteIndex);
+
+	sprintf_s(strBuffer, " Shrines");
+	AEGfxPrint(font, strBuffer, 0.0f, 0.0f, 5.0f, 0, 0, 0);
 
 	Draw_Player(&player, bulletPool);
 }
