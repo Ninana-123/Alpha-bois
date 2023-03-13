@@ -66,51 +66,53 @@ int Random(int min, int max)
 
 void ShrineAdd(ShrinePool & shrinePool)
 {
-	for (int i = 0; i < Shrine_Count; i++)
-	{
-		if (shrinePool.activeShrine[i]->hasbeenused == false)
+	if (!IsTime_Paused()) {
+		for (int i = 0; i < Shrine_Count; i++)
 		{
-			shrinePool.activeShrine[i]->hasbeenused = true;
-			shrinePool.activeSize += 1;
-			shrinePool.activeShrine[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-			shrinePool.activeShrine[i]->loadingbarpercentage = 0.f;
-			shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
-			shrinePool.activeShrine[i]->timeElapsed = 0;
-			shrinePool.activeShrine[i]->iscolliding = false;
-			shrinePool.activeShrine[i]->transform.scale = { 2, 2};
-
-			shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
-			//arranges PNG image according to type of shrine
-			if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+			if (shrinePool.activeShrine[i]->hasbeenused == false)
 			{
-				shrinePool.activeShrine[i]->transform.texture = &assetfreeze;
-			}
+				shrinePool.activeShrine[i]->hasbeenused = true;
+				shrinePool.activeSize += 1;
+				shrinePool.activeShrine[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+				shrinePool.activeShrine[i]->loadingbarpercentage = 0.f;
+				shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
+				shrinePool.activeShrine[i]->timeElapsed = 0;
+				shrinePool.activeShrine[i]->iscolliding = false;
+				shrinePool.activeShrine[i]->transform.scale = { 2, 2 };
 
-			else if (shrinePool.activeShrine[i]->types == Shrine::Heal) 
-			{
-				shrinePool.activeShrine[i]->transform.texture = &assetheal;
-			}
+				shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
+				//arranges PNG image according to type of shrine
+				if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+				{
+					shrinePool.activeShrine[i]->transform.texture = &assetfreeze;
+				}
 
-			else if (shrinePool.activeShrine[i]->types == Shrine::Push) 
-			{
-				shrinePool.activeShrine[i]->transform.texture = &assetwind;
-			}
+				else if (shrinePool.activeShrine[i]->types == Shrine::Heal)
+				{
+					shrinePool.activeShrine[i]->transform.texture = &assetheal;
+				}
 
-			else if (shrinePool.activeShrine[i]->types == Shrine::Explosion) 
-			{
-				shrinePool.activeShrine[i]->transform.texture =&assetexplosion;
-			}
+				else if (shrinePool.activeShrine[i]->types == Shrine::Push)
+				{
+					shrinePool.activeShrine[i]->transform.texture = &assetwind;
+				}
 
-			else if (shrinePool.activeShrine[i]->types == Shrine::God) 
-			{
-				shrinePool.activeShrine[i]->transform.texture = &assetgod;
-			}
+				else if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
+				{
+					shrinePool.activeShrine[i]->transform.texture = &assetexplosion;
+				}
 
-			else if (shrinePool.activeShrine[i]->types == Shrine::Void) {
-				shrinePool.activeShrine[i]->transform.texture = &assetvoid;
+				else if (shrinePool.activeShrine[i]->types == Shrine::God)
+				{
+					shrinePool.activeShrine[i]->transform.texture = &assetgod;
+				}
+
+				else if (shrinePool.activeShrine[i]->types == Shrine::Void) {
+					shrinePool.activeShrine[i]->transform.texture = &assetvoid;
+				}
+				std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
+				break;
 			}
-			std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
-			break;
 		}
 	}
 }
@@ -129,114 +131,133 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 }
 
 void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool,int index, VoidPool& voidPool)
-{
-	duration += deltaTime;
-	//std::cout << duration << std::endl;
-	AEInputGetCursorPosition(mouseX, mouseY);
-	*mouseX = *mouseX - 800;
-	*mouseY = (*mouseY - 450) * -1;
+ {
+		duration += deltaTime;
+		//std::cout << duration << std::endl;
+		AEInputGetCursorPosition(mouseX, mouseY);
+		*mouseX = *mouseX - 800;
+		*mouseY = (*mouseY - 450) * -1;
 
-	if (duration >= 1.f)
-	{
-		duration = 0;
-		ShrineAdd(shrinePool);
-
-	}
-
-	timeSincePause += deltaTime;
-	for (int i = 0; i < shrinePool.activeSize; i++)
-	{
-		SetQuadPoints(shrinePool.activeShrine[i]->transform, 40.f, 40.f);
-		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
+		if (duration >= 1.f)
 		{
-			shrinePool.activeShrine[i]->iscolliding = true;
-			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
-			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
+			duration = 0;
+			ShrineAdd(shrinePool);
+
+		}
+
+		timeSincePause += deltaTime;
+		for (int i = 0; i < shrinePool.activeSize; i++)
+		{
+			SetQuadPoints(shrinePool.activeShrine[i]->transform, 40.f, 40.f);
+			if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 			{
-				if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+				shrinePool.activeShrine[i]->iscolliding = true;
+				shrinePool.activeShrine[i]->timeElapsed += deltaTime;
+				if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
 				{
-					TimePauseEnemy();
-					timeSincePause = 0.0f;
-					ShrineDelete(i, shrinePool);
-					std::cout << "Freeze tower" << std::endl;
-				}
-
-				if (shrinePool.activeShrine[i]->types == Shrine::Push)
-				{
-					Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
-					ShrineDelete(i, shrinePool);
-					std::cout << "Push tower" << std::endl;
-				}
-
-				if (shrinePool.activeShrine[i]->types == Shrine::Heal)
-				{
-					Heal_player(playerinfo);
-					ShrineDelete(i, shrinePool);
-					std::cout << "Heal tower" << std::endl;
-					std::cout << playerinfo.health << std::endl;
-				}
-
-				if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
-				{
-					
-					for (int i = 0; i < Explosion_Count; i++)
+					if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
 					{
-						ExplosionAdd(explosionPool);
+						TimePauseEnemy();
+						timeSincePause = 0.0f;
+						ShrineDelete(i, shrinePool);
+						std::cout << "Freeze tower" << std::endl;
 					}
-					Explosion_Update(explosionPool, samPool);
-					ShrineDelete(i, shrinePool);
-				}
-				if (shrinePool.activeShrine[i]->types == Shrine::Void)
-				{
-					
-					for (int k = 0;k < Explosion_Count; k++)
+
+					if (shrinePool.activeShrine[i]->types == Shrine::Push)
 					{
-						VoidAdd(voidPool);
+						Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
+						ShrineDelete(i, shrinePool);
+						std::cout << "Push tower" << std::endl;
 					}
-					Void_Update(voidPool, samPool, archPool);
-					ShrineDelete(i, shrinePool);
-					
+
+					if (shrinePool.activeShrine[i]->types == Shrine::Heal)
+					{
+						Heal_player(playerinfo);
+						ShrineDelete(i, shrinePool);
+						std::cout << "Heal tower" << std::endl;
+						std::cout << playerinfo.health << std::endl;
+					}
+
+					if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
+					{
+
+						for (int i = 0; i < Explosion_Count; i++)
+						{
+							ExplosionAdd(explosionPool);
+						}
+						Explosion_Update(explosionPool, samPool);
+						ShrineDelete(i, shrinePool);
+					}
+					if (shrinePool.activeShrine[i]->types == Shrine::Void)
+					{
+
+						for (int k = 0; k < Explosion_Count; k++)
+						{
+							VoidAdd(voidPool);
+						}
+						Void_Update(voidPool, samPool, archPool);
+						ShrineDelete(i, shrinePool);
+
+					}
+					if (shrinePool.activeShrine[i]->types == Shrine::God)
+					{
+						for (int i = 0; i < samPool.activeSize; ++i)
+						{
+							/*if(IsButtonHover(samPool.activeSamurais[i]->transform.position.x, samPool.activeSamurais[i]->transform.position.y,
+								samPool.activeSamurais[i]->transform.width, samPool.activeSamurais[i]->transform.height, mouseX, mouseY))
+							{*/
+							//std::cout << "in" << std::endl;
+							if (AEInputCheckTriggered(AEVK_LBUTTON))
+							{
+								//std::cout << "pressed" << std::endl;
+								SamuraiRemove(index, samPool);
+							}
+							//}
+						}
+						ShrineDelete(i, shrinePool);
+					}
+					//if (shrinePool.activeShrine[i]->types == Shrine::God)
+				/*	{
+						for (int j = 0; j < samPool.activeSize; ++j)
+						{
+							if (IsButtonHover(samPool.activeSamurais[j]->transform.position.x, samPool.activeSamurais[j]->transform.position.y,
+								samPool.activeSamurais[j]->transform.width, samPool.activeSamurais[j]->transform.height, mouseX, mouseY))
+								std::cout << "touching" << std::endl;
+							{
+								if (AEInputCheckTriggered(AEVK_LBUTTON))
+								{
+									samPool.activeSamurais[j]->health = 0;
+									SamuraiRemove(j, samPool);
+								}
+
+							}
+						}
+						ShrineDelete(i, shrinePool);
+					}*/
+
 				}
-				//if (shrinePool.activeShrine[i]->types == Shrine::God)
-				//{
-				//	for (int i = 0; i < samPool.activeSize; ++i)
-				//	{
-				//		if(IsButtonHover(samPool.activeSamurais[i]->transform.position.x, samPool.activeSamurais[i]->transform.position.y,
-				//			samPool.activeSamurais[i]->transform.width, samPool.activeSamurais[i]->transform.height, mouseX, mouseY))
-				//		{
-				//			//std::cout << "in" << std::endl;
-				//			if (AEInputCheckTriggered(AEVK_LBUTTON))
-				//			{
-				//				//std::cout << "pressed" << std::endl;
-				//				SamuraiRemove(index, samPool);
-				//			}
-				//		}
-				//	}
-				//}
-				
+				else
+				{
+					shrinePool.activeShrine[i]->loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
+					shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 90);
+					if (loadingBarMesh)
+					{
+						AEGfxMeshFree(loadingBarMesh);
+						loadingBarMesh = 0;
+					}
+					CreateQuadMesh(150.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
+					shrinePool.activeShrine[i]->loading.mesh = &loadingBarMesh;
+
+				}
 			}
 			else
 			{
-				shrinePool.activeShrine[i]->loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
-				shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 90);
-				if (loadingBarMesh)
-				{
-					AEGfxMeshFree(loadingBarMesh);
-					loadingBarMesh = 0;
-				}
-				CreateQuadMesh(150.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
-				shrinePool.activeShrine[i]->loading.mesh = &loadingBarMesh;
-
+				shrinePool.activeShrine[i]->iscolliding = false;
 			}
 		}
-		else
-		{
-			shrinePool.activeShrine[i]->iscolliding = false;
+		if (timeSincePause >= 2.0f) {
+			TimeEnemyResume();
 		}
-	}
-	if (timeSincePause >= 2.0f) {
-		TimeEnemyResume();
-	}
 }
 
 
