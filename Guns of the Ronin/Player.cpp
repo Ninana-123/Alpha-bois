@@ -11,7 +11,7 @@ void Player_Init(Player* Player,BulletPool &bulletPool) {
 	playerTexture = AEGfxTextureLoad("Assets/RoninWalking1.png");
 	Player->transform.texture = &playerTexture;
 	Player->transform.scale = { 2, 2 };
-	Player->transform.position = {100.f,100.f};
+	Player->transform.position = {0.f,0.f};
 	Init_BulletPool(bulletPool);
 }
 
@@ -24,7 +24,6 @@ void Player_Update(Player* Player,BulletPool &bulletPool) {
 		Vector2 newPos{ };
 		Vector2 vel{ };
 		Vector2 acc{ };
-		const float friction = 0.95f;
 
 		Player->w_Pressed = AEInputCheckCurr(AEVK_W);
 		Player->a_Pressed = AEInputCheckCurr(AEVK_A);
@@ -35,26 +34,14 @@ void Player_Update(Player* Player,BulletPool &bulletPool) {
 		if (Player->w_Pressed) {
 			newPos.y = Player->moveSpeed * deltaTime;
 		}
-		if (!Player->w_Pressed) {
-			vel.y *= friction;
-		}
 		if (Player->a_Pressed) {
 			newPos.x = -Player->moveSpeed * deltaTime;
-		}
-		if (!Player->a_Pressed) {
-			vel.x *= friction;
 		}
 		if (Player->s_Pressed) {
 			newPos.y = -Player->moveSpeed * deltaTime;
 		}
-		if (!Player->s_Pressed) {
-			vel.y *= friction;
-		}
 		if (Player->d_Pressed) {
 			newPos.x = Player->moveSpeed * deltaTime;
-		}
-		if (!Player->s_Pressed) {
-			vel.x *= friction;
 		}
 
 		acc = (newPos * 2);
