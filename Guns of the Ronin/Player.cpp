@@ -72,7 +72,7 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 				frameTimer = 0;
 			}
 		}
-		if (player->d_Pressed && (textureFlipped)) {
+		if (player->d_Pressed && !(textureFlipped)) {
 			newPos.x = player->moveSpeed * deltaTime;
 			FlipTexture_x(player->transform);
 			textureFlipped = true;

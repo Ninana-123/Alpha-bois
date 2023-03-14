@@ -21,7 +21,7 @@ AEGfxTexture* healthTexture;
 AEGfxTexture* voidTexture;
 AEGfxTexture* windTexture;
 
-float shrineScale = 4.f;
+float shrineScale = 3.f;
 
 float explosionShrineX = -700.0f;
 float explosionShrineY = 300.0f;
@@ -274,8 +274,6 @@ void Draw_Guide() {
 	DrawStaticSprite(&WASD.transform,WASD.spriteIndex);
 	DrawStaticSprite(&click.transform, click.spriteIndex);
 
-	sprintf_s(strBuffer, " Shrines");
-	AEGfxPrint(font, strBuffer, 0.0f, 0.0f, 5.0f, 0, 0, 0);
 
 	Draw_Player(&player, bulletPool);
 }
