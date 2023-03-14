@@ -74,7 +74,7 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 				frameTimer = 0;
 			}
 		}
-		if (player->d_Pressed) {
+		if (player->d_Pressed && !(textureFlipped)) {
 			newPos.x = player->moveSpeed * deltaTime;
 			curDir = DirPressed::RIGHT;
 			if (curDir != prevDir) {
