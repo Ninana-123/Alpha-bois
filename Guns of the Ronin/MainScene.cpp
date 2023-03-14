@@ -91,11 +91,11 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool,index, voidPool);
+	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool,index, voidPool, cPool);
 
-	Explosion_Update( explosionPool, samPool);
+	Explosion_Update( explosionPool,  archPool,  cPool,  ninPool);
 
-	Void_Update( voidPool, samPool,archPool);
+	Void_Update( voidPool, samPool,archPool,cPool);
 
 	Update_Enemies(samPool, archPool, cPool, ninPool, player, playerinfo);
 
@@ -149,6 +149,7 @@ void Update_Scene() {
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			SetQuadPoints(bulletPool.activeBullets[u]->transform, 15, 15);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, ninPool.activeNinjas[i]->transform)) {
+				// TELEPORT
 				if (ninPool.activeNinjas[i]->isHit == false) {
 					ninPool.activeNinjas[i]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWNDIST, NINJA_MAX_SPAWNDIST, player.transform.position);
 					//printf("teleport");

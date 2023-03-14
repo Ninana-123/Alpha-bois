@@ -16,6 +16,11 @@ PauseMenu resumeButton;
 PauseMenu restartButton;
 PauseMenu mainMenuButton;
 
+float buttonsX = 0.f;
+float resumeY = 6.f;
+float restartY = -95.f;
+float mainMenuY = -209.f;
+
 void Init_PauseMenu() {
 
 	PauseMenuBG = AEGfxTextureLoad("Assets/pauseMenu.png");
@@ -25,6 +30,8 @@ void Init_PauseMenu() {
 	pauseMenu.transform.position = { 0.0f,0.0f };
 	pauseMenu.transform.scale = { 1600.0f,-900.0f };
 	pauseMenu.transform.rotation = 0.0f;
+	pauseMenu.transform.height = 1.0f;
+	pauseMenu.transform.width = 1.0f;
 	//pauseMenu.spriteIndex = 0;
 	pauseMenu.transform.mesh = &pauseMesh;
 
@@ -32,12 +39,34 @@ void Init_PauseMenu() {
 
 void Update_PauseMenu() {
 
+	// Getting mouse position
 	AEInputGetCursorPosition(Paused_MouseX, Paused_MouseY);
 	*Paused_MouseX = *Paused_MouseX - 800;
 	*Paused_MouseY = (*Paused_MouseY - 450) * -1;
 	leftClick = AEInputCheckTriggered(AEVK_LBUTTON);
 
+	// Resume
+	if (IsButtonHover(buttonsX, resumeY, 250.f, -125.f, Paused_MouseX, Paused_MouseY)) {
+		//playButton.spriteIndex = 1;
+		if (leftClick) {
+			checkPaused = false;
+			TimeResume();
+		}
+	}
 
+	// Restart
+	if (IsButtonHover(buttonsX, restartY, 250.f, -125.f, Paused_MouseX, Paused_MouseY)) {
+		if (leftClick) {
+			gGameStateNext = GS_RESTART;
+		}
+	}
+
+	// Main Menu
+	if (IsButtonHover(buttonsX, mainMenuY, 250.f, -125.f, Paused_MouseX, Paused_MouseY)) {
+		if (leftClick) {
+			//gGameStateCurr = GS_MAINMENU;
+		}
+	}
 }
 
 void Draw_PauseMenu() {

@@ -8,6 +8,8 @@
 #include "Player.h"
 #include "Samurai.h"
 #include "Archer.h"
+#include "Cannoneer.h"
+#include "Archer.h"
 
 namespace
 {
@@ -42,7 +44,7 @@ public:
 void Voidpool_Init(VoidPool& voidPool);
 void VoidAdd(VoidPool& voidPool);
 void VoidDelete(int index, VoidPool& voidPool);
-void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool);
+void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& canPool);
 void Draw_Void(VoidPool& voidPool);
 void Free_Void();
 

@@ -20,7 +20,7 @@ namespace {
 	float NINJA_SWEEP_MS = 700.0f;
 	float NINJA_HIT_ANIM_DURATION = 0.5f;
 	int NINJA_EXP = 10;
-	int NINJA_DAMAGE = 50;
+	int NINJA_DAMAGE = 5;
 	AEGfxVertexList* ninjaMesh = 0;
 	AEGfxTexture* ninjaTexture = 0;
 	float NINJA_HEIGHT = 20, NINJA_WIDTH = 20;
@@ -35,6 +35,8 @@ public:
 	bool enabled = false;
 	float timeLastAttack = 0;
 	bool isHit = false;
+	bool damagedByExplosion = false;
+	bool isCollidingWithExplosion = false;
 };
 
 struct NinjaPool {
@@ -56,5 +58,7 @@ void Push_Ninja(NinjaPool& pool, DIRECTION direction, float targetAxis = 400);
 void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index);
 
 void Free_Ninja();
+
+void NinjaRemove(int index, NinjaPool& pool);
 
 #endif // !NINJA_H

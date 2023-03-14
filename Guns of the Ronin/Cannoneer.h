@@ -44,6 +44,8 @@ public:
 	C_AI_STATE aiState = C_RELOADING;
 	float timeSinceFired = 0;
 	bool enabled = false;
+	bool damagedByExplosion = false;
+	bool isCollidingWithExplosion = false;
 };
 
 struct CannonBall {
@@ -75,5 +77,7 @@ void Draw_Cannoneer(CannoneerPool& pool);
 void Dmg_Cannoneer(CannoneerPool& pool, PlayerInfo playerInfo, int index);
 
 void Free_Cannoneer();
+
+void CannoneerRemove(int index, CannoneerPool& pool);
 
 #endif // !CANNONEER_H

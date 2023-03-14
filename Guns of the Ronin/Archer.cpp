@@ -1,7 +1,6 @@
 #include "Archer.h"
 #include "HighScore.h"
 
-
 float archerAttDelay = 2.0f;
 ArrowPool arrow;
 
@@ -33,7 +32,7 @@ void ArcherAdd(ArcherPool& pool, Vector2 playerPos) {
 
 void Init_ArcherPool(ArcherPool& pool) {
 	pool.activeSize = 0;
-	CreateQuadMesh(ARCHER_WIDTH, ARCHER_HEIGHT, Color(1, 0, 0), archerMesh);
+	CreateQuadMesh(ARCHER_WIDTH, ARCHER_HEIGHT, Color(1, 0, 0), archerMesh, 0.25f, 1.f);
 	for (int i = 0; i < ARCHER_COUNT; i++) {
 		pool.archers[i].enabled = false;
 		pool.archers[i].health = ARCHER_HEALTH;
@@ -43,10 +42,11 @@ void Init_ArcherPool(ArcherPool& pool) {
 		pool.archers[i].transform.width = ARCHER_WIDTH;
 		pool.activeArchers[i] = &pool.archers[i];
 	}
-	archerTexture = AEGfxTextureLoad("Assets/Archer1.png");
+	archerTexture = AEGfxTextureLoad("Assets/ArcherSpriteSheet.png");
 	Init_ArrowPool(arrow);
 }
 
+// Archer movement, attacking, wind shrine activation
 void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 		Vector2 playerPos = player.transform.position;
 		for (int i = 0; i < pool.activeSize; i++) {
@@ -58,6 +58,8 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 				curArcher->targetPos = playerPos;
 				if (curArcher->transform.position.within_dist(playerPos, 300)) {
 					curArcher->aiState = ARCHER_ATTACKING;
+					curArcher->anim.PlayAnim();
+					curArcher->anim.NextFrame(curArcher->transform);
 				}
 				else {
 					Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
@@ -68,6 +70,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 				curArcher->timeLastAttack += deltaTime;
 				if (!curArcher->transform.position.within_dist(playerPos, 300)) {
 					curArcher->aiState = ARCHER_MOVING;
+					curArcher->anim.ResetAnim(curArcher->transform);
 				}
 				else {
 					if (curArcher->timeLastAttack >= archerAttDelay) {
@@ -86,6 +89,9 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 				break;
 			}
 
+			curArcher->anim.Update_SpriteAnim(curArcher->transform);
+
+			// Arrow collision with player
 			proj->timeSince_lastDmgDeal += deltaTime;
 			if (StaticCol_QuadQuad(proj->transform, player.transform)) {
 				if (proj->timeSince_lastDmgDeal > 1.0f) {
@@ -99,6 +105,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 		Arrow_AI(arrow);
 	}
 
+// Player projectile colliding with archers
 void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeArchers[index]->health -= playerInfo.att) <= 0) {
@@ -127,7 +134,7 @@ void Push_Archer(ArcherPool& pool, DIRECTION direction, float targetAxis) {
 	}
 }
 
-
+// Draw archer and arrow
 void Draw_Archer(ArcherPool& pool) {
 
 	for (int i = 0; i < pool.activeSize; i++) {
@@ -136,6 +143,7 @@ void Draw_Archer(ArcherPool& pool) {
 	Draw_Arrow(arrow);
 }
 
+// Free assets/mesh
 void Free_Archer() {
 	AEGfxMeshFree(archerMesh);
 	AEGfxTextureUnload(archerTexture);

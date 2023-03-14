@@ -3,6 +3,8 @@
 
 float dirSpeed = 2.f;
 
+enum class DirPressed { LEFT, RIGHT};
+DirPressed prevDir = DirPressed::LEFT, curDir = DirPressed::RIGHT;
 
 void Player_Init(Player* player,BulletPool &bulletPool) {
 
@@ -28,7 +30,6 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 		static float frameTimer = 0;
 		frameTimer += deltaTime;
 
-		bool textureFlipped = false;
 
 		Vector2 newPos{ };
 		Vector2 vel{ };
@@ -49,10 +50,13 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 				frameTimer = 0;
 			}
 		}
-		if (player->a_Pressed && !(textureFlipped)) {
+		if (player->a_Pressed) {
 			newPos.x = -player->moveSpeed * deltaTime;
-			FlipTexture_x(player->transform);
-			textureFlipped = true;
+			curDir = DirPressed::LEFT;
+			if (curDir != prevDir) {
+				FlipTexture_x(player->transform);
+				prevDir = curDir;
+			}
 			if (frameTimer >= 0.2f) {
 				player->animation.PlayAnim();
 				player->animation.NextFrame(player->transform);
@@ -60,9 +64,7 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 				frameTimer = 0;
 			}
 		}
-		else if(!player->a_Pressed) {
-			textureFlipped = false;
-		}
+
 		if (player->s_Pressed) {
 			newPos.y = -player->moveSpeed * deltaTime;
 			if (frameTimer >= 0.2f) {
@@ -74,8 +76,11 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 		}
 		if (player->d_Pressed && !(textureFlipped)) {
 			newPos.x = player->moveSpeed * deltaTime;
-			FlipTexture_x(player->transform);
-			textureFlipped = true;
+			curDir = DirPressed::RIGHT;
+			if (curDir != prevDir) {
+				prevDir = curDir;
+				FlipTexture_x(player->transform);
+			}
 			if (frameTimer >= 0.2f) {
 				player->animation.PlayAnim();
 				player->animation.NextFrame(player->transform);
@@ -83,13 +88,11 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 				frameTimer = 0;
 			}
 		}
-		else { 
-			textureFlipped = false; 
-		}
 
 		acc = (newPos * dirSpeed);
 		vel = (vel + acc);
 		newPos = (newPos + vel);
+		
 		player->left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
 
 		if (player->left_mouse_pressed) {
