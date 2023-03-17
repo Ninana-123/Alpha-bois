@@ -14,12 +14,15 @@ Guide healthShrine;
 Guide voidShrine;
 Guide windShrine;
 
+Guide loadingBar;
+
 AEGfxTexture* explosionTexture;
 AEGfxTexture* freezeTexture;
 AEGfxTexture* godTexture;
 AEGfxTexture* healthTexture;
 AEGfxTexture* voidTexture;
 AEGfxTexture* windTexture;
+
 
 float shrineScale = 3.f;
 
@@ -89,6 +92,7 @@ void Init_Guide() {
 	guideBG.transform.mesh = &GuideBGMesh;
 	
 	Player_Init(&player,bulletPool);
+	
 
 	explosionTexture = AEGfxTextureLoad("Assets/Explosion.png");
 	CreateQuadMesh(50.f, 50.f, Color(1, 1, 1), explosionMesh);
@@ -149,6 +153,12 @@ void Init_Guide() {
 	windShrine.transform.width = 1.0f;
 	windShrine.transform.rotation = 0.0f;
 	windShrine.transform.mesh = &windMesh;
+	
+
+	CreateQuadMesh(1.0f, 10.0f, Color(0.0f, 0.0f, 0.0f, 1.0f), guideLoadingBar);
+	loadingBar.transform.position = { windShrineX, windShrineY + 85.f };
+	loadingBar.transform.scale.x = 0.f;
+	loadingBar.transform.mesh = &guideLoadingBar;
 
 	archerTexture = AEGfxTextureLoad("Assets/Archer.png");
 	CreateQuadMesh(50.f, 50.f, Color(1, 1, 1), archerMesh);
@@ -216,6 +226,8 @@ void Init_Guide() {
 
 void Update_Guide() {
 	Player_Update(&player, bulletPool);
+	SetQuadPoints(player.transform, player.transform.height, player.transform.width);
+	SetQuadPoints(windShrine.transform,50.f ,50.f);
 
 	if (AEInputCheckCurr(AEVK_W)) {
 		WASD.spriteIndex = 1;
@@ -250,8 +262,15 @@ void Update_Guide() {
 	if(!(AEInputCheckCurr(AEVK_LBUTTON))) {
 		click.spriteIndex = 9;
 	}
-
-
+	/*std::cout << "PlayerX: " << player.transform.position.x << std::endl;
+	std::cout << "PlayerY: " << player.transform.position.y << std::endl;*/
+	if ((StaticCol_QuadQuad(player.transform,windShrine.transform)) ) {
+		std::cout << "true"  << std::endl;
+		loadingBar.transform.scale.x += (deltaTime * 100.f);
+	}
+	if(loadingBar.transform.scale.x >= 100.f) {
+		gGameStateNext = GS_MAINMENU;
+	}
 }
 
 void Draw_Guide() {
@@ -265,6 +284,7 @@ void Draw_Guide() {
 	DrawMesh(&healthShrine.transform);
 	DrawMesh(&voidShrine.transform);
 	DrawMesh(&windShrine.transform);
+	DrawMesh(&loadingBar.transform);
 
 	DrawMesh(&archer.transform);
 	DrawMesh(&samurai.transform);
@@ -274,7 +294,6 @@ void Draw_Guide() {
 	DrawStaticSprite(&WASD.transform,WASD.spriteIndex);
 	DrawStaticSprite(&click.transform, click.spriteIndex);
 
-
 	Draw_Player(&player, bulletPool);
 }
 void Free_Guide() {
@@ -282,4 +301,33 @@ void Free_Guide() {
 
 	AEGfxMeshFree(GuideBGMesh);
 	AEGfxTextureUnload(guideBGTexture);
+
+	AEGfxMeshFree(explosionMesh);
+	AEGfxTextureUnload(explosionTexture);
+	AEGfxMeshFree(freezeMesh);
+	AEGfxTextureUnload(freezeTexture);
+	AEGfxMeshFree(godMesh);
+	AEGfxTextureUnload(godTexture);
+	AEGfxMeshFree(healthMesh);
+	AEGfxTextureUnload(healthTexture);
+	AEGfxMeshFree(voidMesh);
+	AEGfxTextureUnload(voidTexture);
+	AEGfxMeshFree(windMesh);
+	AEGfxTextureUnload(windTexture);
+
+	AEGfxMeshFree(guideLoadingBar);
+
+	AEGfxMeshFree(archerMesh);
+	AEGfxTextureUnload(archerTexture);
+	AEGfxMeshFree(samuraiMesh);
+	AEGfxTextureUnload(samuraiTexture);
+	AEGfxMeshFree(ninjaMesh);
+	AEGfxTextureUnload(ninjaTexture);
+	AEGfxMeshFree(cannonMesh);
+	AEGfxTextureUnload(cannonTexture);
+	
+	AEGfxMeshFree(WASDMesh);
+	AEGfxTextureUnload(controlsTexture);
+	AEGfxMeshFree(clickMesh);
+	
 }

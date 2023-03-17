@@ -31,12 +31,16 @@ namespace {
 	AEGfxVertexList* WASDMesh = 0;
 	AEGfxVertexList* clickMesh = 0;
 
+	AEGfxVertexList* guideLoadingBar = 0;
+
 }
 
 class Guide {
 public:
 	Transform transform;
 	int spriteIndex = 0;
+	float loadingBarPercent = 0;
+	
 
 };
 
