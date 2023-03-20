@@ -13,8 +13,10 @@ Guide godShrine;
 Guide healthShrine;
 Guide voidShrine;
 Guide windShrine;
-
 Guide loadingBar;
+Guide shrineSigns;
+Guide shrineExplain;
+Guide windTest;
 
 AEGfxTexture* explosionTexture;
 AEGfxTexture* freezeTexture;
@@ -22,6 +24,7 @@ AEGfxTexture* godTexture;
 AEGfxTexture* healthTexture;
 AEGfxTexture* voidTexture;
 AEGfxTexture* windTexture;
+AEGfxTexture* shrineSignsTexture;
 
 
 float shrineScale = 3.f;
@@ -50,11 +53,14 @@ Guide archer;
 Guide samurai;
 Guide ninja;
 Guide cannon;
+Guide enemySigns;
+Guide enemyExplain;
 
 AEGfxTexture* archerTexture;
 AEGfxTexture* samuraiTexture;
 AEGfxTexture* ninjaTexture;
 AEGfxTexture* cannonTexture;
+AEGfxTexture* enemySignsTexture;
 
 float enemyScale = 4.0f;
 
@@ -154,6 +160,36 @@ void Init_Guide() {
 	windShrine.transform.rotation = 0.0f;
 	windShrine.transform.mesh = &windMesh;
 	
+	shrineSignsTexture = AEGfxTextureLoad("Assets/ShrineSigns.png");
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), shrineSignsMesh,1.f/5.f,1.f);
+	shrineSigns.transform.texture = &shrineSignsTexture;
+	shrineSigns.transform.position = { freezeShrineX + 250.f,freezeShrineY + 50.f};
+	shrineSigns.transform.scale = { 250.f,-125.f };
+	shrineSigns.transform.height = 1.0f;
+	shrineSigns.transform.width = 5.0f;
+	shrineSigns.transform.rotation = 0.0f;
+	shrineSigns.transform.mesh = &shrineSignsMesh;
+		
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), shrineExplainMesh,1.f/5.f,1.f);
+	shrineExplain.transform.texture = &shrineSignsTexture;
+	shrineExplain.transform.position = { shrineSigns.transform.position.x,shrineSigns.transform.position.y - 125};
+	shrineExplain.transform.scale = { 250.f,-125.f };
+	shrineExplain.transform.height = 1.0f;
+	shrineExplain.transform.width = 5.0f;
+	shrineExplain.transform.rotation = 0.0f;
+	shrineExplain.spriteIndex = 1;
+	shrineExplain.transform.mesh = &shrineExplainMesh;
+			
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), windTestMesh,1.f/5.f,1.f);
+	windTest.transform.texture = &shrineSignsTexture;
+	windTest.transform.position = {windShrine.transform.position.x + 180.f,windShrine.transform.position.y};
+	windTest.transform.scale = { 250.f,-125.f };
+	windTest.transform.height = 1.0f;
+	windTest.transform.width = 5.0f;
+	windTest.transform.rotation = 0.0f;
+	windTest.spriteIndex = 1;
+	windTest.transform.mesh = &shrineExplainMesh;
+	
 
 	CreateQuadMesh(1.0f, 10.0f, Color(0.0f, 0.0f, 0.0f, 1.0f), guideLoadingBar);
 	loadingBar.transform.position = { windShrineX, windShrineY + 85.f };
@@ -200,10 +236,29 @@ void Init_Guide() {
 	cannon.transform.rotation = 0.0f;
 	cannon.transform.mesh = &cannonMesh;
 
+	enemySignsTexture = AEGfxTextureLoad("Assets/EnemySigns.png");
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), enemySignsMesh, 1.f / 3.f, 1.f);
+	enemySigns.transform.texture = &enemySignsTexture;
+	enemySigns.transform.position = { shrineSigns.transform.position.x + 400.f,shrineSigns.transform.position.y};
+	enemySigns.transform.scale = { 250.f,-125.f };
+	enemySigns.transform.height = 1.0f;
+	enemySigns.transform.width = 3.0f;
+	enemySigns.transform.rotation = 0.0f;
+	enemySigns.transform.mesh = &enemySignsMesh;
+	
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), enemyExplainMesh, 1.f / 3.f, 1.f);
+	enemyExplain.transform.texture = &enemySignsTexture;
+	enemyExplain.transform.position = { shrineSigns.transform.position.x + 400.f,shrineSigns.transform.position.y-125};
+	enemyExplain.transform.scale = { 250.f,-125.f };
+	enemyExplain.transform.height = 1.0f;
+	enemyExplain.transform.width = 3.0f;
+	enemyExplain.transform.rotation = 0.0f;
+	enemyExplain.transform.mesh = &enemyExplainMesh;
+
 	controlsTexture = AEGfxTextureLoad("Assets/Controls.png");
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), WASDMesh, 1.0f / 11.0f, 1.0f);
 	WASD.transform.texture = &controlsTexture;
-	WASD.transform.position = { -100.0f,150.0f };
+	WASD.transform.position = { -100.0f,-150.0f };
 	WASD.transform.scale = { 210.0f,-180.0f};
 	WASD.transform.height = 1.0f;
 	WASD.transform.width = 11.0f;
@@ -212,7 +267,7 @@ void Init_Guide() {
 
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), clickMesh, 1.0f / 11.0f, 1.0f);
 	click.transform.texture = &controlsTexture;
-	click.transform.position = { 100.0f,150.0f };
+	click.transform.position = { 100.0f,-150.0f };
 	click.transform.scale = { 210.0f,-180.0f};
 	click.transform.height = 1.0f;
 	click.transform.width = 11.0f;
@@ -285,11 +340,16 @@ void Draw_Guide() {
 	DrawMesh(&voidShrine.transform);
 	DrawMesh(&windShrine.transform);
 	DrawMesh(&loadingBar.transform);
+	DrawStaticSprite(&shrineSigns.transform,0);
+	DrawStaticSprite(&shrineExplain.transform,1);
+	DrawStaticSprite(&windTest.transform,2);
 
 	DrawMesh(&archer.transform);
 	DrawMesh(&samurai.transform);
 	DrawMesh(&ninja.transform);
 	DrawMesh(&cannon.transform);
+	DrawStaticSprite(&enemySigns.transform,0);
+	DrawStaticSprite(&enemyExplain.transform,1);
 
 	DrawStaticSprite(&WASD.transform,WASD.spriteIndex);
 	DrawStaticSprite(&click.transform, click.spriteIndex);
@@ -314,6 +374,10 @@ void Free_Guide() {
 	AEGfxTextureUnload(voidTexture);
 	AEGfxMeshFree(windMesh);
 	AEGfxTextureUnload(windTexture);
+	AEGfxMeshFree(shrineSignsMesh);
+	AEGfxMeshFree(shrineExplainMesh);
+	AEGfxMeshFree(windTestMesh);
+	AEGfxTextureUnload(shrineSignsTexture);
 
 	AEGfxMeshFree(guideLoadingBar);
 
@@ -325,6 +389,9 @@ void Free_Guide() {
 	AEGfxTextureUnload(ninjaTexture);
 	AEGfxMeshFree(cannonMesh);
 	AEGfxTextureUnload(cannonTexture);
+	AEGfxMeshFree(enemySignsMesh);
+	AEGfxMeshFree(enemyExplainMesh);
+	AEGfxTextureUnload(enemySignsTexture);
 	
 	AEGfxMeshFree(WASDMesh);
 	AEGfxTextureUnload(controlsTexture);
