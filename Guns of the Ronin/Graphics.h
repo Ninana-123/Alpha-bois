@@ -7,7 +7,7 @@
 #include "Physics.h"
 
 struct Color {
-	struct { float r, g, b, a; };
+	 float r, g, b, a;
 
 	//Values should be between 0.0f and 1.0f
 	Color(float r, float g, float b, float a = 1.0f) {

@@ -78,6 +78,33 @@ bool StaticCol_QuadQuad(Transform trans1, Transform trans2) {
 	return collided;
 }
 
+float Abs(float val) {
+	return val < 0.0f ? (val * -1.0f) : val;
+}
+
+bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans) {
+	float circleDistX = Abs(quadTrans.position.x - circleTrans.position.x);
+	float circleDistY = Abs(quadTrans.position.y - circleTrans.position.y);
+
+	if (circleDistX > (quadTrans.width / 2.0f + circleTrans.width)) {
+		return false;
+	}
+	if (circleDistY > (quadTrans.height / 2.0f + circleTrans.width)) {
+		return false;
+	}
+
+	if (circleDistX <= quadTrans.width / 2.0f) {
+		return true;
+	}
+	if (circleDistY <= quadTrans.height / 2.0f) {
+		return true;
+	}
+
+	float cornerSqauredDist = (circleDistX - quadTrans.width / 2.0f) * (circleDistX - quadTrans.width / 2.0f) +
+		(circleDistY - quadTrans.height / 2.0f) * (circleDistY - quadTrans.height / 2.0f);
+
+	return (cornerSqauredDist <= circleTrans.width * circleTrans.width);
+}
 
 
 
@@ -261,10 +288,10 @@ void DrawStaticSprite(Transform* trans,int index) {
 
 bool IsButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y){
 	float area_x_start, area_x_end, area_y_start, area_y_end;
-	area_x_start = area_center_x - (0.5 * area_width);
-	area_x_end = area_center_x + (0.5 * area_width);
-	area_y_start = area_center_y - (0.5 * area_height);
-	area_y_end = area_center_y + (0.5 * area_height);
+	area_x_start = area_center_x - (0.5f * area_width);
+	area_x_end = area_center_x + (0.5f * area_width);
+	area_y_start = area_center_y - (0.5f * area_height);
+	area_y_end = area_center_y + (0.5f * area_height);
 
 	if (*mouse_x > area_x_start && *mouse_x < area_x_end && *mouse_y < area_y_start && *mouse_y > area_y_end)
 	{
