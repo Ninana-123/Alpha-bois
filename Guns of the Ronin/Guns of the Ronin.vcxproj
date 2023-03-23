@@ -129,6 +129,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.08\lib\Alpha_Engine.dll" "$(OutDir)" 
     <ClInclude Include="Bullets.h" />
     <ClInclude Include="Archer.h" />
     <ClInclude Include="Cannoneer.h" />
+    <ClInclude Include="EnemyCounter.h" />
     <ClInclude Include="Guide.h" />
     <ClInclude Include="HighScore.h" />
     <ClInclude Include="HealthBar.h" />

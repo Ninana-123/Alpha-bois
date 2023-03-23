@@ -1,5 +1,6 @@
 #include "Archer.h"
 #include "HighScore.h"
+#include "EnemyCounter.h"
 
 float archerAttDelay = 2.0f;
 ArrowPool arrow;
@@ -111,6 +112,7 @@ void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {
 	if ((pool.activeArchers[index]->health -= playerInfo.att) <= 0) {
 		ArcherRemove(index, pool);
 		Add_Score(ARCHER_KILLSCORE);
+		--enemiesLeft;
 	}
 }
 

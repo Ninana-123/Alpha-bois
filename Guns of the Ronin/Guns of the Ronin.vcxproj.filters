@@ -209,5 +209,8 @@
     <ClInclude Include="PauseMenu.h">
       <Filter>Header Files\Game Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyCounter.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

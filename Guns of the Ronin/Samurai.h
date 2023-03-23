@@ -9,7 +9,7 @@
 #include "Bullets.h"
 namespace {
 	enum AI_STATE { MOVING, ATTACKING, BLOWNAWAY };
-	enum { SAMURAI_COUNT = 3 };
+	enum { SAMURAI_COUNT = 60 };
 	const int SAMURAI_KILLSCORE = 50;
 	float MIN_SPAWNDIST = 200;
 	float MAX_SPAWNDIST = 400;
@@ -27,7 +27,7 @@ namespace {
 class Samurai {
 public:
 	Transform transform;
-	Vector2 colPos, targetPos, collider;
+	Vector2 targetPos, offsetPos;
 	int health = HEALTH;
 	AI_STATE aiState = MOVING;
 	bool enabled = false;

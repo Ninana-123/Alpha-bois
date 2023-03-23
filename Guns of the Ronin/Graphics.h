@@ -132,6 +132,8 @@ void FlipTexture_x(Transform& trans);
 
 void FlipTexture_y(Transform& trans);
 
+float Absf(float val);
+
 
 #endif // !GRAPHICS_H
 

@@ -78,13 +78,13 @@ bool StaticCol_QuadQuad(Transform trans1, Transform trans2) {
 	return collided;
 }
 
-float Abs(float val) {
+float Absf(float val) {
 	return val < 0.0f ? (val * -1.0f) : val;
 }
 
 bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans) {
-	float circleDistX = Abs(quadTrans.position.x - circleTrans.position.x);
-	float circleDistY = Abs(quadTrans.position.y - circleTrans.position.y);
+	float circleDistX = Absf(quadTrans.position.x - circleTrans.position.x);
+	float circleDistY = Absf(quadTrans.position.y - circleTrans.position.y);
 
 	if (circleDistX > (quadTrans.width / 2.0f + circleTrans.width)) {
 		return false;

@@ -2,6 +2,7 @@
 #include "Samurai.h"
 #include "TimeManager.h"
 #include "HighScore.h"
+#include "EnemyCounter.h"
 
 
 //When a samurai dies 
@@ -14,6 +15,7 @@ void SamuraiRemove(int index, SamuraiPool& pool) {
 		pool.activeSamurais[pool.activeSize - 1] = temp;
 	}
 	pool.activeSize -= 1;
+	--enemiesLeft;
 }
 
 //Spawning a new samurai
@@ -24,6 +26,7 @@ void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 			pool.activeSamurais[i]->health = HEALTH;
 			pool.activeSamurais[i]->transform.scale = { 5, 5 };
 			pool.activeSamurais[i]->transform.position = RandomPoint_OutsideSqaure(MIN_SPAWNDIST, MAX_SPAWNDIST, playerPos);
+			pool.activeSamurais[i]->offsetPos = Vector2(AERandFloat() * 12.0f - 6.0f, AERandFloat() * 12.0f - 6.0f);
 			pool.activeSize += 1;
 			break;
 		}
@@ -62,8 +65,14 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 					curSamurai->anim.NextFrame(curSamurai->transform);
 				}
 				else {
-					Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
+					Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position - curSamurai->offsetPos).normalize();
 					curSamurai->transform.position += direction * MS * deltaTime;
+					if (direction.x > 0) {
+						curSamurai->transform.scale.x = Absf(curSamurai->transform.scale.x) * -1.0f;
+					}
+					else {
+						curSamurai->transform.scale.x = Absf(curSamurai->transform.scale.x);
+					}
 					//curSamurai->transform.rotation = acosf(direction.x);
 				}
 				break;
@@ -105,12 +114,14 @@ void Dmg_Samurai(SamuraiPool& pool, PlayerInfo playerInfo, int index) {
 	if ((pool.activeSamurais[index]->health -=playerInfo.att) <= 0) {
 		SamuraiRemove(index, pool);
 		Add_Score(SAMURAI_KILLSCORE);
+		
 	}
 }
 
 void Die_Samurai(SamuraiPool& pool, int index) {
 	if ((pool.activeSamurais[index]->health ) <= 0) {
 		SamuraiRemove(index, pool);
+		
 	}
 }
 

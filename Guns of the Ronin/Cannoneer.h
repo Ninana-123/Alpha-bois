@@ -10,7 +10,7 @@
 #include "Bullets.h"
 namespace {
 	enum C_AI_STATE { C_ATTACKING, C_RELOADING };
-	enum { CANNONEER_COUNT =03 };
+	enum { CANNONEER_COUNT = 20 };
 	enum { CANNONBALL_COUNT = 40 };
 	const int CANNONEER_KILLSCORE = 150;
 

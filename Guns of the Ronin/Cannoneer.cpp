@@ -2,6 +2,7 @@
 #include "Cannoneer.h"
 #include "TimeManager.h"
 #include "HighScore.h"
+#include "EnemyCounter.h"
 
 
 //When a cannoneer dies 
@@ -128,6 +129,7 @@ void Dmg_Cannoneer(CannoneerPool& pool, PlayerInfo playerInfo, int index) {
 	if ((pool.activeCannoneers[index]->health -= playerInfo.att) <= 0) {
 		CannoneerRemove(index, pool);
 		Add_Score(CANNONEER_KILLSCORE);
+		--enemiesLeft;
 	}
 }
 

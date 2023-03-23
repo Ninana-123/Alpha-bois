@@ -2,6 +2,7 @@
 #include "Ninja.h"
 #include "TimeManager.h"
 #include "HighScore.h"
+#include "EnemyCounter.h"
 
 
 float ninjaAttDelay = 1.0f;
@@ -110,6 +111,7 @@ void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index) {
 	if ((pool.activeNinjas[index]->health -= playerInfo.att) <= 0) {
 		NinjaRemove(index, pool);
 		Add_Score(NINJA_KILLSCORE);
+		--enemiesLeft;
 	}
 }
 
