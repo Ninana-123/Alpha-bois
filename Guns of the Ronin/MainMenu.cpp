@@ -106,7 +106,7 @@ void Update_Menu() {
 	*MouseY = (*MouseY - 450) * -1;
 	std::cout << "Mouse_X: " << *MouseX << std::endl;
 	std::cout << "Mouse_Y: " << *MouseY << std::endl;
-	left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
+	left_mouse_pressed = AEInputCheckReleased(AEVK_LBUTTON);
 
 	if (frameTimer >= 0.3f) {
 		mainMenu.sakuraAnim.PlayAnim();
@@ -224,7 +224,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			AESysFrameEnd();
 
 			// check if forcing the application to quit
-			if ((AESysDoesWindowExist() == false) || AEInputCheckTriggered(AEVK_ESCAPE))
+			if ((AESysDoesWindowExist() == false))
 				gGameStateNext = GS_QUIT;
 		}
 

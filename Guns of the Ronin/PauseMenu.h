@@ -22,7 +22,7 @@ class PauseMenu {
 public:
 	Transform transform;
 	int spriteIndex = 0;
-	bool c_pressed = false;
+	bool esc_pressed = false;
 };
 
 void Init_PauseMenu();

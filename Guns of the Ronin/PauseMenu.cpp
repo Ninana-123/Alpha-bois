@@ -19,7 +19,7 @@ PauseMenu mainMenuButton;
 float buttonsX = 0.f;
 float resumeY = 15.0f;
 float restartY = resumeY - 110.0f;
-float mainMenuY = -209.f;
+float mainMenuY = restartY - 110.0f;
 
 void Init_PauseMenu() {
 
@@ -39,8 +39,8 @@ void Init_PauseMenu() {
 
 void Update_PauseMenu() {
 
-	pauseMenu.c_pressed = AEInputCheckTriggered(AEVK_C);
-	if (pauseMenu.c_pressed) {
+	pauseMenu.esc_pressed = AEInputCheckTriggered(AEVK_ESCAPE);
+	if (pauseMenu.esc_pressed) {
 		if (!IsTime_Paused()) {
 			TimePause();
 		}
@@ -59,7 +59,7 @@ void Update_PauseMenu() {
 	AEInputGetCursorPosition(Paused_MouseX, Paused_MouseY);
 	*Paused_MouseX = *Paused_MouseX - 800;
 	*Paused_MouseY = (*Paused_MouseY - 450) * -1;
-	leftClick = AEInputCheckTriggered(AEVK_LBUTTON);
+	leftClick = AEInputCheckReleased(AEVK_LBUTTON);
 
 
 	// Resume
@@ -67,6 +67,7 @@ void Update_PauseMenu() {
 		//playButton.spriteIndex = 1;
 		if (leftClick) {
 			TimeResume();
+			leftClick = false;
 		}
 	}
 
@@ -75,13 +76,16 @@ void Update_PauseMenu() {
 		if (leftClick) {
 			gGameStateNext = GS_RESTART;
 			TimeResume();
+			leftClick = false;
 		}
 	}
 
 	// Main Menu
 	if (IsButtonHover(buttonsX, mainMenuY, 300.f, -100.f, Paused_MouseX, Paused_MouseY)) {
 		if (leftClick) {
-			//gGameStateCurr = GS_MAINMENU;
+			gGameStateNext = GS_MAINMENU;
+			TimeResume();
+			leftClick = false;
 		}
 	}
 }

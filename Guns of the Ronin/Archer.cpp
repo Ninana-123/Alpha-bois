@@ -65,6 +65,12 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 				else {
 					Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
 					curArcher->transform.position += direction * ARCHER_MS * deltaTime;
+					if (direction.x > 0) {
+						curArcher->transform.scale.x = Absf(curArcher->transform.scale.x) * -1.0f;
+					}
+					else {
+						curArcher->transform.scale.x = Absf(curArcher->transform.scale.x);
+					}
 				}
 				break;
 			case ARCHER_ATTACKING:
