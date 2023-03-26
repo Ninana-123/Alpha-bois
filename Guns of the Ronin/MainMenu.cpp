@@ -104,8 +104,6 @@ void Update_Menu() {
 	AEInputGetCursorPosition(MouseX, MouseY);
 	*MouseX = *MouseX - 800;
 	*MouseY = (*MouseY - 450) * -1;
-	std::cout << "Mouse_X: " << *MouseX << std::endl;
-	std::cout << "Mouse_Y: " << *MouseY << std::endl;
 	left_mouse_pressed = AEInputCheckReleased(AEVK_LBUTTON);
 
 	if (frameTimer >= 0.3f) {
