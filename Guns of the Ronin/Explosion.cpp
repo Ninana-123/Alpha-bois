@@ -139,7 +139,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 		}
 		// Removing the explosion after 4 seconds 
 		explosionPool.activeExplosion[i]->timeElapsed += deltaTime;
-		if (explosionPool.activeExplosion[i]->timeElapsed >= 400.0f)
+		if (explosionPool.activeExplosion[i]->timeElapsed >= 4.0f)
 		{
 			ExplosionDelete(i, explosionPool);
 		}
