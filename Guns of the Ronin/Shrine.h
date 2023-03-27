@@ -32,7 +32,6 @@ class Shrine
 {
 public:
 	Transform transform;
-	Transform shrineBoundary;
 	bool hasbeenused = false;
 	bool iscolliding = false;
 	float loadingbarpercentage = 0;
@@ -41,6 +40,7 @@ public:
 	enum Types { Explosion,Freeze, Push,God,Heal, Void, TotalShrines };
 	Types types;
 	float deleteTimer =5.0;
+	
 };
 
 

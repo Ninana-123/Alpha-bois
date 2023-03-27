@@ -50,8 +50,6 @@ void ExplosionAdd(ExplosionPool& explosionPool)
 
 void ExplosionDelete(int index, ExplosionPool& explosionPool)
 {
-		
-	
 		explosionPool.activeExplosion[index]->hasbeenused = false;
 		if (index < (explosionPool.activeSize - 1))
 		{

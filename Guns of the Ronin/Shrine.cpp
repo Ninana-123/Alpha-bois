@@ -241,9 +241,23 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 							}
 						}
 					}
+					for (int z = 0; z < archPool.activeSize; ++z)
+					{
+						if (*mouseX >= archPool.activeArchers[z]->transform.position.x - padding &&
+							*mouseX <= archPool.activeArchers[z]->transform.position.x + archPool.activeArchers[z]->transform.width + padding &&
+							*mouseY >= archPool.activeArchers[z]->transform.position.y - padding &&
+							*mouseY <= archPool.activeArchers[z]->transform.position.y + archPool.activeArchers[z]->transform.height + padding)
+						{
+							if (AEInputCheckTriggered(AEVK_LBUTTON))
+							{
+								ArcherRemove(z, archPool);
+							}
+						}
+					}
+
+
 					// Decrease timer every frame
 					shrinePool.activeShrine[i]->deleteTimer -= deltaTime;
-
 					// If timer reaches zero, delete shrine
 					if (shrinePool.activeShrine[i]->deleteTimer <= 0.0)
 					{
