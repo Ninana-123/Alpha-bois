@@ -48,7 +48,7 @@ void Shrinepool_Init(ShrinePool& pool)
 		pool.Shrines[i].transform.mesh = &shrineMesh;
 		pool.Shrines[i].loading.mesh = &loadingBarMesh;
 		pool.activeShrine[i] = &pool.Shrines[i];
-		pool.activeShrine[i]->loadingbarpercentage = 0.f;
+		//pool.activeShrine[i]->loadingbarpercentage = 0.f;
 		pool.activeShrine[i]->timeElapsed = 0;
 		pool.activeShrine[i]->iscolliding = false;
 
@@ -82,8 +82,9 @@ void ShrineAdd(ShrinePool& shrinePool)
 			shrinePool.activeShrine[i]->hasbeenused = true;
 			shrinePool.activeSize += 1;
 			shrinePool.activeShrine[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-			//shrinePool.activeShrine[i]->loadingbarpercentage = 0.f;
+			//shrinePool.Shrines[i].loadingbarpercentage = 0.f;
 			//shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
+			shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position;
 			shrinePool.activeShrine[i]->timeElapsed = 0;
 			shrinePool.activeShrine[i]->iscolliding = false;
 			shrinePool.activeShrine[i]->transform.scale = { 2, 2 };
@@ -293,7 +294,7 @@ void Draw_Shrine(ShrinePool& shrinePool)
 			DrawMesh(&shrinePool.activeShrine[i]->transform);
 			if (shrinePool.activeShrine[i]->iscolliding)
 			{
-				DrawMesh(&shrinePool.activeShrine[i]->loading);
+				DrawMesh(&shrinePool.Shrines[i].loading);
 			}
 		}
 
