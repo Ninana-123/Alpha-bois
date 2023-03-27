@@ -38,8 +38,10 @@ void Shrinepool_Init(ShrinePool& pool)
 	duration = 0;
 	pool.activeSize = 0;
 	CreateQuadMesh(SHRINE_WIDTH, SHRINE_HEIGHT, Color(1, 1, 0, 1), shrineMesh);
+	CreateQuadMesh(LOADING_WIDTH, LOADING_HEIGHT, Color(0, 0, 0, 1), loadingBarMesh);
 	for (int i = 0; i < Shrine_Count; i++)
 	{
+		
 		pool.Shrines[i].hasbeenused = false;
 		pool.Shrines[i].transform.height = SHRINE_HEIGHT;
 		pool.Shrines[i].transform.width = SHRINE_WIDTH;
@@ -268,7 +270,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 			}
 			else
 			{
-				shrinePool.activeShrine[i]->loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
+				/*shrinePool.activeShrine[i]->loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
 				shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 90);
 				if (loadingBarMesh)
 				{
@@ -276,7 +278,14 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 					loadingBarMesh = 0;
 				}
 				CreateQuadMesh(150.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
-				shrinePool.activeShrine[i]->loading.mesh = &loadingBarMesh;
+				shrinePool.activeShrine[i]->loading.mesh = &loadingBarMesh;*/
+
+			
+				for (int i = 0; i < shrinePool.activeSize; i++) {
+					float loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
+					shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 80);
+					shrinePool.Shrines[i].loading.scale = Vector2(loadingbarpercentage, 1.0f);
+				}
 
 			}
 		}

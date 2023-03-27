@@ -18,6 +18,7 @@ namespace
 {
 	enum{Shrine_Count = 10};
 	float SHRINE_HEIGHT = 50, SHRINE_WIDTH = 50;
+	float LOADING_WIDTH = 150, LOADING_HEIGHT = 10;
 	AEGfxVertexList* shrineMesh;
 	AEGfxVertexList* shrineBoundary;
 	AEGfxVertexList* loadingBarMesh;
