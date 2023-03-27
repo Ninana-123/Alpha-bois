@@ -18,7 +18,7 @@ namespace{
 	AEGfxVertexList* guideMesh = 0;
 	AEGfxVertexList* highscoreMesh = 0;
 	AEGfxVertexList* quitMesh = 0;
-	//AEGfxVertexList* creditMesh = 0;
+	AEGfxVertexList* creditMesh = 0;
 
 }
 
