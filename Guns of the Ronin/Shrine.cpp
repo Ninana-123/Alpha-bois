@@ -83,7 +83,7 @@ void ShrineAdd(ShrinePool& shrinePool)
 			shrinePool.activeSize += 1;
 			shrinePool.activeShrine[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
 			shrinePool.activeShrine[i]->loadingbarpercentage = 0.f;
-			shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
+			//shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
 			shrinePool.activeShrine[i]->timeElapsed = 0;
 			shrinePool.activeShrine[i]->iscolliding = false;
 			shrinePool.activeShrine[i]->transform.scale = { 2, 2 };
@@ -280,7 +280,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 				CreateQuadMesh(150.0f * shrinePool.activeShrine[i]->loadingbarpercentage, 20.0f, Color(0, 0, 0, 1), loadingBarMesh);
 				shrinePool.activeShrine[i]->loading.mesh = &loadingBarMesh;*/
 
-			
+
 				for (int i = 0; i < shrinePool.activeSize; i++) {
 					float loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
 					shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 80);
