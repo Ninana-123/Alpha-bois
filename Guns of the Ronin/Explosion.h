@@ -36,7 +36,7 @@ struct ExplosionPool
 public:
 	Explosion Explosions[Explosion_Count];
 	Explosion* activeExplosion[Explosion_Count];
-	int activeSize;
+	int activeSize = 0;
 	
 };
 
