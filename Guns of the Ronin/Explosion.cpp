@@ -218,5 +218,6 @@ void Free_Explosions()
 {
 	
 		AEGfxMeshFree(explosionsMesh);
+		//AEGfxTextureUnload(assetExplosion);
 	
 }

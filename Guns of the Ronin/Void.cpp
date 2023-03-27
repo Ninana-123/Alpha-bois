@@ -189,5 +189,6 @@ void Free_Void()
 {
 	
 	AEGfxMeshFree(voidMesh);
+	AEGfxTextureUnload(assetblackhole);
 
 }

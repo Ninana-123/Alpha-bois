@@ -82,7 +82,7 @@ void ShrineAdd(ShrinePool& shrinePool)
 			shrinePool.activeShrine[i]->hasbeenused = true;
 			shrinePool.activeSize += 1;
 			shrinePool.activeShrine[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-			shrinePool.activeShrine[i]->loadingbarpercentage = 0.f;
+			//shrinePool.activeShrine[i]->loadingbarpercentage = 0.f;
 			//shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
 			shrinePool.activeShrine[i]->timeElapsed = 0;
 			shrinePool.activeShrine[i]->iscolliding = false;
@@ -152,29 +152,10 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 
 	}
 
-	//Vector2 PositionMouse = Vector2(*mouseX >= HalfX ? *mouseX - HalfX : -(HalfX - *mouseX), *mouseY >= HalfY ? -(*mouseY - HalfY) : HalfY - *mouseY);
 	timeSincePause += deltaTime;
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
 		SetQuadPoints(shrinePool.activeShrine[i]->transform, 50.f, 50.f);
-
-		//if (shrinePool.activeShrine[i]->types == Shrine::God)
-		//{
-		//	for (int u = 0; u < samPool.activeSize; ++u)
-		//	{
-		//		if (IsButtonHover(samPool.activeSamurais[u]->transform.position.x, samPool.activeSamurais[u]->transform.position.y,
-		//			samPool.activeSamurais[u]->transform.width *(samPool.activeSamurais[u]->transform.scale.x), 
-		//			samPool.activeSamurais[u]->transform.height *(samPool.activeSamurais[u]->transform.scale.y), (s32*)&PositionMouse.x, (s32*)&PositionMouse.y))
-		//		{
-		//			//std::cout << "in" << std::endl;
-		//			if (AEInputCheckTriggered(AEVK_LBUTTON))
-		//			{
-		//				//std::cout << "pressed" << std::endl;
-		//				SamuraiRemove(u, samPool);
-		//			}
-		//		}
-		//	}
-		//}
 		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 		{
 			shrinePool.activeShrine[i]->iscolliding = true;
@@ -281,9 +262,10 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 				shrinePool.activeShrine[i]->loading.mesh = &loadingBarMesh;*/
 
 
-				for (int i = 0; i < shrinePool.activeSize; i++) {
-					float loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
+				for (int i = 0; i < shrinePool.activeSize; i++)
+				{
 					shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 80);
+					float loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
 					shrinePool.Shrines[i].loading.scale = Vector2(loadingbarpercentage, 1.0f);
 				}
 
@@ -322,9 +304,10 @@ void Draw_Shrine(ShrinePool& shrinePool)
 void Free_Shrines()
 {
 	AEGfxMeshFree(shrineMesh);
-	if (loadingBarMesh) {
-		AEGfxMeshFree(loadingBarMesh);
 
+	if (loadingBarMesh) 
+	{
+		AEGfxMeshFree(loadingBarMesh);
 	}
 
 	AEGfxTextureUnload(assetfreeze);
