@@ -146,7 +146,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		if (collidedSamurais.empty() && collidedCannoners.empty() && collidedArchers.empty())
 		{
 			// Check if the void has been active for more than 4 seconds else remove them
-			if (voidPool.activeVoid[i]->timeElapsed >= 1000.f)
+			if (voidPool.activeVoid[i]->timeElapsed >= 4.f)
 			{
 				// If the void has been active for more than 1 second, remove it from the VoidPool
 				VoidDelete(i, voidPool);

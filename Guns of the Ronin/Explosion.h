@@ -14,7 +14,7 @@
 namespace
 {
 	enum{Explosion_Count = 5};
-	float EXPLOSION_HEIGHT = 50, EXPLOSION_WIDTH = 50;
+	float EXPLOSION_HEIGHT = 100, EXPLOSION_WIDTH = 100;
 	AEGfxVertexList* explosionsMesh;
 	int explosionCount = 100;
 }

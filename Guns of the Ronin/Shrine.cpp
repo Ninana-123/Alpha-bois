@@ -29,6 +29,8 @@ s32* mouseY = &mousePosY;
 float HalfX;
 float HalfY;
 
+
+
 void Shrinepool_Init(ShrinePool& pool)
 {
 	HalfX = (float)AEGetWindowWidth() / 2.0f;
@@ -138,8 +140,8 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 	duration += deltaTime;
 	//std::cout << duration << std::endl;
 	AEInputGetCursorPosition(mouseX, mouseY);
-	/**mouseX = *mouseX - 800;
-	*mouseY = (*mouseY - 450) * -1;*/
+	*mouseX = *mouseX - 800;
+	*mouseY = (*mouseY - 450) * -1;
 
 	if (duration >= 1.f)
 	{
@@ -148,11 +150,11 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 
 	}
 
-	Vector2 PositionMouse = Vector2(*mouseX >= HalfX ? *mouseX - HalfX : -(HalfX - *mouseX), *mouseY >= HalfY ? -(*mouseY - HalfY) : HalfY - *mouseY);
+	//Vector2 PositionMouse = Vector2(*mouseX >= HalfX ? *mouseX - HalfX : -(HalfX - *mouseX), *mouseY >= HalfY ? -(*mouseY - HalfY) : HalfY - *mouseY);
 	timeSincePause += deltaTime;
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
-		SetQuadPoints(shrinePool.activeShrine[i]->transform, 40.f, 40.f);
+		SetQuadPoints(shrinePool.activeShrine[i]->transform, 50.f, 50.f);
 
 		//if (shrinePool.activeShrine[i]->types == Shrine::God)
 		//{
@@ -225,20 +227,23 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 
 				if (shrinePool.activeShrine[i]->types == Shrine::God)
 				{
+					int padding = 50;
 					for (int u = 0; u < samPool.activeSize; ++u)
 					{
-						/*if (IsButtonHover(samPool.activeSamurais[u]->transform.position.x, samPool.activeSamurais[u]->transform.position.y,
-							samPool.activeSamurais[u]->transform.width, samPool.activeSamurais[u]->transform.height, mouseX, mouseY))
-						{*/
-						//std::cout << "in" << std::endl;
-						if (AEInputCheckTriggered(AEVK_LBUTTON))
+						if (*mouseX >= samPool.activeSamurais[u]->transform.position.x - padding &&
+							*mouseX <= samPool.activeSamurais[u]->transform.position.x + samPool.activeSamurais[u]->transform.width + padding &&
+							*mouseY >= samPool.activeSamurais[u]->transform.position.y - padding &&
+							*mouseY <= samPool.activeSamurais[u]->transform.position.y + samPool.activeSamurais[u]->transform.height + padding)
 						{
-							//std::cout << "pressed" << std::endl;
-							SamuraiRemove(u, samPool);
+							if (AEInputCheckTriggered(AEVK_LBUTTON))
+							{
+								SamuraiRemove(u, samPool);
+							}
 						}
-						//ShrineDelete(i, shrinePool);
 					}
+					//ShrineDelete(i, shrinePool);
 				}
+
 			}
 			else
 			{
@@ -284,14 +289,18 @@ void Draw_Shrine(ShrinePool& shrinePool)
 
 }
 
-void Free_Shrines() {
+void Free_Shrines()
+{
 	AEGfxMeshFree(shrineMesh);
 	if (loadingBarMesh) {
 		AEGfxMeshFree(loadingBarMesh);
 
 	}
 
-	//AEGfxTextureUnload(assetfreeze);
-	//AEGfxTextureUnload(assetheal);
-	//AEGfxTextureUnload(assetwind);
+	AEGfxTextureUnload(assetfreeze);
+	AEGfxTextureUnload(assetheal);
+	AEGfxTextureUnload(assetwind);
+	AEGfxTextureUnload(assetexplosion);
+	AEGfxTextureUnload(assetgod); 
+	AEGfxTextureUnload(assetvoid);
 }

@@ -19,17 +19,20 @@ namespace
 	enum{Shrine_Count = 10};
 	float SHRINE_HEIGHT = 50, SHRINE_WIDTH = 50;
 	AEGfxVertexList* shrineMesh;
+	AEGfxVertexList* shrineBoundary;
 	AEGfxVertexList* loadingBarMesh;
 	NinjaPool ninPools;
 	ArcherPool archPools;
 	PlayerInfo playerinfos;
 	ExplosionPool exPools;
+	int shrineRadius = 100;
 }
 
 class Shrine
 {
 public:
 	Transform transform;
+	Transform shrineBoundary;
 	bool hasbeenused = false;
 	bool iscolliding = false;
 	float loadingbarpercentage = 0;
@@ -47,6 +50,7 @@ public:
 	Shrine Shrines[Shrine_Count];
 	Shrine* activeShrine[Shrine_Count];
 	int activeSize;
+	
 	
 };
 
