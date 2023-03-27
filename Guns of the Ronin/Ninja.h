@@ -37,6 +37,7 @@ public:
 	bool isHit = false;
 	bool damagedByExplosion = false;
 	bool isCollidingWithExplosion = false;
+	Sprite_Animation anim{ 1,2,1 };
 };
 
 struct NinjaPool {

@@ -22,6 +22,7 @@
 #include "HealthBar.h"
 #include "Void.h"
 #include "PauseMenu.h"
+#include "Credits.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -51,7 +52,7 @@ namespace {
 	BarPool barPool;
 	VoidPool voidPool;
 	PauseMenu pauseMenu;
-	
+	Credits creditsPage;
 }
 
 void Init_Scene() {
@@ -67,6 +68,7 @@ void Init_Scene() {
 	Init_Enemies(samPool, archPool, cPool, ninPool);
 	Shop_Init(&shop);
 	Init_PauseMenu();
+	Init_Credits();
 	PlayerInfo_Init(&playerinfo);
 	LevelBG = AEGfxTextureLoad("Assets/GameBG1.png");
 	CreateQuadMesh(1.f,1.f,Color(1,1,1), levelMesh);
@@ -102,6 +104,8 @@ void Update_Scene() {
 	//Shop_Update(&shop, &playerinfo);
 
 	Update_PauseMenu();
+
+	Update_Credits();
 
 	// Player bullets collision with samurais
 	for (int i = 0; i < samPool.activeSize; ++i) {
@@ -212,7 +216,7 @@ void Draw_Scene() {
 	HealthBar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
 	Draw_Void(voidPool);
 	Draw_PauseMenu();
-	
+	Draw_Credits();
 	if (playerinfo.playerDead) {
 		TimePause();
 		sprintf_s(strBuffer, " DEAD");
@@ -241,6 +245,7 @@ void Free_Scene() {
 	AEGfxTextureUnload(LevelBG);
 	HealthBar_Free();
 	Free_Void();
+	Free_Credits();
 }
 
 

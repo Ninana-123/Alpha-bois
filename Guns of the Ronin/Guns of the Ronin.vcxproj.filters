@@ -126,6 +126,9 @@
     <ClCompile Include="PauseMenu.cpp">
       <Filter>Source Files\Game Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Credits.cpp">
+      <Filter>Source Files\Game Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shrine.h">
@@ -211,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="EnemyCounter.h">
       <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Credits.h">
+      <Filter>Header Files\Game Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
