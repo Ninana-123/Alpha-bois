@@ -40,6 +40,7 @@ public:
 	float timeElapsed = 0;
 	enum Types { Explosion,Freeze, Push,God,Heal, Void, TotalShrines };
 	Types types;
+	float deleteTimer =5.0;
 };
 
 

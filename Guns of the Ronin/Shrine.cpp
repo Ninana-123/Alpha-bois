@@ -241,7 +241,14 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 							}
 						}
 					}
-					//ShrineDelete(i, shrinePool);
+					// Decrease timer every frame
+					shrinePool.activeShrine[i]->deleteTimer -= deltaTime;
+
+					// If timer reaches zero, delete shrine
+					if (shrinePool.activeShrine[i]->deleteTimer <= 0.0)
+					{
+						ShrineDelete(i, shrinePool);
+					}
 				}
 
 			}
