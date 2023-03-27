@@ -157,7 +157,7 @@ void Update_Menu() {
 	if (IsButtonHover(creditsButtonX, creditsButtonY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
 		creditButton.spriteIndex = 7;
 		if (left_mouse_pressed) {
-			//gGameStateNext = ;
+			gGameStateNext = GS_CREDITS;
 		}
 	}
 	else creditButton.spriteIndex = 6;

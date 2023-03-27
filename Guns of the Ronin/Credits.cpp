@@ -1,4 +1,6 @@
 #include "Credits.h"
+#include "MainMenu.h"
+
 Credits creditsBG;
 
 void Init_Credits() {
@@ -17,16 +19,13 @@ void Update_Credits() {
 }
 
 void Draw_Credits() {
-	if (AEInputCheckCurr(AEVK_J)) {
-		creditsBG.j_pressed = true;
-	}
-
-	if (creditsBG.j_pressed == true) {
-		DrawMesh(&creditsBG.transform);
-	}
+	DrawMesh(&creditsBG.transform);
 	
+	char strBuffer[1024];
+	sprintf_s(strBuffer, "GUNS OF THE RONIN");
+	AEGfxPrint(font, strBuffer, -0.25f, 0.75f, 2, 1, 0, 0);
 	
 }
 void Free_Credits() {
-
+	AEGfxMeshFree(CreditsBGMesh);
 }

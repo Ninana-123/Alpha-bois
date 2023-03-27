@@ -4,6 +4,7 @@
 #include "MainScene.h"
 #include "Guide.h"
 #include "GSM.h"
+#include "Credits.h"
 
 unsigned int	gGameStateInit;
 unsigned int	gGameStateCurr;
@@ -54,6 +55,11 @@ void GameStateMgrUpdate()
 		GameStateUpdate = Update_Guide;
 		GameStateDraw = Draw_Guide;
 		GameStateFree = Free_Guide;
+	case GS_CREDITS:
+		GameStateInit = Init_Credits;
+		GameStateUpdate = Update_Credits;
+		GameStateDraw = Draw_Credits;
+		GameStateFree = Free_Credits;
 	default:
 		break;
 	}
