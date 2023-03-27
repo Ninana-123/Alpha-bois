@@ -262,12 +262,12 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 				shrinePool.activeShrine[i]->loading.mesh = &loadingBarMesh;*/
 
 
-				for (int i = 0; i < shrinePool.activeSize; i++)
-				{
-					shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 80);
-					float loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
-					shrinePool.Shrines[i].loading.scale = Vector2(loadingbarpercentage, 1.0f);
-				}
+				//for (int i = 0; i < shrinePool.activeSize; i++)
+				//{
+				//	shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 80);
+				//	float loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
+				//	shrinePool.Shrines[i].loading.scale = Vector2(loadingbarpercentage, 1.0f);
+				//}
 
 			}
 		}
