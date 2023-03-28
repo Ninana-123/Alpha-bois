@@ -55,11 +55,13 @@ void GameStateMgrUpdate()
 		GameStateUpdate = Update_Guide;
 		GameStateDraw = Draw_Guide;
 		GameStateFree = Free_Guide;
+		break;
 	case GS_CREDITS:
 		GameStateInit = Init_Credits;
 		GameStateUpdate = Update_Credits;
 		GameStateDraw = Draw_Credits;
 		GameStateFree = Free_Credits;
+		break;
 	default:
 		break;
 	}
