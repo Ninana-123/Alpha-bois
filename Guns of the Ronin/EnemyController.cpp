@@ -3,6 +3,7 @@
 #include "TimeManager.h"
 #include "Player.h"
 #include "MainMenu.h"
+#include "HighScore.h"
 
 float spawnTImer = 0;
 float archerSpawnTimer = 0;
@@ -81,6 +82,12 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 	//all enemies in the current wave defeated
 	if (!enemiesLeft) {
 		++curWave;
+		//If final wave 10 is cleared playthrough is finished, finalize score
+		if (curWave > 10) {
+			Finalize_HighScore();
+			TimePause();
+			return;
+		}
 		enemiesLeft = spawnTotalCount[curWave - 1];
 		for (int i = 0; i < 4; ++i) {
 			curSpawnCounts[i] = 0;
