@@ -11,6 +11,7 @@ enum
 	GS_MAINMENU = 0,
 	GS_LEVEL1,
 	GS_GUIDE,
+	GS_CREDITS,
 
 	// special game state. Do not change
 	GS_RESTART,

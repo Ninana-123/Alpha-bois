@@ -130,7 +130,7 @@ void Draw_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPo
 
 	char strBuffer[1024];
 	sprintf_s(strBuffer, "Wave: %d", curWave);
-	AEGfxPrint(font, strBuffer, -0.1f, 0.9f, 2, 0, 0, 0);
+	AEGfxPrint(font, strBuffer, -0.1f, 0.85f, 0.75f, 0, 0, 0);
 	sprintf_s(strBuffer, "Enemies Left: %d", enemiesLeft);
-	AEGfxPrint(font, strBuffer, -0.15f, 0.8f, 1.5, 0, 0, 0);
+	AEGfxPrint(font, strBuffer, -0.15f, 0.75f, 0.75f, 0, 0, 0);
 }

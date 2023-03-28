@@ -14,7 +14,7 @@
 namespace
 {
 	enum{Void_Count = 5};
-	float VOID_HEIGHT = 50, VOID_WIDTH = 50;
+	float VOID_HEIGHT = 100, VOID_WIDTH = 100;
 	AEGfxVertexList* voidMesh;
 	AEGfxTexture* assetblackhole=0;
 	int voidCount = 100;

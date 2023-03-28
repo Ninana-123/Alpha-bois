@@ -23,8 +23,9 @@ float guideButtonX = playButtonX + buttonScaleX;
 float highscoreButtonX = guideButtonX + buttonScaleX;
 float quitButtonX = highscoreButtonX + buttonScaleX;
 
-//float creditsButtonX;
-//float creditsButtonY;
+float creditsButtonX = quitButtonX;
+float creditsButtonY = buttonsY - 220.f;
+float creditScaleY = -62.5f;
 
 bool left_mouse_pressed;
 
@@ -33,6 +34,7 @@ MainMenu playButton;
 MainMenu guideButton;
 MainMenu highscoreButton;
 MainMenu quitButton;
+MainMenu creditButton;
 
 s8 font;
 
@@ -91,6 +93,15 @@ void Init_Menu() {
 	quitButton.transform.width = 10.0f;
 	quitButton.transform.rotation = 0.0f;
 	quitButton.transform.mesh = &quitMesh;
+	
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), creditMesh, 1.0f / 10.0f, 1.0f);
+	creditButton.transform.texture = &buttonsSprite;
+	creditButton.transform.position = { creditsButtonX,creditsButtonY};
+	creditButton.transform.scale = { buttonScaleX /2,creditScaleY};
+	creditButton.transform.height = 1.0f;
+	creditButton.transform.width = 10.0f;
+	creditButton.transform.rotation = 0.0f;
+	creditButton.transform.mesh = &quitMesh;
 
 
 
@@ -142,6 +153,14 @@ void Update_Menu() {
 		}
 	}
 	else quitButton.spriteIndex = 2;
+	
+	if (IsButtonHover(creditsButtonX, creditsButtonY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
+		creditButton.spriteIndex = 7;
+		if (left_mouse_pressed) {
+			gGameStateNext = GS_CREDITS;
+		}
+	}
+	else creditButton.spriteIndex = 6;
 
 }
 
@@ -151,6 +170,7 @@ void Draw_Menu() {
 	DrawStaticSprite(&guideButton.transform, guideButton.spriteIndex);
 	DrawStaticSprite(&highscoreButton.transform, highscoreButton.spriteIndex);
 	DrawStaticSprite(&quitButton.transform, quitButton.spriteIndex);
+	DrawStaticSprite(&creditButton.transform, creditButton.spriteIndex);
 
 }
 
@@ -160,6 +180,8 @@ void Free_Menu() {
 	AEGfxMeshFree(guideMesh);
 	AEGfxMeshFree(highscoreMesh);
 	AEGfxMeshFree(quitMesh);
+	AEGfxMeshFree(creditMesh);
+
 	AEGfxTextureUnload(MainMenuBG);
 	AEGfxTextureUnload(buttonsSprite);
 }
@@ -192,7 +214,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// Using custom window procedure
 	AESysInit(hInstance, nCmdShow, 1600, 900, 1, 60, true, NULL);
 
-	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 20);
+	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 50);
 
 	GameStateMgrInit(GS_MAINMENU);
 

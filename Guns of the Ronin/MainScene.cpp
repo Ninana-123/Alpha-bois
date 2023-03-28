@@ -51,7 +51,6 @@ namespace {
 	BarPool barPool;
 	VoidPool voidPool;
 	PauseMenu pauseMenu;
-	
 }
 
 void Init_Scene() {
@@ -102,6 +101,7 @@ void Update_Scene() {
 	//Shop_Update(&shop, &playerinfo);
 
 	Update_PauseMenu();
+
 
 	// Player bullets collision with samurais
 	for (int i = 0; i < samPool.activeSize; ++i) {
@@ -212,7 +212,7 @@ void Draw_Scene() {
 	HealthBar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
 	Draw_Void(voidPool);
 	Draw_PauseMenu();
-	
+
 	if (playerinfo.playerDead) {
 		TimePause();
 		sprintf_s(strBuffer, " DEAD");
@@ -241,6 +241,7 @@ void Free_Scene() {
 	AEGfxTextureUnload(LevelBG);
 	HealthBar_Free();
 	Free_Void();
+
 }
 
 

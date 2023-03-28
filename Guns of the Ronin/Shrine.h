@@ -18,12 +18,15 @@ namespace
 {
 	enum{Shrine_Count = 10};
 	float SHRINE_HEIGHT = 50, SHRINE_WIDTH = 50;
+	float LOADING_WIDTH = 150, LOADING_HEIGHT = 10;
 	AEGfxVertexList* shrineMesh;
+	AEGfxVertexList* shrineBoundary;
 	AEGfxVertexList* loadingBarMesh;
 	NinjaPool ninPools;
 	ArcherPool archPools;
 	PlayerInfo playerinfos;
 	ExplosionPool exPools;
+	int shrineRadius = 100;
 }
 
 class Shrine
@@ -37,6 +40,8 @@ public:
 	float timeElapsed = 0;
 	enum Types { Explosion,Freeze, Push,God,Heal, Void, TotalShrines };
 	Types types;
+	float deleteTimer =5.0;
+	
 };
 
 
@@ -47,6 +52,7 @@ public:
 	Shrine Shrines[Shrine_Count];
 	Shrine* activeShrine[Shrine_Count];
 	int activeSize;
+	
 	
 };
 

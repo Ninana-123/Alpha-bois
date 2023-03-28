@@ -38,7 +38,7 @@ void NinjaAdd(NinjaPool& pool, Vector2 playerPos) {
 
 void Init_NinjaPool(NinjaPool& pool) {
 	pool.activeSize = 0;
-	CreateQuadMesh(NINJA_WIDTH, NINJA_HEIGHT, Color(0, 1, 1), ninjaMesh);
+	CreateQuadMesh(NINJA_WIDTH, NINJA_HEIGHT, Color(0, 1, 1), ninjaMesh, 0.5f, 1.0f);
 	for (int i = 0; i < NINJA_COUNT; i++) {
 		pool.ninjas[i].enabled = false;
 		pool.ninjas[i].health = NINJA_HEALTH;
@@ -50,7 +50,7 @@ void Init_NinjaPool(NinjaPool& pool) {
 		pool.activeNinjas[i] = &pool.ninjas[i];
 	}
 	Init_ShurikenPool(shuriken);
-	ninjaTexture = AEGfxTextureLoad("Assets/Ninja1.PNG");
+	ninjaTexture = AEGfxTextureLoad("Assets/NinjaSpriteSheet.png");
 }
 
 // Ninja movement, attacking state, wind shrine 
@@ -65,16 +65,25 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 			curNinja->targetPos = playerPos;
 			if (curNinja->transform.position.within_dist(playerPos, 150)) {
 				curNinja->aiState = NINJA_ATTACKING;
+				curNinja->anim.PlayAnim();
+				curNinja->anim.NextFrame(curNinja->transform);
 			}
 			else {
 				Vector2 direction = (curNinja->targetPos - curNinja->transform.position).normalize();
 				curNinja->transform.position += direction * NINJA_MS * deltaTime;
+				if (direction.x > 0) {
+					curNinja->transform.scale.x = Absf(curNinja->transform.scale.x) * -1.0f;
+				}
+				else {
+					curNinja->transform.scale.x = Absf(curNinja->transform.scale.x);
+				}
 			}
 			break;
 		case NINJA_ATTACKING:
 			curNinja->timeLastAttack += deltaTime;
 			if (!curNinja->transform.position.within_dist(playerPos, 150)) {
 				curNinja->aiState = NINJA_MOVING;
+				curNinja->anim.ResetAnim(curNinja->transform);
 			}
 			else {
 				if (curNinja->timeLastAttack >= ninjaAttDelay) {
@@ -92,6 +101,8 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 			}
 			break;
 		}
+
+		curNinja->anim.Update_SpriteAnim(curNinja->transform);
 
 		// Shuriken collide with player
 		proj->timeSince_lastDmgDeal += deltaTime;
