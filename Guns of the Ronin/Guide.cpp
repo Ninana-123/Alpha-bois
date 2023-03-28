@@ -166,7 +166,7 @@ void Init_Guide() {
 	shrineSigns.transform.position = { freezeShrineX + 250.f,freezeShrineY + 50.f};
 	shrineSigns.transform.scale = { 250.f,-125.f };
 	shrineSigns.transform.height = 1.0f;
-	shrineSigns.transform.width = 5.0f;
+	shrineSigns.transform.width = 9.0f;
 	shrineSigns.transform.rotation = 0.0f;
 	shrineSigns.transform.mesh = &shrineSignsMesh;
 		
@@ -175,7 +175,7 @@ void Init_Guide() {
 	shrineExplain.transform.position = { shrineSigns.transform.position.x,shrineSigns.transform.position.y - 125};
 	shrineExplain.transform.scale = { 250.f,-125.f };
 	shrineExplain.transform.height = 1.0f;
-	shrineExplain.transform.width = 5.0f;
+	shrineExplain.transform.width = 9.0f;
 	shrineExplain.transform.rotation = 0.0f;
 	shrineExplain.spriteIndex = 1;
 	shrineExplain.transform.mesh = &shrineExplainMesh;
@@ -185,7 +185,7 @@ void Init_Guide() {
 	windTest.transform.position = {windShrine.transform.position.x + 180.f,windShrine.transform.position.y};
 	windTest.transform.scale = { 250.f,-125.f };
 	windTest.transform.height = 1.0f;
-	windTest.transform.width = 5.0f;
+	windTest.transform.width = 9.0f;
 	windTest.transform.rotation = 0.0f;
 	windTest.spriteIndex = 1;
 	windTest.transform.mesh = &shrineExplainMesh;
@@ -374,6 +374,7 @@ void Free_Guide() {
 	AEGfxTextureUnload(voidTexture);
 	AEGfxMeshFree(windMesh);
 	AEGfxTextureUnload(windTexture);
+
 	AEGfxMeshFree(shrineSignsMesh);
 	AEGfxMeshFree(shrineExplainMesh);
 	AEGfxMeshFree(windTestMesh);
