@@ -214,7 +214,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// Using custom window procedure
 	AESysInit(hInstance, nCmdShow, 1600, 900, 1, 60, true, NULL);
 
-	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 20);
+	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 50);
 
 	GameStateMgrInit(GS_MAINMENU);
 
