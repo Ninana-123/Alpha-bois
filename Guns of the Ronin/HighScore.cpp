@@ -43,7 +43,7 @@ void Load_HighScoreFile() {
 	std::ifstream file{ highScoreFile };
 
 	if (!file) {
-		std::cout << "Error opening highscore.txt " << __PRETTY_FUNCTION__;
+		std::cout << "Error opening highscore.txt " << "__PRETTY_FUNCTION__";
 		return;
 	}
 
@@ -54,12 +54,12 @@ void Load_HighScoreFile() {
 
 	//read the first line for number of highscores
 	file.getline(buffer, 256);
-	sscanf_s(buffer, "%d", count);
+	sscanf_s(buffer, "%d", &count);
 
 	highscores.reserve(count + 1);
 
 	while (file.getline(buffer, 256)) {
-		sscanf_s(buffer, "%d", curScore);
+		sscanf_s(buffer, "%d", &curScore);
 		highscores.push_back(curScore);
 	}
 
@@ -77,7 +77,7 @@ void Update_HighScoreFile() {
 	file.open(highScoreFile, std::ios::trunc);
 
 	if (!file) {
-		std::cout<< "Error opening highscore.txt " << __PRETTY_FUNCTION__;
+		std::cout<< "Error opening highscore.txt " << "__PRETTY_FUNCTION__";
 	}
 
 	//Write number of highscores saved to the first line
