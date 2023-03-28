@@ -10,9 +10,9 @@ float headerScale = 0.75f;
 
 void Init_Credits() {
 	AEGfxSetBackgroundColor(0, 0, 0);
-	creditsBGTexture = AEGfxTextureLoad("Assets/credits1.png");
+	//creditsBGTexture = AEGfxTextureLoad("Assets/credits1.png");
 	CreateQuadMesh(1.f, 1.f, Color(0, 0, 0), CreditsBGMesh);
-	creditsBG.transform.texture = &creditsBGTexture;
+	//creditsBG.transform.texture = &creditsBGTexture;
 	creditsBG.transform.position = { 0.0f,0.0f };
 	creditsBG.transform.scale = { 1600.0f,-900.0f };
 	creditsBG.transform.height = 1.0f;
