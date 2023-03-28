@@ -62,7 +62,7 @@ AEGfxTexture* ninjaTexture;
 AEGfxTexture* cannonTexture;
 AEGfxTexture* enemySignsTexture;
 
-float enemyScale = 4.0f;
+float enemyScale = 3.f;
 
 float archerX = 360.f;
 float archerY = 180.f;
@@ -161,7 +161,7 @@ void Init_Guide() {
 	windShrine.transform.mesh = &windMesh;
 	
 	shrineSignsTexture = AEGfxTextureLoad("Assets/ShrineSigns.png");
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), shrineSignsMesh,1.f/5.f,1.f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), shrineSignsMesh,1.f/9.f,1.f);
 	shrineSigns.transform.texture = &shrineSignsTexture;
 	shrineSigns.transform.position = { freezeShrineX + 250.f,freezeShrineY + 50.f};
 	shrineSigns.transform.scale = { 250.f,-125.f };
@@ -170,7 +170,7 @@ void Init_Guide() {
 	shrineSigns.transform.rotation = 0.0f;
 	shrineSigns.transform.mesh = &shrineSignsMesh;
 		
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), shrineExplainMesh,1.f/5.f,1.f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), shrineExplainMesh,1.f/9.f,1.f);
 	shrineExplain.transform.texture = &shrineSignsTexture;
 	shrineExplain.transform.position = { shrineSigns.transform.position.x,shrineSigns.transform.position.y - 125};
 	shrineExplain.transform.scale = { 250.f,-125.f };
@@ -180,7 +180,7 @@ void Init_Guide() {
 	shrineExplain.spriteIndex = 1;
 	shrineExplain.transform.mesh = &shrineExplainMesh;
 			
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), windTestMesh,1.f/5.f,1.f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), windTestMesh,1.f/9.f,1.f);
 	windTest.transform.texture = &shrineSignsTexture;
 	windTest.transform.position = {windShrine.transform.position.x + 180.f,windShrine.transform.position.y};
 	windTest.transform.scale = { 250.f,-125.f };
@@ -237,21 +237,21 @@ void Init_Guide() {
 	cannon.transform.mesh = &cannonMesh;
 
 	enemySignsTexture = AEGfxTextureLoad("Assets/EnemySigns.png");
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), enemySignsMesh, 1.f / 3.f, 1.f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), enemySignsMesh, 1.f / 6.f, 1.f);
 	enemySigns.transform.texture = &enemySignsTexture;
 	enemySigns.transform.position = { shrineSigns.transform.position.x + 400.f,shrineSigns.transform.position.y};
 	enemySigns.transform.scale = { 250.f,-125.f };
 	enemySigns.transform.height = 1.0f;
-	enemySigns.transform.width = 3.0f;
+	enemySigns.transform.width = 6.0f;
 	enemySigns.transform.rotation = 0.0f;
 	enemySigns.transform.mesh = &enemySignsMesh;
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), enemyExplainMesh, 1.f / 3.f, 1.f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), enemyExplainMesh, 1.f / 6.f, 1.f);
 	enemyExplain.transform.texture = &enemySignsTexture;
 	enemyExplain.transform.position = { shrineSigns.transform.position.x + 400.f,shrineSigns.transform.position.y-125};
 	enemyExplain.transform.scale = { 250.f,-125.f };
 	enemyExplain.transform.height = 1.0f;
-	enemyExplain.transform.width = 3.0f;
+	enemyExplain.transform.width = 6.0f;
 	enemyExplain.transform.rotation = 0.0f;
 	enemyExplain.transform.mesh = &enemyExplainMesh;
 
@@ -348,6 +348,7 @@ void Draw_Guide() {
 	DrawMesh(&samurai.transform);
 	DrawMesh(&ninja.transform);
 	DrawMesh(&cannon.transform);
+
 	DrawStaticSprite(&enemySigns.transform,0);
 	DrawStaticSprite(&enemyExplain.transform,1);
 
