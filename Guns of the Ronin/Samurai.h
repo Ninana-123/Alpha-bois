@@ -36,6 +36,7 @@ public:
 	bool isCollidingWithExplosion = false;
 	int ID;
 	Sprite_Animation anim{ 2,2,1 };
+
 };
 
 struct SamuraiPool {
