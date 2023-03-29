@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Bullets.h"
 #include "NinjaShuriken.h"
+#include "Smoke.h"
 
 namespace {
 	enum NINJA_AI_STATE { NINJA_MOVING, NINJA_ATTACKING, NINJA_BLOWNAWAY };

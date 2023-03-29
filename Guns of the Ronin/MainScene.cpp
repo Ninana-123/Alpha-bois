@@ -51,6 +51,7 @@ namespace {
 	BarPool barPool;
 	VoidPool voidPool;
 	PauseMenu pauseMenu;
+	SmokePool smoke;
 }
 
 void Init_Scene() {
@@ -157,18 +158,10 @@ void Update_Scene() {
 			//Update AABB position of bullets
 			//SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, ninPool.activeNinjas[i]->transform)) {
-				// TELEPORT
-				if (ninPool.activeNinjas[i]->isHit == false) {
-					ninPool.activeNinjas[i]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWNDIST, NINJA_MAX_SPAWNDIST, player.transform.position);
-					//printf("teleport");
-					BulletRemove(u, bulletPool);
-					ninPool.activeNinjas[i]->isHit = true;
-				}
-				else {
-					Dmg_Ninja(ninPool, playerinfo, i);
-					BulletRemove(u, bulletPool);
-				}
+				Dmg_Ninja(ninPool, playerinfo, i);
+				BulletRemove(u, bulletPool);
 			}
+			
 		}
 	}
 
@@ -251,6 +244,7 @@ void Free_Scene() {
 	Free_Ninja();
 	Free_Arrow();
 	Free_Shuriken();
+	Free_Smoke();
 }
 
 

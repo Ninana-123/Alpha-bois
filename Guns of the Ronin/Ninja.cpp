@@ -3,10 +3,14 @@
 #include "TimeManager.h"
 #include "HighScore.h"
 #include "EnemyCounter.h"
-
+#include "PlayerInfo.h"
 
 float ninjaAttDelay = 1.0f;
 ShurikenPool shuriken;
+SmokePool smoke;
+BulletPool bulletpool;
+PlayerInfo playerinfo;
+Player playerx;
 
 //When a Ninja dies 
 void NinjaRemove(int index, NinjaPool& pool) {
@@ -51,6 +55,7 @@ void Init_NinjaPool(NinjaPool& pool) {
 		pool.activeNinjas[i] = &pool.ninjas[i];
 	}
 	Init_ShurikenPool(shuriken);
+	Init_SmokePool(smoke);
 	ninjaTexture = AEGfxTextureLoad("Assets/NinjaSpriteSheet.png");
 }
 
@@ -101,9 +106,14 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 				curNinja->aiState = NINJA_MOVING;
 			}
 			break;
+
+
 		}
 
 		curNinja->anim.Update_SpriteAnim(curNinja->transform);
+
+
+		
 
 		// Shuriken collide with player
 		proj->timeSince_lastDmgDeal += deltaTime;
@@ -116,13 +126,22 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 		}
 	}
 	Shuriken_AI(shuriken);
+	Smoke_AI(smoke);
 }
 
 // Player projectile colliding with ninja
 void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index) {
-
-	if ((pool.activeNinjas[index]->health -= playerInfo.att) <= 0) {
-		NinjaRemove(index, pool);
+	// TELEPORT
+	if (pool.activeNinjas[index]->isHit == false) {
+		SmokeAdd(smoke, pool.activeNinjas[index]->transform.position);
+		pool.activeNinjas[index]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWNDIST, NINJA_MAX_SPAWNDIST, playerx.transform.position);
+		SmokeAdd(smoke, pool.activeNinjas[index]->transform.position);
+		pool.activeNinjas[index]->isHit = true;
+	}
+	else{
+		if ((pool.activeNinjas[index]->health -= playerInfo.att) <= 0) {
+			NinjaRemove(index, pool);
+		}
 	}
 }
 
@@ -152,6 +171,7 @@ void Draw_Ninja(NinjaPool& pool) {
 		DrawMesh(&pool.activeNinjas[i]->transform);
 	}
 	Draw_Shuriken(shuriken);
+	Draw_Smoke(smoke);
 }
 
 // Free assets
