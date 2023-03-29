@@ -125,6 +125,7 @@ void player_dmg(PlayerInfo& info,int dmg) {
 	info.health -= dmg;
 	if (info.health <= 0) {
 		info.playerDead= 1;
+		TimePause();
 	}
 }
 

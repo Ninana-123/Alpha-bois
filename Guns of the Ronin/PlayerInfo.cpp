@@ -9,6 +9,7 @@ void PlayerInfo_Init(PlayerInfo* playerinfo) {
 	playerinfo->health = 100;
 	playerinfo->movementspd = 10;
 	playerinfo->dash = 0;
+	playerinfo->playerDead = false;
 	//playerinfo->weaponlevel = 0;	
 }
 

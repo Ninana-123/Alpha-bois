@@ -222,7 +222,6 @@ void Draw_Scene() {
 	Draw_PauseMenu();
 
 	if (playerinfo.playerDead) {
-		TimePause();
 		sprintf_s(strBuffer, " DEAD");
 		AEGfxPrint(font, strBuffer, 0.0f, 0.0f, 5.0f, 0, 0, 0);
 		//G_DrawText(dead, -50.0f, 0.f, 2.0f, Color(0, 0, 0));
