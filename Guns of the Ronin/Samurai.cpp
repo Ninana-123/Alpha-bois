@@ -16,6 +16,7 @@ void SamuraiRemove(int index, SamuraiPool& pool) {
 	}
 	pool.activeSize -= 1;
 	--enemiesLeft;
+	Add_Score(SAMURAI_KILLSCORE);
 }
 
 //Spawning a new samurai
@@ -23,10 +24,13 @@ void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		if (pool.activeSamurais[i]->enabled == false) {
 			pool.activeSamurais[i]->enabled = true;
-			pool.activeSamurais[i]->health = HEALTH;
+			pool.activeSamurais[i]->health = SAMURAI_HEALTH;
 			pool.activeSamurais[i]->transform.scale = { 5, 5 };
 			pool.activeSamurais[i]->transform.position = RandomPoint_OutsideSqaure(MIN_SPAWNDIST, MAX_SPAWNDIST, playerPos);
 			pool.activeSamurais[i]->offsetPos = Vector2(AERandFloat() * 12.0f - 6.0f, AERandFloat() * 12.0f - 6.0f);
+			pool.activeSamurais[i]->hitByPlayer = false;
+			pool.activeSamurais[i]->timeSinceLastHit = 0;
+			pool.activeSamurais[i]->dmgDealt = false;
 			pool.activeSize += 1;
 			break;
 		}
@@ -38,7 +42,7 @@ void Init_SamuraiPool(SamuraiPool& pool) {
 	CreateQuadMesh(SAMURAI_WIDTH, SAMURAI_HEIGHT, Color(0, 1, 0), samuraiMesh, 0.5f, 1.0f);
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		pool.samurais[i].enabled = false;
-		pool.samurais[i].health = HEALTH;
+		pool.samurais[i].health = SAMURAI_HEALTH;
 		pool.samurais[i].aiState = MOVING;
 		pool.samurais[i].transform.mesh = &samuraiMesh;
 		pool.samurais[i].transform.height = SAMURAI_HEIGHT;
@@ -59,14 +63,31 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 			{
 			case MOVING:
 				curSamurai->targetPos = playerPos;
-				if (curSamurai->transform.position.within_dist(playerPos, 55)) {
+				if (curSamurai->transform.position.within_dist(playerPos, SAMURAI_ATT_RANGE)) {
 					curSamurai->aiState = ATTACKING;
+					curSamurai->anim.ResetAnim(player.transform);
 					curSamurai->anim.PlayAnim();
 					curSamurai->anim.NextFrame(curSamurai->transform);
 				}
 				else {
 					Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position - curSamurai->offsetPos).normalize();
-					curSamurai->transform.position += direction * MS * deltaTime;
+					
+					//If samurai was hit by player
+					if (curSamurai->hitByPlayer) {
+						curSamurai->timeSinceLastHit += deltaTime;
+						//Move at a slower speed 
+						curSamurai->transform.position += direction * SAMURAI_SLOWED_MS * deltaTime;
+						//if the slow duration is over 
+						if (curSamurai->timeSinceLastHit >= SAMURAI_SLOW_DURATION) {
+							curSamurai->hitByPlayer = false;
+							curSamurai->timeSinceLastHit = 0;
+						}
+					}
+					else { //If was not hit by player recently
+						//move at normal speed
+						curSamurai->transform.position += direction * SAMURAI_MS * deltaTime;
+					}
+					
 					if (direction.x > 0) {
 						curSamurai->transform.scale.x = Absf(curSamurai->transform.scale.x) * -1.0f;
 					}
@@ -77,29 +98,37 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 				}
 				break;
 			case ATTACKING:
-				if (!curSamurai->transform.position.within_dist(playerPos, 55)) {
+				//If the player moved outside of the attack range chase the player
+				if (!curSamurai->transform.position.within_dist(playerPos, SAMURAI_ATT_RANGE)) {
 					curSamurai->aiState = MOVING;
 					curSamurai->anim.ResetAnim(curSamurai->transform);
+					curSamurai->dmgDealt = false;
+				}
+				else {
+					//If currently playing the attack animation
+					if (curSamurai->anim.CurrentFrame() == SAMURAI_ATT_ANIM_FRAME) {					
+						if (!curSamurai->dmgDealt) {
+							player_dmg(playerInfo, DAMAGE);
+							curSamurai->dmgDealt = true;
+						}
+					}
+					//attack animation is over, restart animation
+					if (!curSamurai->anim.IsPlaying()) {
+						curSamurai->anim.PlayAnim();
+						curSamurai->dmgDealt = false;
+					}
 				}
 				break;
 			case BLOWNAWAY:
 				Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
-				curSamurai->transform.position += direction * SWEEP_MS * deltaTime;
+				curSamurai->transform.position += direction * SAMURAI_SWEEP_MS * deltaTime;
 				if (curSamurai->transform.position.within_dist(curSamurai->targetPos, 15.0f)) {
 					curSamurai->aiState = MOVING;
 				}
 				break;
 			}
 			curSamurai->anim.Update_SpriteAnim(curSamurai->transform);
-
-			curSamurai->timeSince_lastDmgDeal += deltaTime;
-			if (StaticCol_QuadQuad(curSamurai->transform, player.transform)) {
-				if (curSamurai->timeSince_lastDmgDeal > 0.5f) {
-					player_dmg(playerInfo, DAMAGE);
-					curSamurai->timeSince_lastDmgDeal = 0;
-					std::cout << playerInfo.health << std::endl;
-				}
-			}
+			
 		}
 	}
 	else {
@@ -113,17 +142,12 @@ void Dmg_Samurai(SamuraiPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeSamurais[index]->health -=playerInfo.att) <= 0) {
 		SamuraiRemove(index, pool);
-		Add_Score(SAMURAI_KILLSCORE);
-		
+	}
+	else {
+		pool.activeSamurais[index]->hitByPlayer = true;
 	}
 }
 
-void Die_Samurai(SamuraiPool& pool, int index) {
-	if ((pool.activeSamurais[index]->health ) <= 0) {
-		SamuraiRemove(index, pool);
-		
-	}
-}
 
 //Push Samurais in the specified direction to the specific wordPos in the according axis
 void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis) {

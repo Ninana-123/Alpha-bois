@@ -196,6 +196,15 @@ void Sprite_Animation::PauseAnim() {
 	play_anim = false;
 }
 
+//Get the current frame number
+int Sprite_Animation::CurrentFrame() {
+	return frame_current;
+}
+//Check if animation is playing
+bool Sprite_Animation::IsPlaying() {
+	return play_anim;
+}
+
 void Sprite_Animation::ResetAnim(Transform& trans) {
 	play_anim = false;
 	texture_index_x = 0;

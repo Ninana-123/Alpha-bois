@@ -6,6 +6,8 @@ float dirSpeed = 2.f;
 enum class DirPressed { LEFT, RIGHT};
 DirPressed prevDir = DirPressed::LEFT, curDir = DirPressed::RIGHT;
 
+float timeSinceLastFired = 0.0f;
+
 void Player_Init(Player* player,BulletPool &bulletPool) {
 
 	player->transform.color = Color(1, 1, 1, 1);
@@ -93,10 +95,16 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 		vel = (vel + acc);
 		newPos = (newPos + vel);
 		
-		player->left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
+		//player->left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
+		player->left_mouse_pressed = AEInputCheckCurr(AEVK_LBUTTON);
+
+		timeSinceLastFired += deltaTime;
 
 		if (player->left_mouse_pressed) {
-			BulletAdd(bulletPool,player->transform.position);
+			if (timeSinceLastFired >= PLAYER_FIRERATE) {
+				BulletAdd(bulletPool, player->transform.position);
+				timeSinceLastFired = 0;
+			}
 	
 		}
 

@@ -73,7 +73,10 @@ public:
 	void PauseAnim();
 	//Reset the animation frames
 	void ResetAnim(Transform& trans);
-	
+	//Get the current frame number
+	int CurrentFrame();
+	//Check if animation is playing
+	bool IsPlaying();
 
 private:
 

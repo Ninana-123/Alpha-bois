@@ -15,6 +15,7 @@ void ArcherRemove(int index, ArcherPool& pool) {
 	}
 	pool.activeSize -= 1;
 	--enemiesLeft;
+	Add_Score(ARCHER_KILLSCORE);
 }
 
 //Spawning a new archer
@@ -118,7 +119,6 @@ void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeArchers[index]->health -= playerInfo.att) <= 0) {
 		ArcherRemove(index, pool);
-		Add_Score(ARCHER_KILLSCORE);
 	}
 }
 

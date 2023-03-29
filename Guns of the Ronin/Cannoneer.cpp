@@ -15,6 +15,7 @@ void CannoneerRemove(int index, CannoneerPool& pool) {
 	}
 	pool.activeSize -= 1;
 	--enemiesLeft;
+	Add_Score(CANNONEER_KILLSCORE);
 }
 
 //Spawning a new cannoneer
@@ -129,7 +130,6 @@ void Dmg_Cannoneer(CannoneerPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeCannoneers[index]->health -= playerInfo.att) <= 0) {
 		CannoneerRemove(index, pool);
-		Add_Score(CANNONEER_KILLSCORE);
 	}
 }
 

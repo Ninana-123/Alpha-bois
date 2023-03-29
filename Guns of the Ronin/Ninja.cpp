@@ -18,6 +18,7 @@ void NinjaRemove(int index, NinjaPool& pool) {
 	}
 	pool.activeSize -= 1;
 	--enemiesLeft;
+	Add_Score(NINJA_KILLSCORE);
 }
 
 //Spawning a new Ninja
@@ -122,7 +123,6 @@ void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeNinjas[index]->health -= playerInfo.att) <= 0) {
 		NinjaRemove(index, pool);
-		Add_Score(NINJA_KILLSCORE);
 	}
 }
 

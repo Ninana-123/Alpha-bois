@@ -4,7 +4,7 @@
 
 
 void PlayerInfo_Init(PlayerInfo* playerinfo) {
-	playerinfo->att =50;	// max 100 attack?
+	playerinfo->att = 50;	// max 100 attack?
 	playerinfo->attspd = 1;	// max level 5 attack speed?
 	playerinfo->health = 100;
 	playerinfo->movementspd = 10;
