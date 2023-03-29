@@ -15,9 +15,10 @@ namespace {
 	const int CANNONEER_KILLSCORE = 150;
 
 
-	float C_MIN_SPAWNDIST = 300;
-	float C_MAX_SPAWNDIST = 400;
-	int C_HEALTH = 250;
+	float C_MIN_SPAWNDIST = 350;
+	float C_MAX_SPAWNDIST = 750;
+	float C_MAX_Y_SPAWNDIST = 425;
+	int C_HEALTH = 350;
 	float C_MS = 100.0f;
 	float C_HIT_ANIM_DURATION = 0.5f;
 	int C_EXP = 10;
@@ -66,7 +67,7 @@ struct CannoneerPool {
 
 
 
-void CannoneerAdd(CannoneerPool& pool, Vector2 playerPos);
+void CannoneerAdd(CannoneerPool& pool);
 
 void Init_CannoneerPool(CannoneerPool& pool);
 

@@ -101,7 +101,7 @@ void Update_Scene() {
 
 	//Shop_Update(&shop, &playerinfo);
 
-	Update_PauseMenu();
+	Update_PauseMenu(playerinfo);
 
 
 	// Player bullets collision with samurais
@@ -126,7 +126,7 @@ void Update_Scene() {
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			//SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, archPool.activeArchers[i]->transform)) {
 				Dmg_Archer(archPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
@@ -141,7 +141,7 @@ void Update_Scene() {
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			//SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, cPool.activeCannoneers[i]->transform)) {
 				Dmg_Cannoneer(cPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
@@ -156,7 +156,7 @@ void Update_Scene() {
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			//SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, ninPool.activeNinjas[i]->transform)) {
 				Dmg_Ninja(ninPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
@@ -212,11 +212,11 @@ void Draw_Scene() {
 	Draw_Player(&player, bulletPool);
 	HealthBar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
 	Draw_Void(voidPool);
-	Draw_PauseMenu();
+	Draw_PauseMenu(playerinfo);
 
 	if (playerinfo.playerDead) {
-		sprintf_s(strBuffer, " DEAD");
-		AEGfxPrint(font, strBuffer, 0.0f, 0.0f, 5.0f, 0, 0, 0);
+		sprintf_s(strBuffer, "DEAD");
+		AEGfxPrint(font, strBuffer, -0.18f, -0.1f, 2.4f, 1, 0, 0);
 		//G_DrawText(dead, -50.0f, 0.f, 2.0f, Color(0, 0, 0));
 	}
 	Draw_Shop(&shop, &playerinfo);

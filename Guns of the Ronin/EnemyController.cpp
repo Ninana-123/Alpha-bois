@@ -65,7 +65,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		// Cannoneer
 		if (cSpawnTimer >= spawnRate_Cannoneer && curSpawnCounts[CANNON] < spawnCounts[curWave - 1][CANNON]) {
 			cSpawnTimer = 0;
-			CannoneerAdd(cPool, player.transform.position);
+			CannoneerAdd(cPool);
 			++curSpawnCounts[CANNON];
 		}
 		AI_Cannoneer(cPool, player, playerInfo);
