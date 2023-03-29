@@ -24,7 +24,7 @@ namespace
 	int ARCHER_DAMAGE = 15;
 	AEGfxVertexList* archerMesh = 0;
 	AEGfxTexture* archerTexture = 0;
-	float ARCHER_HEIGHT = 20, ARCHER_WIDTH = 20;
+	float ARCHER_HEIGHT = 15, ARCHER_WIDTH = 15;
 }
 
 class Archer {

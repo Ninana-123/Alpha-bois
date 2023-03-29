@@ -23,7 +23,7 @@ namespace {
 	int NINJA_DAMAGE = 5;
 	AEGfxVertexList* ninjaMesh = 0;
 	AEGfxTexture* ninjaTexture = 0;
-	float NINJA_HEIGHT = 20, NINJA_WIDTH = 20;
+	float NINJA_HEIGHT = 15, NINJA_WIDTH = 15;
 }
 
 class Ninja {

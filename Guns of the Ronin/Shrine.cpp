@@ -56,7 +56,6 @@ void Shrinepool_Init(ShrinePool& pool)
 	assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
 	assetheal = AEGfxTextureLoad("Assets/Health.png");
 	assetwind = AEGfxTextureLoad("Assets/Wind.png");
-	assetgod = AEGfxTextureLoad("Assets/Freeze.png");
 	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
 	assetgod = AEGfxTextureLoad("Assets/God.png");
 	assetvoid = AEGfxTextureLoad("Assets/Void.png");

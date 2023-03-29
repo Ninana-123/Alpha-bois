@@ -207,8 +207,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	srand(static_cast<unsigned>(time(0)));
 
-	int gGameRunning = 1;
-
 	AESysSetWindowTitle("Guns of the Ronin");
 
 	// Using custom window procedure
@@ -226,8 +224,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		if (gGameStateCurr != GS_RESTART)
 		{
 			GameStateMgrUpdate();
-			GameStateInit();
-
 		}
 		else
 			gGameStateNext = gGameStateCurr = gGameStatePrev;
