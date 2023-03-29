@@ -6,13 +6,13 @@
 #include "Mainscene.h"
 #include "GSM.h"
 #include <AEGraphics.h>
+#include "PlayerInfo.h"
 
 #ifndef PAUSEMENU_H
 #define PAUSEMENU_H
 
 namespace {
 	AEGfxVertexList* pauseMesh = 0;
-
 }
 
 class PauseMenu {
@@ -23,8 +23,8 @@ public:
 };
 
 void Init_PauseMenu();
-void Update_PauseMenu();
-void Draw_PauseMenu();
+void Update_PauseMenu(PlayerInfo const& playerInfo);
+void Draw_PauseMenu(PlayerInfo const& playerInfo);
 void Free_PauseMenu();
 
 #endif

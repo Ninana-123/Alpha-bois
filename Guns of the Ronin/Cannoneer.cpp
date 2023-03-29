@@ -19,14 +19,15 @@ void CannoneerRemove(int index, CannoneerPool& pool) {
 }
 
 //Spawning a new cannoneer
-void CannoneerAdd(CannoneerPool& pool, Vector2 playerPos) {
+void CannoneerAdd(CannoneerPool& pool) {
 	for (int i = 0; i < CANNONEER_COUNT; i++) {
 		if (pool.activeCannoneers[i]->enabled == false) {
 			pool.activeCannoneers[i]->enabled = true;
 			pool.activeCannoneers[i]->health = C_HEALTH;
 			pool.activeCannoneers[i]->transform.texture = &cannoneerTexture;
 			pool.activeCannoneers[i]->transform.scale = { 3, 3 };
-			pool.activeCannoneers[i]->transform.position = RandomPoint_OutsideSqaure(C_MIN_SPAWNDIST, C_MAX_SPAWNDIST, playerPos);
+			pool.activeCannoneers[i]->transform.position = RandomPoint_OutsideSqaure(C_MIN_SPAWNDIST, C_MAX_SPAWNDIST, Vector2(0, 0));
+			pool.activeCannoneers[i]->transform.position.y = AEClamp(pool.activeCannoneers[i]->transform.position.y, -C_MAX_Y_SPAWNDIST, C_MAX_Y_SPAWNDIST);
 			pool.activeSize += 1;
 			break;
 		}

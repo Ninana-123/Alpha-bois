@@ -31,6 +31,7 @@ void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 			pool.activeSamurais[i]->hitByPlayer = false;
 			pool.activeSamurais[i]->timeSinceLastHit = 0;
 			pool.activeSamurais[i]->dmgDealt = false;
+			pool.activeSamurais[i]->anim.ResetAnim(pool.activeSamurais[i]->transform);
 			pool.activeSize += 1;
 			break;
 		}
