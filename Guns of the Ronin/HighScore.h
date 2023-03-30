@@ -19,6 +19,6 @@ void Finalize_HighScore();
 
 void Load_HighScoreFile();
 
-void Update_HighScoreFile()
+void Update_HighScoreFile();
 
 #endif // !1

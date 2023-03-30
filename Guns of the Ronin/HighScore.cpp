@@ -42,10 +42,10 @@ void Finalize_HighScore() {
 void Load_HighScoreFile() {
 	std::ifstream file{ highScoreFile };
 
-	if (!file) {
+	/*if (!file) {
 		std::cout << "Error opening highscore.txt " << __PRETTY_FUNCTION__;
 		return;
-	}
+	}*/
 
 	highscores.clear();
 
@@ -76,9 +76,9 @@ void Update_HighScoreFile() {
 	std::ofstream file;
 	file.open(highScoreFile, std::ios::trunc);
 
-	if (!file) {
+	/*if (!file) {
 		std::cout<< "Error opening highscore.txt " << __PRETTY_FUNCTION__;
-	}
+	}*/
 
 	//Write number of highscores saved to the first line
 	file << highscores.size() << "\n";
