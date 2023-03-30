@@ -7,18 +7,25 @@ Credits creditsBG;
 AEGfxTexture* creditsQuitButtonSprite;
 Credits quitButton;
 
+/*	VARIABLES	*/
 float creditsY;
 float titleY = -1;	// initial position of first line of text
-float nameScale = 0.6f;
-float headerScale = 0.75f;
-float restartLineY = -1.0f;
 float lastLineY;
 
+/*  Y POSITION OF TEXT  */
+float firstLine;
+float nameOffset = 0.2f;
+
+
+/*  CONST VARIABLES*/
+#define headerScale 0.75f
+#define nameScale 0.6f
+
 // BUTTON
-float backButtonX = -650.0f;
-float backButtonY = -350.0f;
-float backButtonScaleX = 200.0f;
-float backButtonScaleY = -100.0f;
+#define backButtonX -650.0f
+#define backButtonY -350.0f
+#define backButtonScaleX 200.0f
+#define backButtonScaleY -100.0f
 
 // MOUSE INPUT
 bool isLeftClicked = false;
@@ -55,15 +62,15 @@ void Update_Credits() {
 
 	/*     AUTO ROLL CREDITS SCENE     */
 	creditsY += deltaTime * 0.2f;
-	restartLineY = titleY + creditsY;
-	lastLineY = restartLineY - 3.4f;
+	firstLine = titleY + creditsY;
+	lastLineY = firstLine - (nameOffset * 20);
 
 	if (lastLineY > 1.0f) {
 		// Quit to main menu when credits finish rolling
 		// gGameStateNext = GS_MAINMENU;
 
 		// Loop the credits
-		restartLineY = titleY;	// restart position to initial position
+		firstLine = titleY;	// restart position to initial position
 		creditsY = 0.0f;	// restart increment
 	}
 
@@ -92,49 +99,49 @@ void Draw_Credits() {
 	
 	char strBuffer[1024];
 	sprintf_s(strBuffer, "GUNS OF THE RONIN");
-	AEGfxPrint(font, strBuffer, -0.3f, restartLineY, 1, 1, 1, 1);
+	AEGfxPrint(font, strBuffer, -0.3f, firstLine, 1, 1, 1, 1);
 
 	sprintf_s(strBuffer, "Produced By");
-	AEGfxPrint(font, strBuffer, -0.15f, restartLineY - 0.4f , headerScale, 1, 1, 1);
+	AEGfxPrint(font, strBuffer, -0.15f, firstLine - (nameOffset * 2), headerScale, 1, 1, 1);
 
 	sprintf_s(strBuffer, "KAI ALEXANDER        SEAN ANG        TEO SHEEN YEOH");
-	AEGfxPrint(font, strBuffer, -0.45f, restartLineY - 0.6f, nameScale, 1, 1, 0);
+	AEGfxPrint(font, strBuffer, -0.45f, firstLine - (nameOffset * 3), nameScale, 1, 1, 0);
 
 	sprintf_s(strBuffer, "ZENG ZHICHENG               VANCE TAY");
-	AEGfxPrint(font, strBuffer, -0.35f, restartLineY - 0.8f, nameScale, 1, 1, 0);
+	AEGfxPrint(font, strBuffer, -0.35f, firstLine - (nameOffset * 4), nameScale, 1, 1, 0);
 
 	sprintf_s(strBuffer, "Faculty and Advisors");
-	AEGfxPrint(font, strBuffer, -0.2f, restartLineY - 1.4, headerScale, 1, 1, 1);
+	AEGfxPrint(font, strBuffer, -0.2f, firstLine - (nameOffset * 6) , headerScale, 1, 1, 1);
 
 	sprintf_s(strBuffer, "DING XIANG CHENG     GERALD WONG");
-	AEGfxPrint(font, strBuffer, -0.35f, restartLineY - 1.6, nameScale, 1, 1, 0);
+	AEGfxPrint(font, strBuffer, -0.35f, firstLine - (nameOffset * 7), nameScale, 1, 1, 0);
 
 	sprintf_s(strBuffer, "PRASANNA GHALI     RONALD KOH     ELIE HOSRY");
-	AEGfxPrint(font, strBuffer, -0.45f, restartLineY - 1.8f , nameScale, 1, 1, 0);
+	AEGfxPrint(font, strBuffer, -0.45f, firstLine - (nameOffset * 8), nameScale, 1, 1, 0);
 
 	sprintf_s(strBuffer, "Created at");
-	AEGfxPrint(font, strBuffer, -0.1f, restartLineY - 2.4f , headerScale, 1, 1, 1);
+	AEGfxPrint(font, strBuffer, -0.1f, firstLine - (nameOffset * 10), headerScale, 1, 1, 1);
 
 	sprintf_s(strBuffer, "DigiPen Institute of Technology Singapore");
-	AEGfxPrint(font, strBuffer, -0.42f, restartLineY - 2.5f , headerScale, 1, 1, 1);
+	AEGfxPrint(font, strBuffer, -0.42f, firstLine - (nameOffset * 11), headerScale, 1, 1, 1);
 
 	sprintf_s(strBuffer, "PRESIDENT");
-	AEGfxPrint(font, strBuffer, -0.1f, restartLineY - 2.7f , headerScale, 1, 1, 1);
+	AEGfxPrint(font, strBuffer, -0.1f, firstLine - (nameOffset * 13), headerScale, 1, 1, 1);
 
 	sprintf_s(strBuffer, "CLAUDE COMAIR");
-	AEGfxPrint(font, strBuffer, -0.125f, restartLineY - 2.8f , nameScale, 1, 1, 0);
+	AEGfxPrint(font, strBuffer, -0.125f, firstLine - (nameOffset * 14), nameScale, 1, 1, 0);
 
 	sprintf_s(strBuffer, "EXECUTIVES");
-	AEGfxPrint(font, strBuffer, -0.1f, restartLineY - 3.0f , headerScale, 1, 1, 1);
+	AEGfxPrint(font, strBuffer, -0.1f, firstLine - (nameOffset * 16), headerScale, 1, 1, 1);
 
 	sprintf_s(strBuffer, "JASON CHU     SAMIR ABOU SAMRA     MICHELE COMAIR");
-	AEGfxPrint(font, strBuffer, -0.45f, restartLineY - 3.1f , nameScale, 1, 1, 0);
+	AEGfxPrint(font, strBuffer, -0.45f, firstLine - (nameOffset * 17), nameScale, 1, 1, 0);
 	
 	sprintf_s(strBuffer, "ANGELA KUGLER     DR ERIK MOHRMANN     CHRISTOPHER COMAIR");
-	AEGfxPrint(font, strBuffer, -0.55f, restartLineY - 3.2f , nameScale, 1, 1, 0);
+	AEGfxPrint(font, strBuffer, -0.55f, firstLine - (nameOffset * 18), nameScale, 1, 1, 0);
 
 	sprintf_s(strBuffer, "BENJAMIN ELLINGER     MELVIN GONSALVEZ     MICHAEL GATS");
-	AEGfxPrint(font, strBuffer, -0.5f, restartLineY - 3.3f , nameScale, 1, 1, 0);
+	AEGfxPrint(font, strBuffer, -0.5f, firstLine - (nameOffset * 19), nameScale, 1, 1, 0);
 
 	sprintf_s(strBuffer, "RAYMOND YAN     JOHN BAUER     DR CHARLES DUBA     JOHNNY DEEK");
 	AEGfxPrint(font, strBuffer, -0.6f, lastLineY , nameScale, 1, 1, 0);
