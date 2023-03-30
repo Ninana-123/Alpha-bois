@@ -8,7 +8,6 @@
 #include "Player.h"
 #include "Bullets.h"
 #include "NinjaShuriken.h"
-#include "Smoke.h"
 
 namespace {
 	enum NINJA_AI_STATE { NINJA_MOVING, NINJA_ATTACKING, NINJA_BLOWNAWAY };
@@ -25,11 +24,14 @@ namespace {
 	AEGfxVertexList* ninjaMesh = 0;
 	AEGfxTexture* ninjaTexture = 0;
 	float NINJA_HEIGHT = 15, NINJA_WIDTH = 15;
+	AEGfxVertexList* smokeMesh = 0;
+	AEGfxTexture* smokeTexture = 0;
 }
 
 class Ninja {
 public:
 	Transform transform;
+	Transform smoke;
 	Vector2 colPos, targetPos, collider;
 	int health = NINJA_HEALTH;
 	NINJA_AI_STATE aiState = NINJA_MOVING;

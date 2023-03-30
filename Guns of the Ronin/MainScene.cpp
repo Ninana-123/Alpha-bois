@@ -51,7 +51,6 @@ namespace {
 	BarPool barPool;
 	VoidPool voidPool;
 	PauseMenu pauseMenu;
-	SmokePool smoke;
 }
 
 void Init_Scene() {
@@ -244,7 +243,7 @@ void Free_Scene() {
 	Free_Ninja();
 	Free_Arrow();
 	Free_Shuriken();
-	Free_Smoke();
+	//Free_Smoke();
 }
 
 
