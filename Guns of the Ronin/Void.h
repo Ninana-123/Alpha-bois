@@ -30,6 +30,7 @@ public:
 	bool damagedByExplosion =false;
 	Transform loading;
 	float timeElapsed = 0;
+	Sprite_Animation bgAnim{ 30.f,4,1, Anim_Mode::ONE_TIME };
 };
 
 struct VoidPool 

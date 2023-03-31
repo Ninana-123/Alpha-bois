@@ -14,7 +14,7 @@ void Voidpool_Init(VoidPool& voidPool)
 {
 	Durations = 0;
 	voidPool.activeSize = 0;
-	CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh);
+	CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh, 1/4.0f ,1.0f);
 	for (int i = 0; i < Void_Count; i++)
 	{
 		voidPool.Voids[i].hasbeenused = false;
@@ -27,7 +27,7 @@ void Voidpool_Init(VoidPool& voidPool)
 		voidPool.activeVoid[i]->transform.texture = &assetblackhole;
 		voidPool.activeVoid[i]->transform.scale = { 1.5,1.5 };
 	}
-	assetblackhole = AEGfxTextureLoad("Assets/Blackhole1.png");
+	assetblackhole = AEGfxTextureLoad("Assets/BlackholeSpriteSheet.png");
 
 		
 }
@@ -101,14 +101,18 @@ void VoidDelete(int index, VoidPool& voidPool)
 void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& canPool)
 {
 	
-	/*Durations += deltaTime;
-	if (Durations >= 1.f)
+	
+	for (int i = 0; i < Void_Count; i++)
 	{
-		Durations = 0;
-		VoidAdd(voidPool);
-	}*/
-	/*if (voidCount < Void_Count)
-	{*/
+		static float frameTimer = 0;
+		frameTimer += deltaTime;
+		if (frameTimer >= 0.3f) {
+			voidPool.Voids[i].bgAnim.PlayAnim();
+			voidPool.Voids[i].bgAnim.NextFrame(voidPool.Voids[i].transform);
+			voidPool.Voids[i].bgAnim.Update_SpriteAnim(voidPool.Voids[i].transform);
+			frameTimer = 0;
+		}
+	}
 
 	// Loop through all active voids in the VoidPool
 	for (int i = 0; i < voidPool.activeSize; i++)
@@ -186,7 +190,8 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 			else
 			{
 				// If the void has been active for less than 1 second, set its quad points
-				SetQuadPoints(voidPool.activeVoid[i]->transform, 40.f, 40.f);
+				//SetQuadPoints(voidPool.activeVoid[i]->transform, 40.f, 40.f);
+				SetQuadPoints(voidPool.activeVoid[i]->transform);
 			}
 		}
 		else

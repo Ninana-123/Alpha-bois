@@ -12,8 +12,8 @@
 namespace {
 	AEGfxVertexList* playerMesh;
 	AEGfxTexture* playerTexture = 0;
-	float PLAYER_WIDTH = 50, PLAYER_HEIGHT = 50;
-	float PLAYER_FIRERATE = 0.15f;
+	float PLAYER_WIDTH = 90, PLAYER_HEIGHT = 90;
+	float PLAYER_FIRERATE = 0.2f;
 }
 
 class Player {

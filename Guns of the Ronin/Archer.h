@@ -22,6 +22,7 @@ namespace
 	float ARCHER_HIT_ANIM_DURATION = 0.5f;
 	int ARCHER_EXP = 10;
 	int ARCHER_DAMAGE = 15;
+	#define ARCHER_ATT_RANGE 350
 	AEGfxVertexList* archerMesh = 0;
 	AEGfxTexture* archerTexture = 0;
 	float ARCHER_HEIGHT = 15, ARCHER_WIDTH = 15;

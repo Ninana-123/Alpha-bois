@@ -87,6 +87,7 @@ void AI_Cannoneer(CannoneerPool& pool, Player& player, PlayerInfo& playerInfo) {
 			pool.cannonBalls[pool.activeCBSize].transform.color.a = 1.0f;
 			pool.cannonBalls[pool.activeCBSize].transform.texture = &cannonBallTexture;
 			pool.cannonBalls[pool.activeCBSize].transform.scale = { 2,2 };
+			pool.cannonBalls[pool.activeCBSize].dmgDealt = false;
 			pool.activeCBSize += 1;
 			curCannoneer->aiState = C_RELOADING;
 			break;
@@ -104,6 +105,11 @@ void AI_Cannoneer(CannoneerPool& pool, Player& player, PlayerInfo& playerInfo) {
 				curCB = pool.cannonBalls[pool.activeCBSize - 1];
 				pool.activeCBSize -= 1;
 				--i; //Replaced curCB with the last active one in the array so reduce i to recheck curCB
+			}
+
+			if (!curCB.dmgDealt && ColQuadCircle(player.transform, curCB.transform, true)) {
+				curCB.dmgDealt = true;
+				player_dmg(playerInfo, CB_DAMAGE);
 			}
 			curCB.transform.color.a = 1.0f - curCB.explosionTimer / CB_EXPLOSION_DURATION;
 		}

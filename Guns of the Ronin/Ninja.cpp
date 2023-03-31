@@ -5,11 +5,7 @@
 #include "EnemyCounter.h"
 #include "PlayerInfo.h"
 
-float ninjaAttDelay = 1.0f;
 ShurikenPool shuriken;
-BulletPool bulletpool;
-PlayerInfo playerinfo;
-Player playerx;
 
 //When a Ninja dies 
 void NinjaRemove(int index, NinjaPool& pool) {
@@ -31,9 +27,9 @@ void NinjaAdd(NinjaPool& pool, Vector2 playerPos) {
 			pool.activeNinjas[i]->enabled = true;
 			pool.activeNinjas[i]->health = NINJA_HEALTH;
 			pool.activeNinjas[i]->isHit = false;
-			pool.activeNinjas[i]->transform.scale = { 3,3 };
 			pool.activeNinjas[i]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWNDIST, NINJA_MAX_SPAWNDIST, playerPos);
 			pool.activeNinjas[i]->smoke.scale = { 8, 4.5 };
+			pool.activeNinjas[i]->dmgDealt = false;
 			pool.activeSize += 1;
 			break;
 		}
@@ -71,13 +67,14 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 	Vector2 playerPos = player.transform.position;
 	for (int i = 0; i < pool.activeSize; i++) {
 		Ninja* curNinja = pool.activeNinjas[i];
-		Shuriken* proj = shuriken.activeShuriken[i];
+		
 		switch (curNinja->aiState)
 		{
 		case NINJA_MOVING:
 			curNinja->targetPos = playerPos;
-			if (curNinja->transform.position.within_dist(playerPos, 150)) {
+			if (curNinja->transform.position.within_dist(playerPos, NINJA_ATT_RANGE)) {
 				curNinja->aiState = NINJA_ATTACKING;
+				curNinja->anim.ResetAnim(player.transform);
 				curNinja->anim.PlayAnim();
 				curNinja->anim.NextFrame(curNinja->transform);
 			}
@@ -95,14 +92,26 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 			break;
 		case NINJA_ATTACKING:
 			curNinja->timeLastAttack += deltaTime;
-			if (!curNinja->transform.position.within_dist(playerPos, 150)) {
+			if (!curNinja->transform.position.within_dist(playerPos, NINJA_ATT_RANGE)) {
 				curNinja->aiState = NINJA_MOVING;
 				curNinja->anim.ResetAnim(curNinja->transform);
+				curNinja->dmgDealt = false;
 			}
 			else {
-				if (curNinja->timeLastAttack >= ninjaAttDelay) {
-					ShurikenAdd(shuriken, curNinja->transform.position, playerPos);
-					curNinja->timeLastAttack = 0;
+				//If currently playing the attack animation
+				if (curNinja->anim.CurrentFrame() == NINJA_ATT_ANIM_FRAME) {
+					if (curNinja->timeLastAttack >= 1.0f / NINJA_ATT_RATE) {
+						if (!curNinja->dmgDealt) {
+							ShurikenAdd(shuriken, curNinja->transform.position, player.transform.position);
+							curNinja->dmgDealt = true;
+							curNinja->timeLastAttack = 0;
+						}			
+					}
+				}
+				//attack animation is over, restart animation
+				if (!curNinja->anim.IsPlaying()) {
+					curNinja->anim.PlayAnim();
+					curNinja->dmgDealt = false;
 				}
 			}
 
@@ -114,15 +123,19 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 				curNinja->aiState = NINJA_MOVING;
 			}
 			break;
-
-
 		}
+
 
 		curNinja->anim.Update_SpriteAnim(curNinja->transform);
 
 		curNinja->smoke.position = curNinja->transform.position;
 		
 
+		
+	}
+
+	for (int i = 0; i < shuriken.activeSize; ++i) {
+		Shuriken* proj = shuriken.activeShuriken[i];
 		// Shuriken collide with player
 		proj->timeSince_lastDmgDeal += deltaTime;
 		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
@@ -137,12 +150,13 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 }
 
 // Player projectile colliding with ninja
-void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index) {
+void Dmg_Ninja(NinjaPool& pool, PlayerInfo& playerInfo, Player& player, int index) {
 	// TELEPORT
 	if (pool.activeNinjas[index]->isHit == false) {
-		pool.activeNinjas[index]->transform.position = RandomPoint_OutsideSqaure(150, 150, playerx.transform.position);
+		pool.activeNinjas[index]->transform.position = RandomPoint_OutsideSqaure(NINJA_TELEPORT_MIN_DIST, NINJA_ATT_RANGE, player.transform.position);
 		pool.activeNinjas[index]->isHit = true;
-		
+		pool.activeNinjas[index]->anim.ResetAnim(pool.activeNinjas[index]->transform);
+		pool.activeNinjas[index]->dmgDealt = false;
 	}
 	else{
 		if ((pool.activeNinjas[index]->health -= playerInfo.att) <= 0) {

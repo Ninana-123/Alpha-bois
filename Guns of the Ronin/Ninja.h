@@ -21,9 +21,13 @@ namespace {
 	float NINJA_HIT_ANIM_DURATION = 0.5f;
 	int NINJA_EXP = 10;
 	int NINJA_DAMAGE = 5;
-	AEGfxVertexList* ninjaMesh = 0;
+	#define NINJA_ATT_RANGE 160.0f
+	#define NINJA_TELEPORT_MIN_DIST 130.0f
+	#define NINJA_ATT_ANIM_FRAME 2
+	#define NINJA_ATT_RATE 1.5f
+ 	AEGfxVertexList* ninjaMesh = 0;
 	AEGfxTexture* ninjaTexture = 0;
-	float NINJA_HEIGHT = 15, NINJA_WIDTH = 15;
+	float NINJA_HEIGHT = 45, NINJA_WIDTH = 45;
 	AEGfxVertexList* smokeMesh = 0;
 	AEGfxTexture* smokeTexture = 0;
 }
@@ -36,11 +40,12 @@ public:
 	int health = NINJA_HEALTH;
 	NINJA_AI_STATE aiState = NINJA_MOVING;
 	bool enabled = false;
+	bool dmgDealt = false;
 	float timeLastAttack = 0;
 	bool isHit = false;
 	bool damagedByExplosion = false;
 	bool isCollidingWithExplosion = false;
-	Sprite_Animation anim{ 1,2,1 };
+	Sprite_Animation anim{ NINJA_ATT_RATE, 2, 1, Anim_Mode::ONE_TIME };
 };
 
 struct NinjaPool {
@@ -59,7 +64,7 @@ void Draw_Ninja(NinjaPool& pool);
 
 void Push_Ninja(NinjaPool& pool, DIRECTION direction, float targetAxis = 400);
 
-void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index);
+void Dmg_Ninja(NinjaPool& pool, PlayerInfo& playerInfo, Player& player, int index);
 
 void Free_Ninja();
 

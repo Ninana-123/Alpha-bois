@@ -51,68 +51,73 @@ void Init_ArcherPool(ArcherPool& pool) {
 
 // Archer movement, attacking, wind shrine activation
 void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
-		Vector2 playerPos = player.transform.position;
-		for (int i = 0; i < pool.activeSize; i++) {
-			Archer* curArcher = pool.activeArchers[i];
-			Arrow* proj = arrow.activeArrow[i];
-			switch (curArcher->aiState)
-			{
-			case ARCHER_MOVING:
-				curArcher->targetPos = playerPos;
-				if (curArcher->transform.position.within_dist(playerPos, 300)) {
-					curArcher->aiState = ARCHER_ATTACKING;
-					curArcher->anim.PlayAnim();
-					curArcher->anim.NextFrame(curArcher->transform);
-				}
-				else {
-					Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
-					curArcher->transform.position += direction * ARCHER_MS * deltaTime;
-					if (direction.x > 0) {
-						curArcher->transform.scale.x = Absf(curArcher->transform.scale.x) * -1.0f;
-					}
-					else {
-						curArcher->transform.scale.x = Absf(curArcher->transform.scale.x);
-					}
-				}
-				break;
-			case ARCHER_ATTACKING:
-				curArcher->timeLastAttack += deltaTime;
-				if (!curArcher->transform.position.within_dist(playerPos, 300)) {
-					curArcher->aiState = ARCHER_MOVING;
-					curArcher->anim.ResetAnim(curArcher->transform);
-				}
-				else {
-					if (curArcher->timeLastAttack >= archerAttDelay) {
-						ArrowAdd(arrow, curArcher->transform.position, playerPos);
-						curArcher->timeLastAttack = 0;
-					}
-				}
+	Vector2 playerPos = player.transform.position;
+	for (int i = 0; i < pool.activeSize; i++) {
+		Archer* curArcher = pool.activeArchers[i];
 
-				break;
-			case ARCHER_BLOWNAWAY:
+		switch (curArcher->aiState)
+		{
+		case ARCHER_MOVING:
+			curArcher->targetPos = playerPos;
+			if (curArcher->transform.position.within_dist(playerPos, ARCHER_ATT_RANGE)) {
+				curArcher->aiState = ARCHER_ATTACKING;
+				curArcher->anim.PlayAnim();
+				curArcher->anim.NextFrame(curArcher->transform);
+			}
+			else {
 				Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
-				curArcher->transform.position += direction * ARCHER_SWEEP_MS * deltaTime;
-				if (curArcher->transform.position.within_dist(curArcher->targetPos, 15.0f)) {
-					curArcher->aiState = ARCHER_MOVING;
+				curArcher->transform.position += direction * ARCHER_MS * deltaTime;
+				if (direction.x > 0) {
+					curArcher->transform.scale.x = Absf(curArcher->transform.scale.x) * -1.0f;
 				}
-				break;
+				else {
+					curArcher->transform.scale.x = Absf(curArcher->transform.scale.x);
+				}
+			}
+			break;
+		case ARCHER_ATTACKING:
+			curArcher->timeLastAttack += deltaTime;
+			if (!curArcher->transform.position.within_dist(playerPos, ARCHER_ATT_RANGE)) {
+				curArcher->aiState = ARCHER_MOVING;
+				curArcher->anim.ResetAnim(curArcher->transform);
+			}
+			else {
+				if (curArcher->timeLastAttack >= archerAttDelay) {
+					ArrowAdd(arrow, curArcher->transform.position, playerPos);
+					curArcher->timeLastAttack = 0;
+				}
 			}
 
-			curArcher->anim.Update_SpriteAnim(curArcher->transform);
+			break;
+		case ARCHER_BLOWNAWAY:
+			Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
+			curArcher->transform.position += direction * ARCHER_SWEEP_MS * deltaTime;
+			if (curArcher->transform.position.within_dist(curArcher->targetPos, 15.0f)) {
+				curArcher->aiState = ARCHER_MOVING;
+			}
+			break;
+		}
 
-			// Arrow collision with player
-			proj->timeSince_lastDmgDeal += deltaTime;
-			if (StaticCol_QuadQuad(proj->transform, player.transform)) {
-				if (proj->timeSince_lastDmgDeal > 1.0f) {
-					player_dmg(playerInfo, ARCHER_DAMAGE);
-					proj->timeSince_lastDmgDeal = 0;
-					ArrowRemove(i, arrow);
-					//printf("collided");
-				}
+		curArcher->anim.Update_SpriteAnim(curArcher->transform);
+
+
+	}
+	Arrow_AI(arrow);
+
+	for (int i = 0; i < arrow.activeSize; ++i) {
+		Arrow* proj = arrow.activeArrow[i];
+		// Arrow collision with player
+		proj->timeSince_lastDmgDeal += deltaTime;
+		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
+			if (proj->timeSince_lastDmgDeal > 1.0f) {
+				player_dmg(playerInfo, ARCHER_DAMAGE);
+				proj->timeSince_lastDmgDeal = 0;
+				ArrowRemove(i, arrow);
+				//printf("collided");
 			}
 		}
-		Arrow_AI(arrow);
 	}
+}
 
 // Player projectile colliding with archers
 void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {

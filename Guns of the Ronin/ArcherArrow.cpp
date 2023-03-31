@@ -48,6 +48,7 @@ void Init_ArrowPool(ArrowPool& pool) {
 		pool.arrow[i].transform.height = ARROW_HEIGHT;
 		pool.arrow[i].transform.width = ARROW_WIDTH;
 		pool.arrow[i].transform.mesh = &arrowMesh;
+		pool.arrow[i].transform.colliderSize = { ARROW_WIDTH, ARROW_HEIGHT * 0.15f };
 		pool.activeArrow[i] = &pool.arrow[i];
 	}
 	arrowTexture = AEGfxTextureLoad("Assets/Arrow.png");
@@ -65,7 +66,7 @@ void Draw_Arrow(ArrowPool& pool) {
 // Arrow direction, Arrow boundary - if out of the boundary / screen, delete it
 void Arrow_AI(ArrowPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		SetQuadPoints(pool.activeArrow[i]->transform, 20, 20);
+		SetQuadPoints(pool.activeArrow[i]->transform, true);
 		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * arrowSpeed;
 		if (pool.activeArrow[i]->transform.position.x > arrowBoundaryX) {
 			ArrowRemove(i, pool);

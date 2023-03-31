@@ -98,7 +98,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 	// Loop over all active explosions in the explosion pool
 	for (int i = 0; i < explosionPool.activeSize; i++)
 	{
-		SetQuadPoints(explosionPool.activeExplosion[i]->transform, 40.f, 40.f);
+		SetQuadPoints(explosionPool.activeExplosion[i]->transform);
 
 		// Loop over all active archers in the archer pool
 		for (int j = 0; j < archPool.activeSize; j++)

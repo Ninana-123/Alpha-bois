@@ -242,7 +242,8 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 	timeSincePause += deltaTime;
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
-		SetQuadPoints(shrinePool.activeShrine[i]->transform, 150.f, 150.f);
+		//SetQuadPoints(shrinePool.activeShrine[i]->transform, 150.f, 150.f);
+		SetQuadPoints(shrinePool.activeShrine[i]->transform);
 		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 		{
 			shrinePool.activeShrine[i]->iscolliding = true;
@@ -294,12 +295,14 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 
 				if (shrinePool.activeShrine[i]->types == Shrine::Heal)
 				{
-					AEAudioPlay(healthSound, mainsceneAudioGroup, 0.5f, 1.f, 0);
-					Heal_player(playerinfo);
-					ShrineDelete(i, shrinePool);
-					//std::cout << "Heal tower" << std::endl;
-					std::cout << playerinfo.health << std::endl;
-					break;
+					if (playerinfo.health < 100) {
+						AEAudioPlay(healthSound, mainsceneAudioGroup, 1.f, 1.f, 0);
+						Heal_player(playerinfo);
+						ShrineDelete(i, shrinePool);
+						//std::cout << "Heal tower" << std::endl;
+						std::cout << playerinfo.health << std::endl;
+						break;
+					}
 				}
 
 				

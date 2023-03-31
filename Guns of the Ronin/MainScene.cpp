@@ -86,7 +86,7 @@ void Update_Scene() {
 
 	//healthbar(playerinfo, &health);
 	Update_Time();
-	SetQuadPoints(player.transform, player.transform.height, player.transform.width);
+	SetQuadPoints(player.transform, true);
 
 	//DummyPlayer_Update(&dummyPlayer);
 
@@ -106,11 +106,11 @@ void Update_Scene() {
 	// Player bullets collision with samurais
 	for (int i = 0; i < samPool.activeSize; ++i) {
 		//Update AABB position of samurai
-		SetQuadPoints(samPool.activeSamurais[i]->transform, samPool.activeSamurais[i]->transform.height, samPool.activeSamurais[i]->transform.width);
+		SetQuadPoints(samPool.activeSamurais[i]->transform);
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, samPool.activeSamurais[i]->transform)) {
 				Dmg_Samurai(samPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
@@ -121,11 +121,11 @@ void Update_Scene() {
 	// Player bullets collision with archers
 	for (int i = 0; i < archPool.activeSize; ++i) {
 		//Update AABB position of archers
-		SetQuadPoints(archPool.activeArchers[i]->transform, archPool.activeArchers[i]->transform.height, archPool.activeArchers[i]->transform.width);
+		SetQuadPoints(archPool.activeArchers[i]->transform);
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, archPool.activeArchers[i]->transform)) {
 				Dmg_Archer(archPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
@@ -136,11 +136,11 @@ void Update_Scene() {
 	//	Player bullets collision with cannoneers
 	for (int i = 0; i < cPool.activeSize; ++i) {
 		//Update AABB position of cannoneers
-		SetQuadPoints(cPool.activeCannoneers[i]->transform, cPool.activeCannoneers[i]->transform.height, cPool.activeCannoneers[i]->transform.width);
+		SetQuadPoints(cPool.activeCannoneers[i]->transform);
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, cPool.activeCannoneers[i]->transform)) {
 				Dmg_Cannoneer(cPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
@@ -151,13 +151,13 @@ void Update_Scene() {
 	//	Player bullets collision with ninja
 	for (int i = 0; i < ninPool.activeSize; ++i) {
 		//Update AABB position of ninjas
-		SetQuadPoints(ninPool.activeNinjas[i]->transform, ninPool.activeNinjas[i]->transform.height, ninPool.activeNinjas[i]->transform.width);
+		SetQuadPoints(ninPool.activeNinjas[i]->transform);
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			SetQuadPoints(bulletPool.activeBullets[u]->transform, bulletPool.activeBullets[u]->transform.height, bulletPool.activeBullets[u]->transform.width);
+			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, ninPool.activeNinjas[i]->transform)) {
-				Dmg_Ninja(ninPool, playerinfo, i);
+				Dmg_Ninja(ninPool, playerinfo, player, i);
 				BulletRemove(u, bulletPool);
 			}
 			

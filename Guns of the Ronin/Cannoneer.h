@@ -22,7 +22,6 @@ namespace {
 	float C_MS = 100.0f;
 	float C_HIT_ANIM_DURATION = 0.5f;
 	int C_EXP = 10;
-	int C_DAMAGE = 20;
 	float C_FIRERATE = 4.5f;
 	AEGfxVertexList* cannoneerMesh = 0;
 	//CannonBall(CB) variables 
@@ -31,6 +30,7 @@ namespace {
 	AEGfxTexture* cannoneerTexture = 0;
 	AEGfxTexture* cannonBallTexture = 0;
 	float C_HEIGHT = 20, C_WIDTH = 20;
+	int CB_DAMAGE = 20;
 	float CB_MAXSCALE = 2.0f;
 	float CB_MS = 200;
 	float CB_HEIGHT = 15, CB_WIDTH = 15;
@@ -53,7 +53,7 @@ struct CannonBall {
 	Transform transform;
 	Vector2 direction, LZ;
 	float halfTotalDist, distTravelled;
-	bool reachedMaxScale, exploded;
+	bool reachedMaxScale, exploded, dmgDealt;
 	float explosionTimer;
 };
 
