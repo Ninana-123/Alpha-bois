@@ -23,7 +23,10 @@ void Explosionpool_Init(ExplosionPool& explosionPool)
 				explosionPool.activeExplosion[i] = &explosionPool.Explosions[i];
 				explosionPool.activeExplosion[i]->timeElapsed = 0;
 				explosionPool.activeExplosion[i]->iscolliding = false;
+				explosionPool.activeExplosion[i]->transform.texture = &assetexplosions;
+				explosionPool.activeExplosion[i]->transform.scale = { 1.5,1.5 };
 			}
+			assetexplosions = AEGfxTextureLoad("Assets/Explosions.png");
 		}
 }
 
