@@ -53,12 +53,12 @@ void Shrinepool_Init(ShrinePool& pool)
 		pool.activeShrine[i]->iscolliding = false;
 
 	}
-	/*assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
+	assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
 	assetheal = AEGfxTextureLoad("Assets/Health.png");
 	assetwind = AEGfxTextureLoad("Assets/Wind.png");
-	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");*/
+	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
 	assetgod = AEGfxTextureLoad("Assets/God.png");
-	//assetvoid = AEGfxTextureLoad("Assets/Void.png");
+	assetvoid = AEGfxTextureLoad("Assets/Void.png");
 
 
 }
@@ -178,7 +178,7 @@ void ShrineAdd(ShrinePool& shrinePool)
 				// Set the texture of the shrine based on its type
 				switch (shrinePool.activeShrine[i]->types)
 				{
-				/*case Shrine::Freeze:
+				case Shrine::Freeze:
 					shrinePool.activeShrine[i]->transform.texture = &assetfreeze;
 					break;
 
@@ -192,18 +192,18 @@ void ShrineAdd(ShrinePool& shrinePool)
 
 				case Shrine::Explosion:
 					shrinePool.activeShrine[i]->transform.texture = &assetexplosion;
-					break;*/
+					break;
 
 				case Shrine::God:
 					shrinePool.activeShrine[i]->transform.texture = &assetgod;
 					break;
 
-				/*case Shrine::Void:
+				case Shrine::Void:
 					shrinePool.activeShrine[i]->transform.texture = &assetvoid;
-					break;*/
+					break;
 				}
 
-				std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
+				//std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
 				break;
 			}
 		}
@@ -224,7 +224,7 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool, NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, int index, VoidPool& voidPool, CannoneerPool& canPool)
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool &ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, int index, VoidPool& voidPool, CannoneerPool& canPool)
 {
 	duration += deltaTime;
 	//std::cout << duration << std::endl;
@@ -250,67 +250,66 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
 			{
 				
-				//if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
-				//{
+				if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
+				{
 
-				//	for (int i = 0; i < Explosion_Count; i++)
-				//	{
-				//		ExplosionAdd(explosionPool);
-				//	}
-				//	Explosion_Update(explosionPool, archPool, canPool, ninPool);
-				//	ShrineDelete(i, shrinePool);
-				//	break;
-				//}
+					for (int i = 0; i < Explosion_Count; i++)
+					{
+						ExplosionAdd(explosionPool);
+					}
+					Explosion_Update(explosionPool, archPool, canPool, ninPool);
+					ShrineDelete(i, shrinePool);
+					break;
+				}
 
-				//if (shrinePool.activeShrine[i]->types == Shrine::Void)
-				//{
-				//	for (int k = 0; k < Void_Count; k++)
-				//	{
-				//		VoidAdd(voidPool);
-				//	}
-				//	Void_Update(voidPool, samPool, archPool, canPool);
-				//	ShrineDelete(i, shrinePool);
-				//	break;
-				//}
-				//if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
-				//{
-				//	TimePauseEnemy();
-				//	timeSincePause = 0.0f;
-				//	ShrineDelete(i, shrinePool);
-				////std::cout << "Freeze tower" << std::endl;
-				//	break;
-				//}
+				if (shrinePool.activeShrine[i]->types == Shrine::Void)
+				{
+					for (int k = 0; k < Void_Count; k++)
+					{
+						VoidAdd(voidPool);
+					}
+					Void_Update(voidPool, samPool, archPool, canPool);
+					ShrineDelete(i, shrinePool);
+					break;
+				}
+				if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
+				{
+					TimePauseEnemy();
+					timeSincePause = 0.0f;
+					ShrineDelete(i, shrinePool);
+				//std::cout << "Freeze tower" << std::endl;
+					break;
+				}
 
-				//if (shrinePool.activeShrine[i]->types == Shrine::Push)
-				//{
-				//	Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
-				//	ShrineDelete(i, shrinePool);
-				//	//std::cout << "Push tower" << std::endl;
-				//	break;
-				//}
+				if (shrinePool.activeShrine[i]->types == Shrine::Push)
+				{
+					Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
+					ShrineDelete(i, shrinePool);
+					//std::cout << "Push tower" << std::endl;
+					break;
+				}
 
-				//if (shrinePool.activeShrine[i]->types == Shrine::Heal)
-				//{
-				//	Heal_player(playerinfo);
-				//	ShrineDelete(i, shrinePool);
-				//	//std::cout << "Heal tower" << std::endl;
-				//	std::cout << playerinfo.health << std::endl;
-				//	break;
-				//}
+				if (shrinePool.activeShrine[i]->types == Shrine::Heal)
+				{
+					Heal_player(playerinfo);
+					ShrineDelete(i, shrinePool);
+					//std::cout << "Heal tower" << std::endl;
+					std::cout << playerinfo.health << std::endl;
+					break;
+				}
 
 				
-
 				if (shrinePool.activeShrine[i]->types == Shrine::God)
 				{
 					int padding = 50;
 					for (int u = 0; u < samPool.activeSize; ++u)
 					{
-						if (*mouseX >= samPool.activeSamurais[u]->transform.position.x - padding &&
-							*mouseX <= samPool.activeSamurais[u]->transform.position.x + samPool.activeSamurais[u]->transform.width + padding &&
-							*mouseY >= samPool.activeSamurais[u]->transform.position.y - padding &&
-							*mouseY <= samPool.activeSamurais[u]->transform.position.y + samPool.activeSamurais[u]->transform.height + padding)
+						if (AEInputCheckTriggered(AEVK_LBUTTON))
 						{
-							if (AEInputCheckTriggered(AEVK_LBUTTON))
+							if (*mouseX >= samPool.activeSamurais[u]->transform.position.x - padding &&
+								*mouseX <= samPool.activeSamurais[u]->transform.position.x + samPool.activeSamurais[u]->transform.width + padding &&
+								*mouseY >= samPool.activeSamurais[u]->transform.position.y - padding &&
+								*mouseY <= samPool.activeSamurais[u]->transform.position.y + samPool.activeSamurais[u]->transform.height + padding)
 							{
 								SamuraiRemove(u, samPool);
 								break;
@@ -319,35 +318,51 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 					}
 					for (int z = 0; z < archPool.activeSize; ++z)
 					{
-						if (*mouseX >= archPool.activeArchers[z]->transform.position.x - padding &&
-							*mouseX <= archPool.activeArchers[z]->transform.position.x + archPool.activeArchers[z]->transform.width + padding &&
-							*mouseY >= archPool.activeArchers[z]->transform.position.y - padding &&
-							*mouseY <= archPool.activeArchers[z]->transform.position.y + archPool.activeArchers[z]->transform.height + padding)
+						if (AEInputCheckTriggered(AEVK_LBUTTON))
 						{
-							if (AEInputCheckTriggered(AEVK_LBUTTON))
-							{	
-
+							if (*mouseX >= archPool.activeArchers[z]->transform.position.x - padding &&
+								*mouseX <= archPool.activeArchers[z]->transform.position.x + archPool.activeArchers[z]->transform.width + padding &&
+								*mouseY >= archPool.activeArchers[z]->transform.position.y - padding &&
+								*mouseY <= archPool.activeArchers[z]->transform.position.y + archPool.activeArchers[z]->transform.height + padding)
+							{
+							//std::cout << "Archer Clicked" << std::endl;
 								ArcherRemove(z, archPool);
 								break;
 							}
 						}
 					}
 
-					/*for (int z = 0; z < ninPool.activeSize; ++z)
+					for (int k = 0; k < ninPool.activeSize; ++k)
 					{
-						if (*mouseX >= ninPool.activeNinjas[z]->transform.position.x - padding &&
-							*mouseX <= ninPool.activeNinjas[z]->transform.position.x + ninPool.activeNinjas[z]->transform.width + padding &&
-							*mouseY >= ninPool.activeNinjas[z]->transform.position.y - padding &&
-							*mouseY <= ninPool.activeNinjas[z]->transform.position.y + ninPool.activeNinjas[z]->transform.height + padding)
+						if (*mouseX >= ninPool.activeNinjas[k]->transform.position.x - padding &&
+							*mouseX <= ninPool.activeNinjas[k]->transform.position.x + ninPool.activeNinjas[k]->transform.width + padding &&
+							*mouseY >= ninPool.activeNinjas[k]->transform.position.y - padding &&
+							*mouseY <= ninPool.activeNinjas[k]->transform.position.y + ninPool.activeNinjas[k]->transform.height + padding)
 						{
 							if (AEInputCheckTriggered(AEVK_LBUTTON))
 							{
 
-								NinjaRemove(z, ninPool);
+								NinjaRemove(k, ninPool);
 								break;
 							}
 						}
-					}*/
+					}
+
+					for (int c = 0; c < canPool.activeSize; ++c)
+					{
+						if (*mouseX >= canPool.activeCannoneers[c]->transform.position.x - padding &&
+							*mouseX <= canPool.activeCannoneers[c]->transform.position.x + canPool.activeCannoneers[c]->transform.width + padding &&
+							*mouseY >= canPool.activeCannoneers[c]->transform.position.y - padding &&
+							*mouseY <= canPool.activeCannoneers[c]->transform.position.y + canPool.activeCannoneers[c]->transform.height + padding)
+						{
+							if (AEInputCheckTriggered(AEVK_LBUTTON))
+							{
+
+								CannoneerRemove(c, canPool);
+								break;
+							}
+						}
+					}
 
 					// Decrease timer every frame
 					shrinePool.activeShrine[i]->deleteTimer -= deltaTime;
@@ -362,6 +377,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 			else
 			{
 
+			    // loading
 				for (int i = 0; i < shrinePool.activeSize; i++)
 				{
 					shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 80);
@@ -410,11 +426,11 @@ void Free_Shrines()
 		AEGfxMeshFree(loadingBarMesh);
 	}
 
-	//AEGfxTextureUnload(assetfreeze);
-	//AEGfxTextureUnload(assetheal);
-	//AEGfxTextureUnload(assetwind);
-	//AEGfxTextureUnload(assetexplosion);
-	//AEGfxTextureUnload(assetvoid);
+	AEGfxTextureUnload(assetfreeze);
+	AEGfxTextureUnload(assetheal);
+	AEGfxTextureUnload(assetwind);
+	AEGfxTextureUnload(assetexplosion);
+	AEGfxTextureUnload(assetvoid);
 	AEGfxTextureUnload(assetgod); 
 	
 }

@@ -38,8 +38,8 @@ public:
 	float loadingbarpercentage = 0;
 	Transform loading;
 	float timeElapsed = 0;
-	//enum Types { Explosion,Freeze, Push,God,Heal, Void, TotalShrines };
-	enum Types {  God,  TotalShrines };
+	enum Types { Explosion,Freeze, Push,God,Heal, Void, TotalShrines };
+	
 	Types types;
 	float deleteTimer =5.0;
 	
@@ -60,8 +60,8 @@ public:
 void Shrinepool_Init(ShrinePool& shrinePool);
 void ShrineAdd(ShrinePool& shrinePool);
 void ShrineDelete(int index, ShrinePool& shrinePool);
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool archPool,
-NinjaPool ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool,int inddex, VoidPool& voidPool, CannoneerPool& canPool);
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool &archPool,
+NinjaPool &ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool,int inddex, VoidPool& voidPool, CannoneerPool& canPool);
 void Draw_Shrine(ShrinePool& shrinePool);
 void Free_Shrines();
 
