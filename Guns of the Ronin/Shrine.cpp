@@ -1,4 +1,18 @@
-
+/*
+\copyright
+		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
+		reserved.Reproduction or disclosure of this file or its contents without the prior
+		written consent of DigiPen Institute of Technology is prohibited.
+*/
+/*!
+@file void.cpp
+@author Teo Sheen Yeoh
+@Email t.sheenyeoh@digipen.edu
+@course CSD 1450
+@section Section A
+@date 3 March 2023
+@brief This file contains code for the credit screen.
+*//*______________________________________________________________________*/
 #include "Shrine.h"
 #include "Explosion.h"
 #include "Graphics.h"
@@ -91,65 +105,6 @@ int Random(int min, int max)
 	return dis(gen);
 }
 
-//void ShrineAdd(ShrinePool& shrinePool)
-//{
-//	if (!IsTime_Paused())
-//	{
-//		for (int i = 0; i < Shrine_Count; i++)
-//		{
-//			if (shrinePool.activeShrine[i]->hasbeenused == false)
-//			{
-//				if (shrinePool.Shrines[i].transform.position.within_dist(shrinePool.Shrines[i].transform.position, 100.0f))
-//				{
-//					shrinePool.activeShrine[i]->hasbeenused = true;
-//					shrinePool.activeSize += 1;
-//					shrinePool.activeShrine[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-//					//shrinePool.Shrines[i].loadingbarpercentage = 0.f;
-//					//shrinePool.activeShrine[i]->loading.position = shrinePool.activeShrine[i]->transform.position;
-//					shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position;
-//					shrinePool.activeShrine[i]->timeElapsed = 0;
-//					shrinePool.activeShrine[i]->iscolliding = false;
-//					shrinePool.activeShrine[i]->transform.scale = { 2, 2 };
-//
-//					shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
-//					//arranges PNG image according to type of shrine
-//					if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
-//					{
-//						shrinePool.activeShrine[i]->transform.texture = &assetfreeze;
-//					}
-//
-//					else if (shrinePool.activeShrine[i]->types == Shrine::Heal)
-//					{
-//						shrinePool.activeShrine[i]->transform.texture = &assetheal;
-//					}
-//
-//					else if (shrinePool.activeShrine[i]->types == Shrine::Push)
-//					{
-//						shrinePool.activeShrine[i]->transform.texture = &assetwind;
-//					}
-//
-//					if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
-//					{
-//						shrinePool.activeShrine[i]->transform.texture = &assetexplosion;
-//					}
-//
-//					if (shrinePool.activeShrine[i]->types == Shrine::God)
-//					{
-//						shrinePool.activeShrine[i]->transform.texture = &assetgod;
-//					}
-//
-//					if (shrinePool.activeShrine[i]->types == Shrine::Void)
-//					{
-//						shrinePool.activeShrine[i]->transform.texture = &assetvoid;
-//					}
-//					std::cout << "Random shrine type: " << shrinePool.activeShrine[i]->types << std::endl;
-//					break;
-//				}
-//			}
-//		}
-//	}
-//}
-
 void ShrineAdd(ShrinePool& shrinePool)
 {
 	if (!IsTime_Paused())
@@ -224,7 +179,7 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool &ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, int index, VoidPool& voidPool, CannoneerPool& canPool)
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool &ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool)
 {
 	duration += deltaTime;
 	//std::cout << duration << std::endl;
@@ -242,7 +197,6 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 	timeSincePause += deltaTime;
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
-		//SetQuadPoints(shrinePool.activeShrine[i]->transform, 150.f, 150.f);
 		SetQuadPoints(shrinePool.activeShrine[i]->transform);
 		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 		{
@@ -250,11 +204,11 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
 			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
 			{
-				
+				// Explosion shrine
 				if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
 				{
-					AEAudioPlay(explosionSound, mainsceneAudioGroup, 0.5f, 1.f, 0);
-					for (int i = 0; i < Explosion_Count; i++)
+					AEAudioPlay(explosionSound, mainsceneAudioGroup, 1.f, 1.f, 0);
+					for (int l = 0; l < Explosion_Count; l++)
 					{
 						ExplosionAdd(explosionPool);
 					}
@@ -263,6 +217,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 					break;
 				}
 
+				// Void shrine
 				if (shrinePool.activeShrine[i]->types == Shrine::Void)
 				{
 					AEAudioPlay(voidSound, mainsceneAudioGroup, 0.5f, 1.f, 0);
@@ -274,6 +229,8 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 					ShrineDelete(i, shrinePool);
 					break;
 				}
+
+				// Freeze shrine
 				if (shrinePool.activeShrine[i]->types == Shrine::Freeze)
 				{
 					AEAudioPlay(freezeSound, mainsceneAudioGroup, 0.5f, 1.f, 0);
@@ -284,15 +241,17 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 					break;
 				}
 
+				// Push shrine
 				if (shrinePool.activeShrine[i]->types == Shrine::Push)
 				{
-					AEAudioPlay(windSound, mainsceneAudioGroup, 0.5f, 1.f, 0);
-					Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
+					AEAudioPlay(windSound, mainsceneAudioGroup, 1.f, 1.f, 0);
+					Push_Enemies(samPool, archPool, HORIZONTAL, PUSH_BY, ninPool);
 					ShrineDelete(i, shrinePool);
 					//std::cout << "Push tower" << std::endl;
 					break;
 				}
 
+				// Heal shrine
 				if (shrinePool.activeShrine[i]->types == Shrine::Heal)
 				{
 					if (playerinfo.health < 100) {
@@ -305,11 +264,11 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 					}
 				}
 
-				
+				// GOD shrine
 				if (shrinePool.activeShrine[i]->types == Shrine::God)
 				{
-					
 					int padding = 50;
+					// Check if its samurai 
 					for (int u = 0; u < samPool.activeSize; ++u)
 					{
 						if (AEInputCheckTriggered(AEVK_LBUTTON))
@@ -325,6 +284,8 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 							}
 						}
 					}
+
+					// Check if its archers 
 					for (int z = 0; z < archPool.activeSize; ++z)
 					{
 						if (AEInputCheckTriggered(AEVK_LBUTTON))
@@ -341,6 +302,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 						}
 					}
 
+					// Check if its ninjas 
 					for (int k = 0; k < ninPool.activeSize; ++k)
 					{
 						if (*mouseX >= ninPool.activeNinjas[k]->transform.position.x - padding &&
@@ -357,6 +319,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 						}
 					}
 
+					// Check if its cannons
 					for (int c = 0; c < canPool.activeSize; ++c)
 					{
 						if (*mouseX >= canPool.activeCannoneers[c]->transform.position.x - padding &&
@@ -386,12 +349,12 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 			else
 			{
 
-			    // loading
-				for (int i = 0; i < shrinePool.activeSize; i++)
+			    // loading bar for shrine
+				for (int g = 0; g < shrinePool.activeSize; g++)
 				{
-					shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 80);
-					float loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
-					shrinePool.Shrines[i].loading.scale = Vector2(loadingbarpercentage, 1.0f);
+					shrinePool.Shrines[g].loading.position = shrinePool.activeShrine[g]->transform.position + Vector2(0, 80);
+					float loadingbarpercentage = shrinePool.activeShrine[g]->timeElapsed / 5.f;
+					shrinePool.Shrines[g].loading.scale = Vector2(loadingbarpercentage, 1.0f);
 				}
 
 			}
