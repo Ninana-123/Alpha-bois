@@ -295,12 +295,14 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 
 				if (shrinePool.activeShrine[i]->types == Shrine::Heal)
 				{
-					AEAudioPlay(healthSound, mainsceneAudioGroup, 1.f, 1.f, 0);
-					Heal_player(playerinfo);
-					ShrineDelete(i, shrinePool);
-					//std::cout << "Heal tower" << std::endl;
-					std::cout << playerinfo.health << std::endl;
-					break;
+					if (playerinfo.health < 100) {
+						AEAudioPlay(healthSound, mainsceneAudioGroup, 1.f, 1.f, 0);
+						Heal_player(playerinfo);
+						ShrineDelete(i, shrinePool);
+						//std::cout << "Heal tower" << std::endl;
+						std::cout << playerinfo.health << std::endl;
+						break;
+					}
 				}
 
 				
