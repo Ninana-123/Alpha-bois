@@ -29,7 +29,7 @@ void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPo
 			spawnTotalCount[i] += spawnCounts[i][u];
 		}
 	}
-	curWave = 1, enemiesLeft = spawnTotalCount[0];
+	curWave = 5, enemiesLeft = spawnTotalCount[0];
 
 	for (int i = 0; i < 4; ++i) {
 		curSpawnCounts[i] = 0;

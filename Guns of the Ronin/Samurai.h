@@ -19,7 +19,8 @@ namespace {
 	float SAMURAI_SLOWED_MS = 20.0;
 	float SAMURAI_SLOW_DURATION = 0.5f;
 	int EXP = 10;
-	int DAMAGE = 5;
+	//int DAMAGE = 5;
+	int DAMAGE = 0;
 	AEGfxVertexList* samuraiMesh = 0;
 	AEGfxTexture* samuraiTexture = 0;
 	float SAMURAI_HEIGHT = 15, SAMURAI_WIDTH = 15;
