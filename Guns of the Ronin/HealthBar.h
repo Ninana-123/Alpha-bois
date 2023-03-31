@@ -10,6 +10,9 @@
 #ifndef HEALTHBAR_H
 #define HEALTHBAR_H
 
+float Health_width = 100.0f;
+float Health_height = 10.0f;
+
 namespace {
 	AEGfxVertexList* healthMesh;
 	AEGfxVertexList* samMesh;
