@@ -101,7 +101,7 @@ void VoidDelete(int index, VoidPool& voidPool)
 void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& canPool)
 {
 	
-	
+	// Animation
 	for (int i = 0; i < Void_Count; i++)
 	{
 		static float frameTimer = 0;
@@ -200,13 +200,9 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 			VoidDelete(i, voidPool);
 		}
 	}
-
-//}
 }
 void Draw_Void(VoidPool& voidPool)
 {
-	//if (IsExplosionTriggered())
-	//{
 	for (int i = 0; i < voidPool.activeSize; i++)
 	{
 
