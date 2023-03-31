@@ -21,6 +21,8 @@ namespace{
 	AEGfxVertexList* quitMesh = 0;
 	AEGfxVertexList* creditMesh = 0;
 
+	AEGfxVertexList* splashScreenMesh = 0;
+
 }
 
 class MainMenu {

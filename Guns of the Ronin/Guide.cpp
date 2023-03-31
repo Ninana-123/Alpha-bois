@@ -281,7 +281,6 @@ void Init_Guide() {
 }
 
 void Update_Guide() {
-	AEAudioUpdate();
 	Player_Update(&player, bulletPool);
 	SetQuadPoints(player.transform, player.transform.height, player.transform.width);
 	SetQuadPoints(windShrine.transform,50.f ,50.f);

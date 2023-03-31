@@ -27,7 +27,7 @@ void Player_Init(Player* player,BulletPool &bulletPool) {
 
 
 void Player_Update(Player* player,BulletPool &bulletPool) {
-	AEAudioUpdate();
+
 	if (!IsTime_Paused()) {
 		
 		static float frameTimer = 0;
@@ -105,7 +105,7 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 
 		if (player->left_mouse_pressed) {
 			if (!audioPlayed) {
-				AEAudioPlay(playerShootSound, playerAudioGroup, 0.1f, 0.5f, 0);
+				AEAudioPlay(playerShootSound, playerAudioGroup, 0.2f, 0.5f, 0);
 				audioPlayed = true;
 			}
 			if (timeSinceLastFired >= PLAYER_FIRERATE) {
