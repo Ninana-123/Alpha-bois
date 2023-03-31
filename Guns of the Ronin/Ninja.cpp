@@ -7,7 +7,6 @@
 
 float ninjaAttDelay = 1.0f;
 ShurikenPool shuriken;
-SmokePool smoke;
 BulletPool bulletpool;
 PlayerInfo playerinfo;
 Player playerx;
@@ -32,9 +31,9 @@ void NinjaAdd(NinjaPool& pool, Vector2 playerPos) {
 			pool.activeNinjas[i]->enabled = true;
 			pool.activeNinjas[i]->health = NINJA_HEALTH;
 			pool.activeNinjas[i]->isHit = false;
-			pool.activeNinjas[i]->transform.texture = &ninjaTexture;
 			pool.activeNinjas[i]->transform.scale = { 3,3 };
 			pool.activeNinjas[i]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWNDIST, NINJA_MAX_SPAWNDIST, playerPos);
+			pool.activeNinjas[i]->smoke.scale = { 8, 4.5 };
 			pool.activeSize += 1;
 			break;
 		}
@@ -44,19 +43,27 @@ void NinjaAdd(NinjaPool& pool, Vector2 playerPos) {
 void Init_NinjaPool(NinjaPool& pool) {
 	pool.activeSize = 0;
 	CreateQuadMesh(NINJA_WIDTH, NINJA_HEIGHT, Color(0, 1, 1), ninjaMesh, 0.5f, 1.0f);
+	CreateQuadMesh(NINJA_WIDTH, NINJA_HEIGHT, Color(0, 1, 1), smokeMesh, 1.0f, 1.0f);
+	ninjaTexture = AEGfxTextureLoad("Assets/NinjaSpriteSheet.png");
+	smokeTexture = AEGfxTextureLoad("Assets/Smoke2.png");
 	for (int i = 0; i < NINJA_COUNT; i++) {
 		pool.ninjas[i].enabled = false;
 		pool.ninjas[i].health = NINJA_HEALTH;
 		pool.ninjas[i].aiState = NINJA_MOVING;
 		pool.ninjas[i].transform.mesh = &ninjaMesh;
+		pool.ninjas[i].transform.texture = &ninjaTexture;
 		pool.ninjas[i].transform.height = NINJA_HEIGHT;
 		pool.ninjas[i].transform.width = NINJA_WIDTH;
+
+		pool.ninjas[i].smoke.mesh = &smokeMesh;
+		pool.ninjas[i].smoke.texture = &smokeTexture;
+		pool.ninjas[i].smoke.height = NINJA_HEIGHT;
+		pool.ninjas[i].smoke.width = NINJA_WIDTH;
 		pool.ninjas[i].isHit = false;
 		pool.activeNinjas[i] = &pool.ninjas[i];
 	}
 	Init_ShurikenPool(shuriken);
-	Init_SmokePool(smoke);
-	ninjaTexture = AEGfxTextureLoad("Assets/NinjaSpriteSheet.png");
+	
 }
 
 // Ninja movement, attacking state, wind shrine 
@@ -77,6 +84,7 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 			else {
 				Vector2 direction = (curNinja->targetPos - curNinja->transform.position).normalize();
 				curNinja->transform.position += direction * NINJA_MS * deltaTime;
+				
 				if (direction.x > 0) {
 					curNinja->transform.scale.x = Absf(curNinja->transform.scale.x) * -1.0f;
 				}
@@ -112,7 +120,7 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 
 		curNinja->anim.Update_SpriteAnim(curNinja->transform);
 
-
+		curNinja->smoke.position = curNinja->transform.position;
 		
 
 		// Shuriken collide with player
@@ -126,17 +134,15 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 		}
 	}
 	Shuriken_AI(shuriken);
-	Smoke_AI(smoke);
 }
 
 // Player projectile colliding with ninja
 void Dmg_Ninja(NinjaPool& pool, PlayerInfo playerInfo, int index) {
 	// TELEPORT
 	if (pool.activeNinjas[index]->isHit == false) {
-		SmokeAdd(smoke, pool.activeNinjas[index]->transform.position);
-		pool.activeNinjas[index]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWNDIST, NINJA_MAX_SPAWNDIST, playerx.transform.position);
-		SmokeAdd(smoke, pool.activeNinjas[index]->transform.position);
+		pool.activeNinjas[index]->transform.position = RandomPoint_OutsideSqaure(150, 150, playerx.transform.position);
 		pool.activeNinjas[index]->isHit = true;
+		
 	}
 	else{
 		if ((pool.activeNinjas[index]->health -= playerInfo.att) <= 0) {
@@ -169,13 +175,20 @@ void Push_Ninja(NinjaPool& pool, DIRECTION direction, float targetAxis) {
 void Draw_Ninja(NinjaPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		DrawMesh(&pool.activeNinjas[i]->transform);
+		
+		if (!pool.activeNinjas[i]->isHit) {
+			DrawMesh(&pool.activeNinjas[i]->smoke);
+		}
 	}
 	Draw_Shuriken(shuriken);
-	Draw_Smoke(smoke);
+	
 }
 
 // Free assets
 void Free_Ninja() {
 	AEGfxMeshFree(ninjaMesh);
+	AEGfxMeshFree(smokeMesh);
+
+	AEGfxTextureUnload(smokeTexture);
 	AEGfxTextureUnload(ninjaTexture);
 }

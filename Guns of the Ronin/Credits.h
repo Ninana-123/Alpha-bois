@@ -5,6 +5,7 @@
 namespace {
 	/*          BACKGROUND        */
 	AEGfxVertexList* CreditsBGMesh = 0;
+
 	/*         QUIT BUTTON        */
 	AEGfxVertexList* backMesh = 0;
 }
