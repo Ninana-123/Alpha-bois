@@ -154,7 +154,8 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 			else
 			{
 				// If the void has been active for less than 1 second, set its quad points
-				SetQuadPoints(voidPool.activeVoid[i]->transform, 40.f, 40.f);
+				//SetQuadPoints(voidPool.activeVoid[i]->transform, 40.f, 40.f);
+				SetQuadPoints(voidPool.activeVoid[i]->transform);
 			}
 		}
 		else

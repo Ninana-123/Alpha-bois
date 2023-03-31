@@ -25,6 +25,8 @@ struct Transform
 	Vector2 position = {  };
 	float rotation = 3.14159f;
 	Vector2 scale = { 1 , 1 };
+	Vector2 colliderSize{ 0, 0 };
+	Vector2 colliderOffsetPos{ 0, 0 };
 	AEGfxTexture** texture = 0;
 	Color color{ 0,0,0,1.0f };
 	//TL,TR,BL,BR
@@ -119,7 +121,9 @@ bool StaticCol_QuadQuad(Transform trans1, Transform trans2);
 //Creates a rectangle mesh with its transform
 void DrawMesh(Transform* trans);
 
-void SetQuadPoints(Transform& trans, float height, float width);
+void Draw_QuadCollider(Transform* trans, AEGfxVertexList*& colliderMesh);
+
+void SetQuadPoints(Transform& trans, bool useCol = false);
 
 void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float texture_w = 1.0f, float texture_h = 1.0f);
 
@@ -131,7 +135,7 @@ void DrawStaticSprite(Transform* trans, int index);
 
 bool IsButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y);
 
-
+bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans, bool useQuadCol = false, bool useCircleCol = false);
 
 void FlipTexture_x(Transform& trans);
 

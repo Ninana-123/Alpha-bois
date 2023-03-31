@@ -26,6 +26,11 @@
 //	AEGfxDestroyFont(font);
 //}
 
+float Absf(float val) {
+	return val < 0.0f ? (val * -1.0f) : val;
+}
+
+
 unsigned int createARGB(float r, float g, float b, float a)
 {
 	int ca = int(a * 255), cr = int(r * 255), cg = int(g * 255), cb = int(b * 255);
@@ -52,13 +57,18 @@ void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& me
 }
 
 
-void SetQuadPoints(Transform& trans, float height, float width) {
-	height /= 2.0f;
-	width /= 2.0f;
-	trans.quadPoints[0] = Vector2(trans.position.x - width, trans.position.y + height);
-	trans.quadPoints[1] = Vector2(trans.position.x + width, trans.position.y + height);
-	trans.quadPoints[2] = Vector2(trans.position.x - width, trans.position.y - height);
-	trans.quadPoints[2] = Vector2(trans.position.x + width, trans.position.y - height);
+void SetQuadPoints(Transform& trans, bool useCol) {
+	float height = useCol ? trans.colliderSize.y / 2.0f : trans.height * Absf(trans.scale.y) / 2.0f;
+	float width = useCol ? trans.colliderSize.x / 2.0f : trans.width * Absf(trans.scale.x) / 2.0f;
+
+	trans.quadPoints[0] = Vector2(trans.position.x + (useCol ? trans.colliderOffsetPos.x : 0) - width,
+		trans.position.y + (useCol ? trans.colliderOffsetPos.y : 0) + height);
+	trans.quadPoints[1] = Vector2(trans.position.x + (useCol ? trans.colliderOffsetPos.x : 0) + width,
+		trans.position.y + (useCol ? trans.colliderOffsetPos.y : 0) + height);
+	trans.quadPoints[2] = Vector2(trans.position.x + (useCol ? trans.colliderOffsetPos.x : 0) - width,
+		trans.position.y + (useCol ? trans.colliderOffsetPos.y : 0) - height);
+	trans.quadPoints[2] = Vector2(trans.position.x + (useCol ? trans.colliderOffsetPos.x : 0) + width,
+		trans.position.y + (useCol ? trans.colliderOffsetPos.y : 0) - height);
 }
 
 bool StaticCol_QuadQuad(Transform trans1, Transform trans2) {
@@ -78,32 +88,52 @@ bool StaticCol_QuadQuad(Transform trans1, Transform trans2) {
 	return collided;
 }
 
-float Absf(float val) {
-	return val < 0.0f ? (val * -1.0f) : val;
-}
 
-bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans) {
-	float circleDistX = Absf(quadTrans.position.x - circleTrans.position.x);
-	float circleDistY = Absf(quadTrans.position.y - circleTrans.position.y);
+/* 
+	This function by default uses transform's height and width with scale applied
+	if useQuadCol/useCircleCol is set to true the function uses the transform's colliderSize and colliderOffsetPos instead 
+*/
+bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans, bool useQuadCol, bool useCircleCol) {
 
-	if (circleDistX > (quadTrans.width / 2.0f + circleTrans.width)) {
+	//float circleDistX = Absf(quadTrans.position.x - circleTrans.position.x);
+	float circleDistX = Absf(quadTrans.position.x + (useQuadCol ? quadTrans.colliderOffsetPos.x : 0) - 
+		circleTrans.position.x + (useCircleCol ? circleTrans.colliderOffsetPos.x : 0));
+
+	//float circleDistY = Absf(quadTrans.position.y - circleTrans.position.y);
+	float circleDistY = Absf(quadTrans.position.y + (useQuadCol ? quadTrans.colliderOffsetPos.y : 0) - 
+		circleTrans.position.y + (useCircleCol ? circleTrans.colliderOffsetPos.y : 0));
+
+	float quadWidth = quadTrans.width * Absf(quadTrans.scale.x);
+	float quadHeight = quadTrans.height * Absf(quadTrans.scale.y);
+	float circleWidth = circleTrans.width * Absf(circleTrans.scale.x);
+
+	if (useQuadCol) {
+		quadWidth = quadTrans.colliderSize.x;
+		quadHeight = quadTrans.colliderSize.y;
+		
+	}
+	if (useCircleCol) {
+		circleWidth = circleTrans.colliderSize.x;
+	}
+
+	if (circleDistX > (quadWidth / 2.0f + circleWidth)) {
 		return false;
 	}
-	if (circleDistY > (quadTrans.height / 2.0f + circleTrans.width)) {
+	if (circleDistY > (quadHeight / 2.0f + circleWidth)) {
 		return false;
 	}
 
-	if (circleDistX <= quadTrans.width / 2.0f) {
+	if (circleDistX <= quadWidth / 2.0f) {
 		return true;
 	}
-	if (circleDistY <= quadTrans.height / 2.0f) {
+	if (circleDistY <= quadHeight / 2.0f) {
 		return true;
 	}
 
-	float cornerSqauredDist = (circleDistX - quadTrans.width / 2.0f) * (circleDistX - quadTrans.width / 2.0f) +
-		(circleDistY - quadTrans.height / 2.0f) * (circleDistY - quadTrans.height / 2.0f);
+	float cornerSqauredDist = (circleDistX - quadWidth / 2.0f) * (circleDistX - quadWidth / 2.0f) +
+		(circleDistY - quadHeight / 2.0f) * (circleDistY - quadHeight / 2.0f);
 
-	return (cornerSqauredDist <= circleTrans.width * circleTrans.width);
+	return (cornerSqauredDist <= circleWidth * circleWidth);
 }
 
 
@@ -139,17 +169,16 @@ void DrawMesh(Transform* trans) {
 		AEGfxSetTransparency(1.0f);
 	}
 	
-	// Create a scale matrix that scales by 100 x and y
+	// Create a scale matrix 
 	AEMtx33 scale = { 0 };
 	AEMtx33Scale(&scale, trans->scale.x, trans->scale.y);
-	// Create a rotation matrix that rotates by 45 degrees
+	// Create a rotation matrix 
 	AEMtx33 rotate = { 0 };
 	AEMtx33Rot(&rotate, trans->rotation);
-	// Create a translation matrix that translates by
-	// 100 in the x-axis and 100 in the y-axis
+	// Create a translation matrix
 	AEMtx33 translate = { 0 };
-
 	AEMtx33Trans(&translate, trans->position.x, trans->position.y);
+
 	// Concat the matrices (TRS)
 	AEMtx33 transform = { 0 };
 	AEMtx33Concat(&transform, &rotate, &scale);
@@ -158,6 +187,39 @@ void DrawMesh(Transform* trans) {
 	AEGfxSetTransform(transform.m);
 	// Actually drawing the mesh
 	AEGfxMeshDraw(*trans->mesh, AE_GFX_MDM_TRIANGLES);
+}
+
+//Please supply a 1x1 size mesh for the colliderMesh
+void Draw_QuadCollider(Transform* trans, AEGfxVertexList*& colliderMesh) {
+	// Tell the engine to get ready to draw something with texture.
+	AEGfxSetRenderMode(AE_GFX_RM_COLOR);
+	// Set the tint to white, so that the sprite can
+	// display the full range of colors (default is black).
+	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 0.5f);
+	// Set blend mode to AE_GFX_BM_BLEND
+	// This will allow transparency.
+	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+	AEGfxSetTransparency(1.0f);
+
+	// Create a scale matrix 
+	AEMtx33 scale = { 0 };
+	AEMtx33Scale(&scale, trans->colliderSize.x, trans->colliderSize.y);
+	// Create a rotation matrix 
+	AEMtx33 rotate = { 0 };
+	AEMtx33Rot(&rotate, trans->rotation);
+	// Create a translation matrix
+	AEMtx33 translate = { 0 };
+	AEMtx33Trans(&translate, trans->position.x + trans->colliderOffsetPos.x, trans->position.y + trans->colliderOffsetPos.y);
+
+	// Concat the matrices (TRS)
+	AEMtx33 transform = { 0 };
+	AEMtx33Concat(&transform, &rotate, &scale);
+	AEMtx33Concat(&transform, &translate, &transform);
+	// Choose the transform to use
+	AEGfxSetTransform(transform.m);
+
+	// Actually drawing the mesh
+	AEGfxMeshDraw(colliderMesh, AE_GFX_MDM_TRIANGLES);
 }
 
 void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {

@@ -8,20 +8,24 @@ DirPressed prevDir = DirPressed::LEFT, curDir = DirPressed::RIGHT;
 
 float timeSinceLastFired = 0.0f;
 
+AEGfxVertexList* col;
+
 void Player_Init(Player* player,BulletPool &bulletPool) {
 
 	player->transform.color = Color(1, 1, 1, 1);
-	CreateQuadMesh(1.0f, 1.0f, player->transform.color, playerMesh,1.0f/5.0f,1.0f);
+	CreateQuadMesh(PLAYER_HEIGHT, PLAYER_WIDTH, player->transform.color, playerMesh,1.0f/5.0f,1.0f);
 	playerTexture = AEGfxTextureLoad("Assets/RoninSpriteSheet.png");
 	player->transform.texture = &playerTexture;
-	player->transform.scale = { 100.f, 100.f };
-	player->transform.height = 1.0f;
-	player->transform.width = 4.0f;
+	//player->transform.scale = { 100.f, 100.f };
+	player->transform.height = PLAYER_HEIGHT;
+	player->transform.width = PLAYER_WIDTH;
 	player->transform.position = {0.f,0.f};
 	player->transform.mesh = &playerMesh;
-
+	player->transform.colliderSize = { 50,80 };
+	player->transform.colliderOffsetPos = { 0, PLAYER_HEIGHT * -0.1f };
 
 	Init_BulletPool(bulletPool);
+	CreateQuadMesh(1, 1, Color(1, 0, 0), col);
 }
 
 
@@ -119,6 +123,8 @@ void Draw_Player(Player* player,BulletPool &bulletPool) {
 	DrawMesh(&player->transform);
 	
 	Draw_Bullet(bulletPool);
+
+	Draw_QuadCollider(&player->transform, col);
 }
 
 void player_dmg(PlayerInfo& info,int dmg) {
@@ -137,4 +143,5 @@ void Heal_player(PlayerInfo& info) {
 void Free_Player() {
 	AEGfxMeshFree(playerMesh);
 	AEGfxTextureUnload(playerTexture);
+	AEGfxMeshFree(col);
 }

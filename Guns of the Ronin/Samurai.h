@@ -22,7 +22,7 @@ namespace {
 	int DAMAGE = 5;
 	AEGfxVertexList* samuraiMesh = 0;
 	AEGfxTexture* samuraiTexture = 0;
-	float SAMURAI_HEIGHT = 15, SAMURAI_WIDTH = 15;
+	float SAMURAI_HEIGHT = 75, SAMURAI_WIDTH = 75;
 	int SAMURAI_ATT_ANIM_FRAME = 2;	//The frame number of animation that is the attacking frame
 	float SAMURAI_ATT_RANGE = 50.0f;
 }

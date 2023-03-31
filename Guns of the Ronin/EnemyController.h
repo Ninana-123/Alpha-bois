@@ -15,7 +15,7 @@ namespace {
 	float spawnRate_Samurai = 1.5f;
 	float spawnRate_Archer = 3.0f;
 	float spawnRate_Cannoneer = 1.0f;
-	float spawnRate_Ninja = 4.0f;
+	float spawnRate_Ninja = 1.0f;
 
 	int curWave = 1;
 	int spawnTotalCount[10] = { 0 };
@@ -27,7 +27,7 @@ namespace {
 
 	const int spawnCounts[10][4]{
 		/*Wave n    Samurai		 Archer		 Cannoneer	 Ninja		*/
-		/*Wave 1*/	{10			,0			,10			,0			},
+		/*Wave 1*/	{ 5			,0			,0			,0			},
 		/*Wave 2*/	{20			,5			,0			,0			},
 		/*Wave 3*/	{30			,10			,0			,0			},
 		/*Wave 4*/	{35			,20			,0			,0			},

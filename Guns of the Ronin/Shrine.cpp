@@ -242,7 +242,8 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool arch
 	timeSincePause += deltaTime;
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
-		SetQuadPoints(shrinePool.activeShrine[i]->transform, 150.f, 150.f);
+		//SetQuadPoints(shrinePool.activeShrine[i]->transform, 150.f, 150.f);
+		SetQuadPoints(shrinePool.activeShrine[i]->transform);
 		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 		{
 			shrinePool.activeShrine[i]->iscolliding = true;
