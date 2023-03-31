@@ -129,6 +129,12 @@
     <ClCompile Include="Credits.cpp">
       <Filter>Source Files\Game Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Smoke.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shrine.h">
@@ -217,6 +223,12 @@
     </ClInclude>
     <ClInclude Include="Credits.h">
       <Filter>Header Files\Game Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Smoke.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -43,7 +43,7 @@ void Init_Menu() {
 	AESysSetWindowTitle("Guns of the Ronin");
 	// reset the system modules
 	AESysReset();
-	MainMenuBG = AEGfxTextureLoad("Assets/MainMenuSakura.png");
+	MainMenuBG = AEGfxTextureLoad("Assets/MainMenu.png");
 	buttonsSprite = AEGfxTextureLoad("Assets/buttonspritesheet.png");
 
 	//CreateSpriteMesh(&mainMenu.transform, BGMesh);
