@@ -5,25 +5,25 @@
 #include <iostream>
 
 void HealthBar_Init(BarPool& barPool, Health* health, PlayerInfo& playerinfo, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
-	CreateQuadMesh(100.0f, 10.0f, Color(0, 1.0f, 0, 1.0f), healthMesh);
+	CreateQuadMesh(Health_width, Health_height, Color(0, 1.0f, 0, 1.0f), healthMesh);
 	health->playerBar.mesh = &healthMesh;
 
-	CreateQuadMesh(100.0f, 10.0f, Color(1.0f, 0, 0, 1.0f), samMesh);
+	CreateQuadMesh(Health_width, Health_height, Color(1.0f, 0, 0, 1.0f), samMesh);
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		barPool.samurais[i].samBar.mesh = &samMesh;
 	}
 
-	CreateQuadMesh(100.0f, 10.0f, Color(1.0f, 0, 0, 1.0f), archMesh);
+	CreateQuadMesh(Health_width, Health_height, Color(1.0f, 0, 0, 1.0f), archMesh);
 	for (int i = 0; i < ARCHER_COUNT; i++) {
 		barPool.archers[i].archBar.mesh = &archMesh;
 	}
 
-	CreateQuadMesh(100.0f, 10.0f, Color(1.0f, 0, 0, 1.0f), ninMesh);
+	CreateQuadMesh(Health_width, Health_height, Color(1.0f, 0, 0, 1.0f), ninMesh);
 	for (int i = 0; i < NINJA_COUNT; i++) {
 		barPool.ninjas[i].ninBar.mesh = &ninMesh;
 	}
 
-	CreateQuadMesh(100.0f, 10.0f, Color(1.0f, 0, 0, 1.0f), canMesh);
+	CreateQuadMesh(Health_width, Health_height, Color(1.0f, 0, 0, 1.0f), canMesh);
 	for (int i = 0; i < CANNONEER_COUNT; i++) {
 		barPool.cannon[i].canBar.mesh = &canMesh;
 	}

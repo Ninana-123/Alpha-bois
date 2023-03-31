@@ -23,8 +23,31 @@ void Explosionpool_Init(ExplosionPool& explosionPool)
 				explosionPool.activeExplosion[i] = &explosionPool.Explosions[i];
 				explosionPool.activeExplosion[i]->timeElapsed = 0;
 				explosionPool.activeExplosion[i]->iscolliding = false;
+				explosionPool.activeExplosion[i]->transform.texture = &assetexplosions;
+				explosionPool.activeExplosion[i]->transform.scale = { 1.5,1.5 };
 			}
+			assetexplosions = AEGfxTextureLoad("Assets/Explosions.png");
 		}
+}
+
+float DistanceExplosion(const Vector2& a, const Vector2& b)
+{
+	float dx = b.x - a.x;
+	float dy = b.y - a.y;
+	return sqrt(dx * dx + dy * dy);
+}
+
+bool CheckOverlapWithActiveExplosion(const ExplosionPool& explosionPool, const Vector2& position)
+{
+	for (int i = 0; i < Explosion_Count; i++)
+	{
+		if (explosionPool.activeExplosion[i]->hasbeenused && DistanceExplosion(explosionPool.activeExplosion[i]->transform.position, position) < 100.0f)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void ExplosionAdd(ExplosionPool& explosionPool)
@@ -38,8 +61,15 @@ void ExplosionAdd(ExplosionPool& explosionPool)
 			}
 			explosionPool.activeExplosion[i]->hasbeenused = true;
 			explosionPool.activeSize += 1;
-			explosionPool.activeExplosion[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-			explosionPool.activeExplosion[i]->loading.position = explosionPool.activeExplosion[i]->transform.position;
+
+			// Generate a random position until it doesn't overlap with any active shrines
+			Vector2 randomPosition;
+			do
+			{
+				randomPosition = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+			} while (CheckOverlapWithActiveExplosion(explosionPool, randomPosition));
+			explosionPool.activeExplosion[i]->transform.position = randomPosition;
+			
 			explosionPool.activeExplosion[i]->timeElapsed = 0;
 			explosionPool.activeExplosion[i]->iscolliding = false;
 			break;
@@ -63,15 +93,7 @@ void ExplosionDelete(int index, ExplosionPool& explosionPool)
 
 void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, CannoneerPool& canPool, NinjaPool& ninPool)
 {
-		/*durations += deltaTime;
-		if (durations >= 1.f)
-		{
-			durations = 0;
-			ExplosionAdd(explosionPool);
-		}*/
-	/*if (explosionCount < Explosion_Count)
-	{*/ 
-
+		
 
 	// Loop over all active explosions in the explosion pool
 	for (int i = 0; i < explosionPool.activeSize; i++)
@@ -89,7 +111,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 				{
 					archPool.activeArchers[j]->health -= 50;
 					archPool.activeArchers[j]->damagedByExplosion = true;
-					std::cout << "Health:" << archPool.activeArchers[j]->health << std::endl;
+					//std::cout << "Health:" << archPool.activeArchers[j]->health << std::endl;
 					// If the archer's health is now zero or less, remove it from the pool
 					if (archPool.activeArchers[j]->health <= 0) 
 					{
@@ -126,7 +148,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 				{
 					ninPool.activeNinjas[k]->health -= 50;
 					ninPool.activeNinjas[k]->damagedByExplosion = true;
-					std::cout << "Health:" << ninPool.activeNinjas[k]->health << std::endl;
+					//std::cout << "Health:" << ninPool.activeNinjas[k]->health << std::endl;
 					if (ninPool.activeNinjas[k]->health <= 0)
 					{
 						NinjaRemove(k, ninPool);
@@ -195,7 +217,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 		}
 
 	}
-	//}
+	
 }
 
 void Draw_Explosions(ExplosionPool& explosionPool)
@@ -218,6 +240,6 @@ void Free_Explosions()
 {
 	
 		AEGfxMeshFree(explosionsMesh);
-		//AEGfxTextureUnload(assetExplosion);
+		AEGfxTextureUnload(assetexplosions);
 	
 }

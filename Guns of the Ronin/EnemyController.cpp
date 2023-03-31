@@ -49,7 +49,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 			spawnTImer = 0;
 			SamuraiAdd(samPool, player.transform.position);
 			++curSpawnCounts[SAMURAI];
-			std::cout << curSpawnCounts[SAMURAI] <<"\n";
+			//std::cout << curSpawnCounts[SAMURAI] <<"\n";
 		}
 		AI_Samurai(samPool, player, playerInfo);
 
