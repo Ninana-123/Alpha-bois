@@ -1,4 +1,18 @@
-
+/*
+\copyright
+		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
+		reserved.Reproduction or disclosure of this file or its contents without the prior
+		written consent of DigiPen Institute of Technology is prohibited.
+*/
+/*!
+@file void.cpp
+@author Teo Sheen Yeoh
+@Email t.sheenyeoh@digipen.edu
+@course CSD 1450
+@section Section A
+@date 3 March 2023
+@brief This file contains code for the credit screen.
+*//*______________________________________________________________________*/
 #include "Shrine.h"
 #include "Explosion.h"
 #include "Graphics.h"
@@ -165,7 +179,7 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool &ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, int index, VoidPool& voidPool, CannoneerPool& canPool)
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool &ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool)
 {
 	AEAudioUpdate();
 	duration += deltaTime;
@@ -184,7 +198,6 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 	timeSincePause += deltaTime;
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
-		//SetQuadPoints(shrinePool.activeShrine[i]->transform, 150.f, 150.f);
 		SetQuadPoints(shrinePool.activeShrine[i]->transform);
 		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 		{
@@ -196,7 +209,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 				if (shrinePool.activeShrine[i]->types == Shrine::Explosion)
 				{
 					AEAudioPlay(explosionSound, mainsceneAudioGroup, 1.f, 1.f, 0);
-					for (int i = 0; i < Explosion_Count; i++)
+					for (int l = 0; l < Explosion_Count; l++)
 					{
 						ExplosionAdd(explosionPool);
 					}
@@ -338,11 +351,11 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 			{
 
 			    // loading bar for shrine
-				for (int i = 0; i < shrinePool.activeSize; i++)
+				for (int g = 0; g < shrinePool.activeSize; g++)
 				{
-					shrinePool.Shrines[i].loading.position = shrinePool.activeShrine[i]->transform.position + Vector2(0, 80);
-					float loadingbarpercentage = shrinePool.activeShrine[i]->timeElapsed / 5.f;
-					shrinePool.Shrines[i].loading.scale = Vector2(loadingbarpercentage, 1.0f);
+					shrinePool.Shrines[g].loading.position = shrinePool.activeShrine[g]->transform.position + Vector2(0, 80);
+					float loadingbarpercentage = shrinePool.activeShrine[g]->timeElapsed / 5.f;
+					shrinePool.Shrines[g].loading.scale = Vector2(loadingbarpercentage, 1.0f);
 				}
 
 			}
