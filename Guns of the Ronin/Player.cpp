@@ -31,6 +31,7 @@ void Player_Init(Player* player,BulletPool &bulletPool) {
 
 
 void Player_Update(Player* player,BulletPool &bulletPool) {
+	AEAudioUpdate();
 	if (!IsTime_Paused()) {
 		
 		static float frameTimer = 0;
@@ -48,6 +49,7 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 		
 
 		if (player->w_Pressed) {
+			
 			newPos.y = player->moveSpeed * deltaTime;
 			if (frameTimer >= 0.2f) {
 				player->animation.PlayAnim();
@@ -98,19 +100,25 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 		acc = (newPos * dirSpeed);
 		vel = (vel + acc);
 		newPos = (newPos + vel);
+
 		
-		//player->left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
-		player->left_mouse_pressed = AEInputCheckCurr(AEVK_LBUTTON);
+		player->left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
+		//player->left_mouse_pressed = AEInputCheckCurr(AEVK_LBUTTON);
 
 		timeSinceLastFired += deltaTime;
 
 		if (player->left_mouse_pressed) {
+			if (!audioPlayed) {
+				AEAudioPlay(playerShootSound, playerAudioGroup, 0.1f, 0.5f, 0);
+				audioPlayed = true;
+			}
 			if (timeSinceLastFired >= PLAYER_FIRERATE) {
 				BulletAdd(bulletPool, player->transform.position);
 				timeSinceLastFired = 0;
 			}
-	
+
 		}
+		else audioPlayed = false;
 
 
 		player->transform.position += newPos;

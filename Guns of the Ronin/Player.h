@@ -7,6 +7,7 @@
 #include "Physics.h"
 #include "Bullets.h"
 #include "PlayerInfo.h"
+#include "Sound.h"
 
 namespace {
 	AEGfxVertexList* playerMesh;
@@ -19,6 +20,7 @@ class Player {
 public:
 	Transform transform;
 	bool w_Pressed, a_Pressed, s_Pressed, d_Pressed, left_mouse_pressed;
+	bool walkingAudio = false;
 	float moveSpeed = 45.0f;
 	Sprite_Animation animation{ 2.f,5,1 };
 };

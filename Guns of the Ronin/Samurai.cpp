@@ -19,6 +19,8 @@ void SamuraiRemove(int index, SamuraiPool& pool) {
 	Add_Score(SAMURAI_KILLSCORE);
 }
 
+
+
 //Spawning a new samurai
 void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 	for (int i = 0; i < SAMURAI_COUNT; i++) {

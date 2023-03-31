@@ -10,12 +10,16 @@
 #ifndef HEALTHBAR_H
 #define HEALTHBAR_H
 
+
+
 namespace {
 	AEGfxVertexList* healthMesh;
 	AEGfxVertexList* samMesh;
 	AEGfxVertexList* archMesh;
 	AEGfxVertexList* ninMesh;
 	AEGfxVertexList* canMesh;
+	float Health_width = 100.0f;
+	float Health_height = 10.0f;
 }
 
 class Health {

@@ -86,7 +86,7 @@ float WASDX = 0.0f;
 float WASDY = 100.0f;
 
 void Init_Guide() {
-
+	/*BG*/
 	guideBGTexture = AEGfxTextureLoad("Assets/GameBG1.png");
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), GuideBGMesh);
 	guideBG.transform.texture = &guideBGTexture;
@@ -96,10 +96,10 @@ void Init_Guide() {
 	guideBG.transform.width = 1.0f;
 	guideBG.transform.rotation = 0.0f;
 	guideBG.transform.mesh = &GuideBGMesh;
-	
+	/*Player*/
 	Player_Init(&player,bulletPool);
 	
-
+	/*Shrines*/
 	explosionTexture = AEGfxTextureLoad("Assets/Explosion.png");
 	CreateQuadMesh(50.f, 50.f, Color(1, 1, 1), explosionMesh);
 	explosionShrine.transform.texture = &explosionTexture;
@@ -159,7 +159,7 @@ void Init_Guide() {
 	windShrine.transform.width = 1.0f;
 	windShrine.transform.rotation = 0.0f;
 	windShrine.transform.mesh = &windMesh;
-	
+	/*Shrine Signs*/
 	shrineSignsTexture = AEGfxTextureLoad("Assets/ShrineSigns.png");
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), shrineSignsMesh,1.f/9.f,1.f);
 	shrineSigns.transform.texture = &shrineSignsTexture;
@@ -195,7 +195,7 @@ void Init_Guide() {
 	loadingBar.transform.position = { windShrineX, windShrineY + 85.f };
 	loadingBar.transform.scale.x = 0.f;
 	loadingBar.transform.mesh = &guideLoadingBar;
-
+	/*Enemies*/
 	archerTexture = AEGfxTextureLoad("Assets/Archer.png");
 	CreateQuadMesh(50.f, 50.f, Color(1, 1, 1), archerMesh);
 	archer.transform.texture = &archerTexture;
@@ -235,7 +235,7 @@ void Init_Guide() {
 	cannon.transform.width = 1.0f;
 	cannon.transform.rotation = 0.0f;
 	cannon.transform.mesh = &cannonMesh;
-
+	/*Enemy signs*/
 	enemySignsTexture = AEGfxTextureLoad("Assets/EnemySigns.png");
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), enemySignsMesh, 1.f / 6.f, 1.f);
 	enemySigns.transform.texture = &enemySignsTexture;
@@ -255,6 +255,7 @@ void Init_Guide() {
 	enemyExplain.transform.rotation = 0.0f;
 	enemyExplain.transform.mesh = &enemyExplainMesh;
 
+	/*Controls*/
 	controlsTexture = AEGfxTextureLoad("Assets/Controls.png");
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), WASDMesh, 1.0f / 11.0f, 1.0f);
 	WASD.transform.texture = &controlsTexture;
@@ -275,11 +276,12 @@ void Init_Guide() {
 	click.spriteIndex = 9;
 	click.transform.mesh = &clickMesh;
 
-	
+	AEAudioPlay(guideSong, guideAudioGroup, 1, 1, -1);
 
 }
 
 void Update_Guide() {
+	AEAudioUpdate();
 	Player_Update(&player, bulletPool);
 	SetQuadPoints(player.transform);
 	SetQuadPoints(windShrine.transform);
@@ -317,22 +319,21 @@ void Update_Guide() {
 	if(!(AEInputCheckCurr(AEVK_LBUTTON))) {
 		click.spriteIndex = 9;
 	}
-	/*std::cout << "PlayerX: " << player.transform.position.x << std::endl;
-	std::cout << "PlayerY: " << player.transform.position.y << std::endl;*/
 	if ((StaticCol_QuadQuad(player.transform,windShrine.transform)) ) {
-		std::cout << "true"  << std::endl;
 		loadingBar.transform.scale.x += (deltaTime * 100.f);
 	}
 	if(loadingBar.transform.scale.x >= 100.f) {
+		AEAudioPauseGroup(guideAudioGroup);
 		gGameStateNext = GS_MAINMENU;
 	}
 }
 
 void Draw_Guide() {
 
-	char strBuffer[1024];
-
+	/*BG*/
 	DrawMesh(&guideBG.transform);
+
+	/*Shrines*/
 	DrawMesh(&explosionShrine.transform);
 	DrawMesh(&freezeShrine.transform);
 	DrawMesh(&godShrine.transform);
@@ -340,63 +341,80 @@ void Draw_Guide() {
 	DrawMesh(&voidShrine.transform);
 	DrawMesh(&windShrine.transform);
 	DrawMesh(&loadingBar.transform);
+
+	/*Shrine Signs*/
 	DrawStaticSprite(&shrineSigns.transform,0);
 	DrawStaticSprite(&shrineExplain.transform,1);
 	DrawStaticSprite(&windTest.transform,2);
 
+	/*Enemies*/
 	DrawMesh(&archer.transform);
 	DrawMesh(&samurai.transform);
 	DrawMesh(&ninja.transform);
 	DrawMesh(&cannon.transform);
 
+	/*Enemy Signs*/
 	DrawStaticSprite(&enemySigns.transform,0);
 	DrawStaticSprite(&enemyExplain.transform,1);
 
+	/*Controls*/
 	DrawStaticSprite(&WASD.transform,WASD.spriteIndex);
 	DrawStaticSprite(&click.transform, click.spriteIndex);
 
+	/*Draw Player*/
 	Draw_Player(&player, bulletPool);
 }
 void Free_Guide() {
+	/*Player Unload*/
 	Free_Player();
-
+	/*BG Mesh*/
 	AEGfxMeshFree(GuideBGMesh);
-	AEGfxTextureUnload(guideBGTexture);
-
+	/*Shrine Mesh*/
 	AEGfxMeshFree(explosionMesh);
-	AEGfxTextureUnload(explosionTexture);
 	AEGfxMeshFree(freezeMesh);
-	AEGfxTextureUnload(freezeTexture);
 	AEGfxMeshFree(godMesh);
-	AEGfxTextureUnload(godTexture);
 	AEGfxMeshFree(healthMesh);
-	AEGfxTextureUnload(healthTexture);
 	AEGfxMeshFree(voidMesh);
-	AEGfxTextureUnload(voidTexture);
 	AEGfxMeshFree(windMesh);
-	AEGfxTextureUnload(windTexture);
-
+	/*Shrine Signs Mesh*/
 	AEGfxMeshFree(shrineSignsMesh);
 	AEGfxMeshFree(shrineExplainMesh);
 	AEGfxMeshFree(windTestMesh);
-	AEGfxTextureUnload(shrineSignsTexture);
-
 	AEGfxMeshFree(guideLoadingBar);
-
+	/*Enemy Mesh*/
 	AEGfxMeshFree(archerMesh);
-	AEGfxTextureUnload(archerTexture);
 	AEGfxMeshFree(samuraiMesh);
-	AEGfxTextureUnload(samuraiTexture);
 	AEGfxMeshFree(ninjaMesh);
-	AEGfxTextureUnload(ninjaTexture);
 	AEGfxMeshFree(cannonMesh);
-	AEGfxTextureUnload(cannonTexture);
+	/*Enemy signs Mesh*/
 	AEGfxMeshFree(enemySignsMesh);
 	AEGfxMeshFree(enemyExplainMesh);
-	AEGfxTextureUnload(enemySignsTexture);
-	
+	/*Controls Mesh*/
 	AEGfxMeshFree(WASDMesh);
-	AEGfxTextureUnload(controlsTexture);
 	AEGfxMeshFree(clickMesh);
+
+	/*BG Texture*/
+	AEGfxTextureUnload(guideBGTexture);
+
+	/* Shrine textures*/
+	AEGfxTextureUnload(explosionTexture);
+	AEGfxTextureUnload(freezeTexture);
+	AEGfxTextureUnload(godTexture);
+	AEGfxTextureUnload(healthTexture);
+	AEGfxTextureUnload(voidTexture);
+	AEGfxTextureUnload(windTexture);
+	/*Shrine signs texture*/
+	AEGfxTextureUnload(shrineSignsTexture);
+
+	/*Enemy textures*/
+	AEGfxTextureUnload(archerTexture);
+	AEGfxTextureUnload(samuraiTexture);
+	AEGfxTextureUnload(ninjaTexture);
+	AEGfxTextureUnload(cannonTexture);
+
+	/*Enemy signs texture*/
+	AEGfxTextureUnload(enemySignsTexture);
+	/*Controls textures*/
+	AEGfxTextureUnload(controlsTexture);
 	
 }

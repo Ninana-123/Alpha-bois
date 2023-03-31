@@ -25,7 +25,6 @@ float quitButtonX = highscoreButtonX + buttonScaleX;
 
 float creditsButtonX = quitButtonX;
 float creditsButtonY = buttonsY - 220.f;
-float creditScaleY = -62.5f;
 
 bool left_mouse_pressed;
 
@@ -39,11 +38,12 @@ MainMenu creditButton;
 s8 font;
 
 void Init_Menu() {
+	
 	// Changing the window title
 	AESysSetWindowTitle("Guns of the Ronin");
 	// reset the system modules
 	AESysReset();
-	MainMenuBG = AEGfxTextureLoad("Assets/MainMenuSakura.png");
+	MainMenuBG = AEGfxTextureLoad("Assets/MainMenu.png");
 	buttonsSprite = AEGfxTextureLoad("Assets/buttonspritesheet.png");
 
 	//CreateSpriteMesh(&mainMenu.transform, BGMesh);
@@ -97,17 +97,20 @@ void Init_Menu() {
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), creditMesh, 1.0f / 10.0f, 1.0f);
 	creditButton.transform.texture = &buttonsSprite;
 	creditButton.transform.position = { creditsButtonX,creditsButtonY};
-	creditButton.transform.scale = { buttonScaleX /2,creditScaleY};
+	creditButton.transform.scale = { buttonScaleX /2,buttonScaleY / 2};
 	creditButton.transform.height = 1.0f;
 	creditButton.transform.width = 10.0f;
 	creditButton.transform.rotation = 0.0f;
 	creditButton.transform.mesh = &quitMesh;
 
 
+	AEAudioPlay(mainmenuSong,mainmenuAudioGroup, 1, 1, -1);
 
 }
 
 void Update_Menu() {
+	AEAudioUpdate();
+	AEAudioResumeGroup(mainmenuAudioGroup);
 	static float frameTimer = 0;
 	frameTimer += deltaTime;
 
@@ -118,16 +121,22 @@ void Update_Menu() {
 	left_mouse_pressed = AEInputCheckReleased(AEVK_LBUTTON);
 
 	if (frameTimer >= 0.3f) {
-		mainMenu.sakuraAnim.PlayAnim();
-		mainMenu.sakuraAnim.NextFrame(mainMenu.transform);
-		mainMenu.sakuraAnim.Update_SpriteAnim(mainMenu.transform);
+		mainMenu.bgAnim.PlayAnim();
+		mainMenu.bgAnim.NextFrame(mainMenu.transform);
+		mainMenu.bgAnim.Update_SpriteAnim(mainMenu.transform);
 		frameTimer = 0;
 	}
 
 
 	if (IsButtonHover(playButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
 		playButton.spriteIndex = 1;
+		if (!audioPlayed) {
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1, 1, 0);
+			audioPlayed = true;
+		}
 		if (left_mouse_pressed) {
+			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1, 1, 0);
+			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_LEVEL1;
 		}
 	}
@@ -135,7 +144,13 @@ void Update_Menu() {
 
 	if (IsButtonHover(guideButtonX,buttonsY,buttonScaleX,buttonScaleY,MouseX,MouseY)) {
 		guideButton.spriteIndex = 5;
+		if (!audioPlayed) {
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1, 1, 0);
+			audioPlayed = true;
+		}
 		if (left_mouse_pressed) {
+			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1, 1, 0);
+			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_GUIDE;
 		}
 	}
@@ -143,25 +158,44 @@ void Update_Menu() {
 
 	if (IsButtonHover(highscoreButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
 		highscoreButton.spriteIndex = 9;
+		if (!audioPlayed) {
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1, 1, 0);
+			audioPlayed = true;
+		}
 	}
 	else highscoreButton.spriteIndex = 8;
 
 	if (IsButtonHover(quitButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
 		quitButton.spriteIndex = 3;
+		if (!audioPlayed) {
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1, 1, 0);
+			audioPlayed = true;
+		}
 		if (left_mouse_pressed) {
 			gGameStateNext = GS_QUIT;
 		}
 	}
 	else quitButton.spriteIndex = 2;
 	
-	if (IsButtonHover(creditsButtonX, creditsButtonY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
+	if (IsButtonHover(creditsButtonX, creditsButtonY, buttonScaleX / 2, buttonScaleY / 2, MouseX, MouseY)) {
 		creditButton.spriteIndex = 7;
+		if (!audioPlayed) {
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1, 1, 0);
+			audioPlayed = true;
+		}
 		if (left_mouse_pressed) {
 			gGameStateNext = GS_CREDITS;
 		}
 	}
 	else creditButton.spriteIndex = 6;
 
+	if (!IsButtonHover(guideButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY) &&
+		!IsButtonHover(highscoreButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY) &&
+		!IsButtonHover(quitButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY) &&
+		!IsButtonHover(creditsButtonX, creditsButtonY, buttonScaleX, buttonScaleY, MouseX, MouseY) &&
+		!IsButtonHover(playButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
+		audioPlayed = false;
+	}
 }
 
 void Draw_Menu() {
@@ -213,6 +247,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	AESysInit(hInstance, nCmdShow, 1600, 900, 1, 60, true, NULL);
 
 	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 50);
+	AudioLoad();
 
 	GameStateMgrInit(GS_MAINMENU);
 

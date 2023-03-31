@@ -25,6 +25,7 @@ namespace {
 	AEGfxVertexList* voidMesh = 0;
 	AEGfxVertexList* windMesh = 0;
 	AEGfxVertexList* guideLoadingBar = 0;
+	/*Shrine Signs*/
 	AEGfxVertexList* shrineSignsMesh= 0;
 	AEGfxVertexList* shrineExplainMesh= 0;
 	AEGfxVertexList* windTestMesh= 0;
@@ -34,6 +35,7 @@ namespace {
 	AEGfxVertexList* samuraiMesh = 0;
 	AEGfxVertexList* ninjaMesh = 0;
 	AEGfxVertexList* cannonMesh = 0;
+	/*Enemy signs*/
 	AEGfxVertexList* enemySignsMesh= 0;
 	AEGfxVertexList* enemyExplainMesh= 0;
 

@@ -8,6 +8,7 @@
 #include "Samurai.h"
 #include "vector"
 
+
 float Durations;
 void Voidpool_Init(VoidPool& voidPool)
 {
@@ -31,6 +32,27 @@ void Voidpool_Init(VoidPool& voidPool)
 		
 }
 
+
+float DistanceVoid(const Vector2& a, const Vector2& b)
+{
+	float dx = b.x - a.x;
+	float dy = b.y - a.y;
+	return sqrt(dx * dx + dy * dy);
+}
+
+bool CheckOverlapWithActiveVoid(const VoidPool& voidPool, const Vector2& position)
+{
+	for (int i = 0; i < Void_Count; i++)
+	{
+		if (voidPool.activeVoid[i]->hasbeenused && DistanceVoid(voidPool.activeVoid[i]->transform.position, position) < 100.0f)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void VoidAdd(VoidPool& voidPool)
 {
 	for (int i = 0; i < Void_Count; i++)
@@ -43,8 +65,18 @@ void VoidAdd(VoidPool& voidPool)
 			}
 			voidPool.activeVoid[i]->hasbeenused = true;
 			voidPool.activeSize += 1;
-			voidPool.activeVoid[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-			voidPool.activeVoid[i]->loading.position = voidPool.activeVoid[i]->transform.position;
+
+			// Generate a random position until it doesn't overlap with any active shrines
+			Vector2 randomPosition;
+			do
+			{
+				randomPosition = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+			} while (CheckOverlapWithActiveVoid(voidPool, randomPosition));
+			voidPool.activeVoid[i]->transform.position = randomPosition;
+
+
+			//voidPool.activeVoid[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+			//voidPool.activeVoid[i]->loading.position = voidPool.activeVoid[i]->transform.position;
 			voidPool.activeVoid[i]->timeElapsed = 0;
 			voidPool.activeVoid[i]->iscolliding = false;
 			break;
