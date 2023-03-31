@@ -6,6 +6,7 @@
 #include "Mainscene.h"
 #include "GSM.h"
 #include <AEGraphics.h>
+#include "Sound.h"
 
 #ifndef MAINMENU_H
 #define MAINMENU_H
@@ -26,7 +27,7 @@ class MainMenu {
 public:
 	Transform transform;
 	int spriteIndex = 0;
-	Sprite_Animation sakuraAnim{ 2.f,4,1};
+	Sprite_Animation bgAnim{ 2.f,4,1};
 
 };
 

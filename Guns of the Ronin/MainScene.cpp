@@ -83,6 +83,7 @@ void Init_Scene() {
 }
 
 void Update_Scene() {
+	AEAudioUpdate();
 
 	//healthbar(playerinfo, &health);
 	Update_Time();

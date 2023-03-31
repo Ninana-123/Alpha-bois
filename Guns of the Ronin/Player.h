@@ -7,18 +7,20 @@
 #include "Physics.h"
 #include "Bullets.h"
 #include "PlayerInfo.h"
+#include "Sound.h"
 
 namespace {
 	AEGfxVertexList* playerMesh;
 	AEGfxTexture* playerTexture = 0;
 	float PLAYER_WIDTH = 50, PLAYER_HEIGHT = 50;
-	float PLAYER_FIRERATE = 0.2f;
+	float PLAYER_FIRERATE = 0.15f;
 }
 
 class Player {
 public:
 	Transform transform;
 	bool w_Pressed, a_Pressed, s_Pressed, d_Pressed, left_mouse_pressed;
+	bool walkingAudio = false;
 	float moveSpeed = 45.0f;
 	Sprite_Animation animation{ 2.f,5,1 };
 };
