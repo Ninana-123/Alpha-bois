@@ -17,6 +17,7 @@ namespace
 	float EXPLOSION_HEIGHT = 100, EXPLOSION_WIDTH = 100;
 	AEGfxVertexList* explosionsMesh;
 	int explosionCount = 100;
+	AEGfxTexture* assetexplosions = 0;
 }
 
 class Explosion 
