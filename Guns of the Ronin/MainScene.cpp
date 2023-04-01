@@ -90,6 +90,8 @@ void Init_Scene() {
 	Reset_TimeMan();
 	HealthBar_Init(barPool, &health, playerinfo, samPool, archPool, ninPool, cPool);
 	Voidpool_Init(voidPool);
+
+
 }
 
 void Update_Scene() {

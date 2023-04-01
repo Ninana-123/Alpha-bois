@@ -31,7 +31,7 @@ int timeBonusScore = 15.0f * 60.0f * 10.0f;
 
 bool curGameEnded = false;
 std::vector<int> highscores;
-char const* highScoreFile = "highscore.txt";
+
 
 void Reset_HighScore() {
 	curHighScore = 0;
@@ -50,56 +50,60 @@ void Finalize_HighScore() {
 }
 
 
-
-
 //Load the highscores from the highscore file
 void Load_HighScoreFile() {
-	std::ifstream file{ highScoreFile };
-
+	//std::ifstream file{ "../Assets/highscore.txt" };
+	std::fstream file;
+	file.open("Assets/highscore.txt", std::ios_base::in);// , std::ifstream::in);
+	
 	if (!file) {
-		std::cout << "Error opening highscore.txt " << "__PRETTY_FUNCTION__";
+		std::cout << "Error opening highscore.txt";
 		return;
 	}
 
 	highscores.clear();
-
-	int count = 0, curScore = 0;
+	int curScore = 0;
 	char buffer[256];
 
 	//read the first line for number of highscores
 	file.getline(buffer, 256);
-	sscanf_s(buffer, "%d", &count);
+	std::cout << buffer << "\n";
 
-	highscores.reserve(count + 1);
-
-	while (file.getline(buffer, 256)) {
+	highscores.reserve(NUM_OF_HIGH_SCORES);
+	int count = 0;
+	while (file.getline(buffer, 256) && count++ < NUM_OF_HIGH_SCORES) {
 		sscanf_s(buffer, "%d", &curScore);
 		highscores.push_back(curScore);
 	}
+	//sort the high scores
+	Sort_HighScores();
+	highscores.erase(std::unique(highscores.begin(), highscores.end()), highscores.end());
 
 	file.close();
+}
+void Sort_HighScores() {
+	std::sort(highscores.begin(), highscores.end(), std::greater<>());
 }
 
 //Write the current new highscore into the highscore file
 void Update_HighScoreFile() {
 	//Add the current highscore into the vecotor
 	highscores.push_back(curHighScore);
-	//Sort the vector 
-	std::sort(highscores.begin(), highscores.end());
+	//Sort the high scores
+	Sort_HighScores();
+	highscores.erase(std::unique(highscores.begin(), highscores.end()), highscores.end());
 
 	std::ofstream file;
-	file.open(highScoreFile, std::ios::trunc);
+	file.open("Assets/highscore.txt", std::ios::trunc);
 
 	if (!file) {
-		std::cout<< "Error opening highscore.txt " << "__PRETTY_FUNCTION__";
+		std::cout << "Error opening highscore.txt";
 	}
 
-	//Write number of highscores saved to the first line
-	file << highscores.size() << "\n";
-
 	//Write highscore to file 
-	for (int const& val : highscores) {
-		file << val << "\n";
+	int numOfHighScores = highscores.size() < NUM_OF_HIGH_SCORES ? highscores.size() : NUM_OF_HIGH_SCORES;
+	for (int i = 0; i < numOfHighScores; ++i) {
+		file << highscores[i] << "\n";
 	}
 
 	file.close();

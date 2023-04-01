@@ -38,6 +38,7 @@ namespace{
 
 	AEGfxVertexList* splashScreenMesh = 0;
 
+	AEGfxVertexList* highScoreBGMesh = 0;
 }
 
 class MainMenu {

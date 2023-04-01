@@ -14,6 +14,7 @@
 @brief This file contains code for the credit screen.
 *//*______________________________________________________________________*/
 #include "MainMenu.h"
+#include "HighScore.h"
 
 AEGfxTexture* MainMenuBG;
 
@@ -53,6 +54,12 @@ MainMenu quitButton;
 MainMenu creditButton;
 MainMenu splashScreen;
 
+
+Transform highScoreWindow;
+bool showHighScore = false;
+#define HIGH_SCORE_X_POS -0.175f
+#define HIGH_SCORE_TOP_Y_POS 0.9f
+#define HIGH_SCORE_Y_OFFSET -0.14f
 
 s8 font;
 
@@ -134,6 +141,15 @@ void Init_Menu() {
 	creditButton.transform.rotation = 0.0f;
 	creditButton.transform.mesh = &quitMesh;
 
+	CreateQuadMesh(1.0f, 1.0f, Color(1, 1, 1), highScoreBGMesh);
+	highScoreWindow.mesh = &highScoreBGMesh;
+	highScoreWindow.height = 800;
+	highScoreWindow.width = 400;
+	highScoreWindow.scale = { 400,800 };
+
+	
+
+
 
 	AEAudioPlay(mainmenuSong,mainmenuAudioGroup, 1.f, 1.f, -1);
 
@@ -197,6 +213,9 @@ void Update_Menu() {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
+		if (left_mouse_pressed) {
+			showHighScore = true;
+		}
 	}
 	else highscoreButton.spriteIndex = 8;
 
@@ -242,6 +261,20 @@ void Draw_Menu() {
 	DrawStaticSprite(&creditButton.transform, creditButton.spriteIndex);
 	DrawMesh(&splashScreen.transform);
 
+	if (showHighScore) {
+		DrawMesh(&highScoreWindow);
+		char strBuffer[2048];
+		float curYPos = HIGH_SCORE_TOP_Y_POS;
+		sprintf_s(strBuffer, "High Scores:");
+		AEGfxPrint(font, strBuffer, HIGH_SCORE_X_POS, curYPos += HIGH_SCORE_Y_OFFSET, 1.0f, 0, 0, 0);
+		Sort_HighScores();
+		int numOfHighScores = highscores.size() < NUM_OF_HIGH_SCORES ? highscores.size() : NUM_OF_HIGH_SCORES;
+		for (int i = 0; i < numOfHighScores; ++i) {
+			sprintf_s(strBuffer, "%d", highscores[i]);
+			AEGfxPrint(font, strBuffer, HIGH_SCORE_X_POS, curYPos += HIGH_SCORE_Y_OFFSET, 1.0f, 0, 0, 0);
+			//curYPos += HIGH_SCORE_Y_OFFSET;
+		}
+	}
 }
 
 void Free_Menu() {
@@ -252,6 +285,7 @@ void Free_Menu() {
 	AEGfxMeshFree(highscoreMesh);
 	AEGfxMeshFree(quitMesh);
 	AEGfxMeshFree(creditMesh);
+	AEGfxMeshFree(highScoreBGMesh);
 
 	AEGfxTextureUnload(splashScreenTexture);
 	AEGfxTextureUnload(MainMenuBG);
@@ -281,6 +315,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	srand(static_cast<unsigned>(time(0)));
 
 	AESysSetWindowTitle("Guns of the Ronin");
+
+	Load_HighScoreFile();
 
 	// Using custom window procedure
 	AESysInit(hInstance, nCmdShow, 1600, 900, 1, 60, true, NULL);
@@ -326,7 +362,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		gGameStatePrev = gGameStateCurr;
 		gGameStateCurr = gGameStateNext;
 	}
-
+	Update_HighScoreFile();
 	AEGfxDestroyFont(font);
 	// free the system
 	AESysExit();

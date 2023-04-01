@@ -23,7 +23,6 @@ DirPressed prevDir = DirPressed::LEFT, curDir = DirPressed::RIGHT;
 
 float timeSinceLastFired = 0.0f;
 
-AEGfxVertexList* col;
 
 void Player_Init(Player* player,BulletPool &bulletPool) {
 
@@ -40,7 +39,6 @@ void Player_Init(Player* player,BulletPool &bulletPool) {
 	player->transform.colliderOffsetPos = { 0, PLAYER_HEIGHT * -0.1f };
 
 	Init_BulletPool(bulletPool);
-	CreateQuadMesh(1, 1, Color(1, 0, 0), col);
 }
 
 
@@ -146,8 +144,6 @@ void Draw_Player(Player* player,BulletPool &bulletPool) {
 	DrawMesh(&player->transform);
 	
 	Draw_Bullet(bulletPool);
-
-	Draw_QuadCollider(&player->transform, col);
 }
 
 void player_dmg(PlayerInfo& info,int dmg) {
@@ -166,5 +162,4 @@ void Heal_player(PlayerInfo& info) {
 void Free_Player() {
 	AEGfxMeshFree(playerMesh);
 	AEGfxTextureUnload(playerTexture);
-	AEGfxMeshFree(col);
 }
