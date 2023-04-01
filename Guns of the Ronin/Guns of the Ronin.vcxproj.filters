@@ -46,14 +46,11 @@
     <Filter Include="Source Files\Etc">
       <UniqueIdentifier>{8a400ace-e274-4a5f-b263-c12b2df6f1bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Shrine">
+      <UniqueIdentifier>{01fc4d07-1ece-4a79-bb63-e69e55e6fc30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Shrine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Explosion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Archer.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
@@ -108,17 +105,8 @@
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Test / Obsolete</Filter>
     </ClCompile>
-    <ClCompile Include="Shop.cpp">
-      <Filter>Source Files\Test / Obsolete</Filter>
-    </ClCompile>
     <ClCompile Include="HighScore.cpp">
       <Filter>Source Files\Etc</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthBar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Void.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Guide.cpp">
       <Filter>Source Files\Game Scenes</Filter>
@@ -131,6 +119,18 @@
     </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Shrine.cpp">
+      <Filter>Source Files\Shrine</Filter>
+    </ClCompile>
+    <ClCompile Include="Void.cpp">
+      <Filter>Source Files\Shrine</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files\Shrine</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>Source Files\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,9 +181,6 @@
     </ClInclude>
     <ClInclude Include="MainScene.h">
       <Filter>Header Files\Game Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Shop.h">
-      <Filter>Header Files\Test / Obsolete</Filter>
     </ClInclude>
     <ClInclude Include="DummyPlayer.h">
       <Filter>Header Files\Test / Obsolete</Filter>

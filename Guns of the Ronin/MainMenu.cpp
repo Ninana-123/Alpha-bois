@@ -1,9 +1,26 @@
+/*
+\copyright
+		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
+		reserved.Reproduction or disclosure of this file or its contents without the prior
+		written consent of DigiPen Institute of Technology is prohibited.
+*/
+/*!
+@file void.cpp
+@author Teo Sheen Yeoh
+@Email t.sheenyeoh@digipen.edu
+@course CSD 1450
+@section Section A
+@date 3 March 2023
+@brief This file contains code for the credit screen.
+*//*______________________________________________________________________*/
 #include "MainMenu.h"
 #include "HighScore.h"
 
 AEGfxTexture* MainMenuBG;
 
 AEGfxTexture* buttonsSprite;
+
+AEGfxTexture* splashScreenTexture;
 
 s32 MousePosX;
 s32 MousePosY;
@@ -35,6 +52,8 @@ MainMenu guideButton;
 MainMenu highscoreButton;
 MainMenu quitButton;
 MainMenu creditButton;
+MainMenu splashScreen;
+
 
 Transform highScoreWindow;
 bool showHighScore = false;
@@ -52,7 +71,19 @@ void Init_Menu() {
 	AESysReset();
 	MainMenuBG = AEGfxTextureLoad("Assets/MainMenu.png");
 	buttonsSprite = AEGfxTextureLoad("Assets/buttonspritesheet.png");
-
+	splashScreenTexture = AEGfxTextureLoad("Assets/DigiPen_BLACK_rights.png");
+	
+	//CreateSpriteMesh(&mainMenu.transform, BGMesh);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), splashScreenMesh, 1.0f, 1.0f);
+	splashScreen.transform.texture = &splashScreenTexture;
+	splashScreen.transform.position = { 0.0f,0.0f };
+	splashScreen.transform.scale = { BGScaleX,-BGScaleY };
+	splashScreen.transform.height = 1.0f;
+	splashScreen.transform.width = 1.0f;
+	splashScreen.transform.rotation = 0.0f;
+	splashScreen.spriteIndex = 0;
+	splashScreen.transform.mesh = &splashScreenMesh;
+	
 	//CreateSpriteMesh(&mainMenu.transform, BGMesh);
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), BGMesh, 1.0f/4.0f, 1.0f);
 	mainMenu.transform.texture = &MainMenuBG;
@@ -120,14 +151,15 @@ void Init_Menu() {
 
 
 
-	AEAudioPlay(mainmenuSong,mainmenuAudioGroup, 1, 1, -1);
+	AEAudioPlay(mainmenuSong,mainmenuAudioGroup, 1.f, 1.f, -1);
 
 }
 
 void Update_Menu() {
-	AEAudioUpdate();
 	AEAudioResumeGroup(mainmenuAudioGroup);
-	static float frameTimer = 0;
+	static float frameTimer = 0.f;
+	static float splasScreenTimer = 0.f;
+	splasScreenTimer += deltaTime;
 	frameTimer += deltaTime;
 
 	Update_Time();
@@ -136,6 +168,10 @@ void Update_Menu() {
 	*MouseY = (*MouseY - 450) * -1;
 	left_mouse_pressed = AEInputCheckReleased(AEVK_LBUTTON);
 
+	if (splasScreenTimer >= 2.f) {
+		splashScreen.transform.scale = { 0.f,0.f};
+	}
+
 	if (frameTimer >= 0.3f) {
 		mainMenu.bgAnim.PlayAnim();
 		mainMenu.bgAnim.NextFrame(mainMenu.transform);
@@ -143,15 +179,14 @@ void Update_Menu() {
 		frameTimer = 0;
 	}
 
-
 	if (IsButtonHover(playButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
 		playButton.spriteIndex = 1;
 		if (!audioPlayed) {
-			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1, 1, 0);
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
 		if (left_mouse_pressed) {
-			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1, 1, 0);
+			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_LEVEL1;
 		}
@@ -161,11 +196,11 @@ void Update_Menu() {
 	if (IsButtonHover(guideButtonX,buttonsY,buttonScaleX,buttonScaleY,MouseX,MouseY)) {
 		guideButton.spriteIndex = 5;
 		if (!audioPlayed) {
-			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1, 1, 0);
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
 		if (left_mouse_pressed) {
-			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1, 1, 0);
+			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_GUIDE;
 		}
@@ -175,7 +210,7 @@ void Update_Menu() {
 	if (IsButtonHover(highscoreButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
 		highscoreButton.spriteIndex = 9;
 		if (!audioPlayed) {
-			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1, 1, 0);
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
 		if (left_mouse_pressed) {
@@ -187,7 +222,7 @@ void Update_Menu() {
 	if (IsButtonHover(quitButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
 		quitButton.spriteIndex = 3;
 		if (!audioPlayed) {
-			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1, 1, 0);
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
 		if (left_mouse_pressed) {
@@ -199,7 +234,7 @@ void Update_Menu() {
 	if (IsButtonHover(creditsButtonX, creditsButtonY, buttonScaleX / 2, buttonScaleY / 2, MouseX, MouseY)) {
 		creditButton.spriteIndex = 7;
 		if (!audioPlayed) {
-			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1, 1, 0);
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
 		if (left_mouse_pressed) {
@@ -224,6 +259,7 @@ void Draw_Menu() {
 	DrawStaticSprite(&highscoreButton.transform, highscoreButton.spriteIndex);
 	DrawStaticSprite(&quitButton.transform, quitButton.spriteIndex);
 	DrawStaticSprite(&creditButton.transform, creditButton.spriteIndex);
+	DrawMesh(&splashScreen.transform);
 
 	if (showHighScore) {
 		DrawMesh(&highScoreWindow);
@@ -242,6 +278,7 @@ void Draw_Menu() {
 }
 
 void Free_Menu() {
+	AEGfxMeshFree(splashScreenMesh);
 	AEGfxMeshFree(BGMesh);
 	AEGfxMeshFree(playMesh);
 	AEGfxMeshFree(guideMesh);
@@ -250,8 +287,10 @@ void Free_Menu() {
 	AEGfxMeshFree(creditMesh);
 	AEGfxMeshFree(highScoreBGMesh);
 
+	AEGfxTextureUnload(splashScreenTexture);
 	AEGfxTextureUnload(MainMenuBG);
 	AEGfxTextureUnload(buttonsSprite);
+
 }
 // ---------------------------------------------------------------------------
 // main
@@ -303,7 +342,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		while (gGameStateCurr == gGameStateNext)
 		{
 			AESysFrameStart();
-
+			AEAudioUpdate();
 			AEInputUpdate();
 
 			GameStateUpdate();

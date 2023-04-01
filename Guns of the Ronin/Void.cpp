@@ -1,4 +1,18 @@
-
+/*
+\copyright
+		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
+		reserved.Reproduction or disclosure of this file or its contents without the prior
+		written consent of DigiPen Institute of Technology is prohibited.
+*/
+/*!
+@file void.cpp
+@author Teo Sheen Yeoh
+@Email t.sheenyeoh@digipen.edu
+@course CSD 1450
+@section Section A
+@date 3 March 2023
+@brief This file contains code for the credit screen.
+*//*______________________________________________________________________*/
 #include "Void.h"
 #include "Graphics.h"
 #include "DummyPlayer.h"
@@ -14,7 +28,7 @@ void Voidpool_Init(VoidPool& voidPool)
 {
 	Durations = 0;
 	voidPool.activeSize = 0;
-	CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh);
+	CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh, 1/4.0f ,1.0f);
 	for (int i = 0; i < Void_Count; i++)
 	{
 		voidPool.Voids[i].hasbeenused = false;
@@ -27,7 +41,7 @@ void Voidpool_Init(VoidPool& voidPool)
 		voidPool.activeVoid[i]->transform.texture = &assetblackhole;
 		voidPool.activeVoid[i]->transform.scale = { 1.5,1.5 };
 	}
-	assetblackhole = AEGfxTextureLoad("Assets/Blackhole1.png");
+	assetblackhole = AEGfxTextureLoad("Assets/BlackholeSpriteSheet.png");
 
 		
 }
@@ -101,14 +115,18 @@ void VoidDelete(int index, VoidPool& voidPool)
 void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& canPool)
 {
 	
-	/*Durations += deltaTime;
-	if (Durations >= 1.f)
+	// Animation
+	for (int i = 0; i < Void_Count; i++)
 	{
-		Durations = 0;
-		VoidAdd(voidPool);
-	}*/
-	/*if (voidCount < Void_Count)
-	{*/
+		static float frameTimer = 0;
+		frameTimer += deltaTime;
+		if (frameTimer >= 0.3f) {
+			voidPool.Voids[i].bgAnim.PlayAnim();
+			voidPool.Voids[i].bgAnim.NextFrame(voidPool.Voids[i].transform);
+			voidPool.Voids[i].bgAnim.Update_SpriteAnim(voidPool.Voids[i].transform);
+			frameTimer = 0;
+		}
+	}
 
 	// Loop through all active voids in the VoidPool
 	for (int i = 0; i < voidPool.activeSize; i++)
@@ -155,19 +173,19 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 
 		// Remove the collided enemies outside of the inner loop
 		// Loop backwards through the indices of the collided samurais
-		for (int j = collidedSamurais.size() - 1; j >= 0; j--)
+		for (int j = (int) collidedSamurais.size() - 1; j >= 0; j--)
 		{
 			// Remove the collided samurai from the SamuraiPool
 			SamuraiRemove(collidedSamurais[j], samPool);
 		}
 		// Loop backwards through the indices of the collided cannoners
-		for (int j = collidedCannoners.size() - 1; j >= 0; j--)
+		for (int j = (int) collidedCannoners.size() - 1; j >= 0; j--)
 		{
 			// Remove the collided cannoner from the CannonerPool
 			CannoneerRemove(collidedCannoners[j], canPool);
 		}
 		// Loop backwards through the indices of the collided archers
-		for (int j = collidedArchers.size() - 1; j >= 0; j--)
+		for (int j = (int) collidedArchers.size() - 1; j >= 0; j--)
 		{
 			// Remove the collided archer from the ArcherPool
 			ArcherRemove(collidedArchers[j], archPool);
@@ -196,13 +214,9 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 			VoidDelete(i, voidPool);
 		}
 	}
-
-//}
 }
 void Draw_Void(VoidPool& voidPool)
 {
-	//if (IsExplosionTriggered())
-	//{
 	for (int i = 0; i < voidPool.activeSize; i++)
 	{
 
