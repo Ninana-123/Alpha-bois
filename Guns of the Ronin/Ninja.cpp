@@ -1,3 +1,18 @@
+/*
+\copyright
+		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
+		reserved.Reproduction or disclosure of this file or its contents without the prior
+		written consent of DigiPen Institute of Technology is prohibited.
+*/
+/*!
+@file Ninja.cpp
+@author Sean Ang JiaBao
+@Email ang.s@digipen.edu
+@course CSD 1451
+@section Section A
+@date 3 March 2023
+@brief This file contains function definition for the Ninjas (enemy)
+*//*______________________________________________________________________*/
 
 #include "Ninja.h"
 #include "TimeManager.h"
@@ -10,6 +25,7 @@ ShurikenPool shuriken;
 //When a Ninja dies 
 void NinjaRemove(int index, NinjaPool& pool) {
 	pool.activeNinjas[index]->enabled = false;
+	// Swap pointers
 	if (index < (pool.activeSize - 1)) {
 		Ninja* temp = pool.activeNinjas[index];
 		pool.activeNinjas[index] = pool.activeNinjas[pool.activeSize - 1];
@@ -36,6 +52,7 @@ void NinjaAdd(NinjaPool& pool, Vector2 playerPos) {
 	}
 }
 
+// Initialising ninja pool
 void Init_NinjaPool(NinjaPool& pool) {
 	pool.activeSize = 0;
 	CreateQuadMesh(NINJA_WIDTH, NINJA_HEIGHT, Color(0, 1, 1), ninjaMesh, 0.5f, 1.0f);
@@ -70,18 +87,24 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 		
 		switch (curNinja->aiState)
 		{
+			// Ninja moving
 		case NINJA_MOVING:
 			curNinja->targetPos = playerPos;
+			
+			// if player within ninja attack range, switch to NINJA_ATTACKING case
 			if (curNinja->transform.position.within_dist(playerPos, NINJA_ATT_RANGE)) {
 				curNinja->aiState = NINJA_ATTACKING;
 				curNinja->anim.ResetAnim(player.transform);
 				curNinja->anim.PlayAnim();
 				curNinja->anim.NextFrame(curNinja->transform);
 			}
+
+			// if player not within ninja's attack range, move towards player
 			else {
 				Vector2 direction = (curNinja->targetPos - curNinja->transform.position).normalize();
 				curNinja->transform.position += direction * NINJA_MS * deltaTime;
 				
+				// Flipping direction of sprites
 				if (direction.x > 0) {
 					curNinja->transform.scale.x = Absf(curNinja->transform.scale.x) * -1.0f;
 				}
@@ -90,15 +113,21 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 				}
 			}
 			break;
+
+			// Ninja attacking
 		case NINJA_ATTACKING:
 			curNinja->timeLastAttack += deltaTime;
+			
+			// if player not within ninja's attack range, switch to NINJA_MOVING case
 			if (!curNinja->transform.position.within_dist(playerPos, NINJA_ATT_RANGE)) {
 				curNinja->aiState = NINJA_MOVING;
 				curNinja->anim.ResetAnim(curNinja->transform);
 				curNinja->dmgDealt = false;
 			}
+
+			// if player within ninja's attack range, start attacking
 			else {
-				//If currently playing the attack animation
+				//	If currently playing the attack animation
 				if (curNinja->anim.CurrentFrame() == NINJA_ATT_ANIM_FRAME) {
 					if (curNinja->timeLastAttack >= 1.0f / NINJA_ATT_RATE) {
 						if (!curNinja->dmgDealt) {
@@ -116,6 +145,8 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 			}
 
 			break;
+
+			// Wind shrine
 		case NINJA_BLOWNAWAY:
 			Vector2 direction = (curNinja->targetPos - curNinja->transform.position).normalize();
 			curNinja->transform.position += direction * NINJA_SWEEP_MS * deltaTime;
@@ -125,18 +156,19 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 			break;
 		}
 
-
+		// update sprite animation
 		curNinja->anim.Update_SpriteAnim(curNinja->transform);
 
+		// update smoke position to stay on top of ninja
 		curNinja->smoke.position = curNinja->transform.position;
 		
 
 		
 	}
 
+	// Shuriken collide with player
 	for (int i = 0; i < shuriken.activeSize; ++i) {
 		Shuriken* proj = shuriken.activeShuriken[i];
-		// Shuriken collide with player
 		proj->timeSince_lastDmgDeal += deltaTime;
 		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
 			if (proj->timeSince_lastDmgDeal > 1.0f) {
@@ -146,18 +178,20 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 			}
 		}
 	}
-	Shuriken_AI(shuriken);
+	Shuriken_AI(shuriken);	// update function of shuriken ; removes shuriken when out of boundary
 }
 
 // Player projectile colliding with ninja
 void Dmg_Ninja(NinjaPool& pool, PlayerInfo& playerInfo, Player& player, int index) {
-	// TELEPORT
+
+	// teleport to another location near player when smoke/ shield breaks
 	if (pool.activeNinjas[index]->isHit == false) {
 		pool.activeNinjas[index]->transform.position = RandomPoint_OutsideSqaure(NINJA_TELEPORT_MIN_DIST, NINJA_ATT_RANGE, player.transform.position);
 		pool.activeNinjas[index]->isHit = true;
 		pool.activeNinjas[index]->anim.ResetAnim(pool.activeNinjas[index]->transform);
 		pool.activeNinjas[index]->dmgDealt = false;
 	}
+	// if shield does not exist and ninja health below 0, remove ninja
 	else{
 		if ((pool.activeNinjas[index]->health -= playerInfo.att) <= 0) {
 			NinjaRemove(index, pool);

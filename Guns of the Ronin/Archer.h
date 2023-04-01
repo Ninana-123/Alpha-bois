@@ -6,15 +6,14 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Archer.h
+@author Sean Ang JiaBao
+@Email ang.s@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains the function declarations of the archers (enemy)
 *//*______________________________________________________________________*/
-
 
 
 #pragma once
@@ -33,18 +32,17 @@ namespace
 	enum ARCHER_AI_STATE { ARCHER_MOVING, ARCHER_ATTACKING, ARCHER_BLOWNAWAY };
 	enum { ARCHER_COUNT = 30 };
 	int const ARCHER_KILLSCORE = 50;
-	float ARCHER_MIN_SPAWNDIST = 200;
-	float ARCHER_MAX_SPAWNDIST = 400;
-	int ARCHER_HEALTH = 100;
-	float ARCHER_MS = 100.0f;
-	float ARCHER_SWEEP_MS = 700.0f;
-	float ARCHER_HIT_ANIM_DURATION = 0.5f;
-	int ARCHER_EXP = 10;
-	int ARCHER_DAMAGE = 15;
+	#define ARCHER_MIN_SPAWNDIST 200
+	#define ARCHER_MAX_SPAWNDIST 400
+	#define ARCHER_HEALTH 100
+	#define ARCHER_MS 100.0f
+	#define ARCHER_SWEEP_MS 700.0f	// For wind shrine
+	#define ARCHER_DAMAGE 15
 	#define ARCHER_ATT_RANGE 350
+	#define ARCHER_HEIGHT 15
+	#define ARCHER_WIDTH 15
 	AEGfxVertexList* archerMesh = 0;
 	AEGfxTexture* archerTexture = 0;
-	float ARCHER_HEIGHT = 15, ARCHER_WIDTH = 15;
 }
 
 class Archer {
@@ -63,7 +61,7 @@ public:
 struct ArcherPool {
 	Archer archers[ARCHER_COUNT];
 	Archer* activeArchers[ARCHER_COUNT];
-	int activeSize =0;
+	int activeSize = 0;
 };
 
 void ArcherAdd(ArcherPool& pool, Vector2 playerPos);

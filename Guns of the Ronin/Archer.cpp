@@ -5,24 +5,27 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Archer.cpp
+@author Sean Ang JiaBao
+@Email ang.s@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains the function definitions for the archers (enemy)
 *//*______________________________________________________________________*/
+
 #include "Archer.h"
 #include "HighScore.h"
 #include "EnemyCounter.h"
 
-float archerAttDelay = 2.0f;
+#define archerAttDelay 2.0f
 ArrowPool arrow;
 
 //When a archer dies 
 void ArcherRemove(int index, ArcherPool& pool) {
 	pool.activeArchers[index]->enabled = false;
+
+	// Swap the pointers
 	if (index < (pool.activeSize - 1)) {
 		Archer* temp = pool.activeArchers[index];
 		pool.activeArchers[index] = pool.activeArchers[pool.activeSize - 1];
@@ -48,6 +51,7 @@ void ArcherAdd(ArcherPool& pool, Vector2 playerPos) {
 	}
 }
 
+// Initialising archer pool
 void Init_ArcherPool(ArcherPool& pool) {
 	pool.activeSize = 0;
 	CreateQuadMesh(ARCHER_WIDTH, ARCHER_HEIGHT, Color(1, 0, 0), archerMesh, 0.25f, 1.f);
@@ -61,7 +65,7 @@ void Init_ArcherPool(ArcherPool& pool) {
 		pool.activeArchers[i] = &pool.archers[i];
 	}
 	archerTexture = AEGfxTextureLoad("Assets/ArcherSpriteSheet.png");
-	Init_ArrowPool(arrow);
+	Init_ArrowPool(arrow);	// initialise arrows here
 }
 
 // Archer movement, attacking, wind shrine activation
@@ -72,13 +76,18 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 
 		switch (curArcher->aiState)
 		{
+			//	Archer moving
 		case ARCHER_MOVING:
 			curArcher->targetPos = playerPos;
+
+			// if player is within attack range, switch to ARCHER_ATTACKING case
 			if (curArcher->transform.position.within_dist(playerPos, ARCHER_ATT_RANGE)) {
 				curArcher->aiState = ARCHER_ATTACKING;
 				curArcher->anim.PlayAnim();
 				curArcher->anim.NextFrame(curArcher->transform);
 			}
+
+			// if player is not within attack range, move towards player
 			else {
 				Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
 				curArcher->transform.position += direction * ARCHER_MS * deltaTime;
@@ -90,20 +99,27 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 				}
 			}
 			break;
+
+			// Archer attacking
 		case ARCHER_ATTACKING:
 			curArcher->timeLastAttack += deltaTime;
+
+			// if player not within archer's attacking range, switch to ARCHER_MOVING case
 			if (!curArcher->transform.position.within_dist(playerPos, ARCHER_ATT_RANGE)) {
 				curArcher->aiState = ARCHER_MOVING;
 				curArcher->anim.ResetAnim(curArcher->transform);
 			}
+
+			// if player within archer's attacking range, start attacking
 			else {
 				if (curArcher->timeLastAttack >= archerAttDelay) {
 					ArrowAdd(arrow, curArcher->transform.position, playerPos);
 					curArcher->timeLastAttack = 0;
 				}
 			}
-
 			break;
+
+			// Wind shrine
 		case ARCHER_BLOWNAWAY:
 			Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
 			curArcher->transform.position += direction * ARCHER_SWEEP_MS * deltaTime;
@@ -113,22 +129,24 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 			break;
 		}
 
+		// Sprite animation of archers
 		curArcher->anim.Update_SpriteAnim(curArcher->transform);
 
 
 	}
+
+	// Update function of the arrows
 	Arrow_AI(arrow);
 
+	// Arrow collision with player
 	for (int i = 0; i < arrow.activeSize; ++i) {
 		Arrow* proj = arrow.activeArrow[i];
-		// Arrow collision with player
 		proj->timeSince_lastDmgDeal += deltaTime;
 		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
 			if (proj->timeSince_lastDmgDeal > 1.0f) {
 				player_dmg(playerInfo, ARCHER_DAMAGE);
 				proj->timeSince_lastDmgDeal = 0;
 				ArrowRemove(i, arrow);
-				//printf("collided");
 			}
 		}
 	}
@@ -137,6 +155,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 // Player projectile colliding with archers
 void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {
 
+	// Check if archer health is equals to or below 0, and remove the archer
 	if ((pool.activeArchers[index]->health -= playerInfo.att) <= 0) {
 		ArcherRemove(index, pool);
 	}
@@ -171,7 +190,7 @@ void Draw_Archer(ArcherPool& pool) {
 	Draw_Arrow(arrow);
 }
 
-// Free assets/mesh
+// Free texture & mesh
 void Free_Archer() {
 	AEGfxMeshFree(archerMesh);
 	AEGfxTextureUnload(archerTexture);

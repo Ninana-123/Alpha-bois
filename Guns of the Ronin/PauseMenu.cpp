@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file PauseMenu.cpp
+@author Sean Ang JiaBao
+@Email ang.s@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains function definitions for the pause menu
 *//*______________________________________________________________________*/
 
 #include "PauseMenu.h"
@@ -49,10 +49,12 @@ PauseMenu resumeButton;
 PauseMenu restartButton;
 PauseMenu mainMenuButton;
 
-float buttonsX = 0.f;
-float resumeY = 15.0f;
-float restartY = resumeY - 110.0f;
-float mainMenuY = restartY - 110.0f;
+#define BUTTONS_X 0.f
+#define RESUME_Y 15.0f
+#define RESTART_Y (RESUME_Y - 110.0f)
+#define MAINMENU_Y (RESTART_Y - 110.0f)
+#define BUTTONS_WIDTH 300.0f
+#define BUTTONS_HEIGHT -100.0f
 
 void Init_PauseMenu() {
 
@@ -63,11 +65,9 @@ void Init_PauseMenu() {
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), pauseMesh);
 	pauseMenu.transform.texture = &pauseMenuBG;
 	pauseMenu.transform.position = { 0.0f,0.0f };
-	pauseMenu.transform.scale = { 1600.0f,-900.0f };
-	pauseMenu.transform.rotation = 0.0f;
+	pauseMenu.transform.scale = { (float)-AEGetWindowWidth(),  (float)AEGetWindowHeight()};
 	pauseMenu.transform.height = 1.0f;
 	pauseMenu.transform.width = 1.0f;
-	//pauseMenu.spriteIndex = 0;
 	pauseMenu.transform.mesh = &pauseMesh;
 
 	pauseQuitButtonTexture = AEGfxTextureLoad("Assets/buttonspritesheet.png");
@@ -85,32 +85,33 @@ void Init_PauseMenu() {
 void Update_PauseMenu(PlayerInfo const& playerInfo) {
 
 	pauseMenu.esc_pressed = AEInputCheckTriggered(AEVK_ESCAPE);
+	// if esc is pressed
 	if (pauseMenu.esc_pressed) {
-		if (!IsTime_Paused()) {
-			TimePause();
+		if (!IsTime_Paused()) {	
+			TimePause();		// pause time if time is not paused
 		}
 		else {
-			TimeResume();
+			TimeResume();		// unpause time
 		}
 
 	}
 
-
+	// if time is paused, do nothing
 	if (!IsTime_Paused()) {
 		return;
 	}
 
 	// Getting mouse position
 	AEInputGetCursorPosition(Paused_MouseX, Paused_MouseY);
-	*Paused_MouseX = *Paused_MouseX - 800;
-	*Paused_MouseY = (*Paused_MouseY - 450) * -1;
+	*Paused_MouseX = *Paused_MouseX - AEGetWindowWidth() / 2.0f;
+	*Paused_MouseY = -(*Paused_MouseY - AEGetWindowHeight() / 2.0f);
 	leftClick = AEInputCheckReleased(AEVK_LBUTTON);
 
 
 	//Only check for clicking of resume button when player is not dead
 	if (!playerInfo.playerDead) {
 		// Resume
-		if (IsButtonHover(buttonsX, resumeY, 300.f, -100.f, Paused_MouseX, Paused_MouseY)) {
+		if (IsButtonHover(BUTTONS_X, RESUME_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, Paused_MouseX, Paused_MouseY)) {
 			//playButton.spriteIndex = 1;
 			if (leftClick) {
 				TimeResume();
@@ -120,7 +121,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	}
 	
 	// Restart
-	if (IsButtonHover(buttonsX, restartY, 300.f, -100.f, Paused_MouseX, Paused_MouseY)) {
+	if (IsButtonHover(BUTTONS_X, RESTART_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, Paused_MouseX, Paused_MouseY)) {
 		if (leftClick) {
 			gGameStateNext = GS_RESTART;
 			TimeResume();
@@ -129,7 +130,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	}
 
 	// Main Menu
-	if (IsButtonHover(buttonsX, mainMenuY, 300.f, -100.f, Paused_MouseX, Paused_MouseY)) {
+	if (IsButtonHover(BUTTONS_X, MAINMENU_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, Paused_MouseX, Paused_MouseY)) {
 		if (leftClick) {
 			gGameStateNext = GS_MAINMENU;
 			TimeResume();
@@ -159,6 +160,7 @@ void Draw_PauseMenu(PlayerInfo const& playerInfo) {
 		pauseMenu.transform.texture = &pauseMenuWinBG;
 	}
 
+	// If time is paused, draw pause menu
 	if (IsTime_Paused()) {		
 		DrawMesh(&pauseMenu.transform);
 	}

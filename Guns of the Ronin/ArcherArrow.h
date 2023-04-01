@@ -6,13 +6,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file ArcherArrow.h
+@author Sean Ang JiaBao
+@Email ang.s@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains function declarations for the archer's projectiles (arrows)
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -26,8 +26,8 @@
 
 namespace {
 	enum { ARROW_COUNT = 100 };
-	//int PROJDAMAGE = 50;
-	float ARROW_HEIGHT = 20, ARROW_WIDTH = 20;
+	#define ARROW_HEIGHT 20
+	#define ARROW_WIDTH 20
 	AEGfxVertexList* arrowMesh = 0;
 	AEGfxTexture* arrowTexture = 0;
 }
@@ -35,7 +35,6 @@ class Arrow {
 public:
 	Transform transform;
 	bool enabled;
-	//int dmg;
 	Vector2 direction;
 	float timeSince_lastDmgDeal = 0;
 };
@@ -58,4 +57,4 @@ void ArrowRemove(int index, ArrowPool& arrow);
 
 void Free_Arrow();
 
-#endif // 
+#endif // ARCHERARROW_H
