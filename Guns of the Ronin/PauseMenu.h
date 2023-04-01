@@ -5,14 +5,15 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file PauseMenu.h
+@author Sean Ang JiaBao
+@Email ang.s@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains function declarations for the pause menu
 *//*______________________________________________________________________*/
+
 #pragma once
 #include <iostream>
 #include "AEEngine.h"
@@ -42,4 +43,4 @@ void Update_PauseMenu(PlayerInfo const& playerInfo);
 void Draw_PauseMenu(PlayerInfo const& playerInfo);
 void Free_PauseMenu();
 
-#endif
+#endif	// PAUSEMENU_H

@@ -5,24 +5,29 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file ArcherArrow.cpp
+@author Sean Ang JiaBao
+@Email ang.s@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains function definitions for the archer's projectiles (arrows)
 *//*______________________________________________________________________*/
+
 #include "ArcherArrow.h"
 #include "Player.h"
 #include "TimeManager.h"
 
 
-float arrowHalfX, arrowHalfY;
-float arrowBoundaryX, arrowBoundaryY;
-float arrowSpeed = 200.f;
+#define arrowHalfX AEGetWindowWidth() / 2.0f
+#define arrowHalfY AEGetWindowHeight() / 2.0f
 
-//When a projectile dies / destroyed / you want to hide it / etc..
+#define arrowBoundaryX (arrowHalfX + 100)
+#define arrowBoundaryY (arrowHalfY + 100)
+
+#define arrowSpeed 200.f
+
+//	When an arrow dies / destroyed / you want to hide it / etc..
 void ArrowRemove(int index, ArrowPool& pool) {
 	pool.activeArrow[index]->enabled = false;
 	if (index < (pool.activeSize - 1)) {
@@ -33,7 +38,7 @@ void ArrowRemove(int index, ArrowPool& pool) {
 	pool.activeSize -= 1;
 }
 
-//Spawning a new projectile
+//	Spawning new arrows
 void ArrowAdd(ArrowPool& pool, Vector2 archPos, Vector2 playerPos) {
 
 	for (int i = 0; i < ARROW_COUNT; i++) {
@@ -50,13 +55,9 @@ void ArrowAdd(ArrowPool& pool, Vector2 archPos, Vector2 playerPos) {
 	}
 }
 
-//Init projectile pool
+//	Initialising arrow pool
 void Init_ArrowPool(ArrowPool& pool) {
 	pool.activeSize = 0;
-	arrowHalfX = AEGetWindowWidth() / 2.0f;
-	arrowHalfY = AEGetWindowHeight() / 2.0f;
-	arrowBoundaryX = arrowHalfX + 100;
-	arrowBoundaryY = arrowHalfY + 100;
 	CreateQuadMesh(ARROW_WIDTH, ARROW_HEIGHT, Color(0, 0, 1), arrowMesh);
 	for (int i = 0; i < ARROW_COUNT; i++) {
 		pool.arrow[i].enabled = false;
@@ -98,7 +99,7 @@ void Arrow_AI(ArrowPool& pool) {
 	}
 }
 
-
+// Free mesh & texture
 void Free_Arrow() {
 	AEGfxMeshFree(arrowMesh);
 	AEGfxTextureUnload(arrowTexture);

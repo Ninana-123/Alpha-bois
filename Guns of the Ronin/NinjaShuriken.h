@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file NinjaShuriken.h
+@author Sean Ang JiaBao
+@Email ang.s@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains function declaration for the ninja's projectiles (shuriken)
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -25,8 +25,8 @@
 
 namespace {
 	enum { SHURIKEN_COUNT = 100 };
-	//int PROJDAMAGE = 50;
-	float SHURIKEN_HEIGHT = 20, SHURIKEN_WIDTH = 20;
+	#define SHURIKEN_HEIGHT 20
+	#define SHURIKEN_WIDTH 20
 	AEGfxVertexList* shurikenMesh = 0;
 	AEGfxTexture* shurikenTexture = 0;
 }
@@ -34,7 +34,6 @@ class Shuriken {
 public:
 	Transform transform;
 	bool enabled = false;
-	//int dmg;
 	Vector2 direction;
 	float timeSince_lastDmgDeal = 0;
 };
@@ -57,4 +56,4 @@ void ShurikenRemove(int index, ShurikenPool& shuriken);
 
 void Free_Shuriken();
 
-#endif // 
+#endif // NINJASHURIKEN_H

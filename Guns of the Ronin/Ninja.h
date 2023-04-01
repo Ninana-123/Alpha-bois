@@ -5,14 +5,15 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Ninja.h
+@author Sean Ang JiaBao
+@Email ang.s@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains function declaration for the Ninjas (enemy)
 *//*______________________________________________________________________*/
+
 #pragma once
 
 #ifndef NINJA_H
@@ -28,21 +29,22 @@ namespace {
 	enum NINJA_AI_STATE { NINJA_MOVING, NINJA_ATTACKING, NINJA_BLOWNAWAY };
 	enum { NINJA_COUNT = 20 };
 	const int NINJA_KILLSCORE = 100;
-	float NINJA_MIN_SPAWNDIST = 200;
-	float NINJA_MAX_SPAWNDIST = 400;
-	int NINJA_HEALTH = 100;
-	float NINJA_MS = 100.0f;
-	float NINJA_SWEEP_MS = 700.0f;
-	float NINJA_HIT_ANIM_DURATION = 0.5f;
-	int NINJA_EXP = 10;
-	int NINJA_DAMAGE = 5;
+	#define NINJA_MIN_SPAWNDIST 200
+	#define NINJA_MAX_SPAWNDIST 400
+	#define NINJA_HEALTH 100
+	#define NINJA_MS 100.0f
+	#define NINJA_SWEEP_MS 700.0f
+	//#define NINJA_HIT_ANIM_DURATION 0.5f
+	//#define NINJA_EXP 10
+	#define NINJA_DAMAGE 5
 	#define NINJA_ATT_RANGE 160.0f
 	#define NINJA_TELEPORT_MIN_DIST 130.0f
 	#define NINJA_ATT_ANIM_FRAME 2
 	#define NINJA_ATT_RATE 1.5f
+	#define NINJA_HEIGHT 45
+	#define NINJA_WIDTH 45
  	AEGfxVertexList* ninjaMesh = 0;
 	AEGfxTexture* ninjaTexture = 0;
-	float NINJA_HEIGHT = 45, NINJA_WIDTH = 45;
 	AEGfxVertexList* smokeMesh = 0;
 	AEGfxTexture* smokeTexture = 0;
 }

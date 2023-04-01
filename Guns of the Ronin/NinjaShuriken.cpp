@@ -5,26 +5,29 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file NinjaShuriken.cpp
+@author Sean Ang JiaBao
+@Email ang.s@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains function definitions for the ninja's projectiles (shuriken)
 *//*______________________________________________________________________*/
 #include "NinjaShuriken.h"
 #include "Player.h"
 #include "TimeManager.h"
 
 
-float shurikenHalfX, shurikenHalfY;
-float shurikenBoundaryX, shurikenBoundaryY;
-float shurikenSpeed = 400.f;
+#define shurikenHalfX (AEGetWindowWidth() / 2.0f)
+#define shurikenHalfY (AEGetWindowHeight() / 2.0f)
+#define shurikenBoundaryX (shurikenHalfX + 100)
+#define shurikenBoundaryY (shurikenHalfY + 100)
+#define shurikenSpeed 400.f
 
 //When a projectile dies / destroyed / you want to hide it / etc..
 void ShurikenRemove(int index, ShurikenPool& pool) {
 	pool.activeShuriken[index]->enabled = false;
+	// Swap pointers
 	if (index < (pool.activeSize - 1)) {
 		Shuriken* temp = pool.activeShuriken[index];
 		pool.activeShuriken[index] = pool.activeShuriken[pool.activeSize - 1];
@@ -49,13 +52,9 @@ void ShurikenAdd(ShurikenPool& pool, Vector2 ninPos, Vector2 playerPos) {
 	}
 }
 
-//Init projectile pool
+// initialise projectile pool
 void Init_ShurikenPool(ShurikenPool& pool) {
 	pool.activeSize = 0;
-	shurikenHalfX = AEGetWindowWidth() / 2.0f;
-	shurikenHalfY = AEGetWindowHeight() / 2.0f;
-	shurikenBoundaryX = shurikenHalfX + 100;
-	shurikenBoundaryY = shurikenHalfY + 100;
 	CreateQuadMesh(SHURIKEN_WIDTH, SHURIKEN_HEIGHT, Color(1, 0, 1), shurikenMesh);
 	for (int i = 0; i < SHURIKEN_COUNT; i++) {
 		pool.shuriken[i].enabled = false;
