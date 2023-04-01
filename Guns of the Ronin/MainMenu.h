@@ -20,7 +20,7 @@ namespace{
 	AEGfxVertexList* highscoreMesh = 0;
 	AEGfxVertexList* quitMesh = 0;
 	AEGfxVertexList* creditMesh = 0;
-
+	AEGfxVertexList* highScoreBGMesh = 0;
 }
 
 class MainMenu {
