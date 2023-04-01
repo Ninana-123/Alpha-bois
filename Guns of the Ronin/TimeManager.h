@@ -21,7 +21,7 @@
 
 extern float deltaTime;
 extern float curGameTime;
-
+extern bool gameEnded;
 
 namespace {
 	bool isPaused = false;

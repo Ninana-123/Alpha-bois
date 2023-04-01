@@ -34,6 +34,7 @@
 #include "HealthBar.h"
 #include "Void.h"
 #include "PauseMenu.h"
+#include "HighScore.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -88,6 +89,7 @@ void Init_Scene() {
 	level.transform.mesh = &levelMesh;
 
 	Reset_TimeMan();
+	Reset_HighScore();
 	HealthBar_Init(barPool, &health, playerinfo, samPool, archPool, ninPool, cPool);
 	Voidpool_Init(voidPool);
 
@@ -212,8 +214,6 @@ void Update_Scene() {
 
 void Draw_Scene() {
 
-	char strBuffer[1024];
-
 	// Set the background 
 	AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
 	DrawMesh(&level.transform);
@@ -224,12 +224,6 @@ void Draw_Scene() {
 	HealthBar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
 	Draw_Void(voidPool);
 	Draw_PauseMenu(playerinfo);
-
-	if (playerinfo.playerDead) {
-		sprintf_s(strBuffer, "DEAD");
-		AEGfxPrint(font, strBuffer, -0.18f, -0.1f, 2.4f, 1, 0, 0);
-		//G_DrawText(dead, -50.0f, 0.f, 2.0f, Color(0, 0, 0));
-	}
 }
 
 void Free_Scene() {
@@ -254,6 +248,10 @@ void Free_Scene() {
 	Free_Arrow();
 	Free_Shuriken();
 	
+	//If game was not ended by player killing all enemies in all waves (player died)
+	if (!gameEnded) {
+		Finalize_HighScore(true);
+	}
 }
 
 

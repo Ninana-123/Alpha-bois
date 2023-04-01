@@ -17,20 +17,40 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
-
+#include "Graphics.h"
+#include "MainMenu.h"
 
 int curHighScore = 0;
 
 //The max amount of time the player needs to finish all 10 waves by
-//in order to earn bonus score from time
-int maxTimeBonus = 15.0f * 60.0f;
-
-//the bonus score from time, only playthroughs that cleared all waves will recieve it
-//it is equal to maxTimeBonus * 10(make number bigger) - (time took to complete all 10 waves) 
-int timeBonusScore = 15.0f * 60.0f * 10.0f; 
+//in order to earn bonus score from time 20min * 60s
+#define MAX_TIME_FOR_BONUS 1200.0f
 
 bool curGameEnded = false;
 std::vector<int> highscores;
+AEGfxVertexList* highScoreBGMesh = 0;
+AEGfxVertexList* quitButtonMesh = 0;
+Transform highScoreWindow, quitButton;
+AEGfxTexture* quitButtonTexture = 0;
+
+
+bool showHighScore = false;
+#define HIGH_SCORE_X_POS -0.175f
+#define HIGH_SCORE_TOP_Y_POS 0.9f
+#define HIGH_SCORE_Y_OFFSET -0.14f
+#define QUIT_BUTTON_X_POS -650
+#define QUIT_BUTTON_Y_POS -350
+#define QUIT_BUTTON_WIDTH 10.f
+#define QUIT_BUTTON_HEIGHT 1.0f
+#define QUIT_BUTTON_X_SCALE 200.f
+#define QUIT_BUTTON_Y_SCALE -100.0f
+#define HALF_WIN_HEIGHT 450
+#define HALF_WIN_WIDTH 800
+
+
+int mouseXPos = 0;
+int mouseYPos = 0;
+int spriteIndex = 0;
 
 
 void Reset_HighScore() {
@@ -43,10 +63,18 @@ void Add_Score(int val) {
 }
 
 //Only to be called when all waves are completed
-void Finalize_HighScore() {
-	if (curGameTime < maxTimeBonus) {
-		curHighScore += timeBonusScore - (static_cast<int>(curGameTime) * 10.0f);
-	}	
+void Finalize_HighScore(bool playerDead) {
+	//If the current high score is 0 dont add it into the list of high score
+	if (curHighScore == 0) {
+		return;
+	}
+	//the bonus score from time, only playthroughs that cleared all waves will recieve it
+	if (!playerDead && curGameTime < MAX_TIME_FOR_BONUS) {
+		//it is equal to maxTimeBonus * 10(make number bigger) - (time took to complete all 10 waves) * 10
+		curHighScore += MAX_TIME_FOR_BONUS * 10.0f - (static_cast<int>(curGameTime) * 10.0f);
+	}
+	highscores.push_back(curHighScore);
+	Sort_HighScores();
 }
 
 
@@ -65,10 +93,6 @@ void Load_HighScoreFile() {
 	int curScore = 0;
 	char buffer[256];
 
-	//read the first line for number of highscores
-	file.getline(buffer, 256);
-	std::cout << buffer << "\n";
-
 	highscores.reserve(NUM_OF_HIGH_SCORES);
 	int count = 0;
 	while (file.getline(buffer, 256) && count++ < NUM_OF_HIGH_SCORES) {
@@ -81,6 +105,7 @@ void Load_HighScoreFile() {
 
 	file.close();
 }
+
 void Sort_HighScores() {
 	std::sort(highscores.begin(), highscores.end(), std::greater<>());
 }
@@ -107,4 +132,65 @@ void Update_HighScoreFile() {
 	}
 
 	file.close();
+}
+
+void Init_HighScoreScreen() {
+
+	/*     QUIT BUTTON     */
+	quitButtonTexture = AEGfxTextureLoad("Assets/buttonspritesheet.png");
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), quitButtonMesh, 1.0f / 10.0f, 1.0f);
+	quitButton.texture = &quitButtonTexture;
+	quitButton.position = { QUIT_BUTTON_X_POS, QUIT_BUTTON_Y_POS };
+	quitButton.scale = { QUIT_BUTTON_X_SCALE, QUIT_BUTTON_Y_SCALE };
+	quitButton.height = QUIT_BUTTON_HEIGHT;
+	quitButton.width = QUIT_BUTTON_WIDTH;
+	quitButton.mesh = &quitButtonMesh;
+	quitButton.rotation = 0.0f;
+
+
+	CreateQuadMesh(1.0f, 1.0f, Color(0, 0, 0), highScoreBGMesh);
+	highScoreWindow.mesh = &highScoreBGMesh;
+	highScoreWindow.height = 900;
+	highScoreWindow.width = 1600;
+	highScoreWindow.scale = { 1600,900 };
+}
+
+
+void Update_HighScoreScreen() {
+	AEInputGetCursorPosition(&mouseXPos, &mouseYPos);
+	mouseXPos = mouseXPos - HALF_WIN_WIDTH;
+	mouseYPos = (mouseYPos - HALF_WIN_HEIGHT) * -1;
+
+	if (IsButtonHover(QUIT_BUTTON_X_POS, QUIT_BUTTON_Y_POS, QUIT_BUTTON_X_SCALE, QUIT_BUTTON_Y_SCALE, &mouseXPos, &mouseYPos)) {
+		spriteIndex = 3;
+		if (AEInputCheckReleased(AEVK_LBUTTON)) {
+			gGameStateNext = GS_MAINMENU;
+		}
+	}
+	else spriteIndex = 2;
+}
+
+
+void Draw_HighScoreScreen() {
+
+	DrawMesh(&highScoreWindow);
+	char strBuffer[2048];
+	float curYPos = HIGH_SCORE_TOP_Y_POS;
+	sprintf_s(strBuffer, "High Scores:");
+	AEGfxPrint(font, strBuffer, HIGH_SCORE_X_POS, curYPos += HIGH_SCORE_Y_OFFSET, 1.0f, 1.0f, 1.0f, 0);
+	Sort_HighScores();
+	int numOfHighScores = highscores.size() < NUM_OF_HIGH_SCORES ? highscores.size() : NUM_OF_HIGH_SCORES;
+	for (int i = 0; i < numOfHighScores; ++i) {
+		sprintf_s(strBuffer, "%d", highscores[i]);
+		AEGfxPrint(font, strBuffer, HIGH_SCORE_X_POS, curYPos += HIGH_SCORE_Y_OFFSET, 1.0f, 1.0f, 1.0f, 1.0f);
+	}
+
+
+	DrawStaticSprite(&quitButton, spriteIndex);
+}
+
+void Free_HighScoreScreen() {
+	AEGfxMeshFree(highScoreBGMesh);
+	AEGfxMeshFree(quitButtonMesh);
+	AEGfxTextureUnload(quitButtonTexture);
 }

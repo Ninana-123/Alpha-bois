@@ -27,6 +27,7 @@ enum
 	GS_LEVEL1,
 	GS_GUIDE,
 	GS_CREDITS,
+	GS_HIGHSCORES,
 
 	// special game state. Do not change
 	GS_RESTART,

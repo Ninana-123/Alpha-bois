@@ -19,6 +19,7 @@
 #include "Guide.h"
 #include "GSM.h"
 #include "Credits.h"
+#include "HighScore.h"
 
 unsigned int	gGameStateInit;
 unsigned int	gGameStateCurr;
@@ -75,6 +76,12 @@ void GameStateMgrUpdate()
 		GameStateUpdate = Update_Credits;
 		GameStateDraw = Draw_Credits;
 		GameStateFree = Free_Credits;
+		break;
+	case GS_HIGHSCORES:
+		GameStateInit = Init_HighScoreScreen;
+		GameStateUpdate = Update_HighScoreScreen;
+		GameStateDraw = Draw_HighScoreScreen;
+		GameStateFree = Free_HighScoreScreen;
 		break;
 	default:
 		break;

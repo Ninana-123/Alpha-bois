@@ -31,12 +31,20 @@ void Reset_HighScore();
 
 void Add_Score(int val);
 
-void Finalize_HighScore();
+void Finalize_HighScore(bool playerDead);
 
 void Load_HighScoreFile();
 
 void Sort_HighScores();
 
 void Update_HighScoreFile();
+
+void Init_HighScoreScreen();
+
+void Update_HighScoreScreen();
+
+void Draw_HighScoreScreen();
+
+void Free_HighScoreScreen();
 
 #endif // !1

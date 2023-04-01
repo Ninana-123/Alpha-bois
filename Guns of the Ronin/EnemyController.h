@@ -29,9 +29,9 @@
 
 namespace {
 	float spawnRate_Samurai = 1.5f;
-	float spawnRate_Archer = 3.0f;
-	float spawnRate_Cannoneer = 1.0f;
-	float spawnRate_Ninja = 1.0f;
+	float spawnRate_Archer = 2.5f;
+	float spawnRate_Cannoneer = 3.5f;
+	float spawnRate_Ninja = 3.0f;
 
 	int curWave = 1;
 	int spawnTotalCount[10] = { 0 };
@@ -41,9 +41,10 @@ namespace {
 
 	enum { SAMURAI = 0, ARCHER, CANNON, NINJA };
 
-	const int spawnCounts[10][4]{
+	//Number of enemies spawned each wave
+	constexpr int spawnCounts[10][4]{
 		/*Wave n    Samurai		 Archer		 Cannoneer	 Ninja		*/
-		/*Wave 1*/	{ 5			,0			,0			,0			},
+		/*Wave 1*/	{10			,0			,0			,0			},
 		/*Wave 2*/	{20			,5			,0			,0			},
 		/*Wave 3*/	{30			,10			,0			,0			},
 		/*Wave 4*/	{35			,20			,0			,0			},
