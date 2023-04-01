@@ -34,7 +34,6 @@ namespace {
 class PauseMenu {
 public:
 	Transform transform;
-	int spriteIndex = 0;
 	bool esc_pressed = false;
 };
 
