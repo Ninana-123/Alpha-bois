@@ -146,9 +146,9 @@ void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh);
 
 //oid CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh);
 
-void DrawStaticSprite(Transform* trans, int index);
+void Draw_StaticSprite(Transform* trans, int index);
 
-bool IsButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y);
+bool Is_ButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y);
 
 bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans, bool useQuadCol = false, bool useCircleCol = false);
 

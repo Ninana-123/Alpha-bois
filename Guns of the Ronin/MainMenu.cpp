@@ -184,7 +184,7 @@ void Update_Menu() {
 		frameTimer = 0;
 	}
 
-	if (IsButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX,&mainMenuMousePosY)) {
+	if (Is_ButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX,&mainMenuMousePosY)) {
 		playButton.spriteIndex = PLAY_BUTTON_SPRITE_HOVER;
 		if (!audioPlayed) {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
@@ -199,7 +199,7 @@ void Update_Menu() {
 	}
 	else playButton.spriteIndex = PLAY_BUTTON_SPRITE;
 
-	if (IsButtonHover(MAIN_MENU_GUIDE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+	if (Is_ButtonHover(MAIN_MENU_GUIDE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
 		guideButton.spriteIndex = GUIDE_BUTTON_SPRITE_HOVER;
 		if (!audioPlayed) {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
@@ -213,7 +213,7 @@ void Update_Menu() {
 	}
 	else guideButton.spriteIndex = GUIDE_BUTTON_SPRITE;
 
-	if (IsButtonHover(MAIN_MENU_HIGHSCORE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+	if (Is_ButtonHover(MAIN_MENU_HIGHSCORE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
 		highscoreButton.spriteIndex = HIGHSCORE_BUTTON_SPRITE_HOVER;
 		if (!audioPlayed) {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
@@ -227,7 +227,7 @@ void Update_Menu() {
 	}
 	else highscoreButton.spriteIndex = HIGHSCORE_BUTTON_SPRITE;
 
-	if (IsButtonHover(MAIN_MENU_QUIT_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+	if (Is_ButtonHover(MAIN_MENU_QUIT_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
 		quitButton.spriteIndex = QUIT_BUTTON_SPRITE_HOVER;
 		if (!audioPlayed) {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
@@ -239,7 +239,7 @@ void Update_Menu() {
 	}
 	else quitButton.spriteIndex = QUIT_BUTTON_SPRITE;
 	
-	if (IsButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X / 2, -(MAIN_MENU_BUTTON_SCALE_Y / 2), &mainMenuMousePosX, &mainMenuMousePosY)) {
+	if (Is_ButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X / 2, -(MAIN_MENU_BUTTON_SCALE_Y / 2), &mainMenuMousePosX, &mainMenuMousePosY)) {
 		creditButton.spriteIndex = CREDIT_BUTTON_SPRITE_HOVER;
 		if (!audioPlayed) {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
@@ -253,11 +253,11 @@ void Update_Menu() {
 	}
 	else creditButton.spriteIndex = CREDIT_BUTTON_SPRITE;
 
-	if (!IsButtonHover(MAIN_MENU_GUIDE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
-		!IsButtonHover(MAIN_MENU_HIGHSCORE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
-		!IsButtonHover(MAIN_MENU_QUIT_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
-		!IsButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
-		!IsButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+	if (!Is_ButtonHover(MAIN_MENU_GUIDE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+		!Is_ButtonHover(MAIN_MENU_HIGHSCORE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+		!Is_ButtonHover(MAIN_MENU_QUIT_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+		!Is_ButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+		!Is_ButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
 		audioPlayed = false;
 	}
 
@@ -325,11 +325,11 @@ void Update_Menu() {
 
 void Draw_Menu() {
 	DrawMesh(&mainMenu.transform);
-	DrawStaticSprite(&playButton.transform, playButton.spriteIndex);
-	DrawStaticSprite(&guideButton.transform, guideButton.spriteIndex);
-	DrawStaticSprite(&highscoreButton.transform, highscoreButton.spriteIndex);
-	DrawStaticSprite(&quitButton.transform, quitButton.spriteIndex);
-	DrawStaticSprite(&creditButton.transform, creditButton.spriteIndex);
+	Draw_StaticSprite(&playButton.transform, playButton.spriteIndex);
+	Draw_StaticSprite(&guideButton.transform, guideButton.spriteIndex);
+	Draw_StaticSprite(&highscoreButton.transform, highscoreButton.spriteIndex);
+	Draw_StaticSprite(&quitButton.transform, quitButton.spriteIndex);
+	Draw_StaticSprite(&creditButton.transform, creditButton.spriteIndex);
 	DrawMesh(&splashScreen.transform);
 	
 }

@@ -161,7 +161,7 @@ void Update_HighScoreScreen() {
 	mouseXPos = mouseXPos - HALF_WIN_WIDTH;
 	mouseYPos = (mouseYPos - HALF_WIN_HEIGHT) * -1;
 
-	if (IsButtonHover(QUIT_BUTTON_X_POS, QUIT_BUTTON_Y_POS, QUIT_BUTTON_X_SCALE, QUIT_BUTTON_Y_SCALE, &mouseXPos, &mouseYPos)) {
+	if (Is_ButtonHover(QUIT_BUTTON_X_POS, QUIT_BUTTON_Y_POS, QUIT_BUTTON_X_SCALE, QUIT_BUTTON_Y_SCALE, &mouseXPos, &mouseYPos)) {
 		spriteIndex = 3;
 		if (AEInputCheckReleased(AEVK_LBUTTON)) {
 			gGameStateNext = GS_MAINMENU;
@@ -186,7 +186,7 @@ void Draw_HighScoreScreen() {
 	}
 
 
-	DrawStaticSprite(&quitButton, spriteIndex);
+	Draw_StaticSprite(&quitButton, spriteIndex);
 }
 
 void Free_HighScoreScreen() {

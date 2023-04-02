@@ -109,7 +109,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	//Only check for clicking of resume button when player is not dead
 	if (!playerInfo.playerDead) {
 		// Resume
-		if (IsButtonHover(BUTTONS_X, RESUME_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
+		if (Is_ButtonHover(BUTTONS_X, RESUME_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
 			//playButton.spriteIndex = 1;
 			if (leftClick) {
 				TimeResume();
@@ -119,7 +119,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	}
 	
 	// Restart
-	if (IsButtonHover(BUTTONS_X, RESTART_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
+	if (Is_ButtonHover(BUTTONS_X, RESTART_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
 		if (leftClick) {
 			gGameStateNext = GS_RESTART;
 			TimeResume();
@@ -128,7 +128,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	}
 
 	// Main Menu
-	if (IsButtonHover(BUTTONS_X, MAINMENU_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
+	if (Is_ButtonHover(BUTTONS_X, MAINMENU_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
 		if (leftClick) {
 			AEAudioStopGroup(mainsceneAudioGroup);
 			gGameStateNext = GS_MAINMENU;
@@ -137,7 +137,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 		}
 	}
 
-	if (IsButtonHover(PAUSE_QUIT_BUTTON_X_POS, PAUSE_QUIT_BUTTON_Y_POS, PAUSE_QUIT_BUTTON_X_SCALE, PAUSE_QUIT_BUTTON_Y_SCALE, &pausedMouseX, &pausedMouseY)) {
+	if (Is_ButtonHover(PAUSE_QUIT_BUTTON_X_POS, PAUSE_QUIT_BUTTON_Y_POS, PAUSE_QUIT_BUTTON_X_SCALE, PAUSE_QUIT_BUTTON_Y_SCALE, &pausedMouseX, &pausedMouseY)) {
 		quitButtonSpriteIndex = 3;
 		if (AEInputCheckReleased(AEVK_LBUTTON)) {
 			gGameStateNext = GS_MAINMENU;
@@ -171,7 +171,7 @@ void Draw_PauseMenu(PlayerInfo const& playerInfo) {
 		//G_DrawText(dead, -50.0f, 0.f, 2.0f, Color(0, 0, 0));
 	}
 	if (gameEnded) {
-		DrawStaticSprite(&pauseQuitButton, quitButtonSpriteIndex);
+		Draw_StaticSprite(&pauseQuitButton, quitButtonSpriteIndex);
 		sprintf_s(strBuffer, "YOU");
 		AEGfxPrint(font, strBuffer, -0.14f, -0.15f, 2.2f, 1, 1, 0);
 		sprintf_s(strBuffer, "WIN!!");

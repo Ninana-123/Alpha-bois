@@ -30,7 +30,6 @@ void Player_Init(Player* player,BulletPool &bulletPool) {
 	CreateQuadMesh(PLAYER_HEIGHT, PLAYER_WIDTH, player->transform.color, playerMesh,1.0f/5.0f,1.0f);
 	playerTexture = AEGfxTextureLoad("Assets/RoninSpriteSheet.png");
 	player->transform.texture = &playerTexture;
-	//player->transform.scale = { 100.f, 100.f };
 	player->transform.height = PLAYER_HEIGHT;
 	player->transform.width = PLAYER_WIDTH;
 	player->transform.position = {0.f,0.f};

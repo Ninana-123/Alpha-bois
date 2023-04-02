@@ -94,7 +94,7 @@ void Update_Credits() {
 	*Credits_MouseY = -(*Credits_MouseY - AEGetWindowHeight() / 2.0f);
 	isLeftClicked = AEInputCheckReleased(AEVK_LBUTTON);
 
-	if (IsButtonHover(BACK_BUTTON_X, BACK_BUTTON_Y, BACK_BUTTON_SCALE_X, BACK_BUTTON_SCALE_Y, Credits_MouseX, Credits_MouseY)) {
+	if (Is_ButtonHover(BACK_BUTTON_X, BACK_BUTTON_Y, BACK_BUTTON_SCALE_X, BACK_BUTTON_SCALE_Y, Credits_MouseX, Credits_MouseY)) {
 		quitButton.spriteIndex = 3;
 		if (isLeftClicked) {
 			AEAudioPauseGroup(creditsAudioGroup);
@@ -110,7 +110,7 @@ void Draw_Credits() {
 	DrawMesh(&creditsBG.transform);
 
 	/*     QUIT BUTTON     */
-	DrawStaticSprite(&quitButton.transform, quitButton.spriteIndex);
+	Draw_StaticSprite(&quitButton.transform, quitButton.spriteIndex);
 
 }
 void Free_Credits() {

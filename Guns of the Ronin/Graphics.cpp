@@ -351,7 +351,7 @@ void FlipTexture_y(Transform& trans) {
 //	mesh = AEGfxMeshEnd();
 //}
 
-void DrawStaticSprite(Transform* trans,int index) {
+void Draw_StaticSprite(Transform* trans,int index) {
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -371,7 +371,7 @@ void DrawStaticSprite(Transform* trans,int index) {
 	AEGfxMeshDraw(*trans->mesh, AE_GFX_MDM_TRIANGLES);
 }
 
-bool IsButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y){
+bool Is_ButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y){
 	float area_x_start, area_x_end, area_y_start, area_y_end;
 	area_x_start = area_center_x - (0.5f * area_width);
 	area_x_end = area_center_x + (0.5f * area_width);

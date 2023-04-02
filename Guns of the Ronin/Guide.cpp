@@ -14,35 +14,47 @@
 @brief This file contains code for the credit screen.
 *//*______________________________________________________________________*/
 #include "Guide.h"
+/*BACKGROUND*/
 Guide guideBG;
 AEGfxTexture* guideBGTexture;
+#define GUIDE_BG_SCALE_X 1600.f
+#define GUIDE_BG_SCALE_Y 900.f
+#define GUIDE_BG_HEIGHT 1.f
+#define GUIDE_BG_WIDTH 1.f
+#define GUIDE_BG_ROTATION 0.f
 
+/*PLAYER*/
 Player guidePLayer;
 BulletPool guideBullet;
 
-/* Shrines */
+/* SHRINES */
 Guide windShrine;
 Guide loadingBar;
-
 AEGfxTexture* windTexture;
+#define GUIDE_SHRINE_SCALE 150.f
+#define GUIDE_WIND_SHRINE_X -500.f
+#define GUIDE_WIND_SHRINE_Y -200.f
+#define GUIDE_WIND_SHRINE_HIEGHT 1.f
+#define GUIDE_WIND_SHRINE_WIDTH 1.f
+#define GUIDE_WIND_SHRINE_ROTATION 0.f
+#define GUIDE_LOADING_BAR_OFFSET 85.f
+#define GUIDE_LOADING_BAR_SCALE_X 0.f
+#define GUIDE_LOADING_BAR_MAX_PERCENT 100.f
 
-
-float shrineScale = 3.f;
-
-float windShrineX = -500.f;
-float windShrineY = -200.f;
-
-
-/* Enemies */
-
-/* Controls */
+/* CONTROLS */
 Guide WASD;
 AEGfxTexture* controlsTexture;
 Guide click;
+#define GUIDE_WASD_X -100.0f
+#define GUIDE_WASD_Y -150.0f
+#define GUIDE_MOUSE_X 100.0f
+#define GUIDE_MOUSE_Y -150.0f
+#define GUIDE_MOVEMENT_SCALE_X 210.f
+#define GUIDE_MOVMENT_SCALE_Y 180.f
+#define GUIDE_MOVEMENT_HEIGHT 1.f
+#define GUIDE_MOVMENT_WIDTH 11.f
+#define GUIDE_MOVMENT_ROTATION 0.f
 
-
-float WASDX = 0.0f;
-float WASDY = 100.0f;
 
 void Init_Guide() {
 	/*BG*/
@@ -50,10 +62,10 @@ void Init_Guide() {
 	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), GuideBGMesh);
 	guideBG.transform.texture = &guideBGTexture;
 	guideBG.transform.position = { 0.0f,0.0f };
-	guideBG.transform.scale = { 1600.0f,-900.0f };
-	guideBG.transform.height = 1.0f;
-	guideBG.transform.width = 1.0f;
-	guideBG.transform.rotation = 0.0f;
+	guideBG.transform.scale = { GUIDE_BG_SCALE_X,-GUIDE_BG_SCALE_Y };
+	guideBG.transform.height = GUIDE_BG_HEIGHT;
+	guideBG.transform.width = GUIDE_BG_WIDTH;
+	guideBG.transform.rotation = GUIDE_BG_ROTATION;
 	guideBG.transform.mesh = &GuideBGMesh;
 
 	/*Player*/
@@ -62,39 +74,39 @@ void Init_Guide() {
 	/*Shrines*/
 	
 	windTexture = AEGfxTextureLoad("Assets/guideWind.png");
-	CreateQuadMesh(50.f, 50.f, Color(1, 1, 1), windMesh);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), windMesh);
 	windShrine.transform.texture = &windTexture;
-	windShrine.transform.position = { windShrineX,windShrineY };
-	windShrine.transform.scale = { shrineScale,-shrineScale };
-	windShrine.transform.height = 1.0f;
-	windShrine.transform.width = 1.0f;
-	windShrine.transform.rotation = 0.0f;
+	windShrine.transform.position = { GUIDE_WIND_SHRINE_X,GUIDE_WIND_SHRINE_Y };
+	windShrine.transform.scale = { GUIDE_SHRINE_SCALE,-GUIDE_SHRINE_SCALE };
+	windShrine.transform.height = GUIDE_WIND_SHRINE_HIEGHT;
+	windShrine.transform.width = GUIDE_WIND_SHRINE_WIDTH;
+	windShrine.transform.rotation = GUIDE_WIND_SHRINE_ROTATION;
 	windShrine.transform.mesh = &windMesh;
 	
 
 	CreateQuadMesh(1.0f, 10.0f, Color(0.0f, 0.0f, 0.0f, 1.0f), guideLoadingBar);
-	loadingBar.transform.position = { windShrineX, windShrineY + 85.f };
-	loadingBar.transform.scale.x = 0.f;
+	loadingBar.transform.position = { GUIDE_WIND_SHRINE_X, GUIDE_WIND_SHRINE_Y + GUIDE_LOADING_BAR_OFFSET };
+	loadingBar.transform.scale.x = GUIDE_LOADING_BAR_SCALE_X;
 	loadingBar.transform.mesh = &guideLoadingBar;
 
 	/*Controls*/
 	controlsTexture = AEGfxTextureLoad("Assets/Controls.png");
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), WASDMesh, 1.0f / 11.0f, 1.0f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), WASDMesh, GUIDE_MOVEMENT_HEIGHT / GUIDE_MOVMENT_WIDTH, GUIDE_MOVEMENT_HEIGHT);
 	WASD.transform.texture = &controlsTexture;
-	WASD.transform.position = { -100.0f,-150.0f };
-	WASD.transform.scale = { 210.0f,-180.0f};
-	WASD.transform.height = 1.0f;
-	WASD.transform.width = 11.0f;
-	WASD.transform.rotation = 0.0f;
+	WASD.transform.position = { GUIDE_WASD_X,GUIDE_WASD_Y };
+	WASD.transform.scale = { GUIDE_MOVEMENT_SCALE_X,-GUIDE_MOVMENT_SCALE_Y };
+	WASD.transform.height = GUIDE_MOVEMENT_HEIGHT;
+	WASD.transform.width = GUIDE_MOVMENT_WIDTH;
+	WASD.transform.rotation = GUIDE_MOVMENT_ROTATION;
 	WASD.transform.mesh = &WASDMesh;
 
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), clickMesh, 1.0f / 11.0f, 1.0f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), clickMesh, GUIDE_MOVEMENT_HEIGHT / GUIDE_MOVMENT_WIDTH, GUIDE_MOVEMENT_HEIGHT);
 	click.transform.texture = &controlsTexture;
-	click.transform.position = { 100.0f,-150.0f };
-	click.transform.scale = { 210.0f,-180.0f};
-	click.transform.height = 1.0f;
-	click.transform.width = 11.0f;
-	click.transform.rotation = 0.0f;
+	click.transform.position = { GUIDE_MOUSE_X,GUIDE_MOUSE_Y };
+	click.transform.scale = { GUIDE_MOVEMENT_SCALE_X,-GUIDE_MOVMENT_SCALE_Y };
+	click.transform.height = GUIDE_MOVEMENT_HEIGHT;
+	click.transform.width = GUIDE_MOVMENT_WIDTH;
+	click.transform.rotation = GUIDE_MOVMENT_ROTATION;
 	click.transform.mesh = &clickMesh;
 
 	AEAudioPlay(guideSong, guideAudioGroup, 1, 1, -1);
@@ -143,9 +155,9 @@ void Update_Guide() {
 		click.spriteIndex = 9;
 	}
 	if ((StaticCol_QuadQuad(guidePLayer.transform,windShrine.transform)) ) {
-		loadingBar.transform.scale.x += (deltaTime * 100.f);
+		loadingBar.transform.scale.x += (deltaTime * GUIDE_LOADING_BAR_MAX_PERCENT);
 	}
-	if(loadingBar.transform.scale.x >= 100.f) {
+	if(loadingBar.transform.scale.x >= GUIDE_LOADING_BAR_MAX_PERCENT) {
 		AEAudioPauseGroup(guideAudioGroup);
 		gGameStateNext = GS_MAINMENU;
 	}
@@ -161,8 +173,8 @@ void Draw_Guide() {
 	DrawMesh(&loadingBar.transform);
 
 	/*Controls*/
-	DrawStaticSprite(&WASD.transform,WASD.spriteIndex);
-	DrawStaticSprite(&click.transform, click.spriteIndex);
+	Draw_StaticSprite(&WASD.transform,WASD.spriteIndex);
+	Draw_StaticSprite(&click.transform, click.spriteIndex);
 
 	/*Draw Player*/
 	Draw_Player(&guidePLayer, guideBullet);
