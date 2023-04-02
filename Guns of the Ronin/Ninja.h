@@ -27,10 +27,10 @@
 
 namespace {
 	enum NINJA_AI_STATE { NINJA_MOVING, NINJA_ATTACKING, NINJA_BLOWNAWAY };
-	enum { NINJA_COUNT = 20 };
+	#define NINJA_COUNT 20
 	const int NINJA_KILLSCORE = 100;
-	#define NINJA_MIN_SPAWNDIST 200
-	#define NINJA_MAX_SPAWNDIST 400
+	#define NINJA_MIN_SPAWN_DIST 200
+	#define NINJA_MAX_SPAWN_DIST 400
 	#define NINJA_HEALTH 100
 	#define NINJA_MS 100.0f
 	#define NINJA_SWEEP_MS 700.0f
@@ -71,7 +71,7 @@ struct NinjaPool {
 	int activeSize =0;
 };
 
-void NinjaAdd(NinjaPool& pool, Vector2 playerPos);
+void Add_Ninja(NinjaPool& pool, Vector2 playerPos);
 
 void Init_NinjaPool(NinjaPool& pool);
 
@@ -85,6 +85,6 @@ void Dmg_Ninja(NinjaPool& pool, PlayerInfo& playerInfo, Player& player, int inde
 
 void Free_Ninja();
 
-void NinjaRemove(int index, NinjaPool& pool);
+void Remove_Ninja(int index, NinjaPool& pool);
 
 #endif // !NINJA_H

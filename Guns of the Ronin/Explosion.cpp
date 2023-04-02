@@ -129,7 +129,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 					// If the archer's health is now zero or less, remove it from the pool
 					if (archPool.activeArchers[j]->health <= 0) 
 					{
-						ArcherRemove(j, archPool);
+						Remove_Archer(j, archPool);
 					}
 				}
 				archPool.activeArchers[j]->isCollidingWithExplosion = true;
@@ -165,7 +165,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 					//std::cout << "Health:" << ninPool.activeNinjas[k]->health << std::endl;
 					if (ninPool.activeNinjas[k]->health <= 0)
 					{
-						NinjaRemove(k, ninPool);
+						Remove_Ninja(k, ninPool);
 					}
 				}
 				ninPool.activeNinjas[k]->isCollidingWithExplosion = true;

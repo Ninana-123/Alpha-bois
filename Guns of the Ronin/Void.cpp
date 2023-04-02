@@ -188,7 +188,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		for (int j = (int) collidedArchers.size() - 1; j >= 0; j--)
 		{
 			// Remove the collided archer from the ArcherPool
-			ArcherRemove(collidedArchers[j], archPool);
+			Remove_Archer(collidedArchers[j], archPool);
 		}
 
 		// Remove the void if there are no collided samurais

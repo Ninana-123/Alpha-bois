@@ -296,7 +296,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 								*mouseY <= archPool.activeArchers[z]->transform.position.y + archPool.activeArchers[z]->transform.height + padding)
 							{
 							//std::cout << "Archer Clicked" << std::endl;
-								ArcherRemove(z, archPool);
+								Remove_Archer(z, archPool);
 								break;
 							}
 						}
@@ -313,7 +313,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 							if (AEInputCheckTriggered(AEVK_LBUTTON))
 							{
 
-								NinjaRemove(k, ninPool);
+								Remove_Ninja(k, ninPool);
 								break;
 							}
 						}
