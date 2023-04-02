@@ -90,7 +90,7 @@ void Init_Scene() {
 
 	Reset_TimeMan();
 	Reset_HighScore();
-	HealthBar_Init(barPool, &health, playerinfo, samPool, archPool, ninPool, cPool);
+	HealthBar_Init(barPool, &health);
 	Void_PoolInit(voidPool);
 
 

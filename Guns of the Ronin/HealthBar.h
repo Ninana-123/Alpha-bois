@@ -5,10 +5,10 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file healthbar.h
+@author Vance Tay
+@Email junfengvance.t@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
 @brief This file contains code for the credit screen.
@@ -25,7 +25,11 @@
 #ifndef HEALTHBAR_H
 #define HEALTHBAR_H
 
-
+#define HEALTH_WIDTH 100
+#define HEALTH_HEIGHT 10
+#define HEALTH_X 15
+#define HEALTH_Y 50
+#define BAR_SCALE_Y 1
 
 namespace {
 	AEGfxVertexList* healthMesh;
@@ -54,7 +58,7 @@ struct BarPool {
 	Health cannon[CANNONEER_COUNT];
 };
 
-void HealthBar_Init(BarPool& barPool,Health* health, PlayerInfo& playerinfo, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool);
+void HealthBar_Init(BarPool& barPool, Health* health);
 void HealthBar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, 
 	NinjaPool& ninPool, CannoneerPool& canPool);
 void HealthBar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool);
