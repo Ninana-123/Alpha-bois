@@ -23,6 +23,9 @@ DirPressed prevDir = DirPressed::LEFT, curDir = DirPressed::RIGHT;
 
 float timeSinceLastFired = 0.0f;
 
+#define PLAYER_MAX_X_POS 780
+#define PLAYER_MAX_Y_POS 420
+
 
 void Player_Init(Player* player,BulletPool &bulletPool) {
 
@@ -135,6 +138,10 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 
 
 		player->transform.position += newPos;
+
+		player->transform.position.x = AEClamp(player->transform.position.x, -PLAYER_MAX_X_POS, PLAYER_MAX_X_POS);
+		player->transform.position.y = AEClamp(player->transform.position.y, -PLAYER_MAX_Y_POS, PLAYER_MAX_Y_POS);
+
 		Bullet_AI(bulletPool);
 	}
 

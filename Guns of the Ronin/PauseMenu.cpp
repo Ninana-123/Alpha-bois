@@ -105,8 +105,8 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	leftClick = AEInputCheckReleased(AEVK_LBUTTON);
 
 
-	//Only check for clicking of resume button when player is not dead
-	if (!playerInfo.playerDead) {
+	//Only check for clicking of resume button when player is not dead and game has not been won
+	if (!playerInfo.playerDead && !gameEnded) {
 		// Resume
 		if (IsButtonHover(BUTTONS_X, RESUME_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
 			//playButton.spriteIndex = 1;
@@ -118,7 +118,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	}
 	
 	// Restart
-	if (IsButtonHover(BUTTONS_X, RESTART_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
+	if (IsButtonHover(BUTTONS_X, RESTART_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY) && !gameEnded) {
 		if (leftClick) {
 			gGameStateNext = GS_RESTART;
 			TimeResume();
@@ -127,7 +127,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	}
 
 	// Main Menu
-	if (IsButtonHover(BUTTONS_X, MAINMENU_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
+	if (IsButtonHover(BUTTONS_X, MAINMENU_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY) && !gameEnded) {
 		if (leftClick) {
 			gGameStateNext = GS_MAINMENU;
 			TimeResume();
@@ -135,10 +135,12 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 		}
 	}
 
-	if (IsButtonHover(PAUSE_QUIT_BUTTON_X_POS, PAUSE_QUIT_BUTTON_Y_POS, PAUSE_QUIT_BUTTON_X_SCALE, PAUSE_QUIT_BUTTON_Y_SCALE, &pausedMouseX, &pausedMouseY)) {
+	//Quit button when game won
+	if (gameEnded && IsButtonHover(PAUSE_QUIT_BUTTON_X_POS, PAUSE_QUIT_BUTTON_Y_POS, PAUSE_QUIT_BUTTON_X_SCALE, PAUSE_QUIT_BUTTON_Y_SCALE, &pausedMouseX, &pausedMouseY)) {
 		quitButtonSpriteIndex = 3;
 		if (AEInputCheckReleased(AEVK_LBUTTON)) {
 			gGameStateNext = GS_MAINMENU;
+			TimeResume();
 		}
 	}
 	else quitButtonSpriteIndex = 2;

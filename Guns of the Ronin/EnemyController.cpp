@@ -50,7 +50,7 @@ void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPo
 	for (int i = 0; i < NUM_OF_ENEMY_TYPES; ++i) {
 		curSpawnCounts[i] = 0;
 	}
-
+	gameEnded = false;
 }
 
 void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPool, NinjaPool& ninPool, Player& player, PlayerInfo& playerInfo) {
