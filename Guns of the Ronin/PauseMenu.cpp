@@ -35,11 +35,8 @@ AEGfxTexture* pauseQuitButtonTexture = 0;
 #define PAUSE_QUIT_BUTTON_Y_SCALE -100.0f
 int quitButtonSpriteIndex = 0;
 
-s32 Paused_MousePosX;
-s32 Paused_MousePosY;
-
-s32* Paused_MouseX = &Paused_MousePosX;
-s32* Paused_MouseY = &Paused_MousePosY;
+s32 pausedMouseX;
+s32 pausedMouseY;
 
 bool leftClick;
 bool checkPaused = false;
@@ -102,16 +99,16 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	}
 
 	// Getting mouse position
-	AEInputGetCursorPosition(Paused_MouseX, Paused_MouseY);
-	*Paused_MouseX = *Paused_MouseX - AEGetWindowWidth() / 2.0f;
-	*Paused_MouseY = -(*Paused_MouseY - AEGetWindowHeight() / 2.0f);
+	AEInputGetCursorPosition(&pausedMouseX, &pausedMouseY);
+	pausedMouseX = pausedMouseX - AEGetWindowWidth() / 2.0f;
+	pausedMouseY = -(pausedMouseY - AEGetWindowHeight() / 2.0f);
 	leftClick = AEInputCheckReleased(AEVK_LBUTTON);
 
 
 	//Only check for clicking of resume button when player is not dead
 	if (!playerInfo.playerDead) {
 		// Resume
-		if (IsButtonHover(BUTTONS_X, RESUME_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, Paused_MouseX, Paused_MouseY)) {
+		if (IsButtonHover(BUTTONS_X, RESUME_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
 			//playButton.spriteIndex = 1;
 			if (leftClick) {
 				TimeResume();
@@ -121,7 +118,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	}
 	
 	// Restart
-	if (IsButtonHover(BUTTONS_X, RESTART_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, Paused_MouseX, Paused_MouseY)) {
+	if (IsButtonHover(BUTTONS_X, RESTART_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
 		if (leftClick) {
 			gGameStateNext = GS_RESTART;
 			TimeResume();
@@ -130,7 +127,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	}
 
 	// Main Menu
-	if (IsButtonHover(BUTTONS_X, MAINMENU_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, Paused_MouseX, Paused_MouseY)) {
+	if (IsButtonHover(BUTTONS_X, MAINMENU_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
 		if (leftClick) {
 			gGameStateNext = GS_MAINMENU;
 			TimeResume();
@@ -138,7 +135,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 		}
 	}
 
-	if (IsButtonHover(PAUSE_QUIT_BUTTON_X_POS, PAUSE_QUIT_BUTTON_Y_POS, PAUSE_QUIT_BUTTON_X_SCALE, PAUSE_QUIT_BUTTON_Y_SCALE, Paused_MouseX, Paused_MouseY)) {
+	if (IsButtonHover(PAUSE_QUIT_BUTTON_X_POS, PAUSE_QUIT_BUTTON_Y_POS, PAUSE_QUIT_BUTTON_X_SCALE, PAUSE_QUIT_BUTTON_Y_SCALE, &pausedMouseX, &pausedMouseY)) {
 		quitButtonSpriteIndex = 3;
 		if (AEInputCheckReleased(AEVK_LBUTTON)) {
 			gGameStateNext = GS_MAINMENU;
@@ -186,7 +183,7 @@ void Free_PauseMenu() {
 	AEGfxMeshFree(pauseMesh);
 	AEGfxTextureUnload(pauseMenuBG);
 	AEGfxTextureUnload(deadMenuBG);
-	AEGfxTextureUnload(pauseMenuWinBG); //
+	AEGfxTextureUnload(pauseMenuWinBG); 
 	AEGfxMeshFree(pauseQuitButtonMesh);
 	AEGfxTextureUnload(pauseQuitButtonTexture);
 }
