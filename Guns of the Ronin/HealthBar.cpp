@@ -19,7 +19,7 @@
 #include "Player.h"
 #include <iostream>
 
-void HealthBar_Init(BarPool& barPool, Health* health, PlayerInfo& playerinfo, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
+void HealthBar_Init(BarPool& barPool, Health* health) { 
 	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(0, 1.0f, 0, 1.0f), healthMesh);
 	health->playerBar.mesh = &healthMesh;
 
