@@ -23,10 +23,10 @@
 #include "vector"
 
 
-float Durations;
+float durations;
 void Void_PoolInit(VoidPool& voidPool)
 {
-	Durations = 0;
+	durations = 0;
 	voidPool.activeSize = 0;
 	CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh, 1/4.0f ,1.0f);
 	for (int i = 0; i < Void_Count; i++)

@@ -27,12 +27,12 @@
 
 float duration;
 float timeSincePause = 0.0f;
-AEGfxTexture* assetfreeze;
-AEGfxTexture* assetheal;
-AEGfxTexture* assetwind;
-AEGfxTexture* assetexplosion;
-AEGfxTexture* assetgod;
-AEGfxTexture* assetvoid;
+AEGfxTexture* assetFreeze;
+AEGfxTexture* assetHeal;
+AEGfxTexture* assetWind;
+AEGfxTexture* assetExplosion;
+AEGfxTexture* assetGod;
+AEGfxTexture* assetVoid;
 
 s32 mousePosX;
 s32 mousePosY;
@@ -67,12 +67,12 @@ void Shrine_PoolInit(ShrinePool& pool)
 		pool.activeShrine[i]->isColliding = false;
 
 	}
-	assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
-	assetheal = AEGfxTextureLoad("Assets/Health.png");
-	assetwind = AEGfxTextureLoad("Assets/Wind.png");
-	assetexplosion = AEGfxTextureLoad("Assets/Explosion.png");
-	assetgod = AEGfxTextureLoad("Assets/God.png");
-	assetvoid = AEGfxTextureLoad("Assets/Void.png");
+	assetFreeze = AEGfxTextureLoad("Assets/Freeze.png");
+	assetHeal = AEGfxTextureLoad("Assets/Health.png");
+	assetWind = AEGfxTextureLoad("Assets/Wind.png");
+	assetExplosion = AEGfxTextureLoad("Assets/Explosion.png");
+	assetGod = AEGfxTextureLoad("Assets/God.png");
+	assetVoid = AEGfxTextureLoad("Assets/Void.png");
 
 
 }
@@ -134,27 +134,27 @@ void Shrine_Add(ShrinePool& shrinePool)
 				switch (shrinePool.activeShrine[i]->types)
 				{
 				case Shrine::Freeze:
-					shrinePool.activeShrine[i]->transform.texture = &assetfreeze;
+					shrinePool.activeShrine[i]->transform.texture = &assetFreeze;
 					break;
 
 				case Shrine::Heal:
-					shrinePool.activeShrine[i]->transform.texture = &assetheal;
+					shrinePool.activeShrine[i]->transform.texture = &assetHeal;
 					break;
 
 				case Shrine::Push:
-					shrinePool.activeShrine[i]->transform.texture = &assetwind;
+					shrinePool.activeShrine[i]->transform.texture = &assetWind;
 					break;
 
 				case Shrine::Explosion:
-					shrinePool.activeShrine[i]->transform.texture = &assetexplosion;
+					shrinePool.activeShrine[i]->transform.texture = &assetExplosion;
 					break;
 
 				case Shrine::God:
-					shrinePool.activeShrine[i]->transform.texture = &assetgod;
+					shrinePool.activeShrine[i]->transform.texture = &assetGod;
 					break;
 
 				case Shrine::Void:
-					shrinePool.activeShrine[i]->transform.texture = &assetvoid;
+					shrinePool.activeShrine[i]->transform.texture = &assetVoid;
 					break;
 				}
 
@@ -398,11 +398,11 @@ void Free_Shrines()
 		AEGfxMeshFree(loadingBarMesh);
 	}
 
-	AEGfxTextureUnload(assetfreeze);
-	AEGfxTextureUnload(assetheal);
-	AEGfxTextureUnload(assetwind);
-	AEGfxTextureUnload(assetexplosion);
-	AEGfxTextureUnload(assetvoid);
-	AEGfxTextureUnload(assetgod); 
+	AEGfxTextureUnload(assetFreeze);
+	AEGfxTextureUnload(assetHeal);
+	AEGfxTextureUnload(assetWind);
+	AEGfxTextureUnload(assetExplosion);
+	AEGfxTextureUnload(assetVoid);
+	AEGfxTextureUnload(assetGod); 
 	
 }
