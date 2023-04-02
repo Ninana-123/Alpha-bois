@@ -21,7 +21,7 @@
 
 
 //When a samurai dies 
-void SamuraiRemove(int index, SamuraiPool& pool) {
+void Remove_Samurai(int index, SamuraiPool& pool) {
 	pool.activeSamurais[index]->enabled = false;
 	
 	if (index < (pool.activeSize - 1)) {
@@ -31,19 +31,20 @@ void SamuraiRemove(int index, SamuraiPool& pool) {
 	}
 	pool.activeSize -= 1;
 	--enemiesLeft;
-	Add_Score(SAMURAI_KILLSCORE);
+	Add_Score(SAMURAI_KILL_SCORE);
 }
 
 
 
 //Spawning a new samurai
-void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
+void Add_Samurai(SamuraiPool& pool, Vector2 playerPos) {
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		if (pool.activeSamurais[i]->enabled == false) {
 			pool.activeSamurais[i]->enabled = true;
 			pool.activeSamurais[i]->health = SAMURAI_HEALTH;
-			pool.activeSamurais[i]->transform.position = RandomPoint_OutsideSqaure(MIN_SPAWNDIST, MAX_SPAWNDIST, playerPos);
-			pool.activeSamurais[i]->offsetPos = Vector2(AERandFloat() * 12.0f - 6.0f, AERandFloat() * 12.0f - 6.0f);
+			pool.activeSamurais[i]->transform.position = RandomPoint_OutsideSqaure(MIN_SPAWN_DIST, MAX_SPAWN_DIST, playerPos);
+			//The random offset position of the player that the samurai will be chasing
+			pool.activeSamurais[i]->offsetPos = Vector2(AERandFloat() * 2.0f * SAMURAI_CHASING_ERROR - SAMURAI_CHASING_ERROR, 2.0f * SAMURAI_CHASING_ERROR - SAMURAI_CHASING_ERROR);
 			pool.activeSamurais[i]->hitByPlayer = false;
 			pool.activeSamurais[i]->timeSinceLastHit = 0;
 			pool.activeSamurais[i]->dmgDealt = false;
@@ -56,7 +57,7 @@ void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos) {
 
 void Init_SamuraiPool(SamuraiPool& pool) {
 	pool.activeSize = 0;
-	CreateQuadMesh(SAMURAI_WIDTH, SAMURAI_HEIGHT, Color(0, 1, 0), samuraiMesh, 0.5f, 1.0f);
+	CreateQuadMesh(SAMURAI_WIDTH, SAMURAI_HEIGHT, Color(0, 1, 0), samuraiMesh, SAMURAI_TEXTURE_WIDTH, SAMURAI_TEXTURE_HEIGHT);
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		pool.samurais[i].enabled = false;
 		pool.samurais[i].health = SAMURAI_HEALTH;
@@ -65,7 +66,7 @@ void Init_SamuraiPool(SamuraiPool& pool) {
 		pool.samurais[i].transform.height = SAMURAI_HEIGHT;
 		pool.samurais[i].transform.width = SAMURAI_WIDTH;
 		pool.samurais[i].transform.texture = &samuraiTexture;
-		pool.samurais[i].transform.colliderSize = { SAMURAI_WIDTH * .5f , SAMURAI_HEIGHT * 0.8f };
+		pool.samurais[i].transform.colliderSize = { SAMURAI_COLLIDER_WIDTH , SAMURAI_COLLIDER_HEIGHT };
 		pool.activeSamurais[i] = &pool.samurais[i];
 	}
 	samuraiTexture = AEGfxTextureLoad("Assets/Samurai_Combined.png");
@@ -106,13 +107,13 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 					curSamurai->transform.position += direction * SAMURAI_MS * deltaTime;
 				}
 
+				//Flipping of the samurai's texture based on its direction of movement
 				if (direction.x > 0) {
 					curSamurai->transform.scale.x = Absf(curSamurai->transform.scale.x) * -1.0f;
 				}
 				else {
 					curSamurai->transform.scale.x = Absf(curSamurai->transform.scale.x);
 				}
-				//curSamurai->transform.rotation = acosf(direction.x);
 			}
 			break;
 		case ATTACKING:
@@ -127,7 +128,7 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 				if (curSamurai->anim.CurrentFrame() == SAMURAI_ATT_ANIM_FRAME) {
 					if (!curSamurai->dmgDealt) {
 					//AEAudioPlay(samuraiSlash, mainsceneAudioGroup, 1.f, 1.f, 0);
-						player_dmg(playerInfo, DAMAGE);
+						player_dmg(playerInfo, SAMURAI_DAMAGE);
 						curSamurai->dmgDealt = true;
 					}
 				}
@@ -141,7 +142,7 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 		case BLOWNAWAY:
 			Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
 			curSamurai->transform.position += direction * SAMURAI_SWEEP_MS * deltaTime;
-			if (curSamurai->transform.position.within_dist(curSamurai->targetPos, 15.0f)) {
+			if (curSamurai->transform.position.within_dist(curSamurai->targetPos, SAMURAI_BLOWN_AWAY_ERROR)) {
 				curSamurai->aiState = MOVING;
 			}
 			break;
@@ -155,7 +156,7 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 void Dmg_Samurai(SamuraiPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeSamurais[index]->health -=playerInfo.att) <= 0) {
-		SamuraiRemove(index, pool);
+		Remove_Samurai(index, pool);
 	}
 	else {
 		pool.activeSamurais[index]->hitByPlayer = true;

@@ -112,9 +112,9 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 
 			// if player within archer's attacking range, start attacking
 			else {
-				AEAudioPlay(archerShoot, mainsceneAudioGroup, 1.f, 1.f, 0);
 				if (curArcher->timeLastAttack >= archerAttDelay) {
 					ArrowAdd(arrow, curArcher->transform.position, playerPos);
+				AEAudioPlay(archerShoot, mainsceneAudioGroup, 1.f, 1.f, 0);
 					curArcher->timeLastAttack = 0;
 				}
 			}

@@ -176,7 +176,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		for (int j = (int) collidedSamurais.size() - 1; j >= 0; j--)
 		{
 			// Remove the collided samurai from the SamuraiPool
-			SamuraiRemove(collidedSamurais[j], samPool);
+			Remove_Samurai(collidedSamurais[j], samPool);
 		}
 		// Loop backwards through the indices of the collided cannoners
 		for (int j = (int) collidedCannoners.size() - 1; j >= 0; j--)

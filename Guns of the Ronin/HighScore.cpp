@@ -21,12 +21,12 @@
 #include "MainMenu.h"
 
 int curHighScore = 0;
+bool curGameEnded = false;
 
 //The max amount of time the player needs to finish all 10 waves by
 //in order to earn bonus score from time 20min * 60s
 #define MAX_TIME_FOR_BONUS 1200.0f
 
-bool curGameEnded = false;
 std::vector<int> highscores;
 AEGfxVertexList* highScoreBGMesh = 0;
 AEGfxVertexList* quitButtonMesh = 0;
