@@ -33,9 +33,9 @@ namespace {
 #define NUM_OF_ENEMY_TYPES 4
 
 #define SPAWN_RATE_SAMURAI 1.5f
-#define SPAWN_RATE_ARCHER 2.5f
-#define SPAWN_RATE_CANNONEER 3.5f
-#define SPAWN_RATE_NINJA 3.0f
+#define SPAWN_RATE_ARCHER 3.0f
+#define SPAWN_RATE_CANNONEER 4.0f
+#define SPAWN_RATE_NINJA 3.5f
 
 	int curWave = 1;
 	int spawnTotalCount[NUM_OF_WAVES] = { 0 };

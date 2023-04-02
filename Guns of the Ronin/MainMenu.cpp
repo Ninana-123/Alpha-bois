@@ -378,7 +378,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	AESysInit(hInstance, nCmdShow, 1600, 900, 1, 60, true, NULL);
 
 	font = AEGfxCreateFont("Assets/Fonts/Roboto-Regular.ttf", 50);
-	AudioLoad();
+	Audio_Load();
 
 	GameStateMgrInit(GS_MAINMENU);
 
