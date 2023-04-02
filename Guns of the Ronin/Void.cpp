@@ -23,10 +23,10 @@
 #include "vector"
 
 
-float Durations;
+float durations;
 void Void_PoolInit(VoidPool& voidPool)
 {
-	Durations = 0;
+	durations = 0;
 	voidPool.activeSize = 0;
 	CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh, 1/4.0f ,1.0f);
 	for (int i = 0; i < Void_Count; i++)
@@ -188,7 +188,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		for (int j = (int) collidedArchers.size() - 1; j >= 0; j--)
 		{
 			// Remove the collided archer from the ArcherPool
-			ArcherRemove(collidedArchers[j], archPool);
+			Remove_Archer(collidedArchers[j], archPool);
 		}
 
 		// Remove the void if there are no collided samurais

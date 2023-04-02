@@ -72,7 +72,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		// Archer
 		if (archerSpawnTimer >= SPAWN_RATE_ARCHER && curSpawnCounts[ARCHER] < spawnCounts[curWave - 1][ARCHER]) {
 			archerSpawnTimer = 0;
-			ArcherAdd(archPool, player.transform.position);
+			Add_Archer(archPool, player.transform.position);
 			++curSpawnCounts[ARCHER];
 		}
 		AI_Archer(archPool, player, playerInfo);
@@ -89,7 +89,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		// Ninja
 		if (ninjaSpawnTimer >= SPAWN_RATE_NINJA && curSpawnCounts[NINJA] < spawnCounts[curWave - 1][NINJA]) {
 			ninjaSpawnTimer = 0;
-			NinjaAdd(ninPool, player.transform.position);
+			Add_Ninja(ninPool, player.transform.position);
 			++curSpawnCounts[NINJA];
 		}
 		AI_Ninja(ninPool, player, playerInfo);
