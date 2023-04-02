@@ -18,7 +18,8 @@
 #include "HighScore.h"
 #include "EnemyCounter.h"
 
-#define archerAttDelay 2.0f
+#define ARCHER_ATTACK_DELAY 2.0f
+#define ARCHER_ATTACK_INTERVAL 1.0f
 ArrowPool arrow;
 
 //When a archer dies 
@@ -113,7 +114,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 			// if player within archer's attacking range, start attacking
 			else {
 				AEAudioPlay(archerShoot, mainsceneAudioGroup, 1.f, 1.f, 0);
-				if (curArcher->timeLastAttack >= archerAttDelay) {
+				if (curArcher->timeLastAttack >= ARCHER_ATTACK_DELAY) {
 					ArrowAdd(arrow, curArcher->transform.position, playerPos);
 					curArcher->timeLastAttack = 0;
 				}
@@ -144,7 +145,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 		Arrow* proj = arrow.activeArrow[i];
 		proj->timeSince_lastDmgDeal += deltaTime;
 		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
-			if (proj->timeSince_lastDmgDeal > 1.0f) {
+			if (proj->timeSince_lastDmgDeal > ARCHER_ATTACK_INTERVAL) {
 				player_dmg(playerInfo, ARCHER_DAMAGE);
 				proj->timeSince_lastDmgDeal = 0;
 				ArrowRemove(i, arrow);

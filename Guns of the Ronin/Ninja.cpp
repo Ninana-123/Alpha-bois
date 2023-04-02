@@ -20,6 +20,8 @@
 #include "EnemyCounter.h"
 #include "PlayerInfo.h"
 
+#define NINJA_ATTACK_INTERVAL 1.0f
+
 ShurikenPool shuriken;
 
 //When a Ninja dies 
@@ -171,7 +173,7 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 		Shuriken* proj = shuriken.activeShuriken[i];
 		proj->timeSince_lastDmgDeal += deltaTime;
 		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
-			if (proj->timeSince_lastDmgDeal > 1.0f) {
+			if (proj->timeSince_lastDmgDeal > NINJA_ATTACK_INTERVAL) {
 				player_dmg(playerInfo, NINJA_DAMAGE);
 				proj->timeSince_lastDmgDeal = 0;
 				ShurikenRemove(i, shuriken);
