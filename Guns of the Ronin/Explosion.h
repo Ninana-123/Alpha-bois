@@ -28,10 +28,10 @@
 
 namespace
 {
-	enum{Explosion_Count = 5};
+	
 	#define EXPLOSION_HEIGHT  100
 	#define EXPLOSION_WIDTH  100
-	#define EXPLOSION_COUNT 100
+	#define EXPLOSION_COUNT 5
 	AEGfxVertexList* explosionsMesh;
 	AEGfxTexture* assetExplosions = 0;
 }
@@ -51,8 +51,8 @@ public:
 struct ExplosionPool 
 {
 public:
-	Explosion Explosions[Explosion_Count];
-	Explosion* activeExplosion[Explosion_Count];
+	Explosion Explosions[EXPLOSION_COUNT];
+	Explosion* activeExplosion[EXPLOSION_COUNT];
 	int activeSize = 0;
 	
 };

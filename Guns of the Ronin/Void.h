@@ -28,12 +28,12 @@
 
 namespace
 {
-	enum{Void_Count = 5};
+	#define VOID_COUNT 5
 	#define VOID_HEIGHT  100
 	#define VOID_WIDTH  100
 	AEGfxVertexList* voidMesh;
 	AEGfxTexture* assetBlackHole=0;
-	#define VOID_COUNT  100
+	
 
 }
 
@@ -52,8 +52,8 @@ public:
 struct VoidPool 
 {
 public:
-	Void Voids[Void_Count];
-	Void* activeVoid[Void_Count];
+	Void Voids[VOID_COUNT];
+	Void* activeVoid[VOID_COUNT];
 	int activeSize = 0;;
 	
 };

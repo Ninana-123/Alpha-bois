@@ -28,7 +28,7 @@ void Explosion_PoolInit(ExplosionPool& explosionPool)
 			timing = 0;
 			explosionPool.activeSize = 0;
 			CreateQuadMesh(EXPLOSION_WIDTH, EXPLOSION_HEIGHT, Color(1, 0, 0, 1), explosionsMesh);
-			for (int i = 0; i < Explosion_Count; i++)
+			for (int i = 0; i < EXPLOSION_COUNT; i++)
 			{
 				explosionPool.Explosions[i].hasBeenUsed = false;
 				explosionPool.Explosions[i].transform.height = EXPLOSION_HEIGHT;
@@ -53,7 +53,7 @@ float Distance_Explosion(const Vector2& a, const Vector2& b)
 
 bool Check_Overlap_With_Active_Explosion(const ExplosionPool& explosionPool, const Vector2& position)
 {
-	for (int i = 0; i < Explosion_Count; i++)
+	for (int i = 0; i < EXPLOSION_COUNT; i++)
 	{
 		if (explosionPool.activeExplosion[i]->hasBeenUsed && Distance_Explosion(explosionPool.activeExplosion[i]->transform.position, position) < 100.0f)
 		{
@@ -66,7 +66,7 @@ bool Check_Overlap_With_Active_Explosion(const ExplosionPool& explosionPool, con
 
 void Explosion_Add(ExplosionPool& explosionPool)
 {
-	for (int i = 0; i < Explosion_Count; i++)
+	for (int i = 0; i < EXPLOSION_COUNT; i++)
 	{
 		if (explosionPool.activeExplosion[i]->hasBeenUsed == false)
 	{
