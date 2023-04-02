@@ -45,7 +45,7 @@ float HalfY;
 
 
 
-void Shrinepool_Init(ShrinePool& pool)
+void Shrine_PoolInit(ShrinePool& pool)
 {
 	HalfX = (float)AEGetWindowWidth() / 2.0f;
 	HalfY = (float)AEGetWindowHeight() / 2.0f;
@@ -56,7 +56,7 @@ void Shrinepool_Init(ShrinePool& pool)
 	for (int i = 0; i < Shrine_Count; i++)
 	{
 		
-		pool.Shrines[i].hasbeenused = false;
+		pool.Shrines[i].hasBeenUsed = false;
 		pool.Shrines[i].transform.height = SHRINE_HEIGHT;
 		pool.Shrines[i].transform.width = SHRINE_WIDTH;
 		pool.Shrines[i].transform.mesh = &shrineMesh;
@@ -64,7 +64,7 @@ void Shrinepool_Init(ShrinePool& pool)
 		pool.activeShrine[i] = &pool.Shrines[i];
 		//pool.activeShrine[i]->loadingbarpercentage = 0.f;
 		pool.activeShrine[i]->timeElapsed = 0;
-		pool.activeShrine[i]->iscolliding = false;
+		pool.activeShrine[i]->isColliding = false;
 
 	}
 	assetfreeze = AEGfxTextureLoad("Assets/Freeze.png");
@@ -77,18 +77,18 @@ void Shrinepool_Init(ShrinePool& pool)
 
 }
 
-float Vector2Distance(const Vector2& a, const Vector2& b)
+float Vector_2Distance(const Vector2& a, const Vector2& b)
 {
 	float dx = b.x - a.x;
 	float dy = b.y - a.y;
 	return sqrt(dx * dx + dy * dy);
 }
 
-bool CheckOverlapWithActiveShrines(const ShrinePool& shrinePool, const Vector2& position)
+bool Check_Overlap_With_Active_Shrines(const ShrinePool& shrinePool, const Vector2& position)
 {
 	for (int i = 0; i < Shrine_Count; i++)
 	{
-		if (shrinePool.activeShrine[i]->hasbeenused && Vector2Distance(shrinePool.activeShrine[i]->transform.position, position) < 100.0f)
+		if (shrinePool.activeShrine[i]->hasBeenUsed && Vector_2Distance(shrinePool.activeShrine[i]->transform.position, position) < 100.0f)
 		{
 			return true;
 		}
@@ -105,15 +105,15 @@ int Random(int min, int max)
 	return dis(gen);
 }
 
-void ShrineAdd(ShrinePool& shrinePool)
+void Shrine_Add(ShrinePool& shrinePool)
 {
 	if (!IsTime_Paused())
 	{
 		for (int i = 0; i < Shrine_Count; i++)
 		{
-			if (shrinePool.activeShrine[i]->hasbeenused == false)
+			if (shrinePool.activeShrine[i]->hasBeenUsed == false)
 			{
-				shrinePool.activeShrine[i]->hasbeenused = true;
+				shrinePool.activeShrine[i]->hasBeenUsed = true;
 				shrinePool.activeSize += 1;
 
 				// Generate a random position until it doesn't overlap with any active shrines
@@ -121,12 +121,12 @@ void ShrineAdd(ShrinePool& shrinePool)
 				do
 				{
 					randomPosition = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-				} while (CheckOverlapWithActiveShrines(shrinePool, randomPosition));
+				} while (Check_Overlap_With_Active_Shrines(shrinePool, randomPosition));
 
 				shrinePool.activeShrine[i]->transform.position = randomPosition;
 				shrinePool.Shrines[i].loading.position = randomPosition;
 				shrinePool.activeShrine[i]->timeElapsed = 0;
-				shrinePool.activeShrine[i]->iscolliding = false;
+				shrinePool.activeShrine[i]->isColliding = false;
 				shrinePool.activeShrine[i]->transform.scale = { 2, 2 };
 				shrinePool.activeShrine[i]->types = static_cast<Shrine::Types>(Random(0, Shrine::TotalShrines - 1));
 
@@ -167,9 +167,9 @@ void ShrineAdd(ShrinePool& shrinePool)
 
 
 
-void ShrineDelete(int index, ShrinePool& shrinePool)
+void Shrine_Delete(int index, ShrinePool& shrinePool)
 {
-	shrinePool.activeShrine[index]->hasbeenused = false;
+	shrinePool.activeShrine[index]->hasBeenUsed = false;
 	if (index < (shrinePool.activeSize - 1))
 	{
 		Shrine* temp = shrinePool.activeShrine[index];
@@ -179,7 +179,7 @@ void ShrineDelete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool &ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool)
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool &ninPool, Player& player, PlayerInfo& playerInfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool)
 {
 	duration += deltaTime;
 	//std::cout << duration << std::endl;
@@ -190,7 +190,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 	if (duration >= 1.f)
 	{
 		duration = 0;
-		ShrineAdd(shrinePool);
+		Shrine_Add(shrinePool);
 
 	}
 
@@ -200,7 +200,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 		SetQuadPoints(shrinePool.activeShrine[i]->transform);
 		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 		{
-			shrinePool.activeShrine[i]->iscolliding = true;
+			shrinePool.activeShrine[i]->isColliding = true;
 			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
 			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
 			{
@@ -210,10 +210,10 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 					AEAudioPlay(explosionSound, mainsceneAudioGroup, 1.f, 1.f, 0);
 					for (int l = 0; l < Explosion_Count; l++)
 					{
-						ExplosionAdd(explosionPool);
+						Explosion_Add(explosionPool);
 					}
 					Explosion_Update(explosionPool, archPool, canPool, ninPool);
-					ShrineDelete(i, shrinePool);
+					Shrine_Delete(i, shrinePool);
 					break;
 				}
 
@@ -223,10 +223,10 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 					AEAudioPlay(voidSound, mainsceneAudioGroup, 0.5f, 1.f, 0);
 					for (int k = 0; k < Void_Count; k++)
 					{
-						VoidAdd(voidPool);
+						Void_Add(voidPool);
 					}
 					Void_Update(voidPool, samPool, archPool, canPool);
-					ShrineDelete(i, shrinePool);
+					Shrine_Delete(i, shrinePool);
 					break;
 				}
 
@@ -236,7 +236,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 					AEAudioPlay(freezeSound, mainsceneAudioGroup, 0.5f, 1.f, 0);
 					TimePauseEnemy();
 					timeSincePause = 0.0f;
-					ShrineDelete(i, shrinePool);
+					Shrine_Delete(i, shrinePool);
 				//std::cout << "Freeze tower" << std::endl;
 					break;
 				}
@@ -246,7 +246,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 				{
 					AEAudioPlay(windSound, mainsceneAudioGroup, 1.f, 1.f, 0);
 					Push_Enemies(samPool, archPool, HORIZONTAL, PUSH_BY, ninPool);
-					ShrineDelete(i, shrinePool);
+					Shrine_Delete(i, shrinePool);
 					//std::cout << "Push tower" << std::endl;
 					break;
 				}
@@ -254,12 +254,12 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 				// Heal shrine
 				if (shrinePool.activeShrine[i]->types == Shrine::Heal)
 				{
-					if (playerinfo.health < 100) {
+					if (playerInfo.health < 100) {
 						AEAudioPlay(healthSound, mainsceneAudioGroup, 1.f, 1.f, 0);
-						Heal_player(playerinfo);
-						ShrineDelete(i, shrinePool);
+						Heal_player(playerInfo);
+						Shrine_Delete(i, shrinePool);
 						//std::cout << "Heal tower" << std::endl;
-						std::cout << playerinfo.health << std::endl;
+						std::cout << playerInfo.health << std::endl;
 						break;
 					}
 				}
@@ -341,7 +341,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 					// If timer reaches zero, delete shrine
 					if (shrinePool.activeShrine[i]->deleteTimer <= 0.0)
 					{
-						ShrineDelete(i, shrinePool);
+						Shrine_Delete(i, shrinePool);
 					}
 				}
 
@@ -353,15 +353,15 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 				for (int g = 0; g < shrinePool.activeSize; g++)
 				{
 					shrinePool.Shrines[g].loading.position = shrinePool.activeShrine[g]->transform.position + Vector2(0, 80);
-					float loadingbarpercentage = shrinePool.activeShrine[g]->timeElapsed / 5.f;
-					shrinePool.Shrines[g].loading.scale = Vector2(loadingbarpercentage, 1.0f);
+					float loadingBarPercentage = shrinePool.activeShrine[g]->timeElapsed / 5.f;
+					shrinePool.Shrines[g].loading.scale = Vector2(loadingBarPercentage, 1.0f);
 				}
 
 			}
 		}
 		else
 		{
-			shrinePool.activeShrine[i]->iscolliding = false;
+			shrinePool.activeShrine[i]->isColliding = false;
 		}
 	}
 	if (timeSincePause >= 2.0f)
@@ -376,10 +376,10 @@ void Draw_Shrine(ShrinePool& shrinePool)
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
 
-		if (shrinePool.activeShrine[i]->hasbeenused)
+		if (shrinePool.activeShrine[i]->hasBeenUsed)
 		{
 			DrawMesh(&shrinePool.activeShrine[i]->transform);
-			if (shrinePool.activeShrine[i]->iscolliding)
+			if (shrinePool.activeShrine[i]->isColliding)
 			{
 				DrawMesh(&shrinePool.Shrines[i].loading);
 			}

@@ -72,8 +72,8 @@ void Init_Scene() {
 	//G_Init();
 
 	//DummyPlayer_Init(&dummyPlayer);
-	Shrinepool_Init(shrinePool);
-	Explosionpool_Init(explosionPool);
+	Shrine_PoolInit(shrinePool);
+	Explosion_PoolInit(explosionPool);
 	Player_Init(&player, bulletPool);
 	Init_Enemies(samPool, archPool, cPool, ninPool);
 	Init_PauseMenu();
@@ -91,7 +91,7 @@ void Init_Scene() {
 	Reset_TimeMan();
 	Reset_HighScore();
 	HealthBar_Init(barPool, &health, playerinfo, samPool, archPool, ninPool, cPool);
-	Voidpool_Init(voidPool);
+	Void_PoolInit(voidPool);
 
 
 }

@@ -34,32 +34,32 @@
 namespace
 {
 	enum{Shrine_Count = 10};
-	float SHRINE_HEIGHT = 50, SHRINE_WIDTH = 50;
-	float LOADING_WIDTH = 150, LOADING_HEIGHT = 10;
-	float PUSH_BY = -500;
+	#define SHRINE_HEIGHT  50
+	#define SHRINE_WIDTH  50
+	#define LOADING_WIDTH  150
+	#define LOADING_HEIGHT  10
+	#define PUSH_BY  -500
 	AEGfxVertexList* shrineMesh;
 	AEGfxVertexList* shrineBoundary;
 	AEGfxVertexList* loadingBarMesh;
 	NinjaPool ninPools;
 	ArcherPool archPools;
-	PlayerInfo playerinfos;
+	PlayerInfo playerInfos;
 	ExplosionPool exPools;
-	int shrineRadius = 100;
 }
 
 class Shrine
 {
 public:
 	Transform transform;
-	bool hasbeenused = false;
-	bool iscolliding = false;
-	float loadingbarpercentage = 0;
 	Transform loading;
+	bool hasBeenUsed = false;
+	bool isColliding = false;
+	float loadingBarPercentage = 0;
 	float timeElapsed = 0;
-	enum Types { Explosion,Freeze, Push,God,Heal, Void, TotalShrines };
-	
-	Types types ;
 	float deleteTimer =5.0;
+	enum Types { Explosion,Freeze, Push,God,Heal, Void, TotalShrines };
+	Types types ;
 	
 };
 
@@ -75,11 +75,11 @@ public:
 	
 };
 
-void Shrinepool_Init(ShrinePool& shrinePool);
-void ShrineAdd(ShrinePool& shrinePool);
-void ShrineDelete(int index, ShrinePool& shrinePool);
+void Shrine_PoolInit(ShrinePool& shrinePool);
+void Shrine_Add(ShrinePool& shrinePool);
+void Shrine_Delete(int index, ShrinePool& shrinePool);
 void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool &archPool,
-NinjaPool &ninPool, Player& player, PlayerInfo& playerinfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool);
+NinjaPool &ninPool, Player& player, PlayerInfo& playerInfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool);
 void Draw_Shrine(ShrinePool& shrinePool);
 void Free_Shrines();
 

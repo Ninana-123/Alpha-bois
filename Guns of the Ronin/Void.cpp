@@ -24,41 +24,41 @@
 
 
 float Durations;
-void Voidpool_Init(VoidPool& voidPool)
+void Void_PoolInit(VoidPool& voidPool)
 {
 	Durations = 0;
 	voidPool.activeSize = 0;
 	CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh, 1/4.0f ,1.0f);
 	for (int i = 0; i < Void_Count; i++)
 	{
-		voidPool.Voids[i].hasbeenused = false;
+		voidPool.Voids[i].hasBeenUsed = false;
 		voidPool.Voids[i].transform.height = VOID_HEIGHT;
 		voidPool.Voids[i].transform.width = VOID_WIDTH;
 		voidPool.Voids[i].transform.mesh = &voidMesh;
 		voidPool.activeVoid[i] = &voidPool.Voids[i];
 		voidPool.activeVoid[i]->timeElapsed = 0;
-		voidPool.activeVoid[i]->iscolliding = false;
-		voidPool.activeVoid[i]->transform.texture = &assetblackhole;
+		voidPool.activeVoid[i]->isColliding = false;
+		voidPool.activeVoid[i]->transform.texture = &assetBlackHole;
 		voidPool.activeVoid[i]->transform.scale = { 1.5,1.5 };
 	}
-	assetblackhole = AEGfxTextureLoad("Assets/BlackholeSpriteSheet.png");
+	assetBlackHole = AEGfxTextureLoad("Assets/BlackholeSpriteSheet.png");
 
 		
 }
 
 
-float DistanceVoid(const Vector2& a, const Vector2& b)
+float Distance_Void(const Vector2& a, const Vector2& b)
 {
 	float dx = b.x - a.x;
 	float dy = b.y - a.y;
 	return sqrt(dx * dx + dy * dy);
 }
 
-bool CheckOverlapWithActiveVoid(const VoidPool& voidPool, const Vector2& position)
+bool Check_Overlap_With_Active_Void(const VoidPool& voidPool, const Vector2& position)
 {
 	for (int i = 0; i < Void_Count; i++)
 	{
-		if (voidPool.activeVoid[i]->hasbeenused && DistanceVoid(voidPool.activeVoid[i]->transform.position, position) < 100.0f)
+		if (voidPool.activeVoid[i]->hasBeenUsed && Distance_Void(voidPool.activeVoid[i]->transform.position, position) < 100.0f)
 		{
 			return true;
 		}
@@ -67,17 +67,17 @@ bool CheckOverlapWithActiveVoid(const VoidPool& voidPool, const Vector2& positio
 	return false;
 }
 
-void VoidAdd(VoidPool& voidPool)
+void Void_Add(VoidPool& voidPool)
 {
 	for (int i = 0; i < Void_Count; i++)
 	{
-		if (voidPool.activeVoid[i]->hasbeenused == false)
+		if (voidPool.activeVoid[i]->hasBeenUsed == false)
 		{
-			if (voidPool.activeVoid[i]->iscolliding == true) 
+			if (voidPool.activeVoid[i]->isColliding == true) 
 			{
 				continue; // skip this explosion
 			}
-			voidPool.activeVoid[i]->hasbeenused = true;
+			voidPool.activeVoid[i]->hasBeenUsed = true;
 			voidPool.activeSize += 1;
 
 			// Generate a random position until it doesn't overlap with any active shrines
@@ -85,23 +85,23 @@ void VoidAdd(VoidPool& voidPool)
 			do
 			{
 				randomPosition = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-			} while (CheckOverlapWithActiveVoid(voidPool, randomPosition));
+			} while (Check_Overlap_With_Active_Void(voidPool, randomPosition));
 			voidPool.activeVoid[i]->transform.position = randomPosition;
 
 
 			//voidPool.activeVoid[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
 			//voidPool.activeVoid[i]->loading.position = voidPool.activeVoid[i]->transform.position;
 			voidPool.activeVoid[i]->timeElapsed = 0;
-			voidPool.activeVoid[i]->iscolliding = false;
+			voidPool.activeVoid[i]->isColliding = false;
 			break;
 		}
 	}
 }
 
-void VoidDelete(int index, VoidPool& voidPool)
+void Void_Delete(int index, VoidPool& voidPool)
 {
 	
-		voidPool.activeVoid[index]->hasbeenused = false;
+		voidPool.activeVoid[index]->hasBeenUsed = false;
 		if (index < (voidPool.activeSize - 1))
 		{
 			Void* temp = voidPool.activeVoid[index];
@@ -199,7 +199,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 			if (voidPool.activeVoid[i]->timeElapsed >= 4.f)
 			{
 				// If the void has been active for more than 1 second, remove it from the VoidPool
-				VoidDelete(i, voidPool);
+				Void_Delete(i, voidPool);
 			}
 			else
 			{
@@ -211,7 +211,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		else
 		{
 			// If there are collided samurais, remove the void from the VoidPool
-			VoidDelete(i, voidPool);
+			Void_Delete(i, voidPool);
 		}
 	}
 }
@@ -220,12 +220,12 @@ void Draw_Void(VoidPool& voidPool)
 	for (int i = 0; i < voidPool.activeSize; i++)
 	{
 
-		if (voidPool.activeVoid[i]->hasbeenused)
+		if (voidPool.activeVoid[i]->hasBeenUsed)
 		{
 			DrawMesh(&voidPool.activeVoid[i]->transform);
-			if (voidPool.activeVoid[i]->iscolliding)
+			if (voidPool.activeVoid[i]->isColliding)
 			{
-				VoidDelete(i, voidPool);
+				Void_Delete(i, voidPool);
 			}
 		}
 
@@ -236,6 +236,6 @@ void Free_Void()
 {
 	
 	AEGfxMeshFree(voidMesh);
-	AEGfxTextureUnload(assetblackhole);
+	AEGfxTextureUnload(assetBlackHole);
 
 }

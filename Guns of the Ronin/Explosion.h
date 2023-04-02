@@ -29,18 +29,19 @@
 namespace
 {
 	enum{Explosion_Count = 5};
-	float EXPLOSION_HEIGHT = 100, EXPLOSION_WIDTH = 100;
+	#define EXPLOSION_HEIGHT  100
+	#define EXPLOSION_WIDTH  100
+	#define EXPLOSION_COUNT 100
 	AEGfxVertexList* explosionsMesh;
-	int explosionCount = 100;
-	AEGfxTexture* assetexplosions = 0;
+	AEGfxTexture* assetExplosions = 0;
 }
 
 class Explosion 
 {
 public:
 	Transform transform;
-	bool hasbeenused = false;
-	bool iscolliding = false;
+	bool hasBeenUsed = false;
+	bool isColliding = false;
 	bool damagedByExplosion =false;
 	Transform loading;
 	float timeElapsed = 0;
@@ -56,9 +57,9 @@ public:
 	
 };
 
-void Explosionpool_Init(ExplosionPool& explosionPool);
-void ExplosionAdd(ExplosionPool& explosionPool);
-void ExplosionDelete(int index, ExplosionPool& explosionPool);
+void Explosion_PoolInit(ExplosionPool& explosionPool);
+void Explosion_Add(ExplosionPool& explosionPool);
+void Explosion_Delete(int index, ExplosionPool& explosionPool);
 void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, CannoneerPool& canPool, NinjaPool& ninPool);
 void Draw_Explosions(ExplosionPool& explosionPool);
 void Free_Explosions();
