@@ -11,7 +11,7 @@
 @course CSD 1450
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains code on how would the explosions shrine work 
 *//*______________________________________________________________________*/
 #include "Explosion.h"
 #include "Graphics.h"
@@ -179,58 +179,59 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 		}
 	}
 
-	for (int j = 0; j < archPool.activeSize; j++)
-	{
-		archPool.activeArchers[j]->isCollidingWithExplosion = false;
-		for (int i = 0; i < explosionPool.activeSize; i++)
-		{
-			if (StaticCol_QuadQuad(archPool.activeArchers[j]->transform, explosionPool.activeExplosion[i]->transform))
-			{
-				archPool.activeArchers[j]->isCollidingWithExplosion = true;
-				Explosion_Delete(i, explosionPool);
-			}
-		}
-		if (!archPool.activeArchers[j]->isCollidingWithExplosion && archPool.activeArchers[j]->damagedByExplosion)
-		{
-			archPool.activeArchers[j]->damagedByExplosion = false;
-		}
+	//// Check if enemy is archers
+	//for (int j = 0; j < archPool.activeSize; j++)
+	//{
+	//	archPool.activeArchers[j]->isCollidingWithExplosion = false;
+	//	for (int i = 0; i < explosionPool.activeSize; i++)
+	//	{
+	//		if (StaticCol_QuadQuad(archPool.activeArchers[j]->transform, explosionPool.activeExplosion[i]->transform))
+	//		{
+	//			archPool.activeArchers[j]->isCollidingWithExplosion = true;
+	//			Explosion_Delete(i, explosionPool);
+	//		}
+	//	}
+	//	if (!archPool.activeArchers[j]->isCollidingWithExplosion && archPool.activeArchers[j]->damagedByExplosion)
+	//	{
+	//		archPool.activeArchers[j]->damagedByExplosion = false;
+	//	}
 
-	}
+	//}
+	//// Check if enemy is cannons
+	//for (int z= 0; z < canPool.activeSize; z++)
+	//{
+	//	canPool.activeCannoneers[z]->isCollidingWithExplosion = false;
+	//	for (int i = 0; i < explosionPool.activeSize; i++)
+	//	{
+	//		if (StaticCol_QuadQuad(canPool.activeCannoneers[z]->transform, explosionPool.activeExplosion[i]->transform))
+	//		{
+	//			canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
+	//			Explosion_Delete(i, explosionPool);
+	//		}
+	//	}
+	//	if (!canPool.activeCannoneers[z]->isCollidingWithExplosion && canPool.activeCannoneers[z]->damagedByExplosion)
+	//	{
+	//		canPool.activeCannoneers[z]->damagedByExplosion = false;
+	//	}
+	//}
+	//// Check if enemy is ninjas
+	//for (int k = 0; k < ninPool.activeSize; k++)
+	//{
+	//	ninPool.activeNinjas[k]->isCollidingWithExplosion = false;
+	//	for (int i = 0; i < explosionPool.activeSize; i++)
+	//	{
+	//		if (StaticCol_QuadQuad(ninPool.activeNinjas[k]->transform, explosionPool.activeExplosion[i]->transform))
+	//		{
+	//			ninPool.activeNinjas[k]->isCollidingWithExplosion = true;
+	//			Explosion_Delete(i, explosionPool);
+	//		}
+	//	}
+	//	if (!ninPool.activeNinjas[k]->isCollidingWithExplosion && ninPool.activeNinjas[k]->damagedByExplosion)
+	//	{
+	//		ninPool.activeNinjas[k]->damagedByExplosion = false;
+	//	}
 
-	for (int z= 0; z < canPool.activeSize; z++)
-	{
-		canPool.activeCannoneers[z]->isCollidingWithExplosion = false;
-		for (int i = 0; i < explosionPool.activeSize; i++)
-		{
-			if (StaticCol_QuadQuad(canPool.activeCannoneers[z]->transform, explosionPool.activeExplosion[i]->transform))
-			{
-				canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
-				Explosion_Delete(i, explosionPool);
-			}
-		}
-		if (!canPool.activeCannoneers[z]->isCollidingWithExplosion && canPool.activeCannoneers[z]->damagedByExplosion)
-		{
-			canPool.activeCannoneers[z]->damagedByExplosion = false;
-		}
-	}
-
-	for (int k = 0; k < ninPool.activeSize; k++)
-	{
-		ninPool.activeNinjas[k]->isCollidingWithExplosion = false;
-		for (int i = 0; i < explosionPool.activeSize; i++)
-		{
-			if (StaticCol_QuadQuad(ninPool.activeNinjas[k]->transform, explosionPool.activeExplosion[i]->transform))
-			{
-				ninPool.activeNinjas[k]->isCollidingWithExplosion = true;
-				Explosion_Delete(i, explosionPool);
-			}
-		}
-		if (!ninPool.activeNinjas[k]->isCollidingWithExplosion && ninPool.activeNinjas[k]->damagedByExplosion)
-		{
-			ninPool.activeNinjas[k]->damagedByExplosion = false;
-		}
-
-	}
+	//}
 	
 }
 

@@ -6,12 +6,12 @@
 */
 /*!
 @file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
+@author Teo Sheen Yeoh & Vance Tay
+@Email t.sheenyeoh@digipen.edu & Junfengvance.t@digipen.edu
 @course CSD 1450
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains contains code on how would all the shrine work with its individual abilites 
 *//*______________________________________________________________________*/
 #include "Shrine.h"
 #include "Explosion.h"

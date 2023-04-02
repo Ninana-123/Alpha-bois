@@ -11,7 +11,7 @@
 @course CSD 1450
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains code that shows how would the void shrine work
 *//*______________________________________________________________________*/
 #include "Void.h"
 #include "Graphics.h"
