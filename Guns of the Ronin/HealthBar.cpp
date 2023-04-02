@@ -46,7 +46,7 @@ void HealthBar_Init(BarPool& barPool, Health* health) {
 
 void HealthBar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
 	//player health bar
-	health->playerBar.position = player->transform.position + Vector2(15, 50);
+	health->playerBar.position = player->transform.position + Vector2(HEALTH_X, HEALTH_Y);
 	float CurrentPlayerHealthScale = (float)playerinfo.health / 100.0f * 1.0f;
 	health->playerBar.scale = Vector2 (CurrentPlayerHealthScale, BAR_SCALE_Y);
 
