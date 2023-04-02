@@ -23,13 +23,13 @@
 #include "vector"
 
 
-float Durations;
+float durations;
 void Void_PoolInit(VoidPool& voidPool)
 {
-	Durations = 0;
+	durations = 0;
 	voidPool.activeSize = 0;
 	CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh, 1/4.0f ,1.0f);
-	for (int i = 0; i < Void_Count; i++)
+	for (int i = 0; i < VOID_COUNT; i++)
 	{
 		voidPool.Voids[i].hasBeenUsed = false;
 		voidPool.Voids[i].transform.height = VOID_HEIGHT;
@@ -56,7 +56,7 @@ float Distance_Void(const Vector2& a, const Vector2& b)
 
 bool Check_Overlap_With_Active_Void(const VoidPool& voidPool, const Vector2& position)
 {
-	for (int i = 0; i < Void_Count; i++)
+	for (int i = 0; i < VOID_COUNT; i++)
 	{
 		if (voidPool.activeVoid[i]->hasBeenUsed && Distance_Void(voidPool.activeVoid[i]->transform.position, position) < 100.0f)
 		{
@@ -69,7 +69,7 @@ bool Check_Overlap_With_Active_Void(const VoidPool& voidPool, const Vector2& pos
 
 void Void_Add(VoidPool& voidPool)
 {
-	for (int i = 0; i < Void_Count; i++)
+	for (int i = 0; i < VOID_COUNT; i++)
 	{
 		if (voidPool.activeVoid[i]->hasBeenUsed == false)
 		{
@@ -116,7 +116,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 {
 	
 	// Animation
-	for (int i = 0; i < Void_Count; i++)
+	for (int i = 0; i < VOID_COUNT; i++)
 	{
 		static float frameTimer = 0;
 		frameTimer += deltaTime;
@@ -188,7 +188,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		for (int j = (int) collidedArchers.size() - 1; j >= 0; j--)
 		{
 			// Remove the collided archer from the ArcherPool
-			ArcherRemove(collidedArchers[j], archPool);
+			Remove_Archer(collidedArchers[j], archPool);
 		}
 
 		// Remove the void if there are no collided samurais

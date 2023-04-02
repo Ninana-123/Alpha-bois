@@ -30,10 +30,10 @@
 namespace
 {
 	enum ARCHER_AI_STATE { ARCHER_MOVING, ARCHER_ATTACKING, ARCHER_BLOWNAWAY };
-	enum { ARCHER_COUNT = 30 };
+	#define ARCHER_COUNT 30
 	int const ARCHER_KILLSCORE = 50;
-	#define ARCHER_MIN_SPAWNDIST 200
-	#define ARCHER_MAX_SPAWNDIST 400
+	#define ARCHER_MIN_SPAWN_DIST 200
+	#define ARCHER_MAX_SPAWN_DIST 400
 	#define ARCHER_HEALTH 100
 	#define ARCHER_MS 100.0f
 	#define ARCHER_SWEEP_MS 700.0f	// For wind shrine
@@ -64,7 +64,7 @@ struct ArcherPool {
 	int activeSize = 0;
 };
 
-void ArcherAdd(ArcherPool& pool, Vector2 playerPos);
+void Add_Archer(ArcherPool& pool, Vector2 playerPos);
 
 void Init_ArcherPool(ArcherPool& pool);
 
@@ -78,5 +78,5 @@ void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index);
 
 void Free_Archer();
 
-void ArcherRemove(int index, ArcherPool& pool);
+void Remove_Archer(int index, ArcherPool& pool);
 #endif // !ARCHER_H

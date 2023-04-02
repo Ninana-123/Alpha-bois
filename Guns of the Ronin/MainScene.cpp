@@ -43,6 +43,8 @@
 //float timeSincePause = 0.0f;
 AEGfxTexture* LevelBG;
 Level level;
+int startingWave = 0;
+
 namespace {
 	DummyPlayer dummyPlayer;
 	Player player;
@@ -75,7 +77,7 @@ void Init_Scene() {
 	Shrine_PoolInit(shrinePool);
 	Explosion_PoolInit(explosionPool);
 	Player_Init(&player, bulletPool);
-	Init_Enemies(samPool, archPool, cPool, ninPool);
+	Init_Enemies(samPool, archPool, cPool, ninPool, startingWave);
 	Init_PauseMenu();
 	PlayerInfo_Init(&playerinfo);
 	LevelBG = AEGfxTextureLoad("Assets/GameBG1.png");
@@ -90,7 +92,7 @@ void Init_Scene() {
 
 	Reset_TimeMan();
 	Reset_HighScore();
-	HealthBar_Init(barPool, &health, playerinfo, samPool, archPool, ninPool, cPool);
+	Init_Health_Bar(barPool, &health);
 	Void_PoolInit(voidPool);
 
 
@@ -205,7 +207,7 @@ void Update_Scene() {
 
 	Player_Update(&player, bulletPool);
 
-	HealthBar_Update(barPool, &health, playerinfo, &player, samPool, archPool, ninPool, cPool);
+	Health_Bar_Update(barPool, &health, playerinfo, &player, samPool, archPool, ninPool, cPool);
 	
 	
 }
@@ -221,7 +223,7 @@ void Draw_Scene() {
 	Draw_Shrine( shrinePool);
 	Draw_Explosions(explosionPool);
 	Draw_Player(&player, bulletPool);
-	HealthBar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
+	Health_Bar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
 	Draw_Void(voidPool);
 	Draw_PauseMenu(playerinfo);
 }
@@ -242,7 +244,7 @@ void Free_Scene() {
 	Free_Explosions();
 	AEGfxMeshFree(levelMesh);
 	AEGfxTextureUnload(LevelBG);
-	HealthBar_Free();
+	Health_Bar_Free();
 	Free_Void();
 	Free_Ninja();
 	Free_Arrow();
@@ -254,5 +256,7 @@ void Free_Scene() {
 	}
 }
 
-
+void Set_StartingWave(int waveNum) {
+	startingWave = waveNum;
+}
 

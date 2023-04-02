@@ -18,11 +18,12 @@
 #include "HighScore.h"
 #include "EnemyCounter.h"
 
-#define archerAttDelay 2.0f
+#define ARCHER_ATTACK_DELAY 2.0f
+#define ARCHER_ATTACK_INTERVAL 1.0f
 ArrowPool arrow;
 
 //When a archer dies 
-void ArcherRemove(int index, ArcherPool& pool) {
+void Remove_Archer(int index, ArcherPool& pool) {
 	pool.activeArchers[index]->enabled = false;
 
 	// Swap the pointers
@@ -37,14 +38,14 @@ void ArcherRemove(int index, ArcherPool& pool) {
 }
 
 //Spawning a new archer
-void ArcherAdd(ArcherPool& pool, Vector2 playerPos) {
+void Add_Archer(ArcherPool& pool, Vector2 playerPos) {
 	for (int i = 0; i < ARCHER_COUNT; i++) {
 		if (pool.activeArchers[i]->enabled == false) {
 			pool.activeArchers[i]->enabled = true;
 			pool.activeArchers[i]->health = ARCHER_HEALTH;
 			pool.activeArchers[i]->transform.texture = &archerTexture;
 			pool.activeArchers[i]->transform.scale = { 4, 4 };
-			pool.activeArchers[i]->transform.position = RandomPoint_OutsideSqaure(ARCHER_MIN_SPAWNDIST, ARCHER_MAX_SPAWNDIST, playerPos);
+			pool.activeArchers[i]->transform.position = RandomPoint_OutsideSqaure(ARCHER_MIN_SPAWN_DIST, ARCHER_MAX_SPAWN_DIST, playerPos);
 			pool.activeSize += 1;
 			break;
 		}
@@ -112,7 +113,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 
 			// if player within archer's attacking range, start attacking
 			else {
-				if (curArcher->timeLastAttack >= archerAttDelay) {
+				if (curArcher->timeLastAttack >= ARCHER_ATTACK_DELAY) {
 					ArrowAdd(arrow, curArcher->transform.position, playerPos);
 					AEAudioPlay(archerShoot, mainsceneAudioGroup, 0.1f, 1.f, 0);
 					curArcher->timeLastAttack = 0;
@@ -144,7 +145,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 		Arrow* proj = arrow.activeArrow[i];
 		proj->timeSince_lastDmgDeal += deltaTime;
 		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
-			if (proj->timeSince_lastDmgDeal > 1.0f) {
+			if (proj->timeSince_lastDmgDeal > ARCHER_ATTACK_INTERVAL) {
 				player_dmg(playerInfo, ARCHER_DAMAGE);
 				proj->timeSince_lastDmgDeal = 0;
 				ArrowRemove(i, arrow);
@@ -158,7 +159,7 @@ void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {
 
 	// Check if archer health is equals to or below 0, and remove the archer
 	if ((pool.activeArchers[index]->health -= playerInfo.att) <= 0) {
-		ArcherRemove(index, pool);
+		Remove_Archer(index, pool);
 	}
 }
 

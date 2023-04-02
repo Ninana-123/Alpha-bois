@@ -55,7 +55,7 @@ namespace {
 #define CB_WIDTH 20.0f
 #define CB_EXPLOSION_DURATION 0.7f
 #define CB_EXPLOSION_RADIUS 40.0f
-#define CB_LZ_ERROR 3.0f
+#define CB_LZ_ERROR 5.0f  //The error of margin in case the game lags and the cannonball travels too far off the LZ
 }
 
 class Cannoneer {

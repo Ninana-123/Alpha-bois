@@ -33,7 +33,7 @@ float ninjaSpawnTimer = 0;
 int enemiesLeft = 0;
 
 
-void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPool, NinjaPool &ninPool) {
+void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPool, NinjaPool &ninPool, int startingWave) {
 	Init_SamuraiPool(samPool);
 	Init_ArcherPool(archPool);
 	Init_CannoneerPool(cPool);
@@ -45,7 +45,7 @@ void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPo
 			spawnTotalCount[i] += spawnCounts[i][u];
 		}
 	}
-	curWave = 9, enemiesLeft = spawnTotalCount[8];
+	curWave = startingWave, enemiesLeft = spawnTotalCount[startingWave - 1];
 
 	for (int i = 0; i < NUM_OF_ENEMY_TYPES; ++i) {
 		curSpawnCounts[i] = 0;
@@ -72,7 +72,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		// Archer
 		if (archerSpawnTimer >= SPAWN_RATE_ARCHER && curSpawnCounts[ARCHER] < spawnCounts[curWave - 1][ARCHER]) {
 			archerSpawnTimer = 0;
-			ArcherAdd(archPool, player.transform.position);
+			Add_Archer(archPool, player.transform.position);
 			++curSpawnCounts[ARCHER];
 		}
 		AI_Archer(archPool, player, playerInfo);
@@ -89,7 +89,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		// Ninja
 		if (ninjaSpawnTimer >= SPAWN_RATE_NINJA && curSpawnCounts[NINJA] < spawnCounts[curWave - 1][NINJA]) {
 			ninjaSpawnTimer = 0;
-			NinjaAdd(ninPool, player.transform.position);
+			Add_Ninja(ninPool, player.transform.position);
 			++curSpawnCounts[NINJA];
 		}
 		AI_Ninja(ninPool, player, playerInfo);

@@ -47,7 +47,7 @@ namespace {
 	//Number of enemies spawned each wave
 	constexpr int spawnCounts[NUM_OF_WAVES][NUM_OF_ENEMY_TYPES]{
 		/*Wave n    Samurai		 Archer		 Cannoneer	 Ninja		*/
-		/*Wave 1*/	{0			,10			,0			,0			},
+		/*Wave 1*/	{10			,0			,0			,0			},
 		/*Wave 2*/	{20			,5			,0			,0			},
 		/*Wave 3*/	{30			,10			,0			,0			},
 		/*Wave 4*/	{35			,20			,0			,0			},
@@ -61,7 +61,7 @@ namespace {
 }
 
 
-void Init_Enemies(SamuraiPool& pool, ArcherPool &archPool, CannoneerPool& cPool, NinjaPool &ninPool);
+void Init_Enemies(SamuraiPool& pool, ArcherPool &archPool, CannoneerPool& cPool, NinjaPool &ninPool, int startingWave = 1);
 
 void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool,CannoneerPool& cPool, NinjaPool &ninpool, Player& player, PlayerInfo& playerInfo);
 

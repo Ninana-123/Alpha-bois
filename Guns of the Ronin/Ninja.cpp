@@ -20,10 +20,12 @@
 #include "EnemyCounter.h"
 #include "PlayerInfo.h"
 
+#define NINJA_ATTACK_INTERVAL 1.0f
+
 ShurikenPool shuriken;
 
 //When a Ninja dies 
-void NinjaRemove(int index, NinjaPool& pool) {
+void Remove_Ninja(int index, NinjaPool& pool) {
 	pool.activeNinjas[index]->enabled = false;
 	// Swap pointers
 	if (index < (pool.activeSize - 1)) {
@@ -37,13 +39,13 @@ void NinjaRemove(int index, NinjaPool& pool) {
 }
 
 //Spawning a new Ninja
-void NinjaAdd(NinjaPool& pool, Vector2 playerPos) {
+void Add_Ninja(NinjaPool& pool, Vector2 playerPos) {
 	for (int i = 0; i < NINJA_COUNT; i++) {
 		if (pool.activeNinjas[i]->enabled == false) {
 			pool.activeNinjas[i]->enabled = true;
 			pool.activeNinjas[i]->health = NINJA_HEALTH;
 			pool.activeNinjas[i]->isHit = false;
-			pool.activeNinjas[i]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWNDIST, NINJA_MAX_SPAWNDIST, playerPos);
+			pool.activeNinjas[i]->transform.position = RandomPoint_OutsideSqaure(NINJA_MIN_SPAWN_DIST, NINJA_MAX_SPAWN_DIST, playerPos);
 			pool.activeNinjas[i]->smoke.scale = { 4, 2.25f };
 			pool.activeNinjas[i]->dmgDealt = false;
 			pool.activeSize += 1;
@@ -172,7 +174,7 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 		Shuriken* proj = shuriken.activeShuriken[i];
 		proj->timeSince_lastDmgDeal += deltaTime;
 		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
-			if (proj->timeSince_lastDmgDeal > 1.0f) {
+			if (proj->timeSince_lastDmgDeal > NINJA_ATTACK_INTERVAL) {
 				player_dmg(playerInfo, NINJA_DAMAGE);
 				proj->timeSince_lastDmgDeal = 0;
 				ShurikenRemove(i, shuriken);
@@ -195,7 +197,7 @@ void Dmg_Ninja(NinjaPool& pool, PlayerInfo& playerInfo, Player& player, int inde
 	// if shield does not exist and ninja health below 0, remove ninja
 	else{
 		if ((pool.activeNinjas[index]->health -= playerInfo.att) <= 0) {
-			NinjaRemove(index, pool);
+			Remove_Ninja(index, pool);
 		}
 	}
 }

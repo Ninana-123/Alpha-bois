@@ -194,6 +194,7 @@ void Update_Menu() {
 			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_LEVEL1;
+			Set_StartingWave(1);
 		}
 	}
 	else playButton.spriteIndex = PLAY_BUTTON_SPRITE;
@@ -258,6 +259,67 @@ void Update_Menu() {
 		!IsButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
 		!IsButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
 		audioPlayed = false;
+	}
+
+	if (AEInputCheckReleased(AEVK_1)) {
+		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+		AEAudioPauseGroup(mainmenuAudioGroup);
+		gGameStateNext = GS_LEVEL1;
+		Set_StartingWave(1);
+	}
+	if (AEInputCheckReleased(AEVK_2)) {
+		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+		AEAudioPauseGroup(mainmenuAudioGroup);
+		gGameStateNext = GS_LEVEL1;
+		Set_StartingWave(2);
+	}
+	if (AEInputCheckReleased(AEVK_3)) {
+		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+		AEAudioPauseGroup(mainmenuAudioGroup);
+		gGameStateNext = GS_LEVEL1;
+		Set_StartingWave(3);
+	}
+	if (AEInputCheckReleased(AEVK_4)) {
+		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+		AEAudioPauseGroup(mainmenuAudioGroup);
+		gGameStateNext = GS_LEVEL1;
+		Set_StartingWave(4);
+	}
+	if (AEInputCheckReleased(AEVK_5)) {
+		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+		AEAudioPauseGroup(mainmenuAudioGroup);
+		gGameStateNext = GS_LEVEL1;
+		Set_StartingWave(5);
+	}
+	if (AEInputCheckReleased(AEVK_6)) {
+		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+		AEAudioPauseGroup(mainmenuAudioGroup);
+		gGameStateNext = GS_LEVEL1;
+		Set_StartingWave(6);
+	}
+	if (AEInputCheckReleased(AEVK_7)) {
+		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+		AEAudioPauseGroup(mainmenuAudioGroup);
+		gGameStateNext = GS_LEVEL1;
+		Set_StartingWave(7);
+	}
+	if (AEInputCheckReleased(AEVK_8)) {
+		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+		AEAudioPauseGroup(mainmenuAudioGroup);
+		gGameStateNext = GS_LEVEL1;
+		Set_StartingWave(8);
+	}
+	if (AEInputCheckReleased(AEVK_9)) {
+		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+		AEAudioPauseGroup(mainmenuAudioGroup);
+		gGameStateNext = GS_LEVEL1;
+		Set_StartingWave(9);
+	}
+	if (AEInputCheckReleased(AEVK_0)) {
+		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+		AEAudioPauseGroup(mainmenuAudioGroup);
+		gGameStateNext = GS_LEVEL1;
+		Set_StartingWave(10);
 	}
 }
 

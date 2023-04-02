@@ -5,10 +5,10 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file HealthBar.cpp
+@author Vance Tay
+@Email junfengvance.t@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
 @brief This file contains code for the credit screen.
@@ -19,67 +19,67 @@
 #include "Player.h"
 #include <iostream>
 
-void HealthBar_Init(BarPool& barPool, Health* health, PlayerInfo& playerinfo, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
-	CreateQuadMesh(Health_width, Health_height, Color(0, 1.0f, 0, 1.0f), healthMesh);
+void Init_Health_Bar(BarPool& barPool, Health* health) { 
+	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(0, 1.0f, 0, 1.0f), healthMesh);
 	health->playerBar.mesh = &healthMesh;
 
-	CreateQuadMesh(Health_width, Health_height, Color(1.0f, 0, 0, 1.0f), samMesh);
+	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), samMesh);
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		barPool.samurais[i].samBar.mesh = &samMesh;
 	}
 
-	CreateQuadMesh(Health_width, Health_height, Color(1.0f, 0, 0, 1.0f), archMesh);
+	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), archMesh);
 	for (int i = 0; i < ARCHER_COUNT; i++) {
 		barPool.archers[i].archBar.mesh = &archMesh;
 	}
 
-	CreateQuadMesh(Health_width, Health_height, Color(1.0f, 0, 0, 1.0f), ninMesh);
+	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), ninMesh);
 	for (int i = 0; i < NINJA_COUNT; i++) {
 		barPool.ninjas[i].ninBar.mesh = &ninMesh;
 	}
 
-	CreateQuadMesh(Health_width, Health_height, Color(1.0f, 0, 0, 1.0f), canMesh);
+	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), canMesh);
 	for (int i = 0; i < CANNONEER_COUNT; i++) {
 		barPool.cannon[i].canBar.mesh = &canMesh;
 	}
 }
 
-void HealthBar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
+void Health_Bar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
 	//player health bar
-	health->playerBar.position = player->transform.position + Vector2(15, 50);
-	float CurrentPlayerHealthScale = (float)playerinfo.health / 100.0f * 1.0f;
-	health->playerBar.scale = Vector2 (CurrentPlayerHealthScale, 1.0f);
+	health->playerBar.position = player->transform.position + Vector2(HEALTH_X, HEALTH_Y);
+	float CurrentPlayerHealthScale = (float)playerinfo.health / ENEMY_HEALTH * 1.0f;
+	health->playerBar.scale = Vector2 (CurrentPlayerHealthScale, BAR_SCALE_Y);
 
 	//samurai health bar
 	for (int i = 0; i < samPool.activeSize; i++) {
-		barPool.samurais[i].samBar.position = samPool.activeSamurais[i]->transform.position + Vector2(15, 50);
-		float CurrentSamHealthScale = (float)samPool.activeSamurais[i]->health / 100.0f * 1.0f;
-		barPool.samurais[i].samBar.scale = Vector2(CurrentSamHealthScale, 1.0f);
+		barPool.samurais[i].samBar.position = samPool.activeSamurais[i]->transform.position + Vector2(HEALTH_X, HEALTH_Y);
+		float CurrentSamHealthScale = (float)samPool.activeSamurais[i]->health / ENEMY_HEALTH * 1.0f;
+		barPool.samurais[i].samBar.scale = Vector2(CurrentSamHealthScale, BAR_SCALE_Y);
 	}
 
 	//archer health bar
 	for (int i = 0; i < archPool.activeSize; i++) {
-		barPool.archers[i].archBar.position = archPool.activeArchers[i]->transform.position + Vector2(15, 50);
-		float CurrentArchHealthScale = (float)archPool.activeArchers[i]->health / 100.0f * 1.0f;
-		barPool.archers[i].archBar.scale = Vector2(CurrentArchHealthScale, 1.0f);
+		barPool.archers[i].archBar.position = archPool.activeArchers[i]->transform.position + Vector2(HEALTH_X, HEALTH_Y);
+		float CurrentArchHealthScale = (float)archPool.activeArchers[i]->health / ENEMY_HEALTH * 1.0f;
+		barPool.archers[i].archBar.scale = Vector2(CurrentArchHealthScale, BAR_SCALE_Y);
 	}
 
 	//ninja health bar
 	for (int i = 0; i < ninPool.activeSize; i++) {
-		barPool.ninjas[i].ninBar.position = ninPool.activeNinjas[i]->transform.position + Vector2(15, 50);
-		float CurrentNinjaHealthScale = (float)ninPool.activeNinjas[i]->health / 100.0f * 1.0f;
-		barPool.ninjas[i].ninBar.scale = Vector2(CurrentNinjaHealthScale, 1.0f);
+		barPool.ninjas[i].ninBar.position = ninPool.activeNinjas[i]->transform.position + Vector2(HEALTH_X, HEALTH_Y);
+		float CurrentNinjaHealthScale = (float)ninPool.activeNinjas[i]->health / ENEMY_HEALTH * 1.0f;
+		barPool.ninjas[i].ninBar.scale = Vector2(CurrentNinjaHealthScale, BAR_SCALE_Y);
 	}
 
 	//cannoneer health bar
 	for (int i = 0; i < canPool.activeSize; i++) {
-		barPool.cannon[i].canBar.position = canPool.activeCannoneers[i]->transform.position + Vector2(15, 50);
-		float CurrentCanHealthScale = (float)canPool.activeCannoneers[i]->health / 100.0f * 1.0f;
-		barPool.cannon[i].canBar.scale = Vector2(CurrentCanHealthScale, 1.0f);
+		barPool.cannon[i].canBar.position = canPool.activeCannoneers[i]->transform.position + Vector2(HEALTH_X, HEALTH_Y);
+		float CurrentCanHealthScale = (float)canPool.activeCannoneers[i]->health / ENEMY_HEALTH * 1.0f;
+		barPool.cannon[i].canBar.scale = Vector2(CurrentCanHealthScale, BAR_SCALE_Y);
 	}
 }
 
-void HealthBar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
+void Health_Bar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
 	DrawMesh(&health->playerBar);
 	
 	for (int i = 0; i < samPool.activeSize; i++) {
@@ -99,7 +99,7 @@ void HealthBar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, Arch
 	}
 }
 
-void HealthBar_Free() {
+void Health_Bar_Free() {
 	AEGfxMeshFree(healthMesh);
 	AEGfxMeshFree(samMesh);
 	AEGfxMeshFree(archMesh);
