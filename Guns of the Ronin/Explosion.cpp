@@ -21,11 +21,11 @@
 #include "TimeManager.h"
 #include "Samurai.h"
 
-float durations;
+float timing;
 void Explosion_PoolInit(ExplosionPool& explosionPool)
 {
 		{
-			durations = 0;
+			timing = 0;
 			explosionPool.activeSize = 0;
 			CreateQuadMesh(EXPLOSION_WIDTH, EXPLOSION_HEIGHT, Color(1, 0, 0, 1), explosionsMesh);
 			for (int i = 0; i < Explosion_Count; i++)
