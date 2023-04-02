@@ -60,7 +60,7 @@ AEAudioGroup buttonsAudioGroup;
 
 bool audioPlayed = false;
 
-void AudioLoad() {
+void Audio_Load() {
 	/*MainMenu*/
 	mainmenuAudioGroup = AEAudioCreateGroup();
 	mainmenuSong = AEAudioLoadMusic("Assets/Audio/mainmenu_song.wav");
@@ -84,16 +84,16 @@ void AudioLoad() {
 	/*Main Scene Audio*/
 	mainsceneAudioGroup = AEAudioCreateGroup();
 	//Shrines
-	freezeSound = AEAudioLoadMusic("Assets/Audio/freeze_shrine.wav");
-	explosionSound = AEAudioLoadMusic("Assets/Audio/explosion.wav");
-	healthSound = AEAudioLoadMusic("Assets/Audio/health_shrine.wav");
-	godSound = AEAudioLoadMusic("Assets/Audio/god_shrine.wav");
-	windSound = AEAudioLoadMusic("Assets/Audio/wind_shrine.wav");
-	voidSound = AEAudioLoadMusic("Assets/Audio/void_shrine.wav");
+	freezeSound = AEAudioLoadSound("Assets/Audio/freeze_shrine.wav");
+	explosionSound = AEAudioLoadSound("Assets/Audio/explosion.wav");
+	healthSound = AEAudioLoadSound("Assets/Audio/health_shrine.wav");
+	godSound = AEAudioLoadSound("Assets/Audio/god_shrine.wav");
+	windSound = AEAudioLoadSound("Assets/Audio/wind_shrine.wav");
+	voidSound = AEAudioLoadSound("Assets/Audio/void_shrine.wav");
 
 	//Enemies
-	archerShoot = AEAudioLoadMusic("Assets/Audio/archer_shoot.wav");
-	cannonShoot = AEAudioLoadMusic("Assets/Audio/cannon_shot.wav");
-	samuraiSlash = AEAudioLoadMusic("Assets/Audio/samurai_slash.wav");
-	ninjaThrow = AEAudioLoadMusic("Assets/Audio/ninja_throw.wav");
+	archerShoot = AEAudioLoadSound("Assets/Audio/archer_shoot.wav");
+	cannonShoot = AEAudioLoadSound("Assets/Audio/cannon_shot.wav");
+	samuraiSlash = AEAudioLoadSound("Assets/Audio/samurai_slash.wav");
+	ninjaThrow = AEAudioLoadSound("Assets/Audio/ninja_throw.wav");
 }

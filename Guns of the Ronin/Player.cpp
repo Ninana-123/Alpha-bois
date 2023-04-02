@@ -125,7 +125,7 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 
 		if (player->left_mouse_pressed) {
 			if (!audioPlayed) {
-				AEAudioPlay(playerShootSound, playerAudioGroup, 0.2f, 0.5f, 0);
+				AEAudioPlay(playerShootSound, playerAudioGroup, 0.1f, 1.f, 0);
 				audioPlayed = true;
 			}
 			if (timeSinceLastFired >= PLAYER_FIRERATE) {

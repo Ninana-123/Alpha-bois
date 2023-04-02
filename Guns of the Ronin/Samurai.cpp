@@ -127,7 +127,7 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 				//If currently playing the attack animation
 				if (curSamurai->anim.CurrentFrame() == SAMURAI_ATT_ANIM_FRAME) {
 					if (!curSamurai->dmgDealt) {
-					//AEAudioPlay(samuraiSlash, mainsceneAudioGroup, 1.f, 1.f, 0);
+						AEAudioPlay(samuraiSlash, mainsceneAudioGroup, 0.1f, 1.f, 0);
 						player_dmg(playerInfo, SAMURAI_DAMAGE);
 						curSamurai->dmgDealt = true;
 					}

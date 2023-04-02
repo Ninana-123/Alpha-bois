@@ -61,7 +61,7 @@ extern AEAudioGroup creditsAudioGroup;
 
 extern bool audioPlayed;
 
-void AudioLoad();
+void Audio_Load();
 
 
 #endif

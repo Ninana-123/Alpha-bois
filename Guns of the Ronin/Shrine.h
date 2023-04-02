@@ -33,7 +33,7 @@
 
 namespace
 {
-	enum{Shrine_Count = 10};
+	#define SHRINE_COUNT 10
 	#define SHRINE_HEIGHT  50
 	#define SHRINE_WIDTH  50
 	#define LOADING_WIDTH  150
@@ -58,7 +58,7 @@ public:
 	float loadingBarPercentage = 0;
 	float timeElapsed = 0;
 	float deleteTimer =5.0;
-	enum Types { Explosion,Freeze, Push,God,Heal, Void, TotalShrines };
+	enum Types { EXPLOSION ,FREEZE , PUSH ,GOD,HEAL, VOIDS, TOTAL_SHRINE };
 	Types types ;
 	
 };
@@ -68,8 +68,8 @@ public:
 struct ShrinePool 
 {
 public:
-	Shrine Shrines[Shrine_Count];
-	Shrine* activeShrine[Shrine_Count];
+	Shrine Shrines[SHRINE_COUNT];
+	Shrine* activeShrine[SHRINE_COUNT];
 	int activeSize = 0;
 	
 	

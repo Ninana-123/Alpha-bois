@@ -30,6 +30,7 @@
 #define HEALTH_X 15
 #define HEALTH_Y 50
 #define BAR_SCALE_Y 1
+#define ENEMY_HEALTH 100
 
 namespace {
 	AEGfxVertexList* healthMesh;
@@ -37,8 +38,6 @@ namespace {
 	AEGfxVertexList* archMesh;
 	AEGfxVertexList* ninMesh;
 	AEGfxVertexList* canMesh;
-	float Health_width = 100.0f;
-	float Health_height = 10.0f;
 }
 
 class Health {
@@ -58,10 +57,10 @@ struct BarPool {
 	Health cannon[CANNONEER_COUNT];
 };
 
-void HealthBar_Init(BarPool& barPool, Health* health);
-void HealthBar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, 
+void Init_Health_Bar(BarPool& barPool, Health* health);
+void Health_Bar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, 
 	NinjaPool& ninPool, CannoneerPool& canPool);
-void HealthBar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool);
-void HealthBar_Free();
+void Health_Bar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool);
+void Health_Bar_Free();
 
 #endif

@@ -1,0 +1,56 @@
+Game name -  Guns Of the Ronin
+Team name - ALPHA BOIS
+CSD1451
+copyright
+All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
+reserved.Reproduction or disclosure of this file or its contents without the priorwritten consent of DigiPen Institute of Technology is prohibited.
+
+“How To Play” instructions
+- WASD to move player
+- left mouse click to shoot at enemies
+- Enter shrine to load the loading bar in which it will activate the different abilities
+- The goal is clear the 10 waves of enemies in shortest amount of time possible
+
+Controls
+-  WASD to move player , W(UP), S(DOWN), A(LEFT), D(RIGHT)
+- left mouse click to shoot at enemies
+
+Cheat codes
+- Press keyboard 1-0 to skip to waves 1-10 respectively in the main menu
+
+Credits (including all the credits of your game found in the credits screen)
+
+Produced By
+KAI ALEXANDER          
+SEAN ANG          
+TEO SHEEN YEOH
+ZENG ZHICHENG          
+VANCE TAY
+
+Faculty and Advisors
+DING XIANG CHENG         
+GERALD WONG
+PRASANNA GHALI        
+ELIE HOSRY         
+RONALD KOH
+
+Created at
+DigiPen Institute of Technology Singapore
+
+PRESIDENT
+CLAUDE COMAIR
+
+EXECUTIVES
+JASON CHU          
+SAMIR ABOU SAMRA          
+MICHELLE COMAIR
+ANGELA KUGLER          
+DR ERIK MOHRMANN          
+CHRISTOPHER COMAIR
+BENJAMIN ELLINGER          
+MELVIN GONSALVEZ          
+MICHAEL GATS
+RAYMOND YAN          
+JOHN BAUER          
+DR CHARLES DUBA          
+JOHNNY DEEK

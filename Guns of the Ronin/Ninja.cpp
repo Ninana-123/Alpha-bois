@@ -133,6 +133,7 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 				if (curNinja->anim.CurrentFrame() == NINJA_ATT_ANIM_FRAME) {
 					if (curNinja->timeLastAttack >= 1.0f / NINJA_ATT_RATE) {
 						if (!curNinja->dmgDealt) {
+							AEAudioPlay(ninjaThrow, mainsceneAudioGroup, 0.1f, 1.f, 0);
 							ShurikenAdd(shuriken, curNinja->transform.position, player.transform.position);
 							curNinja->dmgDealt = true;
 							curNinja->timeLastAttack = 0;

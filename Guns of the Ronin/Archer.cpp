@@ -115,7 +115,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 			else {
 				if (curArcher->timeLastAttack >= ARCHER_ATTACK_DELAY) {
 					ArrowAdd(arrow, curArcher->transform.position, playerPos);
-				//AEAudioPlay(archerShoot, mainsceneAudioGroup, 1.f, 1.f, 0);
+					AEAudioPlay(archerShoot, mainsceneAudioGroup, 0.1f, 1.f, 0);
 					curArcher->timeLastAttack = 0;
 				}
 			}

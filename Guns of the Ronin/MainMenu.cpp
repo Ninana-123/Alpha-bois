@@ -15,36 +15,62 @@
 *//*______________________________________________________________________*/
 #include "MainMenu.h"
 #include "HighScore.h"
-
-AEGfxTexture* MainMenuBG;
-
+/*TEXTURES*/
+AEGfxTexture* mainMenuBG;
 AEGfxTexture* buttonsSprite;
-
 AEGfxTexture* splashScreenTexture;
+/*MOUSE INPUT*/
+s32 mainMenuMousePosX;
+s32 mainMenuMousePosY;
 
-s32 MousePosX;
-s32 MousePosY;
+/*FILE ROTATION VALUE*/
+#define MAIN_MENU_ROTATION 0.0f
 
-s32* MouseX = &MousePosX;
-s32* MouseY = &MousePosY;
+/*BG VALUES*/
+#define MAIN_MENU_BG_X 1600.0f
+#define MAIN_MENU_BG_Y 900.0f
+#define MAIN_MENU_BG_HEIGHT 1.0f
+#define MAIN_MENU_BG_WIDTH 4.0f
 
-float BGScaleX = 1600.0f;
-float BGScaleY = 900.0f;
+#define SPLASHSCREEN_BG_X 1600.0f
+#define SPLASHSCREEN_BG_Y 900.0f
+#define SPLASHSCREEN_BG_HEIGHT 1.0f
+#define SPLASHSCREEN_BG_WIDTH 1.0f
 
-float buttonScaleX = 250.0f;
-float buttonScaleY = -125.0f;
 
-float buttonsY = -151.0f;
+/*BUTTON VALUES*/
+#define MAIN_MENU_BUTTON_SCALE_X  250.0f
+#define MAIN_MENU_BUTTON_SCALE_Y  125.0f
+#define MAIN_MENU_BUTTON_HIEGHT  1.0f
+#define MAIN_MENU_BUTTON_WIDTH  10.0f
 
-float playButtonX = -81.0f;
-float guideButtonX = playButtonX + buttonScaleX;
-float highscoreButtonX = guideButtonX + buttonScaleX;
-float quitButtonX = highscoreButtonX + buttonScaleX;
+#define MAIN_MENU_BUTTON_POS_Y -151.0f
 
-float creditsButtonX = quitButtonX;
-float creditsButtonY = buttonsY - 220.f;
+#define MAIN_MENU_PLAY_BUTTON_X -81.0f
+#define MAIN_MENU_GUIDE_BUTTON_X 169.0f
+#define MAIN_MENU_HIGHSCORE_BUTTON_X 419.0f
+#define MAIN_MENU_QUIT_BUTTON_X 669.0f
 
-bool left_mouse_pressed;
+#define MAIN_MENU_CREDITS_BUTTON_X 669.0f
+#define MAIN_MENU_CREDITS_BUTTON_Y -371.0f
+
+#define MAIN_MENU_WINDOW_HALF_X 800
+#define MAIN_MENU_WINDOW_HALF_Y 450
+
+/*BUTTON SPRITE INDEX*/
+#define PLAY_BUTTON_SPRITE 0
+#define PLAY_BUTTON_SPRITE_HOVER 1 
+#define QUIT_BUTTON_SPRITE 2
+#define QUIT_BUTTON_SPRITE_HOVER 3
+#define GUIDE_BUTTON_SPRITE 4
+#define GUIDE_BUTTON_SPRITE_HOVER 5
+#define CREDIT_BUTTON_SPRITE 6
+#define CREDIT_BUTTON_SPRITE_HOVER 7
+#define HIGHSCORE_BUTTON_SPRITE 8
+#define HIGHSCORE_BUTTON_SPRITE_HOVER 9
+
+/*LEFT CLICK CHECK*/
+bool leftMousePressed;
 
 MainMenu mainMenu;
 MainMenu playButton;
@@ -54,7 +80,6 @@ MainMenu quitButton;
 MainMenu creditButton;
 MainMenu splashScreen;
 
-
 s8 font;
 
 void Init_Menu() {
@@ -63,76 +88,71 @@ void Init_Menu() {
 	AESysSetWindowTitle("Guns of the Ronin");
 	// reset the system modules
 	AESysReset();
-	MainMenuBG = AEGfxTextureLoad("Assets/MainMenu.png");
+	mainMenuBG = AEGfxTextureLoad("Assets/MainMenu.png");
 	buttonsSprite = AEGfxTextureLoad("Assets/buttonspritesheet.png");
 	splashScreenTexture = AEGfxTextureLoad("Assets/DigiPen_BLACK_rights.png");
 	
-	//CreateSpriteMesh(&mainMenu.transform, BGMesh);
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), splashScreenMesh, 1.0f, 1.0f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), splashScreenMesh, SPLASHSCREEN_BG_HEIGHT, SPLASHSCREEN_BG_WIDTH);
 	splashScreen.transform.texture = &splashScreenTexture;
 	splashScreen.transform.position = { 0.0f,0.0f };
-	splashScreen.transform.scale = { BGScaleX,-BGScaleY };
-	splashScreen.transform.height = 1.0f;
-	splashScreen.transform.width = 1.0f;
-	splashScreen.transform.rotation = 0.0f;
-	splashScreen.spriteIndex = 0;
+	splashScreen.transform.scale = { SPLASHSCREEN_BG_X,-SPLASHSCREEN_BG_Y };
+	splashScreen.transform.height = SPLASHSCREEN_BG_HEIGHT;
+	splashScreen.transform.width = SPLASHSCREEN_BG_WIDTH;
+	splashScreen.transform.rotation = MAIN_MENU_ROTATION;
 	splashScreen.transform.mesh = &splashScreenMesh;
 	
-	//CreateSpriteMesh(&mainMenu.transform, BGMesh);
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), BGMesh, 1.0f/4.0f, 1.0f);
-	mainMenu.transform.texture = &MainMenuBG;
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), BGMesh, MAIN_MENU_BG_HEIGHT / MAIN_MENU_BG_WIDTH, MAIN_MENU_BG_HEIGHT);
+	mainMenu.transform.texture = &mainMenuBG;
 	mainMenu.transform.position = { 0.0f,0.0f };
-	mainMenu.transform.scale = { BGScaleX,-BGScaleY };
-	mainMenu.transform.height = 1.0f;
-	mainMenu.transform.width = 4.0f;
-	mainMenu.transform.rotation = 0.0f;
-	mainMenu.spriteIndex = 0;
+	mainMenu.transform.scale = { MAIN_MENU_BG_X,-MAIN_MENU_BG_Y };
+	mainMenu.transform.height = MAIN_MENU_BG_HEIGHT;
+	mainMenu.transform.width = MAIN_MENU_BG_WIDTH;
+	mainMenu.transform.rotation = MAIN_MENU_ROTATION;
 	mainMenu.transform.mesh = &BGMesh;
 
-	//CreateSpriteMesh(&playButton.transform, playMesh);
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), playMesh, 1.0f / 10.0f, 1.0f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), playMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
 	playButton.transform.texture = &buttonsSprite;
-	playButton.transform.position = { playButtonX,buttonsY };
-	playButton.transform.scale = { buttonScaleX,buttonScaleY };
-	playButton.transform.height = 1.0f;
-	playButton.transform.width = 10.0f;
-	playButton.transform.rotation = 0.0f;
+	playButton.transform.position = { MAIN_MENU_PLAY_BUTTON_X,MAIN_MENU_BUTTON_POS_Y };
+	playButton.transform.scale = { MAIN_MENU_BUTTON_SCALE_X,-MAIN_MENU_BUTTON_SCALE_Y };
+	playButton.transform.height = MAIN_MENU_BUTTON_HIEGHT;
+	playButton.transform.width = MAIN_MENU_BUTTON_WIDTH;
+	playButton.transform.rotation = MAIN_MENU_ROTATION;
 	playButton.transform.mesh = &playMesh;
 
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), guideMesh, 1.0f / 10.0f, 1.0f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), guideMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
 	guideButton.transform.texture = &buttonsSprite;
-	guideButton.transform.position = { guideButtonX,buttonsY };
-	guideButton.transform.scale = { buttonScaleX,buttonScaleY };
-	guideButton.transform.height = 1.0f;
-	guideButton.transform.width = 10.0f;
-	guideButton.transform.rotation = 0.0f;
+	guideButton.transform.position = { MAIN_MENU_GUIDE_BUTTON_X,MAIN_MENU_BUTTON_POS_Y };
+	guideButton.transform.scale = { MAIN_MENU_BUTTON_SCALE_X,-MAIN_MENU_BUTTON_SCALE_Y };
+	guideButton.transform.height = MAIN_MENU_BUTTON_HIEGHT;
+	guideButton.transform.width = MAIN_MENU_BUTTON_WIDTH;
+	guideButton.transform.rotation = MAIN_MENU_ROTATION;
 	guideButton.transform.mesh = &guideMesh;
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), highscoreMesh, 1.0f / 10.0f, 1.0f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), highscoreMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
 	highscoreButton.transform.texture = &buttonsSprite;
-	highscoreButton.transform.position = { highscoreButtonX,buttonsY };
-	highscoreButton.transform.scale = { buttonScaleX,buttonScaleY };
-	highscoreButton.transform.height = 1.0f;
-	highscoreButton.transform.width = 10.0f;
-	highscoreButton.transform.rotation = 0.0f;
+	highscoreButton.transform.position = { MAIN_MENU_HIGHSCORE_BUTTON_X,MAIN_MENU_BUTTON_POS_Y };
+	highscoreButton.transform.scale = { MAIN_MENU_BUTTON_SCALE_X,-MAIN_MENU_BUTTON_SCALE_Y };
+	highscoreButton.transform.height = MAIN_MENU_BUTTON_HIEGHT;
+	highscoreButton.transform.width = MAIN_MENU_BUTTON_WIDTH;
+	highscoreButton.transform.rotation = MAIN_MENU_ROTATION;
 	highscoreButton.transform.mesh = &highscoreMesh;
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), quitMesh, 1.0f / 10.0f, 1.0f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), quitMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
 	quitButton.transform.texture = &buttonsSprite;
-	quitButton.transform.position = { quitButtonX,buttonsY };
-	quitButton.transform.scale = { buttonScaleX,buttonScaleY };
-	quitButton.transform.height = 1.0f;
-	quitButton.transform.width = 10.0f;
-	quitButton.transform.rotation = 0.0f;
+	quitButton.transform.position = { MAIN_MENU_QUIT_BUTTON_X,MAIN_MENU_BUTTON_POS_Y };
+	quitButton.transform.scale = { MAIN_MENU_BUTTON_SCALE_X,-MAIN_MENU_BUTTON_SCALE_Y };
+	quitButton.transform.height = MAIN_MENU_BUTTON_HIEGHT;
+	quitButton.transform.width = MAIN_MENU_BUTTON_WIDTH;
+	quitButton.transform.rotation = MAIN_MENU_ROTATION;
 	quitButton.transform.mesh = &quitMesh;
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), creditMesh, 1.0f / 10.0f, 1.0f);
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), creditMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
 	creditButton.transform.texture = &buttonsSprite;
-	creditButton.transform.position = { creditsButtonX,creditsButtonY};
-	creditButton.transform.scale = { buttonScaleX /2,buttonScaleY / 2};
-	creditButton.transform.height = 1.0f;
-	creditButton.transform.width = 10.0f;
-	creditButton.transform.rotation = 0.0f;
+	creditButton.transform.position = { MAIN_MENU_CREDITS_BUTTON_X,MAIN_MENU_CREDITS_BUTTON_Y };
+	creditButton.transform.scale = { MAIN_MENU_BUTTON_SCALE_X /2,-MAIN_MENU_BUTTON_SCALE_Y / 2};
+	creditButton.transform.height = MAIN_MENU_BUTTON_HIEGHT;
+	creditButton.transform.width = MAIN_MENU_BUTTON_WIDTH;
+	creditButton.transform.rotation = MAIN_MENU_ROTATION;
 	creditButton.transform.mesh = &quitMesh;
 
 
@@ -148,10 +168,10 @@ void Update_Menu() {
 	frameTimer += deltaTime;
 
 	Update_Time();
-	AEInputGetCursorPosition(MouseX, MouseY);
-	*MouseX = *MouseX - 800;
-	*MouseY = (*MouseY - 450) * -1;
-	left_mouse_pressed = AEInputCheckReleased(AEVK_LBUTTON);
+	AEInputGetCursorPosition(&mainMenuMousePosX, &mainMenuMousePosY);
+	mainMenuMousePosX = mainMenuMousePosX - MAIN_MENU_WINDOW_HALF_X;
+	mainMenuMousePosY = (mainMenuMousePosY - MAIN_MENU_WINDOW_HALF_Y) * -1;
+	leftMousePressed = AEInputCheckReleased(AEVK_LBUTTON);
 
 	if (splasScreenTimer >= 2.f) {
 		splashScreen.transform.scale = { 0.f,0.f};
@@ -164,80 +184,80 @@ void Update_Menu() {
 		frameTimer = 0;
 	}
 
-	if (IsButtonHover(playButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
-		playButton.spriteIndex = 1;
+	if (IsButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX,&mainMenuMousePosY)) {
+		playButton.spriteIndex = PLAY_BUTTON_SPRITE_HOVER;
 		if (!audioPlayed) {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
-		if (left_mouse_pressed) {
+		if (leftMousePressed) {
 			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_LEVEL1;
 			Set_StartingWave(1);
 		}
 	}
-	else playButton.spriteIndex = 0;
+	else playButton.spriteIndex = PLAY_BUTTON_SPRITE;
 
-	if (IsButtonHover(guideButtonX,buttonsY,buttonScaleX,buttonScaleY,MouseX,MouseY)) {
-		guideButton.spriteIndex = 5;
+	if (IsButtonHover(MAIN_MENU_GUIDE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+		guideButton.spriteIndex = GUIDE_BUTTON_SPRITE_HOVER;
 		if (!audioPlayed) {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
-		if (left_mouse_pressed) {
+		if (leftMousePressed) {
 			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_GUIDE;
 		}
 	}
-	else guideButton.spriteIndex = 4;
+	else guideButton.spriteIndex = GUIDE_BUTTON_SPRITE;
 
-	if (IsButtonHover(highscoreButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
-		highscoreButton.spriteIndex = 9;
+	if (IsButtonHover(MAIN_MENU_HIGHSCORE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+		highscoreButton.spriteIndex = HIGHSCORE_BUTTON_SPRITE_HOVER;
 		if (!audioPlayed) {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
-		if (left_mouse_pressed) {
+		if (leftMousePressed) {
 			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_HIGHSCORES;
 		}
 	}
-	else highscoreButton.spriteIndex = 8;
+	else highscoreButton.spriteIndex = HIGHSCORE_BUTTON_SPRITE;
 
-	if (IsButtonHover(quitButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
-		quitButton.spriteIndex = 3;
+	if (IsButtonHover(MAIN_MENU_QUIT_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+		quitButton.spriteIndex = QUIT_BUTTON_SPRITE_HOVER;
 		if (!audioPlayed) {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
-		if (left_mouse_pressed) {
+		if (leftMousePressed) {
 			gGameStateNext = GS_QUIT;
 		}
 	}
-	else quitButton.spriteIndex = 2;
+	else quitButton.spriteIndex = QUIT_BUTTON_SPRITE;
 	
-	if (IsButtonHover(creditsButtonX, creditsButtonY, buttonScaleX / 2, buttonScaleY / 2, MouseX, MouseY)) {
-		creditButton.spriteIndex = 7;
+	if (IsButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X / 2, -(MAIN_MENU_BUTTON_SCALE_Y / 2), &mainMenuMousePosX, &mainMenuMousePosY)) {
+		creditButton.spriteIndex = CREDIT_BUTTON_SPRITE_HOVER;
 		if (!audioPlayed) {
 			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			audioPlayed = true;
 		}
-		if (left_mouse_pressed) {
+		if (leftMousePressed) {
 			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_CREDITS;
 		}
 	}
-	else creditButton.spriteIndex = 6;
+	else creditButton.spriteIndex = CREDIT_BUTTON_SPRITE;
 
-	if (!IsButtonHover(guideButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY) &&
-		!IsButtonHover(highscoreButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY) &&
-		!IsButtonHover(quitButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY) &&
-		!IsButtonHover(creditsButtonX, creditsButtonY, buttonScaleX, buttonScaleY, MouseX, MouseY) &&
-		!IsButtonHover(playButtonX, buttonsY, buttonScaleX, buttonScaleY, MouseX, MouseY)) {
+	if (!IsButtonHover(MAIN_MENU_GUIDE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+		!IsButtonHover(MAIN_MENU_HIGHSCORE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+		!IsButtonHover(MAIN_MENU_QUIT_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+		!IsButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+		!IsButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
 		audioPlayed = false;
 	}
 
@@ -324,7 +344,7 @@ void Free_Menu() {
 	AEGfxMeshFree(creditMesh);
 
 	AEGfxTextureUnload(splashScreenTexture);
-	AEGfxTextureUnload(MainMenuBG);
+	AEGfxTextureUnload(mainMenuBG);
 	AEGfxTextureUnload(buttonsSprite);
 
 }
