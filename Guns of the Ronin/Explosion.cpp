@@ -11,7 +11,7 @@
 @course CSD 1450
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains code on how would the explosions shrine work 
 *//*______________________________________________________________________*/
 #include "Explosion.h"
 #include "Graphics.h"
@@ -22,7 +22,7 @@
 #include "Samurai.h"
 
 float durations;
-void Explosionpool_Init(ExplosionPool& explosionPool)
+void Explosion_PoolInit(ExplosionPool& explosionPool)
 {
 		{
 			durations = 0;
@@ -30,32 +30,32 @@ void Explosionpool_Init(ExplosionPool& explosionPool)
 			CreateQuadMesh(EXPLOSION_WIDTH, EXPLOSION_HEIGHT, Color(1, 0, 0, 1), explosionsMesh);
 			for (int i = 0; i < Explosion_Count; i++)
 			{
-				explosionPool.Explosions[i].hasbeenused = false;
+				explosionPool.Explosions[i].hasBeenUsed = false;
 				explosionPool.Explosions[i].transform.height = EXPLOSION_HEIGHT;
 				explosionPool.Explosions[i].transform.width = EXPLOSION_WIDTH;
 				explosionPool.Explosions[i].transform.mesh = &explosionsMesh;
 				explosionPool.activeExplosion[i] = &explosionPool.Explosions[i];
 				explosionPool.activeExplosion[i]->timeElapsed = 0;
-				explosionPool.activeExplosion[i]->iscolliding = false;
-				explosionPool.activeExplosion[i]->transform.texture = &assetexplosions;
+				explosionPool.activeExplosion[i]->isColliding = false;
+				explosionPool.activeExplosion[i]->transform.texture = &assetExplosions;
 				explosionPool.activeExplosion[i]->transform.scale = { 1.5,1.5 };
 			}
-			assetexplosions = AEGfxTextureLoad("Assets/Explosions.png");
+			assetExplosions = AEGfxTextureLoad("Assets/Explosions.png");
 		}
 }
 
-float DistanceExplosion(const Vector2& a, const Vector2& b)
+float Distance_Explosion(const Vector2& a, const Vector2& b)
 {
 	float dx = b.x - a.x;
 	float dy = b.y - a.y;
 	return sqrt(dx * dx + dy * dy);
 }
 
-bool CheckOverlapWithActiveExplosion(const ExplosionPool& explosionPool, const Vector2& position)
+bool Check_Overlap_With_Active_Explosion(const ExplosionPool& explosionPool, const Vector2& position)
 {
 	for (int i = 0; i < Explosion_Count; i++)
 	{
-		if (explosionPool.activeExplosion[i]->hasbeenused && DistanceExplosion(explosionPool.activeExplosion[i]->transform.position, position) < 100.0f)
+		if (explosionPool.activeExplosion[i]->hasBeenUsed && Distance_Explosion(explosionPool.activeExplosion[i]->transform.position, position) < 100.0f)
 		{
 			return true;
 		}
@@ -64,16 +64,16 @@ bool CheckOverlapWithActiveExplosion(const ExplosionPool& explosionPool, const V
 	return false;
 }
 
-void ExplosionAdd(ExplosionPool& explosionPool)
+void Explosion_Add(ExplosionPool& explosionPool)
 {
 	for (int i = 0; i < Explosion_Count; i++)
 	{
-		if (explosionPool.activeExplosion[i]->hasbeenused == false)
+		if (explosionPool.activeExplosion[i]->hasBeenUsed == false)
 	{
-			if (explosionPool.activeExplosion[i]->iscolliding == true) {
+			if (explosionPool.activeExplosion[i]->isColliding == true) {
 				continue; // skip this explosion
 			}
-			explosionPool.activeExplosion[i]->hasbeenused = true;
+			explosionPool.activeExplosion[i]->hasBeenUsed = true;
 			explosionPool.activeSize += 1;
 
 			// Generate a random position until it doesn't overlap with any active shrines
@@ -81,20 +81,20 @@ void ExplosionAdd(ExplosionPool& explosionPool)
 			do
 			{
 				randomPosition = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-			} while (CheckOverlapWithActiveExplosion(explosionPool, randomPosition));
+			} while (Check_Overlap_With_Active_Explosion(explosionPool, randomPosition));
 			explosionPool.activeExplosion[i]->transform.position = randomPosition;
 			
 			explosionPool.activeExplosion[i]->timeElapsed = 0;
-			explosionPool.activeExplosion[i]->iscolliding = false;
+			explosionPool.activeExplosion[i]->isColliding = false;
 			break;
 		}
 		}
 	
 }
 
-void ExplosionDelete(int index, ExplosionPool& explosionPool)
+void Explosion_Delete(int index, ExplosionPool& explosionPool)
 {
-		explosionPool.activeExplosion[index]->hasbeenused = false;
+		explosionPool.activeExplosion[index]->hasBeenUsed = false;
 		if (index < (explosionPool.activeSize - 1))
 		{
 			Explosion* temp = explosionPool.activeExplosion[index];
@@ -175,62 +175,63 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 		explosionPool.activeExplosion[i]->timeElapsed += deltaTime;
 		if (explosionPool.activeExplosion[i]->timeElapsed >= 4.0f)
 		{
-			ExplosionDelete(i, explosionPool);
+			Explosion_Delete(i, explosionPool);
 		}
 	}
 
-	for (int j = 0; j < archPool.activeSize; j++)
-	{
-		archPool.activeArchers[j]->isCollidingWithExplosion = false;
-		for (int i = 0; i < explosionPool.activeSize; i++)
-		{
-			if (StaticCol_QuadQuad(archPool.activeArchers[j]->transform, explosionPool.activeExplosion[i]->transform))
-			{
-				archPool.activeArchers[j]->isCollidingWithExplosion = true;
-				ExplosionDelete(i, explosionPool);
-			}
-		}
-		if (!archPool.activeArchers[j]->isCollidingWithExplosion && archPool.activeArchers[j]->damagedByExplosion)
-		{
-			archPool.activeArchers[j]->damagedByExplosion = false;
-		}
+	//// Check if enemy is archers
+	//for (int j = 0; j < archPool.activeSize; j++)
+	//{
+	//	archPool.activeArchers[j]->isCollidingWithExplosion = false;
+	//	for (int i = 0; i < explosionPool.activeSize; i++)
+	//	{
+	//		if (StaticCol_QuadQuad(archPool.activeArchers[j]->transform, explosionPool.activeExplosion[i]->transform))
+	//		{
+	//			archPool.activeArchers[j]->isCollidingWithExplosion = true;
+	//			Explosion_Delete(i, explosionPool);
+	//		}
+	//	}
+	//	if (!archPool.activeArchers[j]->isCollidingWithExplosion && archPool.activeArchers[j]->damagedByExplosion)
+	//	{
+	//		archPool.activeArchers[j]->damagedByExplosion = false;
+	//	}
 
-	}
+	//}
+	//// Check if enemy is cannons
+	//for (int z= 0; z < canPool.activeSize; z++)
+	//{
+	//	canPool.activeCannoneers[z]->isCollidingWithExplosion = false;
+	//	for (int i = 0; i < explosionPool.activeSize; i++)
+	//	{
+	//		if (StaticCol_QuadQuad(canPool.activeCannoneers[z]->transform, explosionPool.activeExplosion[i]->transform))
+	//		{
+	//			canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
+	//			Explosion_Delete(i, explosionPool);
+	//		}
+	//	}
+	//	if (!canPool.activeCannoneers[z]->isCollidingWithExplosion && canPool.activeCannoneers[z]->damagedByExplosion)
+	//	{
+	//		canPool.activeCannoneers[z]->damagedByExplosion = false;
+	//	}
+	//}
+	//// Check if enemy is ninjas
+	//for (int k = 0; k < ninPool.activeSize; k++)
+	//{
+	//	ninPool.activeNinjas[k]->isCollidingWithExplosion = false;
+	//	for (int i = 0; i < explosionPool.activeSize; i++)
+	//	{
+	//		if (StaticCol_QuadQuad(ninPool.activeNinjas[k]->transform, explosionPool.activeExplosion[i]->transform))
+	//		{
+	//			ninPool.activeNinjas[k]->isCollidingWithExplosion = true;
+	//			Explosion_Delete(i, explosionPool);
+	//		}
+	//	}
+	//	if (!ninPool.activeNinjas[k]->isCollidingWithExplosion && ninPool.activeNinjas[k]->damagedByExplosion)
+	//	{
+	//		ninPool.activeNinjas[k]->damagedByExplosion = false;
+	//	}
 
-	for (int z= 0; z < canPool.activeSize; z++)
-	{
-		canPool.activeCannoneers[z]->isCollidingWithExplosion = false;
-		for (int i = 0; i < explosionPool.activeSize; i++)
-		{
-			if (StaticCol_QuadQuad(canPool.activeCannoneers[z]->transform, explosionPool.activeExplosion[i]->transform))
-			{
-				canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
-				ExplosionDelete(i, explosionPool);
-			}
-		}
-		if (!canPool.activeCannoneers[z]->isCollidingWithExplosion && canPool.activeCannoneers[z]->damagedByExplosion)
-		{
-			canPool.activeCannoneers[z]->damagedByExplosion = false;
-		}
-	}
-
-	for (int k = 0; k < ninPool.activeSize; k++)
-	{
-		ninPool.activeNinjas[k]->isCollidingWithExplosion = false;
-		for (int i = 0; i < explosionPool.activeSize; i++)
-		{
-			if (StaticCol_QuadQuad(ninPool.activeNinjas[k]->transform, explosionPool.activeExplosion[i]->transform))
-			{
-				ninPool.activeNinjas[k]->isCollidingWithExplosion = true;
-				ExplosionDelete(i, explosionPool);
-			}
-		}
-		if (!ninPool.activeNinjas[k]->isCollidingWithExplosion && ninPool.activeNinjas[k]->damagedByExplosion)
-		{
-			ninPool.activeNinjas[k]->damagedByExplosion = false;
-		}
-
-	}
+	//}
 	
 }
 
@@ -239,12 +240,12 @@ void Draw_Explosions(ExplosionPool& explosionPool)
 	for (int i = 0; i < explosionPool.activeSize; i++)
 	{
 
-		if (explosionPool.activeExplosion[i]->hasbeenused)
+		if (explosionPool.activeExplosion[i]->hasBeenUsed)
 		{
 			DrawMesh(&explosionPool.activeExplosion[i]->transform);
-			if (explosionPool.activeExplosion[i]->iscolliding)
+			if (explosionPool.activeExplosion[i]->isColliding)
 			{
-				ExplosionDelete(i, explosionPool);
+				Explosion_Delete(i, explosionPool);
 			}
 		}
 	}
@@ -254,6 +255,6 @@ void Free_Explosions()
 {
 	
 		AEGfxMeshFree(explosionsMesh);
-		AEGfxTextureUnload(assetexplosions);
+		AEGfxTextureUnload(assetExplosions);
 	
 }

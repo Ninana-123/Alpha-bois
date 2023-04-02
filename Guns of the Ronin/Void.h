@@ -11,7 +11,7 @@
 @course CSD 1450
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains declarations on the void ability 
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -29,10 +29,11 @@
 namespace
 {
 	enum{Void_Count = 5};
-	float VOID_HEIGHT = 100, VOID_WIDTH = 100;
+	#define VOID_HEIGHT  100
+	#define VOID_WIDTH  100
 	AEGfxVertexList* voidMesh;
-	AEGfxTexture* assetblackhole=0;
-	int voidCount = 100;
+	AEGfxTexture* assetBlackHole=0;
+	#define VOID_COUNT  100
 
 }
 
@@ -40,8 +41,8 @@ class Void
 {
 public:
 	Transform transform;
-	bool hasbeenused = false;
-	bool iscolliding = false;
+	bool hasBeenUsed = false;
+	bool isColliding = false;
 	bool damagedByExplosion =false;
 	Transform loading;
 	float timeElapsed = 0;
@@ -57,9 +58,9 @@ public:
 	
 };
 
-void Voidpool_Init(VoidPool& voidPool);
-void VoidAdd(VoidPool& voidPool);
-void VoidDelete(int index, VoidPool& voidPool);
+void Void_PoolInit(VoidPool& voidPool);
+void Void_Add(VoidPool& voidPool);
+void Void_Delete(int index, VoidPool& voidPool);
 void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& canPool);
 void Draw_Void(VoidPool& voidPool);
 void Free_Void();
