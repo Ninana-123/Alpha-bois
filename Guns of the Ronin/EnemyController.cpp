@@ -33,7 +33,7 @@ float ninjaSpawnTimer = 0;
 int enemiesLeft = 0;
 
 
-void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPool, NinjaPool &ninPool) {
+void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPool, NinjaPool &ninPool, int startingWave) {
 	Init_SamuraiPool(samPool);
 	Init_ArcherPool(archPool);
 	Init_CannoneerPool(cPool);
@@ -45,7 +45,7 @@ void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPo
 			spawnTotalCount[i] += spawnCounts[i][u];
 		}
 	}
-	curWave = 1, enemiesLeft = spawnTotalCount[0];
+	curWave = startingWave, enemiesLeft = spawnTotalCount[startingWave - 1];
 
 	for (int i = 0; i < NUM_OF_ENEMY_TYPES; ++i) {
 		curSpawnCounts[i] = 0;
