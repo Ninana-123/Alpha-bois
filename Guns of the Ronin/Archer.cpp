@@ -23,7 +23,7 @@
 ArrowPool arrow;
 
 //When a archer dies 
-void ArcherRemove(int index, ArcherPool& pool) {
+void Remove_Archer(int index, ArcherPool& pool) {
 	pool.activeArchers[index]->enabled = false;
 
 	// Swap the pointers
@@ -38,14 +38,14 @@ void ArcherRemove(int index, ArcherPool& pool) {
 }
 
 //Spawning a new archer
-void ArcherAdd(ArcherPool& pool, Vector2 playerPos) {
+void Add_Archer(ArcherPool& pool, Vector2 playerPos) {
 	for (int i = 0; i < ARCHER_COUNT; i++) {
 		if (pool.activeArchers[i]->enabled == false) {
 			pool.activeArchers[i]->enabled = true;
 			pool.activeArchers[i]->health = ARCHER_HEALTH;
 			pool.activeArchers[i]->transform.texture = &archerTexture;
 			pool.activeArchers[i]->transform.scale = { 4, 4 };
-			pool.activeArchers[i]->transform.position = RandomPoint_OutsideSqaure(ARCHER_MIN_SPAWNDIST, ARCHER_MAX_SPAWNDIST, playerPos);
+			pool.activeArchers[i]->transform.position = RandomPoint_OutsideSqaure(ARCHER_MIN_SPAWN_DIST, ARCHER_MAX_SPAWN_DIST, playerPos);
 			pool.activeSize += 1;
 			break;
 		}
@@ -159,7 +159,7 @@ void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {
 
 	// Check if archer health is equals to or below 0, and remove the archer
 	if ((pool.activeArchers[index]->health -= playerInfo.att) <= 0) {
-		ArcherRemove(index, pool);
+		Remove_Archer(index, pool);
 	}
 }
 

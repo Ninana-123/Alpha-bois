@@ -74,28 +74,39 @@ void Init_CannoneerPool(CannoneerPool& pool) {
 }
 
 void AI_Cannoneer(CannoneerPool& pool, Player& player, PlayerInfo& playerInfo) {
-	Vector2 playerPos = player.transform.position;
+
 	for (int i = 0; i < pool.activeSize; i++) {
 		Cannoneer* curCannoneer = pool.activeCannoneers[i];
+		Vector2 direction = player.transform.position - curCannoneer->transform.position;
 
 		switch (curCannoneer->aiState)
 		{
 		case C_RELOADING:
 			curCannoneer->timeSinceFired += deltaTime;
+
+			//Flipping of the samurai's texture based on its direction of movement
+			if (direction.x > 0) {
+				curCannoneer->transform.scale.x = Absf(curCannoneer->transform.scale.x) * -1.0f;
+			}
+			else {
+				curCannoneer->transform.scale.x = Absf(curCannoneer->transform.scale.x);
+			}
+
+
 			if (curCannoneer->timeSinceFired >= C_FIRE_RATE) {
 				curCannoneer->aiState = C_ATTACKING;
 				curCannoneer->timeSinceFired = 0;
 			}
 			break;
 		case C_ATTACKING:
-			pool.cannonBalls[pool.activeCBSize].direction = (player.transform.position - curCannoneer->transform.position).normalize();
+			pool.cannonBalls[pool.activeCBSize].direction = direction.normalize();
 			pool.cannonBalls[pool.activeCBSize].LZ = player.transform.position;
 			pool.cannonBalls[pool.activeCBSize].transform.mesh = &cannonBallMesh;
 			pool.cannonBalls[pool.activeCBSize].transform.position = curCannoneer->transform.position;
 			pool.cannonBalls[pool.activeCBSize].explosionTimer = 0;
 			pool.cannonBalls[pool.activeCBSize].exploded = false;
 			pool.cannonBalls[pool.activeCBSize].distTravelled = 0;
-			pool.cannonBalls[pool.activeCBSize].halfTotalDist = (player.transform.position - curCannoneer->transform.position).magnitude() / 2.0f;
+			pool.cannonBalls[pool.activeCBSize].halfTotalDist = direction.magnitude() / 2.0f;
 			pool.cannonBalls[pool.activeCBSize].reachedMaxScale = false;
 			pool.cannonBalls[pool.activeCBSize].transform.color.a = 1.0f;
 			pool.cannonBalls[pool.activeCBSize].transform.texture = &cannonBallTexture;

@@ -43,6 +43,8 @@
 //float timeSincePause = 0.0f;
 AEGfxTexture* LevelBG;
 Level level;
+int startingWave = 0;
+
 namespace {
 	DummyPlayer dummyPlayer;
 	Player player;
@@ -75,7 +77,7 @@ void Init_Scene() {
 	Shrine_PoolInit(shrinePool);
 	Explosion_PoolInit(explosionPool);
 	Player_Init(&player, bulletPool);
-	Init_Enemies(samPool, archPool, cPool, ninPool);
+	Init_Enemies(samPool, archPool, cPool, ninPool, startingWave);
 	Init_PauseMenu();
 	PlayerInfo_Init(&playerinfo);
 	LevelBG = AEGfxTextureLoad("Assets/GameBG1.png");
@@ -254,5 +256,7 @@ void Free_Scene() {
 	}
 }
 
-
+void Set_StartingWave(int waveNum) {
+	startingWave = waveNum;
+}
 

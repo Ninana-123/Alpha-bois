@@ -30,6 +30,6 @@ void Init_Scene();
 void Update_Scene();
 void Draw_Scene();
 void Free_Scene();
-
+void Set_StartingWave(int waveNum);
 #endif
 

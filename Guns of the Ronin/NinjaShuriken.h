@@ -24,7 +24,7 @@
 
 
 namespace {
-	enum { SHURIKEN_COUNT = 100 };
+	#define SHURIKEN_COUNT 100
 	#define SHURIKEN_HEIGHT 20
 	#define SHURIKEN_WIDTH 20
 	AEGfxVertexList* shurikenMesh = 0;

@@ -25,7 +25,7 @@
 
 
 namespace {
-	enum { ARROW_COUNT = 100 };
+	#define ARROW_COUNT 100
 	#define ARROW_HEIGHT 20
 	#define ARROW_WIDTH 20
 	AEGfxVertexList* arrowMesh = 0;
@@ -34,7 +34,7 @@ namespace {
 class Arrow {
 public:
 	Transform transform;
-	bool enabled;
+	bool enabled = false;
 	Vector2 direction;
 	float timeSince_lastDmgDeal = 0;
 };
@@ -42,7 +42,7 @@ public:
 struct ArrowPool {
 	Arrow arrow[ARROW_COUNT];
 	Arrow* activeArrow[ARROW_COUNT];
-	int activeSize;
+	int activeSize = 0;
 };
 
 void ArrowAdd(ArrowPool& arrow, Vector2 archPos, Vector2 playerPos);
