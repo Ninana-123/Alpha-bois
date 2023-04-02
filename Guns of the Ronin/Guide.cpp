@@ -106,8 +106,8 @@ void Update_Guide() {
 	AEAudioResumeGroup(guideAudioGroup);
 
 	Player_Update(&guidePLayer, guideBullet);
-	/*SetQuadPoints(guidePLayer.transform,true);
-	SetQuadPoints(windShrine.transform);*/
+	SetQuadPoints(guidePLayer.transform,true);
+	SetQuadPoints(windShrine.transform);
 
 	if (AEInputCheckCurr(AEVK_W)) {
 		WASD.spriteIndex = 1;
@@ -170,6 +170,7 @@ void Draw_Guide() {
 void Free_Guide() {
 	/*Player Unload*/
 	Free_Player();
+	Free_Bullet();
 
 	/*Meshes*/
 	AEGfxMeshFree(GuideBGMesh);

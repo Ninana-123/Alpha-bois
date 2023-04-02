@@ -128,6 +128,7 @@ void AI_Cannoneer(CannoneerPool& pool, Player& player, PlayerInfo& playerInfo) {
 		}
 		else {
 			if (curCB.transform.position.within_dist(curCB.LZ, CB_LZ_ERROR)) {
+				AEAudioPlay(cannonShoot, mainsceneAudioGroup, 0.1f, 1.f, 0);
 				curCB.exploded = true;
 				continue;
 			}

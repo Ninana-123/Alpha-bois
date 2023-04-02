@@ -87,6 +87,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	pauseMenu.esc_pressed = AEInputCheckTriggered(AEVK_ESCAPE);
 	// if esc is pressed
 	if (pauseMenu.esc_pressed) {
+		AEAudioPauseGroup(mainsceneAudioGroup);
 		if (!IsTime_Paused()) {	
 			TimePause();		// pause time if time is not paused
 		}
@@ -132,6 +133,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	// Main Menu
 	if (IsButtonHover(BUTTONS_X, MAINMENU_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, Paused_MouseX, Paused_MouseY)) {
 		if (leftClick) {
+			AEAudioStopGroup(mainsceneAudioGroup);
 			gGameStateNext = GS_MAINMENU;
 			TimeResume();
 			leftClick = false;

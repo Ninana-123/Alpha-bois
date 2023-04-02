@@ -98,7 +98,7 @@ void Init_Scene() {
 
 void Update_Scene() {
 
-	
+	AEAudioResumeGroup(mainsceneAudioGroup);
 	Update_Time();
 	SetQuadPoints(player.transform, true);
 
