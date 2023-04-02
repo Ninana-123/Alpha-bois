@@ -32,28 +32,10 @@ namespace {
 	/*          BACKGROUND        */
 	AEGfxVertexList* GuideBGMesh = 0;
 
-	/*          SHRINES           */
-	AEGfxVertexList* explosionMesh = 0;
-	AEGfxVertexList* freezeMesh = 0;
-	AEGfxVertexList* godMesh = 0;
-	AEGfxVertexList* healthMesh = 0;
-	AEGfxVertexList* voidMesh = 0;
+	
 	AEGfxVertexList* windMesh = 0;
 	AEGfxVertexList* guideLoadingBar = 0;
-	/*Shrine Signs*/
-	AEGfxVertexList* shrineSignsMesh= 0;
-	AEGfxVertexList* shrineExplainMesh= 0;
-	AEGfxVertexList* windTestMesh= 0;
-
-	/*          ENEMIES           */
-	AEGfxVertexList* archerMesh = 0;
-	AEGfxVertexList* samuraiMesh = 0;
-	AEGfxVertexList* ninjaMesh = 0;
-	AEGfxVertexList* cannonMesh = 0;
-	/*Enemy signs*/
-	AEGfxVertexList* enemySignsMesh= 0;
-	AEGfxVertexList* enemyExplainMesh= 0;
-
+	
 	/*          CONTROLS          */
 	AEGfxVertexList* WASDMesh = 0;
 	AEGfxVertexList* clickMesh = 0;

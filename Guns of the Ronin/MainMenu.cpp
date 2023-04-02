@@ -199,6 +199,8 @@ void Update_Menu() {
 			audioPlayed = true;
 		}
 		if (left_mouse_pressed) {
+			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_HIGHSCORES;
 		}
 	}
@@ -223,6 +225,8 @@ void Update_Menu() {
 			audioPlayed = true;
 		}
 		if (left_mouse_pressed) {
+			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+			AEAudioPauseGroup(mainmenuAudioGroup);
 			gGameStateNext = GS_CREDITS;
 		}
 	}

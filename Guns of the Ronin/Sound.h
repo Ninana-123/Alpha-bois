@@ -48,12 +48,16 @@ extern AEAudio ninjaThrow;
 /*Guide Audio*/
 extern AEAudio guideSong;
 
+/*Credits Audio*/
+extern AEAudio creditsSong;
+
 /*Audio Groups*/
 extern AEAudioGroup mainmenuAudioGroup;
 extern AEAudioGroup mainsceneAudioGroup;
 extern AEAudioGroup guideAudioGroup;
 extern AEAudioGroup playerAudioGroup;
 extern AEAudioGroup buttonsAudioGroup;
+extern AEAudioGroup creditsAudioGroup;
 
 extern bool audioPlayed;
 

@@ -44,11 +44,17 @@ AEAudio ninjaThrow;
 /*Guide Audio*/
 AEAudio guideSong;
 
+/*Credits Audio*/
+AEAudio creditsSong;
+
+
 /*Audio Groups*/
 AEAudioGroup mainmenuAudioGroup;
 AEAudioGroup mainsceneAudioGroup;
 AEAudioGroup guideAudioGroup;
 AEAudioGroup playerAudioGroup;
+AEAudioGroup creditsAudioGroup;
+
 
 AEAudioGroup buttonsAudioGroup;
 
@@ -71,6 +77,11 @@ void AudioLoad() {
 	guideAudioGroup = AEAudioCreateGroup();
 	guideSong = AEAudioLoadMusic("Assets/Audio/guide_song.wav");
 
+	/*Credits*/
+	creditsAudioGroup = AEAudioCreateGroup();
+	creditsSong = AEAudioLoadMusic("Assets/Audio/credits_song.wav");
+
+	/*Main Scene Audio*/
 	mainsceneAudioGroup = AEAudioCreateGroup();
 	//Shrines
 	freezeSound = AEAudioLoadMusic("Assets/Audio/freeze_shrine.wav");
@@ -79,4 +90,10 @@ void AudioLoad() {
 	godSound = AEAudioLoadMusic("Assets/Audio/god_shrine.wav");
 	windSound = AEAudioLoadMusic("Assets/Audio/wind_shrine.wav");
 	voidSound = AEAudioLoadMusic("Assets/Audio/void_shrine.wav");
+
+	//Enemies
+	archerShoot = AEAudioLoadMusic("Assets/Audio/archer_shoot.wav");
+	cannonShoot = AEAudioLoadMusic("Assets/Audio/cannon_shot.wav");
+	samuraiSlash = AEAudioLoadMusic("Assets/Audio/samurai_slash.wav");
+	ninjaThrow = AEAudioLoadMusic("Assets/Audio/ninja_throw.wav");
 }

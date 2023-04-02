@@ -71,9 +71,14 @@ void Init_Credits() {
 	quitButton.transform.width = QUIT_BUTTON_WIDTH;
 	quitButton.transform.rotation = CREDITS_ROTATION;
 	quitButton.transform.mesh = &backMesh;
+
+	AEAudioPlay(creditsSong, creditsAudioGroup, 1.f, 1.f, -1);
+
 }
 
 void Update_Credits() {
+	/*Resuming Credits Audio*/
+	AEAudioResumeGroup(creditsAudioGroup);
 
 	/*     AUTO ROLL CREDITS SCENE     */
 
@@ -92,6 +97,7 @@ void Update_Credits() {
 	if (IsButtonHover(BACK_BUTTON_X, BACK_BUTTON_Y, BACK_BUTTON_SCALE_X, BACK_BUTTON_SCALE_Y, Credits_MouseX, Credits_MouseY)) {
 		quitButton.spriteIndex = 3;
 		if (isLeftClicked) {
+			AEAudioPauseGroup(creditsAudioGroup);
 			gGameStateNext = GS_MAINMENU;
 		}
 	}

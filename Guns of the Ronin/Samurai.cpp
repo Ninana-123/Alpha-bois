@@ -17,6 +17,7 @@
 #include "TimeManager.h"
 #include "HighScore.h"
 #include "EnemyCounter.h"
+#include "Sound.h"
 
 
 //When a samurai dies 
@@ -125,6 +126,7 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 				//If currently playing the attack animation
 				if (curSamurai->anim.CurrentFrame() == SAMURAI_ATT_ANIM_FRAME) {
 					if (!curSamurai->dmgDealt) {
+					//AEAudioPlay(samuraiSlash, mainsceneAudioGroup, 1.f, 1.f, 0);
 						player_dmg(playerInfo, DAMAGE);
 						curSamurai->dmgDealt = true;
 					}
