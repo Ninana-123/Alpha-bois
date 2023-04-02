@@ -26,32 +26,36 @@
 #include "Bullets.h"
 namespace {
 	enum C_AI_STATE { C_ATTACKING, C_RELOADING };
-	enum { CANNONEER_COUNT = 20 };
-	enum { CANNONBALL_COUNT = 40 };
-	const int CANNONEER_KILLSCORE = 150;
+#define CANNONEER_COUNT 20
+#define CANNON_BALL_COUNT 40
+#define CANNONEER_KILLSCORE 150
 
 
-	float C_MIN_SPAWNDIST = 350;
-	float C_MAX_SPAWNDIST = 750;
-	float C_MAX_Y_SPAWNDIST = 425;
-	int C_HEALTH = 350;
-	float C_MS = 100.0f;
-	float C_HIT_ANIM_DURATION = 0.5f;
-	int C_EXP = 10;
-	float C_FIRERATE = 4.5f;
+#define C_MIN_SPAWN_DIST 350
+#define C_MAX_SPAWN_DIST 750
+#define C_MAX_Y_SPAWN_DIST 425
+#define C_HEALTH 350
+#define C_MS 100.0f
+#define C_HIT_ANIM_DURATION 0.5f
+#define C_EXP 10
+#define C_FIRE_RATE 4.5f
+#define C_INITIAL_FIRE_DELAY 2.5f
 	AEGfxVertexList* cannoneerMesh = 0;
 	//CannonBall(CB) variables 
 	AEGfxVertexList* cannonBallMesh = 0;
 	AEGfxVertexList* explosionMesh = 0;
 	AEGfxTexture* cannoneerTexture = 0;
 	AEGfxTexture* cannonBallTexture = 0;
-	float C_HEIGHT = 20, C_WIDTH = 20;
-	int CB_DAMAGE = 20;
-	float CB_MAXSCALE = 2.0f;
-	float CB_MS = 200;
-	float CB_HEIGHT = 15, CB_WIDTH = 15;
-	float CB_EXPLOSION_DURATION = 0.7f;
-	float CB_EXPLOSION_RADIUS = 40.0f;
+#define C_HEIGHT 60.0f
+#define C_WIDTH 60.0f
+#define CB_DAMAGE 20
+#define CB_MAX_SCALE 2.0f
+#define CB_MS 200.0f
+#define CB_HEIGHT 20.0f
+#define CB_WIDTH 20.0f
+#define CB_EXPLOSION_DURATION 0.7f
+#define CB_EXPLOSION_RADIUS 40.0f
+#define CB_LZ_ERROR 3.0f
 }
 
 class Cannoneer {
@@ -68,15 +72,15 @@ public:
 struct CannonBall {
 	Transform transform;
 	Vector2 direction, LZ;
-	float halfTotalDist =0.0f , distTravelled=0.0f;
+	float halfTotalDist = 0.0f, distTravelled = 0.0f;
 	bool reachedMaxScale, exploded, dmgDealt;
-	float explosionTimer=0.0f;
+	float explosionTimer = 0.0f;
 };
 
 struct CannoneerPool {
 	Cannoneer cannoneers[CANNONEER_COUNT];
 	Cannoneer* activeCannoneers[CANNONEER_COUNT];
-	CannonBall cannonBalls[CANNONBALL_COUNT];
+	CannonBall cannonBalls[CANNON_BALL_COUNT];
 	int activeCBSize =0;
 	int activeSize =0;
 };

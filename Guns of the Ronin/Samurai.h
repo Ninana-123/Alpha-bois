@@ -24,22 +24,31 @@
 #include "Bullets.h"
 namespace {
 	enum AI_STATE { MOVING, ATTACKING, BLOWNAWAY };
-	enum { SAMURAI_COUNT = 60 };
-	const int SAMURAI_KILLSCORE = 50;
-	float MIN_SPAWNDIST = 325;
-	float MAX_SPAWNDIST = 475;
-	int SAMURAI_HEALTH = 100;
-	float SAMURAI_MS = 100.0f;
-	float SAMURAI_SWEEP_MS = 700.0f;
-	float SAMURAI_SLOWED_MS = 20.0;
-	float SAMURAI_SLOW_DURATION = 0.5f;
-	int EXP = 10;
-	int DAMAGE = 5;
-	AEGfxVertexList* samuraiMesh = 0;
+#define SAMURAI_COUNT 60
+#define SAMURAI_KILL_SCORE 50
+#define MIN_SPAWN_DIST 325.0f
+#define MAX_SPAWN_DIST 450.f
+#define SAMURAI_HEALTH 100
+#define SAMURAI_MS 100.0f
+#define SAMURAI_SWEEP_MS 700.0f
+#define SAMURAI_SLOWED_MS 20.0f
+#define SAMURAI_SLOW_DURATION 0.5f
+#define SAMURAI_DAMAGE 5
+#define SAMURAI_ATT_ANIM_FRAME 2 //The frame number of animation that is the attacking frame
+#define SAMURAI_ATT_RANGE 50.0f
+#define SAMURAI_BLOWN_AWAY_ERROR 15.0f
+#define SAMURAI_WIDTH 75.0f
+#define SAMURAI_HEIGHT 75.0f
+#define SAMURAI_COLLIDER_WIDTH 37.5f 
+#define SAMURAI_COLLIDER_HEIGHT 60.0f
+#define SAMURAI_TEXTURE_WIDTH 0.5f
+#define SAMURAI_TEXTURE_HEIGHT 1.0f
+
+/*	This is the error offset position for samurais such that they chase a slightly offsetted position of the player, 
+	this is to prevent a large group of them from stacking on top of each other without a clear indicator that there is more than one of them */
+#define SAMURAI_CHASING_ERROR 6.0f
 	AEGfxTexture* samuraiTexture = 0;
-	float SAMURAI_HEIGHT = 75, SAMURAI_WIDTH = 75;
-	int SAMURAI_ATT_ANIM_FRAME = 2;	//The frame number of animation that is the attacking frame
-	float SAMURAI_ATT_RANGE = 50.0f;
+	AEGfxVertexList* samuraiMesh = 0;
 }
 
 class Samurai {
@@ -63,7 +72,7 @@ struct SamuraiPool {
 	int activeSize =0;
 };
 
-void SamuraiAdd(SamuraiPool& pool, Vector2 playerPos);
+void Add_Samurai(SamuraiPool& pool, Vector2 playerPos);
 
 void Init_SamuraiPool(SamuraiPool& pool);
 
@@ -77,6 +86,6 @@ void Dmg_Samurai(SamuraiPool& pool,PlayerInfo playerInfo, int index);
 
 void Free_Samurai();
 
-void SamuraiRemove(int index, SamuraiPool& pool);
+void Remove_Samurai(int index, SamuraiPool& pool);
 
 #endif // !SAMURAI_H

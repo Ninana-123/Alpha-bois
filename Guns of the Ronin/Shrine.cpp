@@ -279,7 +279,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 								*mouseY <= samPool.activeSamurais[u]->transform.position.y + samPool.activeSamurais[u]->transform.height + padding)
 							{
 								AEAudioPlay(godSound, mainsceneAudioGroup, 0.5f, 1.f, 0);
-								SamuraiRemove(u, samPool);
+								Remove_Samurai(u, samPool);
 								break;
 							}
 						}

@@ -1,4 +1,3 @@
-
 /*
 \copyright
 		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
@@ -6,13 +5,14 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file		EnemyController.cpp
+@author		Zeng ZhiCheng
+@Email		z.zhicheng@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		2 April 2023
+@brief		This file contains definition of functions responsible for initializing, updating and drawing of enemies
+			As well as controlling the spawning of enemies
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -28,23 +28,26 @@
 
 
 namespace {
-	float spawnRate_Samurai = 1.5f;
-	float spawnRate_Archer = 2.5f;
-	float spawnRate_Cannoneer = 3.5f;
-	float spawnRate_Ninja = 3.0f;
+
+#define NUM_OF_WAVES 10
+#define NUM_OF_ENEMY_TYPES 4
+
+#define SPAWN_RATE_SAMURAI 1.5f
+#define SPAWN_RATE_ARCHER 2.5f
+#define SPAWN_RATE_CANNONEER 3.5f
+#define SPAWN_RATE_NINJA 3.0f
 
 	int curWave = 1;
-	int spawnTotalCount[10] = { 0 };
-	int curSpawnCounts[4] = { 0 };
-
+	int spawnTotalCount[NUM_OF_WAVES] = { 0 };
+	int curSpawnCounts[NUM_OF_ENEMY_TYPES] = { 0 };
 
 
 	enum { SAMURAI = 0, ARCHER, CANNON, NINJA };
 
 	//Number of enemies spawned each wave
-	constexpr int spawnCounts[10][4]{
+	constexpr int spawnCounts[NUM_OF_WAVES][NUM_OF_ENEMY_TYPES]{
 		/*Wave n    Samurai		 Archer		 Cannoneer	 Ninja		*/
-		/*Wave 1*/	{10			,0			,0			,0			},
+		/*Wave 1*/	{0			,10			,0			,0			},
 		/*Wave 2*/	{20			,5			,0			,0			},
 		/*Wave 3*/	{30			,10			,0			,0			},
 		/*Wave 4*/	{35			,20			,0			,0			},
@@ -66,6 +69,5 @@ void Draw_Enemies(SamuraiPool& pool, ArcherPool& archPool, CannoneerPool& cPool,
 
 void Push_Enemies(SamuraiPool& samPool, ArcherPool& archPool, DIRECTION direction, float targetAxis, NinjaPool& ninPool);
 
-void God_Enemies(SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool, int index);
 #endif // !1
 

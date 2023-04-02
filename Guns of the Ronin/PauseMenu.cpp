@@ -186,7 +186,7 @@ void Free_PauseMenu() {
 	AEGfxMeshFree(pauseMesh);
 	AEGfxTextureUnload(pauseMenuBG);
 	AEGfxTextureUnload(deadMenuBG);
-	AEGfxTextureUnload(pauseMenuWinBG);
+	AEGfxTextureUnload(pauseMenuWinBG); //
 	AEGfxMeshFree(pauseQuitButtonMesh);
 	AEGfxTextureUnload(pauseQuitButtonTexture);
 }

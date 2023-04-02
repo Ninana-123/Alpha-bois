@@ -5,13 +5,14 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file		EnemyController.cpp
+@author		Zeng ZhiCheng
+@Email		z.zhicheng@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		2 April 2023
+@brief		This file contains definition of functions responsible for initializing, updating and drawing of enemies
+			As well as controlling the spawning of enemies
 *//*______________________________________________________________________*/
 #include "EnemyController.h"
 #include "TimeManager.h"
@@ -19,15 +20,16 @@
 #include "MainMenu.h"
 #include "HighScore.h"
 
-float spawnTImer = 0;
+float samuraiSpawnTimer = 0;
 float archerSpawnTimer = 0;
 float cSpawnTimer = 0;
 float ninjaSpawnTimer = 0;
-//s32 mousePosX;
-//s32 mousePosY;
-//
-//s32* mouseX = &mousePosX;
-//s32* mouseY = &mousePosY;
+
+#define WAVE_COUNT_TEXT_X_POS -0.1f
+#define WAVE_COUNT_TEXT_Y_POS 0.85f
+#define ENEMIES_LEFT_TEXT_X_POS -0.15f
+#define ENEMIES_LEFT_TEXT_Y_POS 0.75f
+#define ENEMY_CONTROLLER_TEXT_SCALE 0.75f
 int enemiesLeft = 0;
 
 
@@ -37,38 +39,38 @@ void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPo
 	Init_CannoneerPool(cPool);
 	Init_NinjaPool(ninPool);
 
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 0; i < NUM_OF_WAVES; ++i) {
 		spawnTotalCount[i] = 0;
-		for (int u = 0; u < 4; ++u) {
+		for (int u = 0; u < NUM_OF_ENEMY_TYPES; ++u) {
 			spawnTotalCount[i] += spawnCounts[i][u];
 		}
 	}
 	curWave = 1, enemiesLeft = spawnTotalCount[0];
 
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < NUM_OF_ENEMY_TYPES; ++i) {
 		curSpawnCounts[i] = 0;
 	}
 
 }
 
 void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPool, NinjaPool& ninPool, Player& player, PlayerInfo& playerInfo) {
-	spawnTImer += deltaTime;
+	samuraiSpawnTimer += deltaTime;
 	archerSpawnTimer += deltaTime;
 	cSpawnTimer += deltaTime;
 	ninjaSpawnTimer += deltaTime;
 
 	if (!IsTime_Paused() && !IsTime_Paused_Enemy()) {
 		// Samurai
-		if (spawnTImer >= spawnRate_Samurai && curSpawnCounts[SAMURAI] < spawnCounts[curWave - 1][SAMURAI]) {
-			spawnTImer = 0;
-			SamuraiAdd(samPool, player.transform.position);
+		if (samuraiSpawnTimer >= SPAWN_RATE_SAMURAI && curSpawnCounts[SAMURAI] < spawnCounts[curWave - 1][SAMURAI]) {
+			samuraiSpawnTimer = 0;
+			Add_Samurai(samPool, player.transform.position);
 			++curSpawnCounts[SAMURAI];
 			//std::cout << curSpawnCounts[SAMURAI] <<"\n";
 		}
 		AI_Samurai(samPool, player, playerInfo);
 
 		// Archer
-		if (archerSpawnTimer >= spawnRate_Archer && curSpawnCounts[ARCHER] < spawnCounts[curWave - 1][ARCHER]) {
+		if (archerSpawnTimer >= SPAWN_RATE_ARCHER && curSpawnCounts[ARCHER] < spawnCounts[curWave - 1][ARCHER]) {
 			archerSpawnTimer = 0;
 			ArcherAdd(archPool, player.transform.position);
 			++curSpawnCounts[ARCHER];
@@ -77,15 +79,15 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 
 
 		// Cannoneer
-		if (cSpawnTimer >= spawnRate_Cannoneer  && curSpawnCounts[CANNON] < spawnCounts[curWave - 1][CANNON]) {
+		if (cSpawnTimer >= SPAWN_RATE_CANNONEER  && curSpawnCounts[CANNON] < spawnCounts[curWave - 1][CANNON]) {
 			cSpawnTimer = 0;
 			CannoneerAdd(cPool);
 			++curSpawnCounts[CANNON];
 		}
 		AI_Cannoneer(cPool, player, playerInfo);
 
-	//	// Ninja
-		if (ninjaSpawnTimer >= spawnRate_Ninja && curSpawnCounts[NINJA] < spawnCounts[curWave - 1][NINJA]) {
+		// Ninja
+		if (ninjaSpawnTimer >= SPAWN_RATE_NINJA && curSpawnCounts[NINJA] < spawnCounts[curWave - 1][NINJA]) {
 			ninjaSpawnTimer = 0;
 			NinjaAdd(ninPool, player.transform.position);
 			++curSpawnCounts[NINJA];
@@ -96,46 +98,26 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 	//all enemies in the current wave defeated
 	if (!enemiesLeft) {
 		++curWave;
-		//If final wave 10 is cleared playthrough is finished
-		if (curWave > 10) {
+		//If final wave 10 is cleared, playthrough is finished
+		if (curWave > NUM_OF_WAVES) {
 			TimePause();
 			gameEnded = true;
 			Finalize_HighScore(false);
 			return;
 		}
 		enemiesLeft = spawnTotalCount[curWave - 1];
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < NUM_OF_ENEMY_TYPES; ++i) {
 			curSpawnCounts[i] = 0;
 		}
 	}
 }
 
+//Push enemies to one side
 void Push_Enemies(SamuraiPool& samPool, ArcherPool& archPool, DIRECTION direction, float targetAxis, NinjaPool& ninPool) {
 	Push_Samurai(samPool, direction, targetAxis);
 	Push_Archer(archPool, direction, targetAxis);
 	Push_Ninja(ninPool, direction, targetAxis);
 }
-
-//void God_Enemies(SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool, int index)
-//{
-//	AEInputGetCursorPosition(mouseX, mouseY);
-//	*mouseX = *mouseX - 800;
-//	*mouseY = (*mouseY - 450) * -1;
-//	for (int i = 0; i < samPool.activeSize; ++i)
-//	{
-//		if (IsButtonHover(samPool.activeSamurais[i]->transform.position.x, samPool.activeSamurais[i]->transform.position.y,
-//			samPool.activeSamurais[i]->transform.width, samPool.activeSamurais[i]->transform.height, mouseX, mouseY))
-//		{
-//			//std::cout << "in" << std::endl;
-//			if (AEInputCheckTriggered(AEVK_LBUTTON))
-//			{
-//				//std::cout << "pressed" << std::endl;
-//				SamuraiRemove(index, samPool);
-//			}
-//		}
-//	}
-//}
-
 
 void Draw_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPool, NinjaPool &ninPool) {
 	Draw_Samurai(samPool);
@@ -145,7 +127,7 @@ void Draw_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPo
 
 	char strBuffer[1024];
 	sprintf_s(strBuffer, "Wave: %d", curWave);
-	AEGfxPrint(font, strBuffer, -0.1f, 0.85f, 0.75f, 0, 0, 0);
+	AEGfxPrint(font, strBuffer, WAVE_COUNT_TEXT_X_POS, WAVE_COUNT_TEXT_Y_POS, ENEMY_CONTROLLER_TEXT_SCALE, 0, 0, 0);
 	sprintf_s(strBuffer, "Enemies Left: %d", enemiesLeft);
-	AEGfxPrint(font, strBuffer, -0.15f, 0.75f, 0.75f, 0, 0, 0);
+	AEGfxPrint(font, strBuffer, ENEMIES_LEFT_TEXT_X_POS, ENEMIES_LEFT_TEXT_Y_POS, ENEMY_CONTROLLER_TEXT_SCALE, 0, 0, 0);
 }
