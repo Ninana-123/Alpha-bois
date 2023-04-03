@@ -39,6 +39,7 @@ namespace
 	#define LOADING_WIDTH  150
 	#define LOADING_HEIGHT  10
 	#define PUSH_BY  -500
+	#define BUFFER_DIST 100
 	AEGfxVertexList* shrineMesh;
 	AEGfxVertexList* shrineBoundary;
 	AEGfxVertexList* loadingBarMesh;
