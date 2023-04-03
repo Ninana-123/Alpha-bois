@@ -19,13 +19,13 @@
 #include "TimeManager.h"
 
 
-#define arrowHalfX AEGetWindowWidth() / 2.0f
-#define arrowHalfY AEGetWindowHeight() / 2.0f
+#define ARROW_HALF_X AEGetWindowWidth() / 2.0f
+#define ARROW_HALF_Y AEGetWindowHeight() / 2.0f
 
-#define arrowBoundaryX (arrowHalfX + 100)
-#define arrowBoundaryY (arrowHalfY + 100)
+#define ARROW_BOUNDARY_X (ARROW_HALF_X + 100)
+#define ARROW_BOUNDARY_Y (ARROW_HALF_Y + 100)
 
-#define arrowSpeed 200.f
+#define ARROW_SPEED 200.f
 
 //	When an arrow dies / destroyed / you want to hide it / etc..
 void ArrowRemove(int index, ArrowPool& pool) {
@@ -83,17 +83,17 @@ void Draw_Arrow(ArrowPool& pool) {
 void Arrow_AI(ArrowPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		Set_QuadPoints(pool.activeArrow[i]->transform, true);
-		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * arrowSpeed;
-		if (pool.activeArrow[i]->transform.position.x > arrowBoundaryX) {
+		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * ARROW_SPEED;
+		if (pool.activeArrow[i]->transform.position.x > ARROW_BOUNDARY_X) {
 			ArrowRemove(i, pool);
 		}
-		else if (pool.activeArrow[i]->transform.position.x < -arrowBoundaryX) {
+		else if (pool.activeArrow[i]->transform.position.x < -ARROW_BOUNDARY_X) {
 			ArrowRemove(i, pool);
 		}
-		else if (pool.activeArrow[i]->transform.position.y > arrowBoundaryY) {
+		else if (pool.activeArrow[i]->transform.position.y > ARROW_BOUNDARY_Y) {
 			ArrowRemove(i, pool);
 		}
-		else if (pool.activeArrow[i]->transform.position.y < -arrowBoundaryY) {
+		else if (pool.activeArrow[i]->transform.position.y < -ARROW_BOUNDARY_Y) {
 			ArrowRemove(i, pool);
 		}
 	}

@@ -18,11 +18,11 @@
 #include "TimeManager.h"
 
 
-#define shurikenHalfX (AEGetWindowWidth() / 2.0f)
-#define shurikenHalfY (AEGetWindowHeight() / 2.0f)
-#define shurikenBoundaryX (shurikenHalfX + 100)
-#define shurikenBoundaryY (shurikenHalfY + 100)
-#define shurikenSpeed 400.f
+#define SHURIKEN_HALF_X (AEGetWindowWidth() / 2.0f)
+#define SHURIKEN_HALF_Y (AEGetWindowHeight() / 2.0f)
+#define SHURIKEN_BOUNDARY_X (SHURIKEN_HALF_X + 100)
+#define SHURIKEN_BOUNDARY_Y (SHURIKEN_HALF_Y + 100)
+#define SHURIKEN_SPEED 400.f
 
 //When a projectile dies / destroyed / you want to hide it / etc..
 void ShurikenRemove(int index, ShurikenPool& pool) {
@@ -79,17 +79,17 @@ void Draw_Shuriken(ShurikenPool& pool) {
 void Shuriken_AI(ShurikenPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		Set_QuadPoints(pool.activeShuriken[i]->transform);
-		pool.activeShuriken[i]->transform.position += pool.activeShuriken[i]->direction * deltaTime * shurikenSpeed;
-		if (pool.activeShuriken[i]->transform.position.x > shurikenBoundaryX) {
+		pool.activeShuriken[i]->transform.position += pool.activeShuriken[i]->direction * deltaTime * SHURIKEN_SPEED;
+		if (pool.activeShuriken[i]->transform.position.x > SHURIKEN_BOUNDARY_X) {
 			ShurikenRemove(i, pool);
 		}
-		else if (pool.activeShuriken[i]->transform.position.x < -shurikenBoundaryX) {
+		else if (pool.activeShuriken[i]->transform.position.x < -SHURIKEN_BOUNDARY_X) {
 			ShurikenRemove(i, pool);
 		}
-		else if (pool.activeShuriken[i]->transform.position.y > shurikenBoundaryY) {
+		else if (pool.activeShuriken[i]->transform.position.y > SHURIKEN_BOUNDARY_Y) {
 			ShurikenRemove(i, pool);
 		}
-		else if (pool.activeShuriken[i]->transform.position.y < -shurikenBoundaryY) {
+		else if (pool.activeShuriken[i]->transform.position.y < -SHURIKEN_BOUNDARY_Y) {
 			ShurikenRemove(i, pool);
 		}
 	}
