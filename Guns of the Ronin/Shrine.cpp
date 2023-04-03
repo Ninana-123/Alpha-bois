@@ -89,7 +89,7 @@ bool Check_Overlap_With_Active_Shrines(const ShrinePool& shrinePool, const Vecto
 {
 	for (int i = 0; i < SHRINE_COUNT; i++)
 	{
-		if (shrinePool.activeShrine[i]->hasBeenUsed && Vector_2Distance(shrinePool.activeShrine[i]->transform.position, position) < 100.0f)
+		if (shrinePool.activeShrine[i]->hasBeenUsed && Vector_2Distance(shrinePool.activeShrine[i]->transform.position, position) < BUFFER_DIST)
 		{
 			return true;
 		}
