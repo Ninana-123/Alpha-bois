@@ -53,7 +53,7 @@ float Distance_Void(const Vector2& a, const Vector2& b)
 	return sqrt(dx * dx + dy * dy);
 }
 
-bool Check_Overlap_With_Active_Void(const VoidPool& voidPool, const Vector2& position)
+bool Check_OverlapWithActiveVoid(const VoidPool& voidPool, const Vector2& position)
 {
 	for (int i = 0; i < VOID_COUNT; i++)
 	{
@@ -84,7 +84,7 @@ void Void_Add(VoidPool& voidPool)
 			do
 			{
 				randomPosition = Random_PointOutsideSquare(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-			} while (Check_Overlap_With_Active_Void(voidPool, randomPosition));
+			} while (Check_OverlapWithActiveVoid(voidPool, randomPosition));
 			voidPool.activeVoid[i]->transform.position = randomPosition;
 
 

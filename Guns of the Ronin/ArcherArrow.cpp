@@ -19,13 +19,13 @@
 #include "TimeManager.h"
 
 
-#define arrowHalfX AEGetWindowWidth() / 2.0f
-#define arrowHalfY AEGetWindowHeight() / 2.0f
+#define ARROW_HALF_X AEGetWindowWidth() / 2.0f
+#define ARROW_HALF_Y AEGetWindowHeight() / 2.0f
 
-#define arrowBoundaryX (arrowHalfX + 100)
-#define arrowBoundaryY (arrowHalfY + 100)
+#define ARROW_BOUNDARY_X (ARROW_HALF_X + 100)
+#define ARROW_BOUNDARY_Y (ARROW_HALF_Y + 100)
 
-#define arrowSpeed 200.f
+#define ARROW_SPEED 200.f
 
 //	When an arrow dies / destroyed / you want to hide it / etc..
 void Remove_Arrow(int index, ArrowPool& pool) {

@@ -172,11 +172,11 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 	// Shuriken collide with player
 	for (int i = 0; i < shuriken.activeSize; ++i) {
 		Shuriken* proj = shuriken.activeShuriken[i];
-		proj->timeSince_lastDmgDeal += deltaTime;
+		proj->timeSinceLastDmgDeal += deltaTime;
 		if (Col_StaticQuadQuad(proj->transform, player.transform)) {
-			if (proj->timeSince_lastDmgDeal > NINJA_ATTACK_INTERVAL) {
+			if (proj->timeSinceLastDmgDeal > NINJA_ATTACK_INTERVAL) {
 				Damage_Player(playerInfo, NINJA_DAMAGE);
-				proj->timeSince_lastDmgDeal = 0;
+				proj->timeSinceLastDmgDeal = 0;
 				ShurikenRemove(i, shuriken);
 			}
 		}

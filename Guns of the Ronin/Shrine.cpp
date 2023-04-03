@@ -9,7 +9,7 @@
 @author		Teo Sheen Yeoh
 @Co-Author	Vance Tay
 @Email		t.sheenyeoh@digipen.edu & Junfengvance.t@digipen.edu
-@course		CSD 1450
+@course		CSD 1451
 @section	Section A
 @date		3 March 2023
 @brief		This file contains contains code on how would all the shrine work with its individual abilites 
@@ -84,11 +84,11 @@ float Vector_2Distance(const Vector2& a, const Vector2& b)
 	return sqrt(dx * dx + dy * dy);
 }
 
-bool Check_Overlap_With_Active_Shrines(const ShrinePool& shrinePool, const Vector2& position)
+bool Check_OverlapWithActiveShrines(const ShrinePool& shrinePool, const Vector2& position)
 {
 	for (int i = 0; i < SHRINE_COUNT; i++)
 	{
-		if (shrinePool.activeShrine[i]->hasBeenUsed && Vector_2Distance(shrinePool.activeShrine[i]->transform.position, position) < 100.0f)
+		if (shrinePool.activeShrine[i]->hasBeenUsed && Vector_2Distance(shrinePool.activeShrine[i]->transform.position, position) < BUFFER_DIST)
 		{
 			return true;
 		}
@@ -121,7 +121,7 @@ void Add_Shrine(ShrinePool& shrinePool)
 				do
 				{
 					randomPosition = Random_PointOutsideSquare(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-				} while (Check_Overlap_With_Active_Shrines(shrinePool, randomPosition));
+				} while (Check_OverlapWithActiveShrines(shrinePool, randomPosition));
 
 				shrinePool.activeShrine[i]->transform.position = randomPosition;
 				shrinePool.Shrines[i].loading.position = randomPosition;
@@ -186,8 +186,8 @@ void Update_Shrine(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 		duration += deltaTime;
 		//std::cout << duration << std::endl;
 		AEInputGetCursorPosition(mouseX, mouseY);
-		*mouseX = *mouseX - 800;
-		*mouseY = (*mouseY - 450) * -1;
+		*mouseX = *mouseX - (s32)(AEGetWindowWidth()/2.0f);
+		*mouseY = -(*mouseY - (s32)(AEGetWindowHeight()/2.0f));
 
 		if (duration >= 1.f)
 		{

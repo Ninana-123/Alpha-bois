@@ -8,7 +8,7 @@
 @file		void.cpp
 @author		Teo Sheen Yeoh
 @Email		t.sheenyeoh@digipen.edu
-@course		CSD 1450
+@course		CSD 1451
 @section	Section A
 @date		3 March 2023
 @brief		This file contains code on how would the explosions shrine work 
@@ -50,7 +50,7 @@ float Distance_Explosion(const Vector2& a, const Vector2& b)
 	return sqrt(dx * dx + dy * dy);
 }
 
-bool Check_Overlap_With_Active_Explosion(const ExplosionPool& explosionPool, const Vector2& position)
+bool Check_OverlapWithActiveExplosion(const ExplosionPool& explosionPool, const Vector2& position)
 {
 	for (int i = 0; i < EXPLOSION_COUNT; i++)
 	{
@@ -80,7 +80,7 @@ void Explosion_Add(ExplosionPool& explosionPool)
 			do
 			{
 				randomPosition = Random_PointOutsideSquare(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-			} while (Check_Overlap_With_Active_Explosion(explosionPool, randomPosition));
+			} while (Check_OverlapWithActiveExplosion(explosionPool, randomPosition));
 			explosionPool.activeExplosion[i]->transform.position = randomPosition;
 			
 			explosionPool.activeExplosion[i]->timeElapsed = 0;

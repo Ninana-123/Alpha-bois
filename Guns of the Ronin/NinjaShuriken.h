@@ -35,7 +35,7 @@ public:
 	Transform transform;
 	bool enabled = false;
 	Vector2 direction;
-	float timeSince_lastDmgDeal = 0;
+	float timeSinceLastDmgDeal = 0;
 };
 
 struct ShurikenPool {
