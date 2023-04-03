@@ -42,8 +42,8 @@ public:
 };
 
 struct BulletPool {
-	Bullet bullets[BULLET_COUNT];
-	Bullet* activeBullets[BULLET_COUNT];
+	Bullet bullets[BULLET_COUNT]{};
+	Bullet* activeBullets[BULLET_COUNT]{};
 	int activeSize = 0;
 };
 

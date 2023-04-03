@@ -189,10 +189,12 @@ void Dmg_Ninja(NinjaPool& pool, PlayerInfo& playerInfo, Player& player, int inde
 
 	// teleport to another location near player when smoke/ shield breaks
 	if (pool.activeNinjas[index]->isHit == false) {
+		AEAudioPlay(ninjaVanish, mainsceneAudioGroup, 1.f, 1.f, 0);
 		pool.activeNinjas[index]->transform.position = RandomPoint_OutsideSqaure(NINJA_TELEPORT_MIN_DIST, NINJA_ATT_RANGE, player.transform.position);
 		pool.activeNinjas[index]->isHit = true;
 		pool.activeNinjas[index]->anim.ResetAnim(pool.activeNinjas[index]->transform);
 		pool.activeNinjas[index]->dmgDealt = false;
+
 	}
 	// if shield does not exist and ninja health below 0, remove ninja
 	else{

@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Sound.h
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains the extern variables for audio to be used in other files
 *//*______________________________________________________________________*/
 #pragma once
 #ifndef SOUND_H
@@ -23,12 +23,11 @@ extern AEAudio mainmenuSong;
 extern AEAudio buttonHoverSound;
 extern AEAudio buttonClickSound;
 
+/*PLayer Audio*/
+extern AEAudio playerShootSound;
+
 /*Main level audio*/
 extern AEAudio mainsceneSong;
-
-/*PLayer Audio*/
-extern AEAudio playerWalkSound;
-extern AEAudio playerShootSound;
 
 //Shrines
 extern AEAudio freezeSound;
@@ -43,6 +42,7 @@ extern AEAudio archerShoot;
 extern AEAudio cannonShoot;
 extern AEAudio samuraiSlash;
 extern AEAudio ninjaThrow;
+extern AEAudio ninjaVanish;
 
 
 /*Guide Audio*/
@@ -58,7 +58,7 @@ extern AEAudioGroup guideAudioGroup;
 extern AEAudioGroup playerAudioGroup;
 extern AEAudioGroup buttonsAudioGroup;
 extern AEAudioGroup creditsAudioGroup;
-
+/*Boolean flag to check if audio has been played*/
 extern bool audioPlayed;
 
 void Audio_Load();

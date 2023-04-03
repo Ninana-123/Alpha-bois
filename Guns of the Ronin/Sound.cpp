@@ -23,7 +23,6 @@ AEAudio buttonClickSound;
 AEAudio mainsceneSong;
 
 /*PLayer Audio*/
-AEAudio playerWalkSound;
 AEAudio playerShootSound;
 
 //Shrines
@@ -39,6 +38,7 @@ AEAudio archerShoot;
 AEAudio cannonShoot;
 AEAudio samuraiSlash;
 AEAudio ninjaThrow;
+AEAudio ninjaVanish;
 
 
 /*Guide Audio*/
@@ -70,7 +70,6 @@ void Audio_Load() {
 	buttonClickSound = AEAudioLoadSound("Assets/Audio/button_click.wav");
 	/*Player*/
 	playerAudioGroup = AEAudioCreateGroup();
-	playerWalkSound = AEAudioLoadSound("Assets/Audio/player_walk.wav");
 	playerShootSound = AEAudioLoadSound("Assets/Audio/player_shoot.wav");
 
 	/*Guide*/
@@ -96,4 +95,6 @@ void Audio_Load() {
 	cannonShoot = AEAudioLoadSound("Assets/Audio/cannon_shot.wav");
 	samuraiSlash = AEAudioLoadSound("Assets/Audio/samurai_slash.wav");
 	ninjaThrow = AEAudioLoadSound("Assets/Audio/ninja_throw.wav");
+	ninjaVanish = AEAudioLoadSound("Assets/Audio/ninja_vanish.wav");
+	
 }
