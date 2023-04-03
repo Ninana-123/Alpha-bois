@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Bullets.h
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@date 31 January 2023
+@brief This file contains definitions for player's bullet system
 *//*______________________________________________________________________*/
 #include "Bullets.h"
 #include "Player.h"
@@ -56,7 +56,7 @@ void Init_BulletPool(BulletPool& pool) {
 	halfY = AEGetWindowHeight() / 2.0f;
 	screenBoundaryX = halfX + 100;
 	screenBboundaryY = halfY + 100;
-	CreateQuadMesh(BULLET_WIDTH, BULLET_HEIGHT, Color(0, 0, 0), bulletMesh);
+	Create_QuadMesh(BULLET_WIDTH, BULLET_HEIGHT, Color(0, 0, 0), bulletMesh);
 	for (int i = 0; i < BULLET_COUNT; i++) {
 		pool.bullets[i].enabled = false;
 		pool.bullets[i].transform.height = BULLET_HEIGHT;
@@ -74,7 +74,7 @@ void Init_BulletPool(BulletPool& pool) {
 //Draw active Bullets
 void Draw_Bullet(BulletPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		DrawMesh(&pool.activeBullets[i]->transform);
+		Draw_Mesh(&pool.activeBullets[i]->transform);
 	}
 }
 

@@ -28,7 +28,7 @@ void Void_PoolInit(VoidPool& voidPool)
 {
 	durations = 0;
 	voidPool.activeSize = 0;
-	CreateQuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh, 1/4.0f ,1.0f);
+	Create_QuadMesh(VOID_WIDTH, VOID_HEIGHT, Color(1, 1, 0, 1), voidMesh, 1/4.0f ,1.0f);
 	for (int i = 0; i < VOID_COUNT; i++)
 	{
 		voidPool.Voids[i].hasBeenUsed = false;
@@ -84,12 +84,12 @@ void Void_Add(VoidPool& voidPool)
 			Vector2 randomPosition;
 			do
 			{
-				randomPosition = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+				randomPosition = Random_PointOutsideSquare(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
 			} while (Check_Overlap_With_Active_Void(voidPool, randomPosition));
 			voidPool.activeVoid[i]->transform.position = randomPosition;
 
 
-			//voidPool.activeVoid[i]->transform.position = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+			//voidPool.activeVoid[i]->transform.position = Random_PointOutsideSquare(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
 			//voidPool.activeVoid[i]->loading.position = voidPool.activeVoid[i]->transform.position;
 			voidPool.activeVoid[i]->timeElapsed = 0;
 			voidPool.activeVoid[i]->isColliding = false;
@@ -121,9 +121,9 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		static float frameTimer = 0;
 		frameTimer += deltaTime;
 		if (frameTimer >= 0.3f) {
-			voidPool.Voids[i].bgAnim.PlayAnim();
-			voidPool.Voids[i].bgAnim.NextFrame(voidPool.Voids[i].transform);
-			voidPool.Voids[i].bgAnim.Update_SpriteAnim(voidPool.Voids[i].transform);
+			voidPool.Voids[i].bgAnim.play_Anim();
+			voidPool.Voids[i].bgAnim.next_Frame(voidPool.Voids[i].transform);
+			voidPool.Voids[i].bgAnim.update_SpriteAnim(voidPool.Voids[i].transform);
 			frameTimer = 0;
 		}
 	}
@@ -142,7 +142,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		for (int j = 0; j < samPool.activeSize; j++)
 		{
 			// Check if the void and the samurai intersect
-			if (StaticCol_QuadQuad(voidPool.activeVoid[i]->transform, samPool.activeSamurais[j]->transform))
+			if (Col_StaticQuadQuad(voidPool.activeVoid[i]->transform, samPool.activeSamurais[j]->transform))
 			{
 				// If there is a collision, add the index of the collided samurai to the vector
 				collidedSamurais.push_back(j);
@@ -153,7 +153,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		for (int j = 0; j < canPool.activeSize; j++)
 		{
 			// Check if the void and the cannoner intersect
-			if (StaticCol_QuadQuad(voidPool.activeVoid[i]->transform, canPool.activeCannoneers[j]->transform))
+			if (Col_StaticQuadQuad(voidPool.activeVoid[i]->transform, canPool.activeCannoneers[j]->transform))
 			{
 				// If there is a collision, add the index of the collided cannoner to the vector
 				collidedCannoners.push_back(j);
@@ -164,7 +164,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		for (int j = 0; j < archPool.activeSize; j++)
 		{
 			// Check if the void and the archer intersect
-			if (StaticCol_QuadQuad(voidPool.activeVoid[i]->transform, archPool.activeArchers[j]->transform))
+			if (Col_StaticQuadQuad(voidPool.activeVoid[i]->transform, archPool.activeArchers[j]->transform))
 			{
 				// If there is a collision, add the index of the collided archer to the vector
 				collidedArchers.push_back(j);
@@ -182,7 +182,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		for (int j = (int) collidedCannoners.size() - 1; j >= 0; j--)
 		{
 			// Remove the collided cannoner from the CannonerPool
-			CannoneerRemove(collidedCannoners[j], canPool);
+			Remove_Cannoneer(collidedCannoners[j], canPool);
 		}
 		// Loop backwards through the indices of the collided archers
 		for (int j = (int) collidedArchers.size() - 1; j >= 0; j--)
@@ -204,8 +204,8 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 			else
 			{
 				// If the void has been active for less than 1 second, set its quad points
-				//SetQuadPoints(voidPool.activeVoid[i]->transform, 40.f, 40.f);
-				SetQuadPoints(voidPool.activeVoid[i]->transform);
+				//Set_QuadPoints(voidPool.activeVoid[i]->transform, 40.f, 40.f);
+				Set_QuadPoints(voidPool.activeVoid[i]->transform);
 			}
 		}
 		else
@@ -222,7 +222,7 @@ void Draw_Void(VoidPool& voidPool)
 
 		if (voidPool.activeVoid[i]->hasBeenUsed)
 		{
-			DrawMesh(&voidPool.activeVoid[i]->transform);
+			Draw_Mesh(&voidPool.activeVoid[i]->transform);
 			if (voidPool.activeVoid[i]->isColliding)
 			{
 				Void_Delete(i, voidPool);

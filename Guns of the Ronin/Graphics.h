@@ -5,13 +5,14 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file			Graphics.h
+@author			Zeng ZhiCheng
+@Email			z.zhicheng@digipen.edu
+@co-author(s)	
+@course			CSD 1451
+@section		Section A
+@date			2 April 2023
+@brief			This file contains declaration of graphics related classes and functions 
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -25,13 +26,7 @@ struct Color {
 	 float r, g, b, a;
 
 	//Values should be between 0.0f and 1.0f
-	Color(float r, float g, float b, float a = 1.0f) {
-		this->r = r;
-		this->g = g;
-		this->b = b;
-		this->a = a;
-	}
-
+	 Color(float rIn, float gIn, float bIn, float aIn = 1.0f) : r{ rIn }, g{ gIn }, b{ bIn }, a{ aIn } { }
 };
 
 struct Transform
@@ -48,9 +43,9 @@ struct Transform
 	Vector2 quadPoints[4];
 	float height = 0, width = 0;
 	//The texture x offset in the texture map of the current frame being drawn
-	float texture_offset_x = 0;
+	float textureOffsetX = 0;
 	//The texture y offset in the texture map of the current frame being drawn
-	float texture_offset_y = 0;
+	float textureOffsetY = 0;
 };
 
 
@@ -66,9 +61,9 @@ public:
 
 	Sprite_Animation();
 	/*
-		frame_Rate -> frame rate of this sprite animation, number of frames per sec
-		x_Count -> the number of animation frames horizontally
-		y_Count -> the number of animation frames vertically 
+		frame_Rate		-> frame rate of this sprite animation, number of frames per sec
+		x_Count			-> the number of animation frames horizontally
+		y_Count			-> the number of animation frames vertically 
 		Eg. x_Count = 3, y_Count = 2
 			The sprite map image will be broken up into 3 x 2 frames for the animation
 			The numbers below represents the frame order the image will be broken up into
@@ -78,49 +73,48 @@ public:
 	Sprite_Animation(float frame_Rate, int x_Count, int y_Count, Anim_Mode mode = Anim_Mode::LOOP);
 
 	/*	
-		dt -> delta time
 		trans -> the transform to apply the sprite animation to 
 	*/
-	void Update_SpriteAnim(Transform& trans);
+	void update_SpriteAnim(Transform& trans);
 	//Change the animation to the next frame
-	void NextFrame(Transform& trans);
+	void next_Frame(Transform& trans);
 	//Play the animation
-	void PlayAnim();
+	void play_Anim();
 	//Pause the animtion, when PlayAnim() is called resume from the previously played frame
-	void PauseAnim();
+	void pause_Anim();
 	//Reset the animation frames
-	void ResetAnim(Transform& trans);
+	void reset_Anim(Transform& trans);
 	//Get the current frame number
-	int CurrentFrame();
+	int current_Frame();
 	//Check if animation is playing
-	bool IsPlaying();
+	bool is_Playing();
 
 private:
 
 	float frameRate = 0;
 	//The animation's own internal timer
-	float anim_timer = 0;
+	float animTimer = 0;
 	//Number of sprite frames horizontally in the sprite map
-	int x_count = 0;
+	int xCount = 0;
 	//Number of sprite frames vertically in the sprite map
-	int y_count = 0;
+	int yCount = 0;
 	//Number of frames of animation in total
-	int frame_count = 0;
+	int frameCount = 0;
 	//Which frame number the animation is currently at
-	int frame_current = 0;
+	int frameCurrent = 0;
 	//whether to play the animation or not
-	bool play_anim = false;
+	bool playAnim = false;
 
 	//the x index of the frame currently being drawn
-	int texture_index_x = 0;
+	int textureXIndex = 0;
 	//the y index of the frame currently being drawn
-	int texture_index_y = 0;
+	int textureYIndex = 0;
 	//width of each frame in the sprite map
-	float texture_width = 0;
+	float textureWidth = 0;
 	//height of each frame in the sprite map
-	float texture_height = 0;
+	float textureHeight = 0;
 	//time it every frame is displayed
-	float frame_time = 0;
+	float frameTime = 0;
 };
 
 //namespace {
@@ -131,18 +125,18 @@ private:
 //void G_DestroyFont();
 //void G_SetFontSize(int size);
 //void G_DrawText(char* ch, float xPos, float yPos, float scale = 1.0f, Color color = Color(0, 0, 0));
-bool StaticCol_QuadQuad(Transform trans1, Transform trans2);
+bool Col_StaticQuadQuad(Transform trans1, Transform trans2);
 
 //Creates a rectangle mesh with its transform
-void DrawMesh(Transform* trans);
+void Draw_Mesh(Transform* trans);
 
 void Draw_QuadCollider(Transform* trans, AEGfxVertexList*& colliderMesh);
 
-void SetQuadPoints(Transform& trans, bool useCol = false);
+void Set_QuadPoints(Transform& trans, bool useCol = false);
 
-void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float texture_w = 1.0f, float texture_h = 1.0f);
+void Create_QuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float texture_w = 1.0f, float texture_h = 1.0f);
 
-void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh);
+void Create_CircleMesh(float radius, Color color, AEGfxVertexList*& mesh);
 
 //oid CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh);
 
@@ -150,11 +144,11 @@ void Draw_StaticSprite(Transform* trans, int index);
 
 bool Is_ButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y);
 
-bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans, bool useQuadCol = false, bool useCircleCol = false);
+bool Col_QuadCircle(Transform const& quadTrans, Transform const& circleTrans, bool useQuadCol = false, bool useCircleCol = false);
 
-void FlipTexture_x(Transform& trans);
+void Flip_TextureX(Transform& trans);
 
-void FlipTexture_y(Transform& trans);
+void Flip_TextureY(Transform& trans);
 
 float Absf(float val);
 

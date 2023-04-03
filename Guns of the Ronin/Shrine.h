@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains declarations for the shrine
+@file		void.cpp
+@author		Teo Sheen Yeoh
+@Email		t.sheenyeoh@digipen.edu
+@course		CSD 1450
+@section	Section A
+@date		3 March 2023
+@brief		This file contains declarations for the shrine
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -39,6 +39,7 @@ namespace
 	#define LOADING_WIDTH  150
 	#define LOADING_HEIGHT  10
 	#define PUSH_BY  -500
+	#define BUFFER_DIST 100
 	AEGfxVertexList* shrineMesh;
 	AEGfxVertexList* shrineBoundary;
 	AEGfxVertexList* loadingBarMesh;
@@ -75,10 +76,10 @@ public:
 	
 };
 
-void Shrine_PoolInit(ShrinePool& shrinePool);
-void Shrine_Add(ShrinePool& shrinePool);
-void Shrine_Delete(int index, ShrinePool& shrinePool);
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool &archPool,
+void Init_ShrinePool(ShrinePool& shrinePool);
+void Add_Shrine(ShrinePool& shrinePool);
+void Delete_Shrine(int index, ShrinePool& shrinePool);
+void Update_Shrine(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool &archPool,
 NinjaPool &ninPool, Player& player, PlayerInfo& playerInfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool);
 void Draw_Shrine(ShrinePool& shrinePool);
 void Free_Shrines();

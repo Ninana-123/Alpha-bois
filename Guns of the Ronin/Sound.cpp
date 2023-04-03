@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Sound.cpp
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
-@brief This file contains code for the credit screen.
+@brief This file contains the loaded variables for audio to be used in other files
 *//*______________________________________________________________________*/
 #include "MainMenu.h"
 /*Main Menu audo*/
@@ -23,7 +23,6 @@ AEAudio buttonClickSound;
 AEAudio mainsceneSong;
 
 /*PLayer Audio*/
-AEAudio playerWalkSound;
 AEAudio playerShootSound;
 
 //Shrines
@@ -39,6 +38,7 @@ AEAudio archerShoot;
 AEAudio cannonShoot;
 AEAudio samuraiSlash;
 AEAudio ninjaThrow;
+AEAudio ninjaVanish;
 
 
 /*Guide Audio*/
@@ -70,7 +70,6 @@ void Audio_Load() {
 	buttonClickSound = AEAudioLoadSound("Assets/Audio/button_click.wav");
 	/*Player*/
 	playerAudioGroup = AEAudioCreateGroup();
-	playerWalkSound = AEAudioLoadSound("Assets/Audio/player_walk.wav");
 	playerShootSound = AEAudioLoadSound("Assets/Audio/player_shoot.wav");
 
 	/*Guide*/
@@ -96,4 +95,6 @@ void Audio_Load() {
 	cannonShoot = AEAudioLoadSound("Assets/Audio/cannon_shot.wav");
 	samuraiSlash = AEAudioLoadSound("Assets/Audio/samurai_slash.wav");
 	ninjaThrow = AEAudioLoadSound("Assets/Audio/ninja_throw.wav");
+	ninjaVanish = AEAudioLoadSound("Assets/Audio/ninja_vanish.wav");
+	
 }

@@ -6,13 +6,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file		Cannoneer.h
+@author		Zeng ZhiCheng
+@Email		z.zhicheng@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		2 April 2023
+@brief		This file contains declaration of variables, functions and structs used to run the Cannoneer enemy
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -72,8 +72,11 @@ public:
 struct CannonBall {
 	Transform transform;
 	Vector2 direction, LZ;
-	float halfTotalDist = 0.0f, distTravelled = 0.0f;
-	bool reachedMaxScale  , exploded, dmgDealt;
+	float halfTotalDist = 0.0f;
+	float distTravelled = 0.0f;
+	bool reachedMaxScale;
+	bool exploded = false;
+	bool dmgDealt = false;
 	float explosionTimer = 0.0f;
 };
 
@@ -81,13 +84,13 @@ struct CannoneerPool {
 	Cannoneer cannoneers[CANNONEER_COUNT]{};
 	Cannoneer* activeCannoneers[CANNONEER_COUNT]{};
 	CannonBall cannonBalls[CANNON_BALL_COUNT]{};
-	int activeCBSize =0;
-	int activeSize =0;
+	int activeCBSize = 0;
+	int activeSize = 0;
 };
 
 
 
-void CannoneerAdd(CannoneerPool& pool);
+void Add_Cannoneer(CannoneerPool& pool);
 
 void Init_CannoneerPool(CannoneerPool& pool);
 
@@ -99,6 +102,6 @@ void Dmg_Cannoneer(CannoneerPool& pool, PlayerInfo playerInfo, int index);
 
 void Free_Cannoneer();
 
-void CannoneerRemove(int index, CannoneerPool& pool);
+void Remove_Cannoneer(int index, CannoneerPool& pool);
 
 #endif // !CANNONEER_H

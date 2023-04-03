@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Guide.cpp
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@date 5 Febuary 2023
+@brief This file contains declaration for the guide page. Meshes are declared here as well as class Guide.
 *//*______________________________________________________________________*/
 #include "Guide.h"
 /*BACKGROUND*/
@@ -59,7 +59,7 @@ Guide click;
 void Init_Guide() {
 	/*BG*/
 	guideBGTexture = AEGfxTextureLoad("Assets/GuideUpdated.png");
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), GuideBGMesh);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), GuideBGMesh);
 	guideBG.transform.texture = &guideBGTexture;
 	guideBG.transform.position = { 0.0f,0.0f };
 	guideBG.transform.scale = { GUIDE_BG_SCALE_X,-GUIDE_BG_SCALE_Y };
@@ -74,7 +74,7 @@ void Init_Guide() {
 	/*Shrines*/
 	
 	windTexture = AEGfxTextureLoad("Assets/guideWind.png");
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), windMesh);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), windMesh);
 	windShrine.transform.texture = &windTexture;
 	windShrine.transform.position = { GUIDE_WIND_SHRINE_X,GUIDE_WIND_SHRINE_Y };
 	windShrine.transform.scale = { GUIDE_SHRINE_SCALE,-GUIDE_SHRINE_SCALE };
@@ -84,14 +84,14 @@ void Init_Guide() {
 	windShrine.transform.mesh = &windMesh;
 	
 
-	CreateQuadMesh(1.0f, 10.0f, Color(0.0f, 0.0f, 0.0f, 1.0f), guideLoadingBar);
+	Create_QuadMesh(1.0f, 10.0f, Color(0.0f, 0.0f, 0.0f, 1.0f), guideLoadingBar);
 	loadingBar.transform.position = { GUIDE_WIND_SHRINE_X, GUIDE_WIND_SHRINE_Y + GUIDE_LOADING_BAR_OFFSET };
 	loadingBar.transform.scale.x = GUIDE_LOADING_BAR_SCALE_X;
 	loadingBar.transform.mesh = &guideLoadingBar;
 
 	/*Controls*/
 	controlsTexture = AEGfxTextureLoad("Assets/Controls.png");
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), WASDMesh, GUIDE_MOVEMENT_HEIGHT / GUIDE_MOVMENT_WIDTH, GUIDE_MOVEMENT_HEIGHT);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), WASDMesh, GUIDE_MOVEMENT_HEIGHT / GUIDE_MOVMENT_WIDTH, GUIDE_MOVEMENT_HEIGHT);
 	WASD.transform.texture = &controlsTexture;
 	WASD.transform.position = { GUIDE_WASD_X,GUIDE_WASD_Y };
 	WASD.transform.scale = { GUIDE_MOVEMENT_SCALE_X,-GUIDE_MOVMENT_SCALE_Y };
@@ -100,7 +100,7 @@ void Init_Guide() {
 	WASD.transform.rotation = GUIDE_MOVMENT_ROTATION;
 	WASD.transform.mesh = &WASDMesh;
 
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), clickMesh, GUIDE_MOVEMENT_HEIGHT / GUIDE_MOVMENT_WIDTH, GUIDE_MOVEMENT_HEIGHT);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), clickMesh, GUIDE_MOVEMENT_HEIGHT / GUIDE_MOVMENT_WIDTH, GUIDE_MOVEMENT_HEIGHT);
 	click.transform.texture = &controlsTexture;
 	click.transform.position = { GUIDE_MOUSE_X,GUIDE_MOUSE_Y };
 	click.transform.scale = { GUIDE_MOVEMENT_SCALE_X,-GUIDE_MOVMENT_SCALE_Y };
@@ -114,13 +114,14 @@ void Init_Guide() {
 }
 
 void Update_Guide() {
-	/*Resuming Credits Audio*/
+	/*Resuming Guide Audio*/
 	AEAudioResumeGroup(guideAudioGroup);
 
+	Set_QuadPoints(guidePLayer.transform,true);
+	Set_QuadPoints(windShrine.transform);
 	Update_Player(&guidePLayer, guideBullet);
-	SetQuadPoints(guidePLayer.transform,true);
-	SetQuadPoints(windShrine.transform);
 
+	/*Toggling between the movement sprites*/
 	if (AEInputCheckCurr(AEVK_W)) {
 		WASD.spriteIndex = 1;
 	}
@@ -154,7 +155,8 @@ void Update_Guide() {
 	if(!(AEInputCheckCurr(AEVK_LBUTTON))) {
 		click.spriteIndex = 9;
 	}
-	if ((StaticCol_QuadQuad(guidePLayer.transform,windShrine.transform)) ) {
+	if ((Col_StaticQuadQuad(guidePLayer.transform,windShrine.transform)) ) {
+	/*Loading bar for wind shrine*/
 		loadingBar.transform.scale.x += (deltaTime * GUIDE_LOADING_BAR_MAX_PERCENT);
 	}
 	if(loadingBar.transform.scale.x >= GUIDE_LOADING_BAR_MAX_PERCENT) {
@@ -166,11 +168,11 @@ void Update_Guide() {
 void Draw_Guide() {
 
 	/*BG*/
-	DrawMesh(&guideBG.transform);
+	Draw_Mesh(&guideBG.transform);
 
 	/*Shrines*/
-	DrawMesh(&windShrine.transform);
-	DrawMesh(&loadingBar.transform);
+	Draw_Mesh(&windShrine.transform);
+	Draw_Mesh(&loadingBar.transform);
 
 	/*Controls*/
 	Draw_StaticSprite(&WASD.transform,WASD.spriteIndex);

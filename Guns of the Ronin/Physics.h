@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file		Physics.h
+@author		Zeng ZhiCheng
+@Email		z.zhicheng@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		2 April 2023
+@brief		This file contains declaration of physics related classes (and definition of its member functions) and functions
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -27,10 +27,7 @@ public:
 		x = 0;
 		y = 0;
 	}
-	Vector2(float x, float y) {
-		this->x = x;
-		this->y = y;
-	}
+	Vector2(float xIn, float yIn) : x{ xIn }, y{ yIn } { }
 
 	//overloading + and +=
 	Vector2 operator+(const Vector2& b) {
@@ -96,9 +93,9 @@ public:
 	}
 
 	//Check and returns true if distance between this Vector2 and pos is less than dist
-	bool within_dist(Vector2 pos, float dist) {
-		float actualDist_sqr = (this->x - pos.x) * (this->x - pos.x) + (this->y - pos.y) * (this->y - pos.y);
-		return actualDist_sqr < (dist* dist) ? true : false;
+	bool within_Dist(Vector2 pos, float dist) {
+		float actualDistSqr = (this->x - pos.x) * (this->x - pos.x) + (this->y - pos.y) * (this->y - pos.y);
+		return actualDistSqr < (dist* dist) ? true : false;
 	}
 
 };
@@ -106,11 +103,11 @@ public:
 enum DIRECTION { VERTICAL, HORIZONTAL };
 
 
-bool Col_Circle_Circle(Vector2 pos1, float radius1, Vector2 pos2, float radius2);
+bool Col_StaticCircleCircle(Vector2 pos1, float radius1, Vector2 pos2, float radius2);
 
-Vector2 RandomPoint_OutsideSqaure(float minDist, float maxDist, Vector2 centerPos);
+Vector2 Random_PointOutsideSquare(float minDist, float maxDist, Vector2 centerPos);
 
-Vector2 BulletDir(float playerX, float playerY, Vector2 PlayerPos);
+Vector2 Bullet_Dir(float playerX, float playerY, Vector2 PlayerPos);
 
 
 #endif // !PHYSICS_H

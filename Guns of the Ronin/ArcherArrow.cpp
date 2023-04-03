@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file ArcherArrow.cpp
-@author Sean Ang JiaBao
-@Email ang.s@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains function definitions for the archer's projectiles (arrows)
+@file		ArcherArrow.cpp
+@author		Sean Ang JiaBao
+@Email		ang.s@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains function definitions for the archer's projectiles (arrows)
 *//*______________________________________________________________________*/
 
 #include "ArcherArrow.h"
@@ -19,13 +19,13 @@
 #include "TimeManager.h"
 
 
-#define arrowHalfX AEGetWindowWidth() / 2.0f
-#define arrowHalfY AEGetWindowHeight() / 2.0f
+#define ARROW_HALF_X AEGetWindowWidth() / 2.0f
+#define ARROW_HALF_Y AEGetWindowHeight() / 2.0f
 
-#define arrowBoundaryX (arrowHalfX + 100)
-#define arrowBoundaryY (arrowHalfY + 100)
+#define ARROW_BOUNDARY_X (ARROW_HALF_X + 100)
+#define ARROW_BOUNDARY_Y (ARROW_HALF_Y + 100)
 
-#define arrowSpeed 200.f
+#define ARROW_SPEED 200.f
 
 //	When an arrow dies / destroyed / you want to hide it / etc..
 void ArrowRemove(int index, ArrowPool& pool) {
@@ -58,7 +58,7 @@ void ArrowAdd(ArrowPool& pool, Vector2 archPos, Vector2 playerPos) {
 //	Initialising arrow pool
 void Init_ArrowPool(ArrowPool& pool) {
 	pool.activeSize = 0;
-	CreateQuadMesh(ARROW_WIDTH, ARROW_HEIGHT, Color(0, 0, 1), arrowMesh);
+	Create_QuadMesh(ARROW_WIDTH, ARROW_HEIGHT, Color(0, 0, 1), arrowMesh);
 	for (int i = 0; i < ARROW_COUNT; i++) {
 		pool.arrow[i].enabled = false;
 		pool.arrow[i].transform.height = ARROW_HEIGHT;
@@ -74,7 +74,7 @@ void Init_ArrowPool(ArrowPool& pool) {
 void Draw_Arrow(ArrowPool& pool) {
 	
 		for (int i = 0; i < pool.activeSize; i++) {
-			DrawMesh(&pool.activeArrow[i]->transform);
+			Draw_Mesh(&pool.activeArrow[i]->transform);
 		}
 	
 }
@@ -82,18 +82,18 @@ void Draw_Arrow(ArrowPool& pool) {
 // Arrow direction, Arrow boundary - if out of the boundary / screen, delete it
 void Arrow_AI(ArrowPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		SetQuadPoints(pool.activeArrow[i]->transform, true);
-		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * arrowSpeed;
-		if (pool.activeArrow[i]->transform.position.x > arrowBoundaryX) {
+		Set_QuadPoints(pool.activeArrow[i]->transform, true);
+		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * ARROW_SPEED;
+		if (pool.activeArrow[i]->transform.position.x > ARROW_BOUNDARY_X) {
 			ArrowRemove(i, pool);
 		}
-		else if (pool.activeArrow[i]->transform.position.x < -arrowBoundaryX) {
+		else if (pool.activeArrow[i]->transform.position.x < -ARROW_BOUNDARY_X) {
 			ArrowRemove(i, pool);
 		}
-		else if (pool.activeArrow[i]->transform.position.y > arrowBoundaryY) {
+		else if (pool.activeArrow[i]->transform.position.y > ARROW_BOUNDARY_Y) {
 			ArrowRemove(i, pool);
 		}
-		else if (pool.activeArrow[i]->transform.position.y < -arrowBoundaryY) {
+		else if (pool.activeArrow[i]->transform.position.y < -ARROW_BOUNDARY_Y) {
 			ArrowRemove(i, pool);
 		}
 	}

@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Guide.h
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@date 5 Febuary 2023
+@brief This file contains declaration for the guide page. Meshes are declared here as well as class Guide.
 *//*______________________________________________________________________*/
 #pragma once
 #include <iostream>

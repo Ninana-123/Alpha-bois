@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file healthbar.h
-@author Vance Tay
-@Email junfengvance.t@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file		healthbar.h
+@author		Vance Tay
+@Email		junfengvance.t@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains code for the credit screen.
 *//*______________________________________________________________________*/
 #pragma once
 #include "Graphics.h"
@@ -57,10 +57,10 @@ struct BarPool {
 	Health cannon[CANNONEER_COUNT];
 };
 
-void Init_Health_Bar(BarPool& barPool, Health* health);
-void Health_Bar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, 
+void Init_HealthBar(BarPool& barPool, Health* health);
+void HealthBar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, 
 	NinjaPool& ninPool, CannoneerPool& canPool);
-void Health_Bar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool);
-void Health_Bar_Free();
+void HealthBar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool);
+void HealthBar_Free();
 
 #endif

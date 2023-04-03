@@ -5,14 +5,16 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file		EnemyController.cpp
-@author		Zeng ZhiCheng
-@Email		z.zhicheng@digipen.edu
-@course		CSD 1451
-@section	Section A
-@date		2 April 2023
-@brief		This file contains definition of functions responsible for initializing, updating and drawing of enemies
-			As well as controlling the spawning of enemies
+@file			EnemyController.cpp
+@author			Zeng ZhiCheng
+@Email			z.zhicheng@digipen.edu
+@co-author		Sean Ang JiaBao
+@Email			ang.s@digipen.edu
+@course			CSD 1451
+@section		Section A
+@date			2 April 2023
+@brief			This file contains definition of functions responsible for initializing, updating and drawing of enemies
+				As well as controlling the spawning of enemies
 *//*______________________________________________________________________*/
 #include "EnemyController.h"
 #include "TimeManager.h"
@@ -32,7 +34,7 @@ float ninjaSpawnTimer = 0;
 #define ENEMY_CONTROLLER_TEXT_SCALE 0.75f
 int enemiesLeft = 0;
 
-
+//Initialize all enenmies
 void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPool, NinjaPool &ninPool, int startingWave) {
 	Init_SamuraiPool(samPool);
 	Init_ArcherPool(archPool);
@@ -53,23 +55,24 @@ void Init_Enemies(SamuraiPool& samPool, ArcherPool &archPool, CannoneerPool& cPo
 	gameEnded = false;
 }
 
+
+//Update all enemies
 void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPool, NinjaPool& ninPool, Player& player, PlayerInfo& playerInfo) {
 	samuraiSpawnTimer += deltaTime;
 	archerSpawnTimer += deltaTime;
 	cSpawnTimer += deltaTime;
 	ninjaSpawnTimer += deltaTime;
 
-	if (!IsTime_Paused() && !IsTime_Paused_Enemy()) {
-		// Samurai
+	if (!Is_TimePaused() && !Is_EnemyTimePaused()) {
+		// Samurai | only spawn when spawn timer more than spawn rate and have not reached max number of spawn for samurai this wave
 		if (samuraiSpawnTimer >= SPAWN_RATE_SAMURAI && curSpawnCounts[SAMURAI] < spawnCounts[curWave - 1][SAMURAI]) {
 			samuraiSpawnTimer = 0;
 			Add_Samurai(samPool, player.transform.position);
 			++curSpawnCounts[SAMURAI];
-			//std::cout << curSpawnCounts[SAMURAI] <<"\n";
 		}
 		AI_Samurai(samPool, player, playerInfo);
 
-		// Archer
+		// Archer | only spawn when spawn timer more than spawn rate and have not reached max number of spawn for archer this wave
 		if (archerSpawnTimer >= SPAWN_RATE_ARCHER && curSpawnCounts[ARCHER] < spawnCounts[curWave - 1][ARCHER]) {
 			archerSpawnTimer = 0;
 			Add_Archer(archPool, player.transform.position);
@@ -78,15 +81,15 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		AI_Archer(archPool, player, playerInfo);
 
 
-		// Cannoneer
+		// Cannoneer | only spawn when spawn timer more than spawn rate and have not reached max number of spawn for cannoneer this wave
 		if (cSpawnTimer >= SPAWN_RATE_CANNONEER  && curSpawnCounts[CANNON] < spawnCounts[curWave - 1][CANNON]) {
 			cSpawnTimer = 0;
-			CannoneerAdd(cPool);
+			Add_Cannoneer(cPool);
 			++curSpawnCounts[CANNON];
 		}
 		AI_Cannoneer(cPool, player, playerInfo);
 
-		// Ninja
+		// Ninja | only spawn when spawn timer more than spawn rate and have not reached max number of spawn for ninja this wave
 		if (ninjaSpawnTimer >= SPAWN_RATE_NINJA && curSpawnCounts[NINJA] < spawnCounts[curWave - 1][NINJA]) {
 			ninjaSpawnTimer = 0;
 			Add_Ninja(ninPool, player.transform.position);
@@ -100,7 +103,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		++curWave;
 		//If final wave 10 is cleared, playthrough is finished
 		if (curWave > NUM_OF_WAVES) {
-			TimePause();
+			Pause_Time();
 			gameEnded = true;
 			Finalize_HighScore(false);
 			return;
@@ -119,6 +122,7 @@ void Push_Enemies(SamuraiPool& samPool, ArcherPool& archPool, DIRECTION directio
 	Push_Ninja(ninPool, direction, targetAxis);
 }
 
+//draw all enemies
 void Draw_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& cPool, NinjaPool &ninPool) {
 	Draw_Samurai(samPool);
 	Draw_Archer(archPool);

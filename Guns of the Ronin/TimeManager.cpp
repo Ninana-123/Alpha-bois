@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file			TimeManager.cpp
+@author			Zeng ZhiCheng
+@Email			z.zhicheng@digipen.edu
+@course			CSD 1451
+@section		Section A
+@date			2 April 2023
+@brief			This file contains definition of functions and variables related to time in the game
 *//*______________________________________________________________________*/
 #include "TimeManager.h"
 #include "HighScore.h"
@@ -20,12 +20,15 @@ float deltaTime = 0;
 float curGameTime = 0;	
 bool gameEnded = false;
 
+
+//Reset the time manager
 void Reset_TimeMan() {
 	curGameTime = 0;
 	deltaTime = 0;
 }
 
-void Update_Time() {
+//Update the deltaTime of the time manager
+void Update_TimeMan() {
 
 	if (!isPaused) {
 		deltaTime = (float)AEFrameRateControllerGetFrameTime();
@@ -34,38 +37,32 @@ void Update_Time() {
 
 }
 
-void TimePause() {
+//Pause the time
+void Pause_Time() {
 	isPaused = true;
 }
 
-void TimeResume() {
+//Resume the time
+void Resume_Time() {
 	isPaused = false;
 }
 
-void TimePauseEnemy() {
+//Pause time for the enemies
+void Pause_EnemyTime() {
 	enemypause = true;
 }
 
-void TimeEnemyResume() {
+//Resume time for the enemies
+void Resume_EnemyTime() {
 	enemypause = false;
 }
 
-void ExplosionYes() {
-	explosiontrigger = true;
-}
-
-void ExplosionNo() {
-	explosiontrigger = false;
-}
-
-bool IsTime_Paused() {
+//is time currently paused?
+bool Is_TimePaused() {
 	return isPaused;
 }
 
-bool IsTime_Paused_Enemy() {
+//is enemies' time currently paused?
+bool Is_EnemyTimePaused() {
 	return enemypause;
-}
-
-bool IsExplosionTriggered() {
-	return explosiontrigger;
 }

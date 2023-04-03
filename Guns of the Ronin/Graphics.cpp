@@ -1,21 +1,25 @@
-/*
+	/*
 \copyright
 		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
 		reserved.Reproduction or disclosure of this file or its contents without the prior
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file			Graphics.cpp
+@author			Zeng ZhiCheng
+@Email			z.zhicheng@digipen.edu
+@co-author(s)	
+@course			CSD 1451
+@section		Section A
+@date			2 April 2023
+@brief			This file contains declaration of class, struct and functions used to run the Cannoneer enemy
 *//*______________________________________________________________________*/
 #include "Graphics.h"
 #include "TimeManager.h"
+
+//Initialize graphics 
 //void G_Init() {
+	//load font
 //	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 20);
 //}
 
@@ -30,48 +34,52 @@
 //	AEGfxPrint(font, ch, xPos / boundaryX, yPos / boundaryY, scale, color.r, color.g, color.b);
 //}
 
-//
+//Set font size
 //void G_SetFontSize(int size) {
 //	AEGfxDestroyFont(font);
 //	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", size);
 //}
 
+//Destroy the font
 //void G_DestroyFont() {
 //	AEGfxDestroyFont(font);
 //}
 
+//Get absolute value of a float
 float Absf(float val) {
 	return val < 0.0f ? (val * -1.0f) : val;
 }
 
-
-unsigned int createARGB(float r, float g, float b, float a)
+//Change argb values into a colour code for alpha engine
+unsigned int Create_ARGB(float r, float g, float b, float a)
 {
 	int ca = int(a * 255), cr = int(r * 255), cg = int(g * 255), cb = int(b * 255);
 	return ((ca & 0xff) << 24) + ((cr & 0xff) << 16) + ((cg & 0xff) << 8) + ((cb & 0xff));
 }
 
-void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float texture_w, float texture_h) {
+//Create a quad mesh 
+//TexureWidth and TextureHeight is the texture UV width and height (out of 1.0f)
+void Create_QuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float textureWidth, float textureHeight) {
 	//AEGfxVertexList* pMesh = 0;
-	unsigned int colorCode = createARGB(color.r, color.g, color.b, color.a);
+	unsigned int colorCode = Create_ARGB(color.r, color.g, color.b, color.a);
 	AEGfxMeshStart();
 	// This shape has 2 triangles that makes up a square
 	// Color parameters represent colours as ARGB
 	// UV coordinates to read from loaded textures
 	AEGfxTriAdd(
 		-width / 2.0f, -height / 2.0f, colorCode, 0.0f, 0.0f,
-		width / 2.0f, -height / 2.0f, colorCode, texture_w, 0.0f,
-		-width / 2.0f, height / 2.0f, colorCode, 0.0f, texture_h);
+		width / 2.0f, -height / 2.0f, colorCode, textureWidth, 0.0f,
+		-width / 2.0f, height / 2.0f, colorCode, 0.0f, textureHeight);
 	AEGfxTriAdd(
-		width / 2.0f, -height / 2.0f, colorCode, texture_w, 0.0f,
-		width / 2.0f, height / 2.0f, colorCode, texture_w, texture_h,
-		-width / 2.0f, height / 2.0f, colorCode, 0.0f, texture_h);
+		width / 2.0f, -height / 2.0f, colorCode, textureWidth, 0.0f,
+		width / 2.0f, height / 2.0f, colorCode, textureWidth, textureHeight,
+		-width / 2.0f, height / 2.0f, colorCode, 0.0f, textureHeight);
 	// Saving the mesh (list of triangles) in pMesh
 	mesh = AEGfxMeshEnd();
 }
 
-
-void SetQuadPoints(Transform& trans, bool useCol) {
+//Set quad points for AABB collision check
+void Set_QuadPoints(Transform& trans, bool useCol) {
 	float height = useCol ? trans.colliderSize.y / 2.0f : trans.height * Absf(trans.scale.y) / 2.0f;
 	float width = useCol ? trans.colliderSize.x / 2.0f : trans.width * Absf(trans.scale.x) / 2.0f;
 
@@ -85,7 +93,8 @@ void SetQuadPoints(Transform& trans, bool useCol) {
 		trans.position.y + (useCol ? trans.colliderOffsetPos.y : 0) - height);
 }
 
-bool StaticCol_QuadQuad(Transform trans1, Transform trans2) {
+//Check for AABB collision
+bool Col_StaticQuadQuad(Transform trans1, Transform trans2) {
 	bool collided = true;
 	if (trans1.quadPoints[0].x > trans2.quadPoints[1].x) {
 		collided = false;
@@ -107,7 +116,7 @@ bool StaticCol_QuadQuad(Transform trans1, Transform trans2) {
 	This function by default uses transform's height and width with scale applied
 	if useQuadCol/useCircleCol is set to true the function uses the transform's colliderSize and colliderOffsetPos instead 
 */
-bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans, bool useQuadCol, bool useCircleCol) {
+bool Col_QuadCircle(Transform const& quadTrans, Transform const& circleTrans, bool useQuadCol, bool useCircleCol) {
 
 	//float circleDistX = Absf(quadTrans.position.x - circleTrans.position.x);
 	float circleDistX = Absf(quadTrans.position.x + (useQuadCol ? quadTrans.colliderOffsetPos.x : 0) - 
@@ -151,8 +160,8 @@ bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans, boo
 }
 
 
-
-void DrawMesh(Transform* trans) {
+//Draw a mesh using an object's transform's information
+void Draw_Mesh(Transform* trans) {
 
 	//If the transform has texture, draw the texture
 	if (trans->texture) {
@@ -168,7 +177,7 @@ void DrawMesh(Transform* trans) {
 
 		//Set the texture map 
 		//If using sprite animation use class Sprite_Animation to update texture offset
-		AEGfxTextureSet(*trans->texture, trans->texture_offset_x, trans->texture_offset_y);
+		AEGfxTextureSet(*trans->texture, trans->textureOffsetX, trans->textureOffsetY);
 	}
 	//Otherwise draw simple colours
 	else {
@@ -236,8 +245,9 @@ void Draw_QuadCollider(Transform* trans, AEGfxVertexList*& colliderMesh) {
 	AEGfxMeshDraw(colliderMesh, AE_GFX_MDM_TRIANGLES);
 }
 
-void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {
-	unsigned int colorCode = createARGB(color.r, color.g, color.b, color.a);
+//Create a circular mesh
+void Create_CircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {
+	unsigned int colorCode = Create_ARGB(color.r, color.g, color.b, color.a);
 	AEGfxMeshStart();
 	int noOfVertices = 32;
 	//Creating the circle shape
@@ -251,112 +261,106 @@ void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {
 	mesh = AEGfxMeshEnd();
 }
 
-
+//Default constructor
 Sprite_Animation::Sprite_Animation() {
 
 }
+//Constructor
 Sprite_Animation::Sprite_Animation(float frame_Rate, int x_Count, int y_Count, Anim_Mode mode) :
-	frameRate{ frame_Rate }, x_count{ x_Count }, y_count{ y_Count }, playMode{ mode }
+	frameRate{ frame_Rate }, xCount{ x_Count }, yCount{ y_Count }, playMode{ mode }
 {
-	frame_count = x_count * y_count;
-	texture_width = 1.0f / x_count;
-	texture_height = 1.0f / y_count;
-	frame_time = 1.0f / frameRate;
+	frameCount = xCount * yCount;
+	textureWidth = 1.0f / xCount;
+	textureHeight = 1.0f / yCount;
+	frameTime = 1.0f / frameRate;
 }
 
-void Sprite_Animation::PlayAnim() {
-	play_anim = true;
+//Member function to start playing animation
+void Sprite_Animation::play_Anim() {
+	playAnim = true;
 }
 
-void Sprite_Animation::PauseAnim() {
-	play_anim = false;
+//Member function to pause animation
+void Sprite_Animation::pause_Anim() {
+	playAnim = false;
 }
 
-//Get the current frame number
-int Sprite_Animation::CurrentFrame() {
-	return frame_current;
+//Member function to get the current frame number
+int Sprite_Animation::current_Frame() {
+	return frameCurrent;
 }
-//Check if animation is playing
-bool Sprite_Animation::IsPlaying() {
-	return play_anim;
-}
-
-void Sprite_Animation::ResetAnim(Transform& trans) {
-	play_anim = false;
-	texture_index_x = 0;
-	texture_index_y = 0;
-	trans.texture_offset_x = 0;
-	trans.texture_offset_y = 0;
-	frame_current = 1;
-	anim_timer = 0;
+//Member function to check if animation is playing
+bool Sprite_Animation::is_Playing() {
+	return playAnim;
 }
 
+//Member function to reset the animation
+void Sprite_Animation::reset_Anim(Transform& trans) {
+	playAnim = false;
+	textureXIndex = 0;
+	textureYIndex = 0;
+	trans.textureOffsetX = 0;
+	trans.textureOffsetY = 0;
+	frameCurrent = 1;
+	animTimer = 0;
+}
 
-void Sprite_Animation::NextFrame(Transform& trans) {
-	++frame_current;
+//Member function to change animation to its next frame
+void Sprite_Animation::next_Frame(Transform& trans) {
+	++frameCurrent;
 	
-	++texture_index_x;
-	if (texture_index_x > x_count - 1) {
-		texture_index_x = 0;
-		++texture_index_y;
-		if (texture_index_y > y_count - 1) {
-			texture_index_y = 0;
+	++textureXIndex;
+	if (textureXIndex > xCount - 1) {
+		textureXIndex = 0;
+		++textureYIndex;
+		if (textureYIndex > yCount - 1) {
+			textureYIndex = 0;
 		}
 	}
-	trans.texture_offset_x = texture_width * texture_index_x;
-	trans.texture_offset_y = texture_height * texture_index_y;
+	trans.textureOffsetX = textureWidth * textureXIndex;
+	trans.textureOffsetY = textureHeight * textureYIndex;
 
-	if (frame_current > frame_count) {
-		frame_current = 1;
+	if (frameCurrent > frameCount) {
+		frameCurrent = 1;
 		if (playMode == Anim_Mode::ONE_TIME) {
-			play_anim = false;
+			playAnim = false;
 		}
 	}
 }
-void Sprite_Animation::Update_SpriteAnim(Transform& trans) {
+
+//Member function to update the animation of a transform
+void Sprite_Animation::update_SpriteAnim(Transform& trans) {
 	//If animation is not supposed to play
-	if (!play_anim) {
+	if (!playAnim) {
 		return;
 	}
 
-	anim_timer += deltaTime;
-	if (anim_timer >= frame_time) {
-		NextFrame(trans);
-		anim_timer = 0;
+	animTimer += deltaTime;
+	if (animTimer >= frameTime) {
+		next_Frame(trans);
+		animTimer = 0;
 	}
 
 }
 
-void FlipTexture_x(Transform& trans) {
-	trans.scale.x *= -1;
+//Flip a transform's texture horizontally
+void Flip_TextureX(Transform& trans) {
+	trans.scale.x *= -1.0f;
 }
 
-void FlipTexture_y(Transform& trans) {
-	trans.scale.y *= -1;
+//Flip a transform's texture vertically
+void Flip_TextureY(Transform& trans) {
+	trans.scale.y *= -1.0f;
 }
 
-//void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh) {
-//	//float BG_Width = 1.0f / 4.0f;
-//	AEGfxMeshStart();
-//	AEGfxTriAdd(
-//		-0.5f, -0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 1.0f,
-//		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
-//		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
-//	);
-//	AEGfxTriAdd(
-//		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
-//		0.5f, 0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 0.0f,
-//		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
-//	);
-//	mesh = AEGfxMeshEnd();
-//}
 
+/*This function draws sprites based on the index given*/
 void Draw_StaticSprite(Transform* trans,int index) {
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
 	AEGfxSetTransparency(1.0f);
-	AEGfxTextureSet(*trans->texture, (trans->height / trans->width)*index, 0.f);
+	AEGfxTextureSet(*trans->texture, (trans->height / trans->width)*index, 0.f); //Sprite will draw base on the given index
 
 	AEMtx33 scale = { 0 };
 	AEMtx33Scale(&scale, trans->scale.x, trans->scale.y);
@@ -370,13 +374,13 @@ void Draw_StaticSprite(Transform* trans,int index) {
 	AEGfxSetTransform(transform.m);
 	AEGfxMeshDraw(*trans->mesh, AE_GFX_MDM_TRIANGLES);
 }
-
+/*This function checks if the mouse is hovering over the game buttons such as "Play" button*/
 bool Is_ButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y){
-	float area_x_start, area_x_end, area_y_start, area_y_end;
-	area_x_start = area_center_x - (0.5f * area_width);
-	area_x_end = area_center_x + (0.5f * area_width);
-	area_y_start = area_center_y - (0.5f * area_height);
-	area_y_end = area_center_y + (0.5f * area_height);
+	float area_x_start, area_x_end, area_y_start, area_y_end;	//Initialising the area values
+	area_x_start = area_center_x - (0.5f * area_width);			//Calculating of starting area X
+	area_x_end = area_center_x + (0.5f * area_width);			//Calculating of ending area X
+	area_y_start = area_center_y - (0.5f * area_height);		//Calculating of starting area Y
+	area_y_end = area_center_y + (0.5f * area_height);			//Calculating of ending area Y
 
 	if (*mouse_x > area_x_start && *mouse_x < area_x_end && *mouse_y < area_y_start && *mouse_y > area_y_end)
 	{
@@ -385,8 +389,5 @@ bool Is_ButtonHover(float area_center_x, float area_center_y, float area_width, 
 	else {
 		return false;
 	}
-
-
-
 
 }

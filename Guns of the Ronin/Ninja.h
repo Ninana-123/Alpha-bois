@@ -5,12 +5,12 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file Ninja.h
-@author Sean Ang JiaBao
-@Email ang.s@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
+@file		Ninja.h
+@author		Sean Ang JiaBao
+@Email		ang.s@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
 @brief This file contains function declaration for the Ninjas (enemy)
 *//*______________________________________________________________________*/
 
@@ -26,7 +26,7 @@
 #include "NinjaShuriken.h"
 
 namespace {
-	enum NINJA_AI_STATE { NINJA_MOVING, NINJA_ATTACKING, NINJA_BLOWNAWAY };
+	enum NINJA_AI_STATE { NINJA_MOVING, NINJA_ATTACKING, NINJA_BLOWN_AWAY };
 	#define NINJA_COUNT 20
 	const int NINJA_KILLSCORE = 100;
 	#define NINJA_MIN_SPAWN_DIST 200

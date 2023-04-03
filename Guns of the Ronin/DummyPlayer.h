@@ -1,4 +1,21 @@
 #pragma once
+/*
+\copyright
+		All content(C) 2023 DigiPen Institute of Technology Singapore.All rights
+		reserved.Reproduction or disclosure of this file or its contents without the prior
+		written consent of DigiPen Institute of Technology is prohibited.
+*/
+/*!
+@file		DummyPlayer.h
+@author		Zeng ZhiCheng
+@Email		z.zhicheng@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 February 2023
+@brief		This file contains code for testing
+*//*______________________________________________________________________*/
+
+
 
 #ifndef DUMMYPLAYER_H
 #define DUMMYPLAYER_H

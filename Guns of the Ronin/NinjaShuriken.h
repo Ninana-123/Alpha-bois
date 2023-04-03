@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file NinjaShuriken.h
-@author Sean Ang JiaBao
-@Email ang.s@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains function declaration for the ninja's projectiles (shuriken)
+@file		NinjaShuriken.h
+@author		Sean Ang JiaBao
+@Email		ang.s@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains function declaration for the ninja's projectiles (shuriken)
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -35,7 +35,7 @@ public:
 	Transform transform;
 	bool enabled = false;
 	Vector2 direction;
-	float timeSince_lastDmgDeal = 0;
+	float timeSinceLastDmgDeal = 0;
 };
 
 struct ShurikenPool {

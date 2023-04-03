@@ -6,13 +6,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file Archer.h
-@author Sean Ang JiaBao
-@Email ang.s@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains the function declarations of the archers (enemy)
+@file		Archer.h
+@author		Sean Ang JiaBao
+@Email		ang.s@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains the function declarations of the archers (enemy)
 *//*______________________________________________________________________*/
 
 
@@ -29,7 +29,7 @@
 #include "TimeManager.h"
 namespace
 {
-	enum ARCHER_AI_STATE { ARCHER_MOVING, ARCHER_ATTACKING, ARCHER_BLOWNAWAY };
+	enum ARCHER_AI_STATE { ARCHER_MOVING, ARCHER_ATTACKING, ARCHER_BLOWN_AWAY };
 	#define ARCHER_COUNT 30
 	int const ARCHER_KILLSCORE = 50;
 	#define ARCHER_MIN_SPAWN_DIST 200
