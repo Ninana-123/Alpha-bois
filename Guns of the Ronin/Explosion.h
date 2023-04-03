@@ -8,7 +8,7 @@
 @file		explosion.h
 @author		Teo Sheen Yeoh
 @Email		t.sheenyeoh@digipen.edu
-@course		CSD 1450
+@course		CSD 1451
 @section	Section A
 @date		3 March 2023
 @brief		This file contains the declaration for the explosion ability 
