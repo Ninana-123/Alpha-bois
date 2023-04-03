@@ -102,8 +102,6 @@ void Update_Scene() {
 	Update_TimeMan();
 	Set_QuadPoints(player.transform, true);
 
-	//DummyPlayer_Update(&dummyPlayer);
-
 	Update_Shrine(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool, voidPool, cPool);
 
 	Explosion_Update( explosionPool,  archPool,  cPool,  ninPool);
@@ -178,31 +176,6 @@ void Update_Scene() {
 		}
 	}
 
-	//std::cout << playerinfo.health << std::endl;
-	//wind sweep
-	//if (AEInputCheckTriggered(AEVK_T)) {
-	//	Push_Enemies(samPool, archPool, HORIZONTAL, -500, ninPool);
-	//}
-
-	//heal player
-	if (AEInputCheckTriggered(AEVK_H)) {
-		Heal_player(playerinfo);
-		std::cout << playerinfo.health << std::endl;
-	}
-
-	//timeSincePause += deltaTime;
-
-	//time freeze for enemy
-	if (AEInputCheckTriggered(AEVK_P)) {
-		//Pause_EnemyTime();
-		//timeSincePause = 0.0f;
-	}
-
-	/*if (timeSincePause >= 2.0f) {
-		Resume_EnemyTime();
-	}*/
-
-
 	Update_Player(&player, bulletPool);
 
 	HealthBar_Update(barPool, &health, playerinfo, &player, samPool, archPool, ninPool, cPool);
@@ -228,14 +201,10 @@ void Draw_Scene() {
 
 void Free_Scene() {
 	
-	//G_DestroyFont();
-	
-	//AEGfxMeshFree(dummyPlayer.transform.mesh);
 	Free_PauseMenu();
 	Free_Bullet();
 	Free_Shrines();
 	Free_Player();
-	//Free_Dummy();
 	Free_Samurai(); 
 	Free_Archer();
 	Free_Cannoneer();

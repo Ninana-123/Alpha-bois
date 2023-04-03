@@ -64,7 +64,6 @@ void Init_BulletPool(BulletPool& pool) {
 		pool.bullets[i].transform.scale = { BULLET_SCALE_X,BULLET_SCALE_Y };
 		pool.bullets[i].transform.mesh = &bulletMesh;
 		pool.bullets[i].transform.colliderSize = { BULLET_WIDTH, BULLET_HEIGHT * 0.35f };
-		//pool.bullets[i].dmg = PROJDAMAGE;
 		pool.activeBullets[i] = &pool.bullets[i];
 
 	}

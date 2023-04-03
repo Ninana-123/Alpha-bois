@@ -112,7 +112,6 @@ void Update_Player(Player* player,BulletPool &bulletPool) {
 
 		
 		player->leftMousePressed = AEInputCheckTriggered(AEVK_LBUTTON);
-		//player->left_mouse_pressed = AEInputCheckCurr(AEVK_LBUTTON);
 
 		timeSinceLastFired += deltaTime;
 
