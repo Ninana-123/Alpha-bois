@@ -290,7 +290,7 @@ void Update_Menu() {
 		}
 	}
 
-	if (quitPrompt.transform.scale.x == QUIT_PROMPT_FINAL_SCALE_X); {
+	if (quitPrompt.transform.scale.x == QUIT_PROMPT_FINAL_SCALE_X) {
 		if (AEInputCheckReleased(AEVK_Q)) {
 			gGameStateNext = GS_QUIT;
 		}
