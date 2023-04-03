@@ -28,7 +28,7 @@
 
 namespace
 {
-#define VOID_COUNT 5
+#define VOID_COUNT 8
 #define VOID_HEIGHT  100
 #define VOID_WIDTH  100
 	AEGfxVertexList* voidMesh;
@@ -57,10 +57,10 @@ public:
 	
 };
 
-void Void_PoolInit(VoidPool& voidPool);
-void Void_Add(VoidPool& voidPool);
-void Void_Delete(int index, VoidPool& voidPool);
-void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& canPool);
+void Init_VoidPool(VoidPool& voidPool);
+void Add_Void(VoidPool& voidPool);
+void Delete_Void(int index, VoidPool& voidPool);
+void Update_Void(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& canPool);
 void Draw_Void(VoidPool& voidPool);
 void Free_Void();
 

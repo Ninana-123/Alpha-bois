@@ -31,7 +31,7 @@ namespace
 	
 	#define EXPLOSION_HEIGHT  100
 	#define EXPLOSION_WIDTH  100
-	#define EXPLOSION_COUNT 5
+	#define EXPLOSION_COUNT 8
 	AEGfxVertexList* explosionsMesh;
 	AEGfxTexture* assetExplosions = 0;
 }
@@ -57,10 +57,10 @@ public:
 	
 };
 
-void Explosion_PoolInit(ExplosionPool& explosionPool);
-void Explosion_Add(ExplosionPool& explosionPool);
-void Explosion_Delete(int index, ExplosionPool& explosionPool);
-void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, CannoneerPool& canPool, NinjaPool& ninPool);
+void Init_ExplosionPool(ExplosionPool& explosionPool);
+void Add_Explosion(ExplosionPool& explosionPool);
+void Delete_Explosion(int index, ExplosionPool& explosionPool);
+void Update_Explosion(ExplosionPool& explosionPool, ArcherPool& archPool, CannoneerPool& canPool, NinjaPool& ninPool);
 void Draw_Explosions(ExplosionPool& explosionPool);
 void Free_Explosions();
 
