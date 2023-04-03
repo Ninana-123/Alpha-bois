@@ -73,7 +73,7 @@ struct CannonBall {
 	Transform transform;
 	Vector2 direction, LZ;
 	float halfTotalDist = 0.0f, distTravelled = 0.0f;
-	bool reachedMaxScale, exploded, dmgDealt;
+	bool reachedMaxScale  , exploded, dmgDealt;
 	float explosionTimer = 0.0f;
 };
 
