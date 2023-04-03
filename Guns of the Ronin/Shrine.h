@@ -75,10 +75,10 @@ public:
 	
 };
 
-void Shrine_PoolInit(ShrinePool& shrinePool);
-void Shrine_Add(ShrinePool& shrinePool);
-void Shrine_Delete(int index, ShrinePool& shrinePool);
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool &archPool,
+void Init_ShrinePool(ShrinePool& shrinePool);
+void Add_Shrine(ShrinePool& shrinePool);
+void Delete_Shrine(int index, ShrinePool& shrinePool);
+void Update_Shrine(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool &archPool,
 NinjaPool &ninPool, Player& player, PlayerInfo& playerInfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool);
 void Draw_Shrine(ShrinePool& shrinePool);
 void Free_Shrines();

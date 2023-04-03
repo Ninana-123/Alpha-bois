@@ -74,7 +74,7 @@ void Init_Scene() {
 	//G_Init();
 
 	//DummyPlayer_Init(&dummyPlayer);
-	Shrine_PoolInit(shrinePool);
+	Init_ShrinePool(shrinePool);
 	Explosion_PoolInit(explosionPool);
 	Init_Player(&player, bulletPool);
 	Init_Enemies(samPool, archPool, cPool, ninPool, startingWave);
@@ -92,7 +92,7 @@ void Init_Scene() {
 
 	Reset_TimeMan();
 	Reset_HighScore();
-	Init_Health_Bar(barPool, &health);
+	Init_HealthBar(barPool, &health);
 	Void_PoolInit(voidPool);
 
 
@@ -106,7 +106,7 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool, voidPool, cPool);
+	Update_Shrine(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool, voidPool, cPool);
 
 	Explosion_Update( explosionPool,  archPool,  cPool,  ninPool);
 
@@ -207,7 +207,7 @@ void Update_Scene() {
 
 	Update_Player(&player, bulletPool);
 
-	Health_Bar_Update(barPool, &health, playerinfo, &player, samPool, archPool, ninPool, cPool);
+	HealthBar_Update(barPool, &health, playerinfo, &player, samPool, archPool, ninPool, cPool);
 	
 	
 }
@@ -223,7 +223,7 @@ void Draw_Scene() {
 	Draw_Shrine( shrinePool);
 	Draw_Explosions(explosionPool);
 	Draw_Player(&player, bulletPool);
-	Health_Bar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
+	HealthBar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
 	Draw_Void(voidPool);
 	Draw_PauseMenu(playerinfo);
 }
@@ -244,7 +244,7 @@ void Free_Scene() {
 	Free_Explosions();
 	AEGfxMeshFree(levelMesh);
 	AEGfxTextureUnload(LevelBG);
-	Health_Bar_Free();
+	HealthBar_Free();
 	Free_Void();
 	Free_Ninja();
 	Free_Arrow();
