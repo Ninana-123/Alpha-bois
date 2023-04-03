@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file Guide.h
-@author Kai Alexander Van Adrichem Boogaert
-@Email kaialexander.v@digipen.edu
-@course CSD 1451
-@section Section A
-@date 5 Febuary 2023
-@brief This file contains declaration for the guide page. Meshes are declared here as well as class Guide.
+@file		Guide.h
+@author		Kai Alexander Van Adrichem Boogaert
+@Email		kaialexander.v@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		5 Febuary 2023
+@brief		This file contains declaration for the guide page. Meshes are declared here as well as class Guide.
 *//*______________________________________________________________________*/
 #pragma once
 #include <iostream>

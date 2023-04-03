@@ -374,15 +374,17 @@ void Draw_StaticSprite(Transform* trans,int index) {
 	AEGfxSetTransform(transform.m);
 	AEGfxMeshDraw(*trans->mesh, AE_GFX_MDM_TRIANGLES);
 }
-/*This function checks if the mouse is hovering over the game buttons such as "Play" button*/
-bool Is_ButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y){
-	float area_x_start, area_x_end, area_y_start, area_y_end;	//Initialising the area values
-	area_x_start = area_center_x - (0.5f * area_width);			//Calculating of starting area X
-	area_x_end = area_center_x + (0.5f * area_width);			//Calculating of ending area X
-	area_y_start = area_center_y - (0.5f * area_height);		//Calculating of starting area Y
-	area_y_end = area_center_y + (0.5f * area_height);			//Calculating of ending area Y
 
-	if (*mouse_x > area_x_start && *mouse_x < area_x_end && *mouse_y < area_y_start && *mouse_y > area_y_end)
+
+/*This function checks if the mouse is hovering over the game buttons such as "Play" button*/
+bool Is_ButtonHover(float areaCenterX, float areaCenterY, float areaWidth, float areaHeight, s32* mouseX, s32* mouseY){
+	float areaXStart, areaXEnd, areaYStart, areaYEnd;	//Initialising the area values
+	areaXStart = areaCenterX - (0.5f * areaWidth);			//Calculating of starting area X
+	areaXEnd = areaCenterX + (0.5f * areaWidth);			//Calculating of ending area X
+	areaYStart = areaCenterY - (0.5f * areaHeight);		//Calculating of starting area Y
+	areaYEnd = areaCenterY + (0.5f * areaHeight);			//Calculating of ending area Y
+
+	if (*mouseX > areaXStart && *mouseX < areaXEnd && *mouseY < areaYStart && *mouseY > areaYEnd)
 	{
 		return true;
 	}

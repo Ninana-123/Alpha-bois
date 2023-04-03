@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file Guide.cpp
-@author Kai Alexander Van Adrichem Boogaert
-@Email kaialexander.v@digipen.edu
-@course CSD 1451
-@section Section A
-@date 5 Febuary 2023
-@brief This file contains declaration for the guide page. Meshes are declared here as well as class Guide.
+@file		Guide.cpp
+@author		Kai Alexander Van Adrichem Boogaert
+@Email		kaialexander.v@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		5 Febuary 2023
+@brief		This file contains declaration for the guide page. Meshes are declared here as well as class Guide.
 *//*______________________________________________________________________*/
 #include "Guide.h"
 /*BACKGROUND*/
@@ -161,7 +161,7 @@ void Update_Guide() {
 	}
 	if(loadingBar.transform.scale.x >= GUIDE_LOADING_BAR_MAX_PERCENT) {
 		AEAudioPauseGroup(guideAudioGroup);
-		gGameStateNext = GS_MAINMENU;
+		gGameStateNext = GS_MAIN_MENU;
 	}
 }
 

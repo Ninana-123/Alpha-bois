@@ -28,13 +28,11 @@
 
 namespace
 {
-	#define VOID_COUNT 5
-	#define VOID_HEIGHT  100
-	#define VOID_WIDTH  100
+#define VOID_COUNT 5
+#define VOID_HEIGHT  100
+#define VOID_WIDTH  100
 	AEGfxVertexList* voidMesh;
-	AEGfxTexture* assetBlackHole=0;
-	
-
+	AEGfxTexture* assetBlackHole = 0;
 }
 
 class Void
@@ -43,7 +41,7 @@ public:
 	Transform transform;
 	bool hasBeenUsed = false;
 	bool isColliding = false;
-	bool damagedByExplosion =false;
+	bool damagedByExplosion = false;
 	Transform loading;
 	float timeElapsed = 0;
 	Sprite_Animation bgAnim{ 30.f,4,1, Anim_Mode::ONE_TIME };

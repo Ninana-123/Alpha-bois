@@ -58,7 +58,7 @@ public:
 	float loadingBarPercentage = 0;
 	float timeElapsed = 0;
 	float deleteTimer =5.0;
-	enum Types { EXPLOSION ,FREEZE , PUSH ,GOD,HEAL, VOIDS, TOTAL_SHRINE };
+	enum Types { EXPLOSION, FREEZE, PUSH, GOD, HEAL, VOIDS, TOTAL_SHRINE };
 	Types types ;
 	
 };

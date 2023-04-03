@@ -166,11 +166,18 @@ void Update_HighScoreScreen() {
 
 	if (Is_ButtonHover(QUIT_BUTTON_X_POS, QUIT_BUTTON_Y_POS, QUIT_BUTTON_X_SCALE, QUIT_BUTTON_Y_SCALE, &mouseXPos, &mouseYPos)) {
 		spriteIndex = 3;
+		if (!audioPlayed) {
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
+			audioPlayed = true;
+		}
 		if (AEInputCheckReleased(AEVK_LBUTTON)) {
-			gGameStateNext = GS_MAINMENU;
+			gGameStateNext = GS_MAIN_MENU;
 		}
 	}
-	else spriteIndex = 2;
+	else {
+		audioPlayed = false;
+		spriteIndex = 2;
+	}
 }
 
 //Draw the high score screen

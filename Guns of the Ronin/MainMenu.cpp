@@ -219,7 +219,7 @@ void Update_Menu() {
 			if (leftMousePressed) {
 				AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 				AEAudioPauseGroup(mainmenuAudioGroup);
-				gGameStateNext = GS_LEVEL1;
+				gGameStateNext = GS_LEVEL_1;
 				Set_StartingWave(1);
 			}
 		}
@@ -248,7 +248,7 @@ void Update_Menu() {
 			if (leftMousePressed) {
 				AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 				AEAudioPauseGroup(mainmenuAudioGroup);
-				gGameStateNext = GS_HIGHSCORES;
+				gGameStateNext = GS_HIGH_SCORES;
 			}
 		}
 		else highscoreButton.spriteIndex = HIGHSCORE_BUTTON_SPRITE;
@@ -302,61 +302,61 @@ void Update_Menu() {
 	if (AEInputCheckReleased(AEVK_1)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
-		gGameStateNext = GS_LEVEL1;
+		gGameStateNext = GS_LEVEL_1;
 		Set_StartingWave(1);
 	}
 	if (AEInputCheckReleased(AEVK_2)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
-		gGameStateNext = GS_LEVEL1;
+		gGameStateNext = GS_LEVEL_1;
 		Set_StartingWave(2);
 	}
 	if (AEInputCheckReleased(AEVK_3)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
-		gGameStateNext = GS_LEVEL1;
+		gGameStateNext = GS_LEVEL_1;
 		Set_StartingWave(3);
 	}
 	if (AEInputCheckReleased(AEVK_4)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
-		gGameStateNext = GS_LEVEL1;
+		gGameStateNext = GS_LEVEL_1;
 		Set_StartingWave(4);
 	}
 	if (AEInputCheckReleased(AEVK_5)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
-		gGameStateNext = GS_LEVEL1;
+		gGameStateNext = GS_LEVEL_1;
 		Set_StartingWave(5);
 	}
 	if (AEInputCheckReleased(AEVK_6)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
-		gGameStateNext = GS_LEVEL1;
+		gGameStateNext = GS_LEVEL_1;
 		Set_StartingWave(6);
 	}
 	if (AEInputCheckReleased(AEVK_7)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
-		gGameStateNext = GS_LEVEL1;
+		gGameStateNext = GS_LEVEL_1;
 		Set_StartingWave(7);
 	}
 	if (AEInputCheckReleased(AEVK_8)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
-		gGameStateNext = GS_LEVEL1;
+		gGameStateNext = GS_LEVEL_1;
 		Set_StartingWave(8);
 	}
 	if (AEInputCheckReleased(AEVK_9)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
-		gGameStateNext = GS_LEVEL1;
+		gGameStateNext = GS_LEVEL_1;
 		Set_StartingWave(9);
 	}
 	if (AEInputCheckReleased(AEVK_0)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
-		gGameStateNext = GS_LEVEL1;
+		gGameStateNext = GS_LEVEL_1;
 		Set_StartingWave(10);
 	}
 }
@@ -421,7 +421,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	font = AEGfxCreateFont("Assets/Fonts/Roboto-Regular.ttf", 50);
 	Audio_Load();
 
-	GameStateMgrInit(GS_MAINMENU);
+	Init_GameStateMgr(GS_MAIN_MENU);
 
 	while (gGameStateCurr != GS_QUIT)
 	{
@@ -430,7 +430,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		// If not restarting, load the gamestate
 		if (gGameStateCurr != GS_RESTART)
 		{
-			GameStateMgrUpdate();
+			Update_GameStateMgr();
 		}
 		else
 			gGameStateNext = gGameStateCurr = gGameStatePrev;

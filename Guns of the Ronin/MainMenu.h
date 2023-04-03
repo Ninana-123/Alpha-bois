@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file MainMenu.h
-@author Kai Alexander Van Adrichem Boogaert
-@Email kaialexander.v@digipen.edu
-@course CSD 1451
-@section Section A
-@date 14 Febuary 2023
-@brief This file contains declaration for the MainMenu page. Meshes are declared here as well as class MainMenu.
+@file		MainMenu.h
+@author		Kai Alexander Van Adrichem Boogaert
+@Email		kaialexander.v@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		14 Febuary 2023
+@brief		This file contains declaration for the MainMenu page. Meshes are declared here as well as class MainMenu.
 *//*______________________________________________________________________*/
 #pragma once
 #include <iostream>

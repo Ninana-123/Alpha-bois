@@ -28,7 +28,7 @@
 #define arrowSpeed 200.f
 
 //	When an arrow dies / destroyed / you want to hide it / etc..
-void ArrowRemove(int index, ArrowPool& pool) {
+void Remove_Arrow(int index, ArrowPool& pool) {
 	pool.activeArrow[index]->enabled = false;
 	if (index < (pool.activeSize - 1)) {
 		Arrow* temp = pool.activeArrow[index];
@@ -39,7 +39,7 @@ void ArrowRemove(int index, ArrowPool& pool) {
 }
 
 //	Spawning new arrows
-void ArrowAdd(ArrowPool& pool, Vector2 archPos, Vector2 playerPos) {
+void Add_Arrow(ArrowPool& pool, Vector2 archPos, Vector2 playerPos) {
 
 	for (int i = 0; i < ARROW_COUNT; i++) {
 		if (pool.activeArrow[i]->enabled == false) {
@@ -80,21 +80,21 @@ void Draw_Arrow(ArrowPool& pool) {
 }
 
 // Arrow direction, Arrow boundary - if out of the boundary / screen, delete it
-void Arrow_AI(ArrowPool& pool) {
+void AI_Arrow(ArrowPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		Set_QuadPoints(pool.activeArrow[i]->transform, true);
 		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * arrowSpeed;
 		if (pool.activeArrow[i]->transform.position.x > arrowBoundaryX) {
-			ArrowRemove(i, pool);
+			Remove_Arrow(i, pool);
 		}
 		else if (pool.activeArrow[i]->transform.position.x < -arrowBoundaryX) {
-			ArrowRemove(i, pool);
+			Remove_Arrow(i, pool);
 		}
 		else if (pool.activeArrow[i]->transform.position.y > arrowBoundaryY) {
-			ArrowRemove(i, pool);
+			Remove_Arrow(i, pool);
 		}
 		else if (pool.activeArrow[i]->transform.position.y < -arrowBoundaryY) {
-			ArrowRemove(i, pool);
+			Remove_Arrow(i, pool);
 		}
 	}
 }

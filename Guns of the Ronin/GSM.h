@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file GSM.h
-@author Kai Alexander Van Adrichem Boogaert
-@Email kaialexander.v@digipen.edu
-@course CSD 1451
-@section Section A
-@date 31 January 2023
-@brief This file contains declaration for GSM.
+@file		GSM.h
+@author		Kai Alexander Van Adrichem Boogaert
+@Email		kaialexander.v@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		31 January 2023
+@brief		This file contains declaration for GSM.
 *//*______________________________________________________________________*/
 #pragma once
 #ifndef GSM_H
@@ -45,10 +45,10 @@ extern void (*GameStateFree)();
 // Function prototypes
 
 // call this at the beginning and AFTER all game states are added to the manager
-void GameStateMgrInit(unsigned int gameStateInit);
+void Init_GameStateMgr(unsigned int gameStateInit);
 
 // update is used to set the function pointers
-void GameStateMgrUpdate();
+void Update_GameStateMgr();
 
 // ---------------------------------------------------------------------------
 

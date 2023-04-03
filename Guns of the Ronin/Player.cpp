@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file Player.cpp
-@author Kai Alexander Van Adrichem Boogaert
-@Email kaialexander.v@digipen.edu
-@course CSD 1451
-@section Section A
-@date 31 January 2023
-@brief This file contains definition for Main Player mechanics
+@file		Player.cpp
+@author		Kai Alexander Van Adrichem Boogaert
+@Email		kaialexander.v@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		31 January 2023
+@brief		This file contains definition for Main Player mechanics
 *//*______________________________________________________________________*/
 #include "Player.h"
 #include "TimeManager.h"

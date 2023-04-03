@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file		void.cpp
+@author		Teo Sheen Yeoh
+@Email		t.sheenyeoh@digipen.edu
+@course		CSD 1450
+@section	Section A
+@date		3 March 2023
+@brief		This file contains code for the credit screen.
 *//*______________________________________________________________________*/
 #pragma once
 #ifndef MAINSCENE_H

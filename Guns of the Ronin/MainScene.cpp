@@ -19,7 +19,6 @@
 #include "Physics.h"
 #include "Graphics.h"
 #include "TimeManager.h"
-#include "DummyPlayer.h"
 #include "Player.h"
 #include "Shrine.h"
 #include "Explosion.h"
@@ -46,7 +45,6 @@ Level level;
 int startingWave = 0;
 
 namespace {
-	DummyPlayer dummyPlayer;
 	Player player;
 	ShrinePool shrinePool;
 	ExplosionPool explosionPool;

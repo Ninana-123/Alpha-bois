@@ -6,9 +6,9 @@
 */
 /*!
 @file		PauseMenu.cpp
-@author		Sean Ang JiaBao
+@author		Sean Ang JiaBao (70%)
 @Email		ang.s@digipen.edu
-@co-author	Zeng ZhiCheng
+@co-author	Zeng ZhiCheng (30%)
 @email		z.zhicheng@digipen.edu 
 @course		CSD 1451
 @section	Section A
@@ -150,7 +150,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	if (Is_ButtonHover(BUTTONS_X, MAINMENU_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY) && !gameEnded) {
 		if (leftClick) {
 			AEAudioStopGroup(mainsceneAudioGroup);
-			gGameStateNext = GS_MAINMENU;
+			gGameStateNext = GS_MAIN_MENU;
 			Resume_Time();
 			leftClick = false;
 		}
@@ -160,7 +160,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	if (gameEnded && Is_ButtonHover(PAUSE_QUIT_BUTTON_X_POS, PAUSE_QUIT_BUTTON_Y_POS, PAUSE_QUIT_BUTTON_X_SCALE, PAUSE_QUIT_BUTTON_Y_SCALE, &pausedMouseX, &pausedMouseY)) {
 		quitButtonSpriteIndex = 3;
 		if (AEInputCheckReleased(AEVK_LBUTTON)) {
-			gGameStateNext = GS_MAINMENU;
+			gGameStateNext = GS_MAIN_MENU;
 			Resume_Time();
 		}
 	}

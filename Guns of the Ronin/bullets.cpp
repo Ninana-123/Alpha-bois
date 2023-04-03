@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file Bullets.h
-@author Kai Alexander Van Adrichem Boogaert
-@Email kaialexander.v@digipen.edu
-@course CSD 1451
-@section Section A
-@date 31 January 2023
-@brief This file contains definitions for player's bullet system
+@file		Bullets.h
+@author		Kai Alexander Van Adrichem Boogaert
+@Email		kaialexander.v@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		31 January 2023
+@brief		This file contains definitions for player's bullet system
 *//*______________________________________________________________________*/
 #include "Bullets.h"
 #include "Player.h"

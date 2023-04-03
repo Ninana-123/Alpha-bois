@@ -16,6 +16,7 @@
 
 #include "Credits.h"
 #include "MainMenu.h"
+#include "Sound.h"
 
 AEGfxTexture* creditsBGTexture;
 Credits creditsBG;
@@ -41,11 +42,8 @@ Credits quitButton;
 
 // MOUSE INPUT
 bool isLeftClicked = false;
-s32 Credits_MousePosX;
-s32 Credits_MousePosY;
-
-s32* Credits_MouseX = &Credits_MousePosX;
-s32* Credits_MouseY = &Credits_MousePosY;
+int creditsMousePosX;
+int creditsMousePosY;
 
 
 
@@ -89,19 +87,27 @@ void Update_Credits() {
 	}
 
 	/*     QUIT BUTTON     */
-	AEInputGetCursorPosition(Credits_MouseX, Credits_MouseY);
-	*Credits_MouseX = s32(*Credits_MouseX) - (s32)  (AEGetWindowWidth() / 2.0f);
-	*Credits_MouseY = -(s32(*Credits_MouseY) - (s32) (AEGetWindowHeight() / 2.0f));
+	AEInputGetCursorPosition(&creditsMousePosX, &creditsMousePosY);
+	creditsMousePosX = creditsMousePosX - ((float)AEGetWindowWidth() / 2.0f);
+	creditsMousePosY = -(creditsMousePosY - ((float)AEGetWindowHeight() / 2.0f));
 	isLeftClicked = AEInputCheckReleased(AEVK_LBUTTON);
 
-	if (Is_ButtonHover(BACK_BUTTON_X, BACK_BUTTON_Y, BACK_BUTTON_SCALE_X, BACK_BUTTON_SCALE_Y, Credits_MouseX, Credits_MouseY)) {
+	if (Is_ButtonHover(BACK_BUTTON_X, BACK_BUTTON_Y, BACK_BUTTON_SCALE_X, BACK_BUTTON_SCALE_Y, &creditsMousePosX, &creditsMousePosY)) {
 		quitButton.spriteIndex = 3;
+		if (!audioPlayed) {
+			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
+			audioPlayed = true;
+		}
 		if (isLeftClicked) {
+			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 			AEAudioPauseGroup(creditsAudioGroup);
-			gGameStateNext = GS_MAINMENU;
+			gGameStateNext = GS_MAIN_MENU;
 		}
 	}
-	else quitButton.spriteIndex = 2;
+	else {
+		audioPlayed = false;
+		quitButton.spriteIndex = 2;
+	}
 }
 
 void Draw_Credits() {

@@ -36,7 +36,7 @@ public:
 	Transform transform;
 	bool enabled = false;
 	Vector2 direction;
-	float timeSince_lastDmgDeal = 0;
+	float timeSinceLastDmgDeal = 0;
 };
 
 struct ArrowPool {
@@ -45,15 +45,15 @@ struct ArrowPool {
 	int activeSize = 0;
 };
 
-void ArrowAdd(ArrowPool& arrow, Vector2 archPos, Vector2 playerPos);
+void Add_Arrow(ArrowPool& arrow, Vector2 archPos, Vector2 playerPos);
 
 void Init_ArrowPool(ArrowPool& arrow);
 
 void Draw_Arrow(ArrowPool& pool);
 
-void Arrow_AI(ArrowPool& arrow);
+void AI_Arrow(ArrowPool& arrow);
 
-void ArrowRemove(int index, ArrowPool& arrow);
+void Remove_Arrow(int index, ArrowPool& arrow);
 
 void Free_Arrow();
 

@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file Bullets.h
-@author Kai Alexander Van Adrichem Boogaert
-@Email kaialexander.v@digipen.edu
-@course CSD 1451
-@section Section A
-@date 31 January 2023
-@brief This file contains declaration for Bullets.cpp source file as well as defines and mesh.
+@file		Bullets.h
+@author		Kai Alexander Van Adrichem Boogaert
+@Email		kaialexander.v@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		31 January 2023
+@brief		This file contains declaration for Bullets.cpp source file as well as defines and mesh.
 *//*______________________________________________________________________*/
 #pragma once
 

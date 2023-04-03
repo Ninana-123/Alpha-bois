@@ -29,7 +29,6 @@ namespace {
 class Credits {
 public:
 	Transform transform;
-	bool j_pressed = false;
 	int spriteIndex = 0;
 };
 

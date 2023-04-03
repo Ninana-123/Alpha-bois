@@ -8,7 +8,8 @@
 @file			Graphics.h
 @author			Zeng ZhiCheng
 @Email			z.zhicheng@digipen.edu
-@co-author(s)	
+@co-author		Kai Alexander Van Adrichem Boogaert
+@Email			kaialexander.v@digipen.edu
 @course			CSD 1451
 @section		Section A
 @date			2 April 2023
@@ -134,7 +135,7 @@ void Draw_QuadCollider(Transform* trans, AEGfxVertexList*& colliderMesh);
 
 void Set_QuadPoints(Transform& trans, bool useCol = false);
 
-void Create_QuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float texture_w = 1.0f, float texture_h = 1.0f);
+void Create_QuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float textureWidth = 1.0f, float textureHeight = 1.0f);
 
 void Create_CircleMesh(float radius, Color color, AEGfxVertexList*& mesh);
 
@@ -142,7 +143,7 @@ void Create_CircleMesh(float radius, Color color, AEGfxVertexList*& mesh);
 
 void Draw_StaticSprite(Transform* trans, int index);
 
-bool Is_ButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y);
+bool Is_ButtonHover(float areaCenterX, float areaCenterY, float areaWidth, float areaHeight, s32* mouseX, s32* mouseY);
 
 bool Col_QuadCircle(Transform const& quadTrans, Transform const& circleTrans, bool useQuadCol = false, bool useCircleCol = false);
 

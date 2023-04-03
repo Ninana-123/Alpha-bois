@@ -5,17 +5,16 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code that shows how would the void shrine work
+@file		void.cpp
+@author		Teo Sheen Yeoh
+@Email		t.sheenyeoh@digipen.edu
+@course		CSD 1450
+@section	Section A
+@date		3 March 2023
+@brief		This file contains code that shows how would the void shrine work
 *//*______________________________________________________________________*/
 #include "Void.h"
 #include "Graphics.h"
-#include "DummyPlayer.h"
 #include "Player.h"
 #include "AEMath.h"
 #include "TimeManager.h"

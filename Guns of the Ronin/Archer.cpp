@@ -114,7 +114,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 			// if player within archer's attacking range, start attacking
 			else {
 				if (curArcher->timeLastAttack >= ARCHER_ATTACK_DELAY) {
-					ArrowAdd(arrow, curArcher->transform.position, playerPos);
+					Add_Arrow(arrow, curArcher->transform.position, playerPos);
 					AEAudioPlay(archerShoot, mainsceneAudioGroup, 0.1f, 1.f, 0);
 					curArcher->timeLastAttack = 0;
 				}
@@ -138,17 +138,17 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 	}
 
 	// Update function of the arrows
-	Arrow_AI(arrow);
+	AI_Arrow(arrow);
 
 	// Arrow collision with player
 	for (int i = 0; i < arrow.activeSize; ++i) {
 		Arrow* proj = arrow.activeArrow[i];
-		proj->timeSince_lastDmgDeal += deltaTime;
+		proj->timeSinceLastDmgDeal += deltaTime;
 		if (Col_StaticQuadQuad(proj->transform, player.transform)) {
-			if (proj->timeSince_lastDmgDeal > ARCHER_ATTACK_INTERVAL) {
+			if (proj->timeSinceLastDmgDeal > ARCHER_ATTACK_INTERVAL) {
 				Damage_Player(playerInfo, ARCHER_DAMAGE);
-				proj->timeSince_lastDmgDeal = 0;
-				ArrowRemove(i, arrow);
+				proj->timeSinceLastDmgDeal = 0;
+				Remove_Arrow(i, arrow);
 			}
 		}
 	}

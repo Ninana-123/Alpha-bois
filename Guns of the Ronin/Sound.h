@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file Sound.h
-@author Kai Alexander Van Adrichem Boogaert
-@Email kaialexander.v@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains the extern variables for audio to be used in other files
+@file		Sound.h
+@author		Kai Alexander Van Adrichem Boogaert
+@Email		kaialexander.v@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains the extern variables for audio to be used in other files
 *//*______________________________________________________________________*/
 #pragma once
 #ifndef SOUND_H

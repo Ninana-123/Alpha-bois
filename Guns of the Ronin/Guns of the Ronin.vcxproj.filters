@@ -99,9 +99,6 @@
     <ClCompile Include="PlayerInfo.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
-    <ClCompile Include="DummyPlayer.cpp">
-      <Filter>Source Files\Test / Obsolete</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Test / Obsolete</Filter>
     </ClCompile>
@@ -181,9 +178,6 @@
     </ClInclude>
     <ClInclude Include="MainScene.h">
       <Filter>Header Files\Game Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="DummyPlayer.h">
-      <Filter>Header Files\Test / Obsolete</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Header Files\Test / Obsolete</Filter>
