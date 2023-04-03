@@ -6,7 +6,7 @@
 */
 /*
 @file main.h
-@co-author Teo Sheen Yeoh , Zhi Cheng, Kai Alexander Van Adrichem Boogaert, Sean Ang JiaBao, Zeng ZhiCheng , Vance Tay Jun Feng( 20% each)
+@co-author Teo Sheen Yeoh, Kai Alexander Van Adrichem Boogaert, Sean Ang JiaBao, Zeng ZhiCheng , Vance Tay Jun Feng( 20% each)
 @Email t.sheenyeoh@digipen.edu, kaialexander.v@digipen.edu,z.zhicheng@digipen.edu,ang.s@digipen.edu,junfengvance.t@digipen.edu
 @course CSD 1451
 @section Section A
