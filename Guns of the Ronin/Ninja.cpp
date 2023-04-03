@@ -175,7 +175,7 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 		proj->timeSince_lastDmgDeal += deltaTime;
 		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
 			if (proj->timeSince_lastDmgDeal > NINJA_ATTACK_INTERVAL) {
-				player_dmg(playerInfo, NINJA_DAMAGE);
+				Damage_Player(playerInfo, NINJA_DAMAGE);
 				proj->timeSince_lastDmgDeal = 0;
 				ShurikenRemove(i, shuriken);
 			}

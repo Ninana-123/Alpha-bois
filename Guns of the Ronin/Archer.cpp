@@ -146,7 +146,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 		proj->timeSince_lastDmgDeal += deltaTime;
 		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
 			if (proj->timeSince_lastDmgDeal > ARCHER_ATTACK_INTERVAL) {
-				player_dmg(playerInfo, ARCHER_DAMAGE);
+				Damage_Player(playerInfo, ARCHER_DAMAGE);
 				proj->timeSince_lastDmgDeal = 0;
 				ArrowRemove(i, arrow);
 			}

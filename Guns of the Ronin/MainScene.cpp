@@ -76,7 +76,7 @@ void Init_Scene() {
 	//DummyPlayer_Init(&dummyPlayer);
 	Shrine_PoolInit(shrinePool);
 	Explosion_PoolInit(explosionPool);
-	Player_Init(&player, bulletPool);
+	Init_Player(&player, bulletPool);
 	Init_Enemies(samPool, archPool, cPool, ninPool, startingWave);
 	Init_PauseMenu();
 	PlayerInfo_Init(&playerinfo);
@@ -129,7 +129,7 @@ void Update_Scene() {
 			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, samPool.activeSamurais[i]->transform)) {
 				Dmg_Samurai(samPool, playerinfo, i);
-				BulletRemove(u, bulletPool);
+				Remove_Bullet(u, bulletPool);
 			}
 		}
 	}
@@ -144,7 +144,7 @@ void Update_Scene() {
 			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, archPool.activeArchers[i]->transform)) {
 				Dmg_Archer(archPool, playerinfo, i);
-				BulletRemove(u, bulletPool);
+				Remove_Bullet(u, bulletPool);
 			}
 		}
 	}
@@ -159,7 +159,7 @@ void Update_Scene() {
 			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, cPool.activeCannoneers[i]->transform)) {
 				Dmg_Cannoneer(cPool, playerinfo, i);
-				BulletRemove(u, bulletPool);
+				Remove_Bullet(u, bulletPool);
 			}
 		}
 	}
@@ -174,7 +174,7 @@ void Update_Scene() {
 			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
 			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, ninPool.activeNinjas[i]->transform)) {
 				Dmg_Ninja(ninPool, playerinfo, player, i);
-				BulletRemove(u, bulletPool);
+				Remove_Bullet(u, bulletPool);
 			}
 			
 		}
@@ -205,7 +205,7 @@ void Update_Scene() {
 	}*/
 
 
-	Player_Update(&player, bulletPool);
+	Update_Player(&player, bulletPool);
 
 	Health_Bar_Update(barPool, &health, playerinfo, &player, samPool, archPool, ninPool, cPool);
 	

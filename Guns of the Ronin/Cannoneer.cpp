@@ -133,7 +133,7 @@ void AI_Cannoneer(CannoneerPool& pool, Player& player, PlayerInfo& playerInfo) {
 
 			if (!curCB.dmgDealt && ColQuadCircle(player.transform, curCB.transform, true)) {
 				curCB.dmgDealt = true;
-				player_dmg(playerInfo, CB_DAMAGE);
+				Damage_Player(playerInfo, CB_DAMAGE);
 			}
 			curCB.transform.color.a = 1.0f - curCB.explosionTimer / CB_EXPLOSION_DURATION;
 		}
