@@ -33,13 +33,16 @@
 
 namespace
 {
-	#define SHRINE_COUNT 10
-	#define SHRINE_HEIGHT  50
-	#define SHRINE_WIDTH  50
-	#define LOADING_WIDTH  150
-	#define LOADING_HEIGHT  10
-	#define PUSH_BY  -700
-	#define BUFFER_DIST 100
+#define SHRINE_COUNT 10
+#define SHRINE_HEIGHT  50
+#define SHRINE_WIDTH  50
+#define SHRINE_MAX_SPAWN_X_POS 770
+#define	SHRINE_MIN_SPAWN_Y_POS -400
+#define	SHRINE_MAX_SPAWN_Y_POS 380
+#define LOADING_WIDTH  150
+#define LOADING_HEIGHT  10
+#define PUSH_BY  -700
+#define BUFFER_DIST 100
 	AEGfxVertexList* shrineMesh;
 	AEGfxVertexList* shrineBoundary;
 	AEGfxVertexList* loadingBarMesh;

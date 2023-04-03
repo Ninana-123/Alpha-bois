@@ -33,7 +33,8 @@ namespace {
 
 #define C_MIN_SPAWN_DIST 350
 #define C_MAX_SPAWN_DIST 750
-#define C_MAX_Y_SPAWN_DIST 415
+#define C_MAX_Y_SPAWN_DIST 390
+#define C_MIN_Y_SPAWN_DIST -430
 #define C_HEALTH 350
 #define C_HIT_ANIM_DURATION 0.5f
 #define C_EXP 10

@@ -120,7 +120,9 @@ void Add_Shrine(ShrinePool& shrinePool)
 				Vector2 randomPosition;
 				do
 				{
-					randomPosition = Random_PointOutsideSquare(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+					randomPosition = Random_PointOutsideSquare(1, SHRINE_MAX_SPAWN_X_POS, Vector2(0, 0));
+
+					randomPosition.y = AEClamp(randomPosition.y, SHRINE_MIN_SPAWN_Y_POS, SHRINE_MAX_SPAWN_Y_POS);
 				} while (Check_OverlapWithActiveShrines(shrinePool, randomPosition));
 
 				shrinePool.activeShrine[i]->transform.position = randomPosition;

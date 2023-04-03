@@ -40,7 +40,7 @@ void Add_Cannoneer(CannoneerPool& pool) {
 			pool.activeCannoneers[i]->health = C_HEALTH;
 			pool.activeCannoneers[i]->transform.texture = &cannoneerTexture;
 			pool.activeCannoneers[i]->transform.position = Random_PointOutsideSquare(C_MIN_SPAWN_DIST, C_MAX_SPAWN_DIST, Vector2(0, 0));
-			pool.activeCannoneers[i]->transform.position.y = AEClamp(pool.activeCannoneers[i]->transform.position.y, -C_MAX_Y_SPAWN_DIST, C_MAX_Y_SPAWN_DIST);
+			pool.activeCannoneers[i]->transform.position.y = AEClamp(pool.activeCannoneers[i]->transform.position.y, C_MIN_Y_SPAWN_DIST, C_MAX_Y_SPAWN_DIST);
 			pool.activeSize += 1;
 			break;
 		}
