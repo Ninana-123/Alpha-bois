@@ -43,6 +43,11 @@
 AEGfxTexture* LevelBG;
 Level level;
 int startingWave = 0;
+#define LEVEL_BG_SCALE_X 1600.f
+#define LEVEL_BG_SCALE_Y 900.f
+#define LEVEL_BG_HEIGHT 1.f
+#define LEVEL_BG_WIDTH 1.f
+#define LEVEL_BG_ROTATION 0.f
 
 namespace {
 	Player player;
@@ -67,11 +72,6 @@ namespace {
 
 void Init_Scene() {
 
-
-	//initiate Graphics
-	//G_Init();
-
-	//DummyPlayer_Init(&dummyPlayer);
 	Init_ShrinePool(shrinePool);
 	Explosion_PoolInit(explosionPool);
 	Init_Player(&player, bulletPool);
@@ -82,17 +82,17 @@ void Init_Scene() {
 	Create_QuadMesh(1.f,1.f,Color(1,1,1), levelMesh);
 	level.transform.texture = &LevelBG;
 	level.transform.position = { 0.0f,0.0f };
-	level.transform.scale = { 1600.0f,-900.0f };
-	level.transform.height = 1.0f;
-	level.transform.width = 1.0f;
-	level.transform.rotation = 0.0f;
+	level.transform.scale = { LEVEL_BG_SCALE_X,-LEVEL_BG_SCALE_Y };
+	level.transform.height = LEVEL_BG_HEIGHT;
+	level.transform.width = LEVEL_BG_WIDTH;
+	level.transform.rotation = LEVEL_BG_ROTATION;
 	level.transform.mesh = &levelMesh;
 
 	Reset_TimeMan();
 	Reset_HighScore();
 	Init_HealthBar(barPool, &health);
 	Void_PoolInit(voidPool);
-
+	AEAudioPlay(mainsceneSong, mainsceneAudioGroup, 1.f, 1.f, -1);
 
 }
 
@@ -193,9 +193,9 @@ void Draw_Scene() {
 	Draw_Enemies(samPool, archPool, cPool, ninPool);
 	Draw_Shrine( shrinePool);
 	Draw_Explosions(explosionPool);
-	Draw_Player(&player, bulletPool);
 	HealthBar_Draw(barPool, &health, samPool, archPool, ninPool, cPool);
 	Draw_Void(voidPool);
+	Draw_Player(&player, bulletPool);
 	Draw_PauseMenu(playerinfo);
 }
 

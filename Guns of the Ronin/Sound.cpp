@@ -82,6 +82,7 @@ void Audio_Load() {
 
 	/*Main Scene Audio*/
 	mainsceneAudioGroup = AEAudioCreateGroup();
+	mainsceneSong = AEAudioLoadMusic("Assets/Audio/mainscene_song.wav");
 	//Shrines
 	freezeSound = AEAudioLoadSound("Assets/Audio/freeze_shrine.wav");
 	explosionSound = AEAudioLoadSound("Assets/Audio/explosion.wav");
