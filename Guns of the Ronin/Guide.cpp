@@ -69,7 +69,7 @@ void Init_Guide() {
 	guideBG.transform.mesh = &GuideBGMesh;
 
 	/*Player*/
-	Player_Init(&guidePLayer, guideBullet);
+	Init_Player(&guidePLayer, guideBullet);
 	
 	/*Shrines*/
 	
@@ -117,7 +117,7 @@ void Update_Guide() {
 	/*Resuming Credits Audio*/
 	AEAudioResumeGroup(guideAudioGroup);
 
-	Player_Update(&guidePLayer, guideBullet);
+	Update_Player(&guidePLayer, guideBullet);
 	SetQuadPoints(guidePLayer.transform,true);
 	SetQuadPoints(windShrine.transform);
 

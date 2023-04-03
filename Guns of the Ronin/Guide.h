@@ -29,14 +29,13 @@
 #define GUIDE_H
 
 namespace {
-	/*          BACKGROUND        */
+	/*BACKGROUND*/
 	AEGfxVertexList* GuideBGMesh = 0;
-
-	
+	/*SHRINES*/
 	AEGfxVertexList* windMesh = 0;
 	AEGfxVertexList* guideLoadingBar = 0;
 	
-	/*          CONTROLS          */
+	/*CONTROLS*/
 	AEGfxVertexList* WASDMesh = 0;
 	AEGfxVertexList* clickMesh = 0;
 
