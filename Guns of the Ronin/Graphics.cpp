@@ -351,12 +351,13 @@ void FlipTexture_y(Transform& trans) {
 //	mesh = AEGfxMeshEnd();
 //}
 
+/*This function draws sprites based on the index given*/
 void Draw_StaticSprite(Transform* trans,int index) {
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
 	AEGfxSetTransparency(1.0f);
-	AEGfxTextureSet(*trans->texture, (trans->height / trans->width)*index, 0.f);
+	AEGfxTextureSet(*trans->texture, (trans->height / trans->width)*index, 0.f); //Sprite will draw base on the given index
 
 	AEMtx33 scale = { 0 };
 	AEMtx33Scale(&scale, trans->scale.x, trans->scale.y);
@@ -370,13 +371,13 @@ void Draw_StaticSprite(Transform* trans,int index) {
 	AEGfxSetTransform(transform.m);
 	AEGfxMeshDraw(*trans->mesh, AE_GFX_MDM_TRIANGLES);
 }
-
+/*This function checks if the mouse is hovering over the game buttons such as "Play" button*/
 bool Is_ButtonHover(float area_center_x, float area_center_y, float area_width, float area_height, s32* mouse_x, s32* mouse_y){
-	float area_x_start, area_x_end, area_y_start, area_y_end;
-	area_x_start = area_center_x - (0.5f * area_width);
-	area_x_end = area_center_x + (0.5f * area_width);
-	area_y_start = area_center_y - (0.5f * area_height);
-	area_y_end = area_center_y + (0.5f * area_height);
+	float area_x_start, area_x_end, area_y_start, area_y_end;	//Initialising the area values
+	area_x_start = area_center_x - (0.5f * area_width);			//Calculating of starting area X
+	area_x_end = area_center_x + (0.5f * area_width);			//Calculating of ending area X
+	area_y_start = area_center_y - (0.5f * area_height);		//Calculating of starting area Y
+	area_y_end = area_center_y + (0.5f * area_height);			//Calculating of ending area Y
 
 	if (*mouse_x > area_x_start && *mouse_x < area_x_end && *mouse_y < area_y_start && *mouse_y > area_y_end)
 	{
@@ -385,8 +386,4 @@ bool Is_ButtonHover(float area_center_x, float area_center_y, float area_width, 
 	else {
 		return false;
 	}
-
-
-
-
 }

@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Guide.cpp
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@date 5 Febuary 2023
+@brief This file contains declaration for the guide page. Meshes are declared here as well as class Guide.
 *//*______________________________________________________________________*/
 #include "Guide.h"
 /*BACKGROUND*/
@@ -114,13 +114,14 @@ void Init_Guide() {
 }
 
 void Update_Guide() {
-	/*Resuming Credits Audio*/
+	/*Resuming Guide Audio*/
 	AEAudioResumeGroup(guideAudioGroup);
 
 	Update_Player(&guidePLayer, guideBullet);
 	SetQuadPoints(guidePLayer.transform,true);
 	SetQuadPoints(windShrine.transform);
 
+	/*Toggling between the movement sprites*/
 	if (AEInputCheckCurr(AEVK_W)) {
 		WASD.spriteIndex = 1;
 	}
@@ -154,6 +155,7 @@ void Update_Guide() {
 	if(!(AEInputCheckCurr(AEVK_LBUTTON))) {
 		click.spriteIndex = 9;
 	}
+	/*Loading bar for wind shrine*/
 	if ((StaticCol_QuadQuad(guidePLayer.transform,windShrine.transform)) ) {
 		loadingBar.transform.scale.x += (deltaTime * GUIDE_LOADING_BAR_MAX_PERCENT);
 	}

@@ -5,13 +5,16 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file PlayerInfo.h
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@date 31 January 2023
+@brief This file contains declaration for playerinfo.
+		Playerinfo file was initially integrated for the Shop. However, after our product pitch
+		it was reccomended to focus on our unique shrines and scrape the shop. Thus, this file
+		is here.
 *//*______________________________________________________________________*/
 #pragma once
 #include <string>
