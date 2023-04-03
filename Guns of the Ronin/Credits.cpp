@@ -53,7 +53,7 @@ void Init_Credits() {
 	/*     CREDITS SCENE     */
 	AEGfxSetBackgroundColor(0, 0, 0);
 	creditsBGTexture = AEGfxTextureLoad("Assets/CREDITS.png");
-	CreateQuadMesh(AEGetWindowWidth(), -AEGetWindowHeight(), Color(0, 0, 0), CreditsBGMesh);
+	CreateQuadMesh((float)AEGetWindowWidth(), -(float)AEGetWindowHeight(), Color(0, 0, 0), CreditsBGMesh);
 	creditsBG.transform.texture = &creditsBGTexture;
 	creditsBG.transform.position = { 0.0f, -AEGetWindowWidth() / 2.0f};
 	creditsBG.transform.height = CREDITS_HEIGHT;
@@ -90,8 +90,8 @@ void Update_Credits() {
 
 	/*     QUIT BUTTON     */
 	AEInputGetCursorPosition(Credits_MouseX, Credits_MouseY);
-	*Credits_MouseX = *Credits_MouseX - AEGetWindowWidth() / 2.0f;
-	*Credits_MouseY = -(*Credits_MouseY - AEGetWindowHeight() / 2.0f);
+	*Credits_MouseX = float(*Credits_MouseX) - (float)AEGetWindowWidth() / 2.0f;
+	*Credits_MouseY = -(float(*Credits_MouseY) - (float)AEGetWindowHeight() / 2.0f);
 	isLeftClicked = AEInputCheckReleased(AEVK_LBUTTON);
 
 	if (Is_ButtonHover(BACK_BUTTON_X, BACK_BUTTON_Y, BACK_BUTTON_SCALE_X, BACK_BUTTON_SCALE_Y, Credits_MouseX, Credits_MouseY)) {
