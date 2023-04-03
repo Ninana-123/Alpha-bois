@@ -90,8 +90,8 @@ void Update_Credits() {
 
 	/*     QUIT BUTTON     */
 	AEInputGetCursorPosition(Credits_MouseX, Credits_MouseY);
-	*Credits_MouseX = float(*Credits_MouseX) - (float)AEGetWindowWidth() / 2.0f;
-	*Credits_MouseY = -(float(*Credits_MouseY) - (float)AEGetWindowHeight() / 2.0f);
+	*Credits_MouseX = s32(*Credits_MouseX) - (s32)  (AEGetWindowWidth() / 2.0f);
+	*Credits_MouseY = -(s32(*Credits_MouseY) - (s32) (AEGetWindowHeight() / 2.0f));
 	isLeftClicked = AEInputCheckReleased(AEVK_LBUTTON);
 
 	if (Is_ButtonHover(BACK_BUTTON_X, BACK_BUTTON_Y, BACK_BUTTON_SCALE_X, BACK_BUTTON_SCALE_Y, Credits_MouseX, Credits_MouseY)) {
