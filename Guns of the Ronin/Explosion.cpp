@@ -21,7 +21,7 @@
 #include "Samurai.h"
 
 float timing;
-void Explosion_PoolInit(ExplosionPool& explosionPool)
+void Init_ExplosionPool(ExplosionPool& explosionPool)
 {
 		{
 			timing = 0;
@@ -63,7 +63,7 @@ bool Check_OverlapWithActiveExplosion(const ExplosionPool& explosionPool, const 
 	return false;
 }
 
-void Explosion_Add(ExplosionPool& explosionPool)
+void Add_Explosion(ExplosionPool& explosionPool)
 {
 	for (int i = 0; i < EXPLOSION_COUNT; i++)
 	{
@@ -91,7 +91,7 @@ void Explosion_Add(ExplosionPool& explosionPool)
 	
 }
 
-void Explosion_Delete(int index, ExplosionPool& explosionPool)
+void Delete_Explosion(int index, ExplosionPool& explosionPool)
 {
 		explosionPool.activeExplosion[index]->hasBeenUsed = false;
 		if (index < (explosionPool.activeSize - 1))
@@ -104,7 +104,7 @@ void Explosion_Delete(int index, ExplosionPool& explosionPool)
 	
 }
 
-void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, CannoneerPool& canPool, NinjaPool& ninPool)
+void Update_Explosion(ExplosionPool& explosionPool, ArcherPool& archPool, CannoneerPool& canPool, NinjaPool& ninPool)
 {
 		
 
@@ -174,63 +174,11 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 		explosionPool.activeExplosion[i]->timeElapsed += deltaTime;
 		if (explosionPool.activeExplosion[i]->timeElapsed >= 4.0f)
 		{
-			Explosion_Delete(i, explosionPool);
+			Delete_Explosion(i, explosionPool);
 		}
 	}
 
-	//// Check if enemy is archers
-	//for (int j = 0; j < archPool.activeSize; j++)
-	//{
-	//	archPool.activeArchers[j]->isCollidingWithExplosion = false;
-	//	for (int i = 0; i < explosionPool.activeSize; i++)
-	//	{
-	//		if (Col_StaticQuadQuad(archPool.activeArchers[j]->transform, explosionPool.activeExplosion[i]->transform))
-	//		{
-	//			archPool.activeArchers[j]->isCollidingWithExplosion = true;
-	//			Explosion_Delete(i, explosionPool);
-	//		}
-	//	}
-	//	if (!archPool.activeArchers[j]->isCollidingWithExplosion && archPool.activeArchers[j]->damagedByExplosion)
-	//	{
-	//		archPool.activeArchers[j]->damagedByExplosion = false;
-	//	}
-
-	//}
-	//// Check if enemy is cannons
-	//for (int z= 0; z < canPool.activeSize; z++)
-	//{
-	//	canPool.activeCannoneers[z]->isCollidingWithExplosion = false;
-	//	for (int i = 0; i < explosionPool.activeSize; i++)
-	//	{
-	//		if (Col_StaticQuadQuad(canPool.activeCannoneers[z]->transform, explosionPool.activeExplosion[i]->transform))
-	//		{
-	//			canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
-	//			Explosion_Delete(i, explosionPool);
-	//		}
-	//	}
-	//	if (!canPool.activeCannoneers[z]->isCollidingWithExplosion && canPool.activeCannoneers[z]->damagedByExplosion)
-	//	{
-	//		canPool.activeCannoneers[z]->damagedByExplosion = false;
-	//	}
-	//}
-	//// Check if enemy is ninjas
-	//for (int k = 0; k < ninPool.activeSize; k++)
-	//{
-	//	ninPool.activeNinjas[k]->isCollidingWithExplosion = false;
-	//	for (int i = 0; i < explosionPool.activeSize; i++)
-	//	{
-	//		if (Col_StaticQuadQuad(ninPool.activeNinjas[k]->transform, explosionPool.activeExplosion[i]->transform))
-	//		{
-	//			ninPool.activeNinjas[k]->isCollidingWithExplosion = true;
-	//			Explosion_Delete(i, explosionPool);
-	//		}
-	//	}
-	//	if (!ninPool.activeNinjas[k]->isCollidingWithExplosion && ninPool.activeNinjas[k]->damagedByExplosion)
-	//	{
-	//		ninPool.activeNinjas[k]->damagedByExplosion = false;
-	//	}
-
-	//}
+	
 	
 }
 
@@ -244,7 +192,7 @@ void Draw_Explosions(ExplosionPool& explosionPool)
 			Draw_Mesh(&explosionPool.activeExplosion[i]->transform);
 			if (explosionPool.activeExplosion[i]->isColliding)
 			{
-				Explosion_Delete(i, explosionPool);
+				Delete_Explosion(i, explosionPool);
 			}
 		}
 	}

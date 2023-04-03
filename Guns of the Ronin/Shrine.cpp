@@ -212,9 +212,9 @@ void Update_Shrine(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 						AEAudioPlay(explosionSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
 						for (int l = 0; l < EXPLOSION_COUNT; l++)
 						{
-							Explosion_Add(explosionPool);
+							Add_Explosion(explosionPool);
 						}
-						Explosion_Update(explosionPool, archPool, canPool, ninPool);
+						Update_Explosion(explosionPool, archPool, canPool, ninPool);
 						Delete_Shrine(i, shrinePool);
 						break;
 					}
@@ -225,9 +225,9 @@ void Update_Shrine(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 						AEAudioPlay(voidSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
 						for (int k = 0; k < VOID_COUNT; k++)
 						{
-							Void_Add(voidPool);
+							Add_Void(voidPool);
 						}
-						Void_Update(voidPool, samPool, archPool, canPool);
+						Update_Void(voidPool, samPool, archPool, canPool);
 						Delete_Shrine(i, shrinePool);
 						break;
 					}
