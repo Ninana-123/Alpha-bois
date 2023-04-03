@@ -187,8 +187,8 @@ void Update_Shrine(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 		duration += deltaTime;
 		//std::cout << duration << std::endl;
 		AEInputGetCursorPosition(mouseX, mouseY);
-		*mouseX = *mouseX - 800;
-		*mouseY = (*mouseY - 450) * -1;
+		*mouseX = *mouseX - (s32)(AEGetWindowWidth()/2.0f);
+		*mouseY = -(*mouseY - (s32)(AEGetWindowHeight()/2.0f));
 
 		if (duration >= 1.f)
 		{
