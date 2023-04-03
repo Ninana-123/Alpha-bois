@@ -40,8 +40,8 @@ public:
 };
 
 struct ArrowPool {
-	Arrow arrow[ARROW_COUNT];
-	Arrow* activeArrow[ARROW_COUNT];
+	Arrow arrow[ARROW_COUNT]{};
+	Arrow* activeArrow[ARROW_COUNT]{};
 	int activeSize = 0;
 };
 

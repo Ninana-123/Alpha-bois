@@ -68,8 +68,8 @@ public:
 struct ShrinePool 
 {
 public:
-	Shrine Shrines[SHRINE_COUNT];
-	Shrine* activeShrine[SHRINE_COUNT];
+	Shrine Shrines[SHRINE_COUNT]{};
+	Shrine* activeShrine[SHRINE_COUNT]{};
 	int activeSize = 0;
 	
 	

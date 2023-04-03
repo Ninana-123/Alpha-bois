@@ -66,8 +66,8 @@ public:
 };
 
 struct NinjaPool {
-	Ninja ninjas[NINJA_COUNT];
-	Ninja* activeNinjas[NINJA_COUNT];
+	Ninja ninjas[NINJA_COUNT]{};
+	Ninja* activeNinjas[NINJA_COUNT]{};
 	int activeSize =0;
 };
 
