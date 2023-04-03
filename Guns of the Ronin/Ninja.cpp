@@ -150,7 +150,7 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 			break;
 
 			// Wind shrine
-		case NINJA_BLOWNAWAY:
+		case NINJA_BLOWN_AWAY:
 			Vector2 direction = (curNinja->targetPos - curNinja->transform.position).normalize();
 			curNinja->transform.position += direction * NINJA_SWEEP_MS * deltaTime;
 			if (curNinja->transform.position.within_Dist(curNinja->targetPos, 15.0f)) {
@@ -207,7 +207,7 @@ void Dmg_Ninja(NinjaPool& pool, PlayerInfo& playerInfo, Player& player, int inde
 // Push Ninjas in the specified direction to the specific wordPos in the according axis
 void Push_Ninja(NinjaPool& pool, DIRECTION direction, float targetAxis) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		pool.activeNinjas[i]->aiState = NINJA_BLOWNAWAY;
+		pool.activeNinjas[i]->aiState = NINJA_BLOWN_AWAY;
 		switch (direction)
 		{
 		case VERTICAL:

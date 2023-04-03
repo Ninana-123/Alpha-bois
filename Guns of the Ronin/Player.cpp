@@ -116,9 +116,9 @@ void Update_Player(Player* player,BulletPool &bulletPool) {
 
 		timeSinceLastFired += deltaTime;
 
-		if (player->left_mouse_pressed) {		
-			if (timeSinceLastFired >= PLAYER_FIRERATE) {
-				BulletAdd(bulletPool, player->transform.position);
+		if (player->leftMousePressed) {		
+			if (timeSinceLastFired >= PLAYER_FIRE_RATE) {
+				Add_Bullet(bulletPool, player->transform.position);
 				timeSinceLastFired = 0;
 				if (!audioPlayed) {
 					AEAudioPlay(playerShootSound, playerAudioGroup, 0.1f, 1.f, 0);

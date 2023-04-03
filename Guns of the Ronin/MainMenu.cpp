@@ -169,7 +169,7 @@ void Init_Menu() {
 	creditButton.transform.rotation = MAIN_MENU_ROTATION;
 	creditButton.transform.mesh = &quitMesh;
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), quitPromptMesh, QUIT_PROMPT_BG_HEIGHT, QUIT_PROMPT_BG_WIDTH);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), quitPromptMesh, QUIT_PROMPT_BG_HEIGHT, QUIT_PROMPT_BG_WIDTH);
 	quitPrompt.transform.texture = &quitPromptTexture;
 	quitPrompt.transform.position = { 0.0f,0.0f };
 	quitPrompt.transform.scale = { 0.f,-0.f };

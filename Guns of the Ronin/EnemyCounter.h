@@ -6,7 +6,7 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file		EnemyCounter
+@file		EnemyCounter.h
 @author		Zeng ZhiCheng
 @Email		z.zhicheng@digipen.edu
 @course		CSD 1451

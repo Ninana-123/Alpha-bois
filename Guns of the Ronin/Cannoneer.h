@@ -12,7 +12,7 @@
 @course		CSD 1451
 @section	Section A
 @date		2 April 2023
-@brief This file contains declaration of variables, functions and structs used to run the Cannoneer enemy
+@brief		This file contains declaration of variables, functions and structs used to run the Cannoneer enemy
 *//*______________________________________________________________________*/
 #pragma once
 

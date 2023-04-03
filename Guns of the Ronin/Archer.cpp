@@ -122,7 +122,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 			break;
 
 			// Wind shrine
-		case ARCHER_BLOWNAWAY:
+		case ARCHER_BLOWN_AWAY:
 			Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
 			curArcher->transform.position += direction * ARCHER_SWEEP_MS * deltaTime;
 			if (curArcher->transform.position.within_Dist(curArcher->targetPos, 15.0f)) {
@@ -167,7 +167,7 @@ void Dmg_Archer(ArcherPool& pool, PlayerInfo playerInfo, int index) {
 //Push Archers in the specified direction to the specific wordPos in the according axis
 void Push_Archer(ArcherPool& pool, DIRECTION direction, float targetAxis) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		pool.activeArchers[i]->aiState = ARCHER_BLOWNAWAY;
+		pool.activeArchers[i]->aiState = ARCHER_BLOWN_AWAY;
 		switch (direction)
 		{
 		case VERTICAL:
