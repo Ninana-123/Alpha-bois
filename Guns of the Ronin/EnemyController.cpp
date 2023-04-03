@@ -99,7 +99,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 	}
 
 	//all enemies in the current wave defeated
-	if (!enemiesLeft) {
+	if (!enemiesLeft && !gameEnded) {
 		++curWave;
 		//If final wave 10 is cleared, playthrough is finished
 		if (curWave > NUM_OF_WAVES) {

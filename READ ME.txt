@@ -15,8 +15,15 @@ Controls
 -  WASD to move player , W(UP), S(DOWN), A(LEFT), D(RIGHT)
 - left mouse click to shoot at enemies
 
+Gameplay features
+- Complete 10 waves to finish the game 
+- Clear the game (wave 10) within 20 mins to earn bonus score
+
 Cheat codes
 - Press keyboard 1-0 to skip to waves 1-10 respectively in the main menu
+	- Archers spawn from wave 2 onwards
+	- Cannoneers spawn from wave 5 onwards
+	- Ninja spawn from wave 7 onwards
 
 Credits (including all the credits of your game found in the credits screen)
 
