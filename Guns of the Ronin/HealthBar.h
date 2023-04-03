@@ -57,10 +57,10 @@ struct BarPool {
 	Health cannon[CANNONEER_COUNT];
 };
 
-void Init_Health_Bar(BarPool& barPool, Health* health);
-void Health_Bar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, 
+void Init_HealthBar(BarPool& barPool, Health* health);
+void HealthBar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, 
 	NinjaPool& ninPool, CannoneerPool& canPool);
-void Health_Bar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool);
-void Health_Bar_Free();
+void HealthBar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool);
+void HealthBar_Free();
 
 #endif

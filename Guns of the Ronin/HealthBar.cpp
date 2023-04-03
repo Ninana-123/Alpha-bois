@@ -19,7 +19,7 @@
 #include "Player.h"
 #include <iostream>
 
-void Init_Health_Bar(BarPool& barPool, Health* health) { 
+void Init_HealthBar(BarPool& barPool, Health* health) { 
 	Create_QuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(0, 1.0f, 0, 1.0f), healthMesh);
 	health->playerBar.mesh = &healthMesh;
 
@@ -44,7 +44,7 @@ void Init_Health_Bar(BarPool& barPool, Health* health) {
 	}
 }
 
-void Health_Bar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
+void HealthBar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo, Player* player, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
 	//player health bar
 	health->playerBar.position = player->transform.position + Vector2(HEALTH_X, HEALTH_Y);
 	float CurrentPlayerHealthScale = (float)playerinfo.health / ENEMY_HEALTH * 1.0f;
@@ -79,7 +79,7 @@ void Health_Bar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo,
 	}
 }
 
-void Health_Bar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
+void HealthBar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
 	Draw_Mesh(&health->playerBar);
 	
 	for (int i = 0; i < samPool.activeSize; i++) {
@@ -99,7 +99,7 @@ void Health_Bar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, Arc
 	}
 }
 
-void Health_Bar_Free() {
+void HealthBar_Free() {
 	AEGfxMeshFree(healthMesh);
 	AEGfxMeshFree(samMesh);
 	AEGfxMeshFree(archMesh);
