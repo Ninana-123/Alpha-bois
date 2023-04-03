@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file		Samurai.h
+@author		Zeng ZhiCheng
+@Email		z.zhicheng@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		2 April 2023
+@brief		This file contains declaration of class, struct and functions used to run the samurai enemy
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -23,7 +23,7 @@
 #include "Player.h"
 #include "Bullets.h"
 namespace {
-	enum AI_STATE { MOVING, ATTACKING, BLOWNAWAY };
+	enum AI_STATE { MOVING, ATTACKING, BLOWN_AWAY };
 #define SAMURAI_COUNT 60
 #define SAMURAI_KILL_SCORE 50
 #define MIN_SPAWN_DIST 325.0f

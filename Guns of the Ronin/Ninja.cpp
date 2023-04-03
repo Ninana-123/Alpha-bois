@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file Ninja.cpp
-@author Sean Ang JiaBao
-@Email ang.s@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains function definition for the Ninjas (enemy)
+@file		Ninja.cpp
+@author		Sean Ang JiaBao
+@Email		ang.s@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains function definition for the Ninjas (enemy)
 *//*______________________________________________________________________*/
 
 #include "Ninja.h"

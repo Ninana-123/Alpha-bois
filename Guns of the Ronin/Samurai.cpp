@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file		Samurai.cpp
+@author		Zeng ZhiCheng
+@Email		z.zhicheng@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		2 April 2023
+@brief		This file contains declaration of class, struct and functions used to run the Samurai enemy
 *//*______________________________________________________________________*/
 #include "Samurai.h"
 #include "TimeManager.h"
@@ -55,6 +55,7 @@ void Add_Samurai(SamuraiPool& pool, Vector2 playerPos) {
 	}
 }
 
+//Initialize a pool of samurais
 void Init_SamuraiPool(SamuraiPool& pool) {
 	pool.activeSize = 0;
 	Create_QuadMesh(SAMURAI_WIDTH, SAMURAI_HEIGHT, Color(0, 1, 0), samuraiMesh, SAMURAI_TEXTURE_WIDTH, SAMURAI_TEXTURE_HEIGHT);
@@ -72,6 +73,8 @@ void Init_SamuraiPool(SamuraiPool& pool) {
 	samuraiTexture = AEGfxTextureLoad("Assets/Samurai_Combined.png");
 }
 
+
+//Update the AI of a pool of cannoneers
 void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 
 	Vector2 playerPos = player.transform.position;
@@ -139,7 +142,7 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 				}
 			}
 			break;
-		case BLOWNAWAY:
+		case BLOWN_AWAY:
 			Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
 			curSamurai->transform.position += direction * SAMURAI_SWEEP_MS * deltaTime;
 			if (curSamurai->transform.position.within_Dist(curSamurai->targetPos, SAMURAI_BLOWN_AWAY_ERROR)) {
@@ -153,6 +156,7 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 
 }
 
+//Damage a samurai in a pool
 void Dmg_Samurai(SamuraiPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeSamurais[index]->health -=playerInfo.att) <= 0) {
@@ -167,7 +171,7 @@ void Dmg_Samurai(SamuraiPool& pool, PlayerInfo playerInfo, int index) {
 //Push Samurais in the specified direction to the specific wordPos in the according axis
 void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		pool.activeSamurais[i]->aiState = BLOWNAWAY;
+		pool.activeSamurais[i]->aiState = BLOWN_AWAY;
 		switch (direction)
 		{
 		case VERTICAL:

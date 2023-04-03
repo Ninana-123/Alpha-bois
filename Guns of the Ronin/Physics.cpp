@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file			Physics.cpp
+@author			Zeng ZhiCheng
+@Email			z.zhicheng@digipen.edu
+@course			CSD 1451
+@section		Section A
+@date			2 April 2023
+@brief			This file contains definition of physics related classes (and definition of its member functions) and functions
 *//*______________________________________________________________________*/
 #include "Physics.h"
 #include <AEEngine.h>
@@ -20,6 +20,7 @@
 #include <iostream>
 
 
+//Check for static collision between 2 circles
 bool Col_StaticCircleCircle(Vector2 pos1, float radius1, Vector2 pos2, float radius2) {
 	if ((pos1 - pos2).magnitude() < (radius1 + radius2)) {
 		return true;
@@ -28,7 +29,7 @@ bool Col_StaticCircleCircle(Vector2 pos1, float radius1, Vector2 pos2, float rad
 }
 
 
-
+//Get a random point that is outside of a square of width minDist but within a bigger square of width maxDist 
 Vector2 Random_PointOutsideSquare(float minDist, float maxDist, Vector2 centerPos) {
 
 	int randGrid = rand() % 8 + 1;
@@ -78,6 +79,8 @@ Vector2 Random_PointOutsideSquare(float minDist, float maxDist, Vector2 centerPo
 	}
 	return Vector2(x, y);
 }
+
+//Get the direction of a bullet
 Vector2 Bullet_Dir(float mouseX, float mouseY, Vector2 PlayerPos) {
 	Vector2 direction;
 	direction.x = mouseX - PlayerPos.x;

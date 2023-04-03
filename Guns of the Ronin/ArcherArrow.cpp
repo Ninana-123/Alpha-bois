@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file ArcherArrow.cpp
-@author Sean Ang JiaBao
-@Email ang.s@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains function definitions for the archer's projectiles (arrows)
+@file		ArcherArrow.cpp
+@author		Sean Ang JiaBao
+@Email		ang.s@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains function definitions for the archer's projectiles (arrows)
 *//*______________________________________________________________________*/
 
 #include "ArcherArrow.h"

@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file NinjaShuriken.cpp
-@author Sean Ang JiaBao
-@Email ang.s@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains function definitions for the ninja's projectiles (shuriken)
+@file		NinjaShuriken.cpp
+@author		Sean Ang JiaBao
+@Email		ang.s@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains function definitions for the ninja's projectiles (shuriken)
 *//*______________________________________________________________________*/
 #include "NinjaShuriken.h"
 #include "Player.h"

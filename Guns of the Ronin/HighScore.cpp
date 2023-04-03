@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file			HighScore.cpp
+@author			Zeng ZhiCheng
+@Email			z.zhicheng@digipen.edu
+@course			CSD 1451
+@section		Section A
+@date			2 April 2023
+@brief			This file contains definition of functions and variables related to high scores
 *//*______________________________________________________________________*/
 #include "HighScore.h"
 #include <fstream>
@@ -26,6 +26,7 @@ bool curGameEnded = false;
 //The max amount of time the player needs to finish all 10 waves by
 //in order to earn bonus score from time 20min * 60s
 #define MAX_TIME_FOR_BONUS 1200.0f
+#define TIME_TO_SCORE_MULTIPLIER 10.0f
 
 std::vector<int> highscores;
 AEGfxVertexList* highScoreBGMesh = 0;
@@ -52,17 +53,18 @@ int mouseXPos = 0;
 int mouseYPos = 0;
 int spriteIndex = 0;
 
-
+//reset the current high score
 void Reset_HighScore() {
 	curHighScore = 0;
 	curGameEnded = false;
 }
 
+//Add score of val to the current high score
 void Add_Score(int val) {
 	curHighScore += val;
 }
 
-//Only to be called when all waves are completed
+//To update into the list of high scores
 void Finalize_HighScore(bool playerDead) {
 	//If the current high score is 0 dont add it into the list of high score
 	if (curHighScore == 0) {
@@ -71,7 +73,7 @@ void Finalize_HighScore(bool playerDead) {
 	//the bonus score from time, only playthroughs that cleared all waves will recieve it
 	if (!playerDead && curGameTime < MAX_TIME_FOR_BONUS) {
 		//it is equal to maxTimeBonus * 10(make number bigger) - (time took to complete all 10 waves) * 10
-		curHighScore += static_cast<int>(MAX_TIME_FOR_BONUS * 10.0f - (curGameTime * 10.0f));
+		curHighScore += static_cast<int>(MAX_TIME_FOR_BONUS * TIME_TO_SCORE_MULTIPLIER - (curGameTime * TIME_TO_SCORE_MULTIPLIER));
 	}
 	highscores.push_back(curHighScore);
 	Sort_HighScores();
@@ -134,6 +136,7 @@ void Update_HighScoreFile() {
 	file.close();
 }
 
+//Initialize the high score screen
 void Init_HighScoreScreen() {
 
 	/*     QUIT BUTTON     */
@@ -155,7 +158,7 @@ void Init_HighScoreScreen() {
 	highScoreWindow.scale = { 1600,900 };
 }
 
-
+//Update the high score screen
 void Update_HighScoreScreen() {
 	AEInputGetCursorPosition(&mouseXPos, &mouseYPos);
 	mouseXPos = mouseXPos - HALF_WIN_WIDTH;
@@ -170,7 +173,7 @@ void Update_HighScoreScreen() {
 	else spriteIndex = 2;
 }
 
-
+//Draw the high score screen
 void Draw_HighScoreScreen() {
 
 	Draw_Mesh(&highScoreWindow);
@@ -189,6 +192,7 @@ void Draw_HighScoreScreen() {
 	Draw_StaticSprite(&quitButton, spriteIndex);
 }
 
+//free the high score screen
 void Free_HighScoreScreen() {
 	AEGfxMeshFree(highScoreBGMesh);
 	AEGfxMeshFree(quitButtonMesh);

@@ -5,19 +5,21 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file			Graphics.cpp
+@author			Zeng ZhiCheng
+@Email			z.zhicheng@digipen.edu
+@co-author(s)	
+@course			CSD 1451
+@section		Section A
+@date			2 April 2023
+@brief			This file contains declaration of class, struct and functions used to run the Cannoneer enemy
 *//*______________________________________________________________________*/
 #include "Graphics.h"
 #include "TimeManager.h"
 
-
+//Initialize graphics 
 //void G_Init() {
+	//load font
 //	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 20);
 //}
 
@@ -32,28 +34,32 @@
 //	AEGfxPrint(font, ch, xPos / boundaryX, yPos / boundaryY, scale, color.r, color.g, color.b);
 //}
 
-//
+//Set font size
 //void G_SetFontSize(int size) {
 //	AEGfxDestroyFont(font);
 //	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", size);
 //}
 
+//Destroy the font
 //void G_DestroyFont() {
 //	AEGfxDestroyFont(font);
 //}
 
+//Get absolute value of a float
 float Absf(float val) {
 	return val < 0.0f ? (val * -1.0f) : val;
 }
 
-
+//Change argb values into a colour code for alpha engine
 unsigned int Create_ARGB(float r, float g, float b, float a)
 {
 	int ca = int(a * 255), cr = int(r * 255), cg = int(g * 255), cb = int(b * 255);
 	return ((ca & 0xff) << 24) + ((cr & 0xff) << 16) + ((cg & 0xff) << 8) + ((cb & 0xff));
 }
 
-void Create_QuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float texture_w, float texture_h) {
+//Create a quad mesh 
+//TexureWidth and TextureHeight is the texture UV width and height (out of 1.0f)
+void Create_QuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float textureWidth, float textureHeight) {
 	//AEGfxVertexList* pMesh = 0;
 	unsigned int colorCode = Create_ARGB(color.r, color.g, color.b, color.a);
 	AEGfxMeshStart();
@@ -62,17 +68,17 @@ void Create_QuadMesh(float width, float height, Color color, AEGfxVertexList*& m
 	// UV coordinates to read from loaded textures
 	AEGfxTriAdd(
 		-width / 2.0f, -height / 2.0f, colorCode, 0.0f, 0.0f,
-		width / 2.0f, -height / 2.0f, colorCode, texture_w, 0.0f,
-		-width / 2.0f, height / 2.0f, colorCode, 0.0f, texture_h);
+		width / 2.0f, -height / 2.0f, colorCode, textureWidth, 0.0f,
+		-width / 2.0f, height / 2.0f, colorCode, 0.0f, textureHeight);
 	AEGfxTriAdd(
-		width / 2.0f, -height / 2.0f, colorCode, texture_w, 0.0f,
-		width / 2.0f, height / 2.0f, colorCode, texture_w, texture_h,
-		-width / 2.0f, height / 2.0f, colorCode, 0.0f, texture_h);
+		width / 2.0f, -height / 2.0f, colorCode, textureWidth, 0.0f,
+		width / 2.0f, height / 2.0f, colorCode, textureWidth, textureHeight,
+		-width / 2.0f, height / 2.0f, colorCode, 0.0f, textureHeight);
 	// Saving the mesh (list of triangles) in pMesh
 	mesh = AEGfxMeshEnd();
 }
 
-
+//Set quad points for AABB collision check
 void Set_QuadPoints(Transform& trans, bool useCol) {
 	float height = useCol ? trans.colliderSize.y / 2.0f : trans.height * Absf(trans.scale.y) / 2.0f;
 	float width = useCol ? trans.colliderSize.x / 2.0f : trans.width * Absf(trans.scale.x) / 2.0f;
@@ -87,6 +93,7 @@ void Set_QuadPoints(Transform& trans, bool useCol) {
 		trans.position.y + (useCol ? trans.colliderOffsetPos.y : 0) - height);
 }
 
+//Check for AABB collision
 bool Col_StaticQuadQuad(Transform trans1, Transform trans2) {
 	bool collided = true;
 	if (trans1.quadPoints[0].x > trans2.quadPoints[1].x) {
@@ -153,7 +160,7 @@ bool Col_QuadCircle(Transform const& quadTrans, Transform const& circleTrans, bo
 }
 
 
-
+//Draw a mesh using an object's transform's information
 void Draw_Mesh(Transform* trans) {
 
 	//If the transform has texture, draw the texture
@@ -238,6 +245,7 @@ void Draw_QuadCollider(Transform* trans, AEGfxVertexList*& colliderMesh) {
 	AEGfxMeshDraw(colliderMesh, AE_GFX_MDM_TRIANGLES);
 }
 
+//Create a circular mesh
 void Create_CircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {
 	unsigned int colorCode = Create_ARGB(color.r, color.g, color.b, color.a);
 	AEGfxMeshStart();
@@ -253,10 +261,11 @@ void Create_CircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {
 	mesh = AEGfxMeshEnd();
 }
 
-
+//Default constructor
 Sprite_Animation::Sprite_Animation() {
 
 }
+//Constructor
 Sprite_Animation::Sprite_Animation(float frame_Rate, int x_Count, int y_Count, Anim_Mode mode) :
 	frameRate{ frame_Rate }, xCount{ x_Count }, yCount{ y_Count }, playMode{ mode }
 {
@@ -266,23 +275,26 @@ Sprite_Animation::Sprite_Animation(float frame_Rate, int x_Count, int y_Count, A
 	frameTime = 1.0f / frameRate;
 }
 
+//Member function to start playing animation
 void Sprite_Animation::play_Anim() {
 	playAnim = true;
 }
 
+//Member function to pause animation
 void Sprite_Animation::pause_Anim() {
 	playAnim = false;
 }
 
-//Get the current frame number
+//Member function to get the current frame number
 int Sprite_Animation::current_Frame() {
 	return frameCurrent;
 }
-//Check if animation is playing
+//Member function to check if animation is playing
 bool Sprite_Animation::is_Playing() {
 	return playAnim;
 }
 
+//Member function to reset the animation
 void Sprite_Animation::reset_Anim(Transform& trans) {
 	playAnim = false;
 	textureXIndex = 0;
@@ -293,7 +305,7 @@ void Sprite_Animation::reset_Anim(Transform& trans) {
 	animTimer = 0;
 }
 
-
+//Member function to change animation to its next frame
 void Sprite_Animation::next_Frame(Transform& trans) {
 	++frameCurrent;
 	
@@ -315,6 +327,8 @@ void Sprite_Animation::next_Frame(Transform& trans) {
 		}
 	}
 }
+
+//Member function to update the animation of a transform
 void Sprite_Animation::update_SpriteAnim(Transform& trans) {
 	//If animation is not supposed to play
 	if (!playAnim) {
@@ -329,10 +343,12 @@ void Sprite_Animation::update_SpriteAnim(Transform& trans) {
 
 }
 
+//Flip a transform's texture horizontally
 void Flip_TextureX(Transform& trans) {
 	trans.scale.x *= -1.0f;
 }
 
+//Flip a transform's texture vertically
 void Flip_TextureY(Transform& trans) {
 	trans.scale.y *= -1.0f;
 }
@@ -372,8 +388,5 @@ bool Is_ButtonHover(float area_center_x, float area_center_y, float area_width, 
 	else {
 		return false;
 	}
-
-
-
 
 }

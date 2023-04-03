@@ -5,13 +5,15 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file PauseMenu.h
-@author Sean Ang JiaBao
-@Email ang.s@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains function declarations for the pause menu
+@file		PauseMenu.h
+@author		Sean Ang JiaBao
+@Email		ang.s@digipen.edu
+@co-auhtor	Zeng ZhiCheng
+@Email		z.zhicheng@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains function declarations for the pause menu
 *//*______________________________________________________________________*/
 
 #pragma once
@@ -34,7 +36,7 @@ namespace {
 class PauseMenu {
 public:
 	Transform transform;
-	bool esc_pressed = false;
+	bool escPressed = false;
 };
 
 void Init_PauseMenu();

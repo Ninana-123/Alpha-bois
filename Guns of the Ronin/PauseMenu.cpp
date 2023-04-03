@@ -5,13 +5,15 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file PauseMenu.cpp
-@author Sean Ang JiaBao
-@Email ang.s@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains function definitions for the pause menu
+@file		PauseMenu.cpp
+@author		Sean Ang JiaBao
+@Email		ang.s@digipen.edu
+@co-author	Zeng ZhiCheng
+@email		z.zhicheng@digipen.edu 
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains function definitions for the pause menu
 *//*______________________________________________________________________*/
 
 #include "PauseMenu.h"
@@ -98,9 +100,9 @@ void Init_PauseMenu() {
 
 void Update_PauseMenu(PlayerInfo const& playerInfo) {
 
-	pauseMenu.esc_pressed = AEInputCheckTriggered(AEVK_ESCAPE);
+	pauseMenu.escPressed = AEInputCheckTriggered(AEVK_ESCAPE);
 	// if esc is pressed
-	if (pauseMenu.esc_pressed) {
+	if (pauseMenu.escPressed) {
 		AEAudioPauseGroup(mainsceneAudioGroup);
 		if (!Is_TimePaused()) {	
 			Pause_Time();		// pause time if time is not paused

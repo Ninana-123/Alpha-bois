@@ -6,13 +6,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file ArcherArrow.h
-@author Sean Ang JiaBao
-@Email ang.s@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains function declarations for the archer's projectiles (arrows)
+@file		ArcherArrow.h
+@author		Sean Ang JiaBao
+@Email		ang.s@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains function declarations for the archer's projectiles (arrows)
 *//*______________________________________________________________________*/
 #pragma once
 

@@ -6,13 +6,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file		Cannoneer.h
+@author		Zeng ZhiCheng
+@Email		z.zhicheng@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		2 April 2023
+@brief This file contains declaration of variables, functions and structs used to run the Cannoneer enemy
 *//*______________________________________________________________________*/
 #pragma once
 

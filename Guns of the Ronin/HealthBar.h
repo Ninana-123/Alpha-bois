@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file healthbar.h
-@author Vance Tay
-@Email junfengvance.t@digipen.edu
-@course CSD 1451
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file		healthbar.h
+@author		Vance Tay
+@Email		junfengvance.t@digipen.edu
+@course		CSD 1451
+@section	Section A
+@date		3 March 2023
+@brief		This file contains code for the credit screen.
 *//*______________________________________________________________________*/
 #pragma once
 #include "Graphics.h"
