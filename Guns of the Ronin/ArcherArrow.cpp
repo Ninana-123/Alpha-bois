@@ -83,17 +83,17 @@ void Draw_Arrow(ArrowPool& pool) {
 void AI_Arrow(ArrowPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
 		Set_QuadPoints(pool.activeArrow[i]->transform, true);
-		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * arrowSpeed;
-		if (pool.activeArrow[i]->transform.position.x > arrowBoundaryX) {
+		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * ARROW_SPEED;
+		if (pool.activeArrow[i]->transform.position.x > ARROW_BOUNDARY_X) {
 			Remove_Arrow(i, pool);
 		}
-		else if (pool.activeArrow[i]->transform.position.x < -arrowBoundaryX) {
+		else if (pool.activeArrow[i]->transform.position.x < -ARROW_BOUNDARY_X) {
 			Remove_Arrow(i, pool);
 		}
-		else if (pool.activeArrow[i]->transform.position.y > arrowBoundaryY) {
+		else if (pool.activeArrow[i]->transform.position.y > ARROW_BOUNDARY_Y) {
 			Remove_Arrow(i, pool);
 		}
-		else if (pool.activeArrow[i]->transform.position.y < -arrowBoundaryY) {
+		else if (pool.activeArrow[i]->transform.position.y < -ARROW_BOUNDARY_Y) {
 			Remove_Arrow(i, pool);
 		}
 	}
