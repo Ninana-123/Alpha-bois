@@ -5,39 +5,33 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file		void.cpp
-@author		Teo Sheen Yeoh
-@Email		t.sheenyeoh@digipen.edu
-@course		CSD 1450
-@section	Section A
-@date		3 March 2023
-@brief		This file contains code for the credit screen.
+@file Player.cpp
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
+@section Section A
+@date 31 January 2023
+@brief This file contains definition for Main Player mechanics
 *//*______________________________________________________________________*/
 #include "Player.h"
 #include "TimeManager.h"
-
-float dirSpeed = 2.f;
 
 enum class DirPressed { LEFT, RIGHT};
 DirPressed prevDir = DirPressed::LEFT, curDir = DirPressed::RIGHT;
 
 float timeSinceLastFired = 0.0f;
 
-#define PLAYER_MAX_X_POS 780
-#define PLAYER_MAX_Y_POS 420
-
-
-void Player_Init(Player* player,BulletPool &bulletPool) {
+void Init_Player(Player* player,BulletPool &bulletPool) {
 
 	player->transform.color = Color(1, 1, 1, 1);
-	Create_QuadMesh(PLAYER_HEIGHT, PLAYER_WIDTH, player->transform.color, playerMesh,1.0f/5.0f,1.0f);
+	Create_QuadMesh(PLAYER_HEIGHT, PLAYER_WIDTH, player->transform.color, playerMesh, PLAYER_SPRITE_HEIGHT / PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT);
 	playerTexture = AEGfxTextureLoad("Assets/RoninSpriteSheet.png");
 	player->transform.texture = &playerTexture;
 	player->transform.height = PLAYER_HEIGHT;
 	player->transform.width = PLAYER_WIDTH;
 	player->transform.position = {0.f,0.f};
 	player->transform.mesh = &playerMesh;
-	player->transform.colliderSize = { 50,80 };
+	player->transform.colliderSize = { PLAYER_COLLIDER_X,PLAYER_COLLIDER_Y };
 	player->transform.colliderOffsetPos = { 0, PLAYER_HEIGHT * -0.1f };
 
 	Init_BulletPool(bulletPool);
@@ -45,7 +39,7 @@ void Player_Init(Player* player,BulletPool &bulletPool) {
 
 
 
-void Player_Update(Player* player,BulletPool &bulletPool) {
+void Update_Player(Player* player,BulletPool &bulletPool) {
 
 	if (!Is_TimePaused()) {
 		
@@ -57,15 +51,15 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 		Vector2 vel{ };
 		Vector2 acc{ };
 
-		player->w_Pressed = AEInputCheckCurr(AEVK_W);
-		player->a_Pressed = AEInputCheckCurr(AEVK_A);
-		player->s_Pressed = AEInputCheckCurr(AEVK_S);
-		player->d_Pressed = AEInputCheckCurr(AEVK_D);
+		player->wPressed = AEInputCheckCurr(AEVK_W);
+		player->aPressed = AEInputCheckCurr(AEVK_A);
+		player->sPressed = AEInputCheckCurr(AEVK_S);
+		player->dPressed = AEInputCheckCurr(AEVK_D);
 		
 
-		if (player->w_Pressed) {
+		if (player->wPressed) {
 			
-			newPos.y = player->moveSpeed * deltaTime;
+			newPos.y = PLAYER_MOVEMENT_SPEED * deltaTime;
 			if (frameTimer >= 0.2f) {
 				player->animation.play_Anim();
 				player->animation.next_Frame(player->transform);
@@ -73,8 +67,8 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 				frameTimer = 0;
 			}
 		}
-		if (player->a_Pressed) {
-			newPos.x = -player->moveSpeed * deltaTime;
+		if (player->aPressed) {
+			newPos.x = -PLAYER_MOVEMENT_SPEED * deltaTime;
 			curDir = DirPressed::LEFT;
 			if (curDir != prevDir) {
 				Flip_TextureX(player->transform);
@@ -88,8 +82,8 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 			}
 		}
 
-		if (player->s_Pressed) {
-			newPos.y = -player->moveSpeed * deltaTime;
+		if (player->sPressed) {
+			newPos.y = -PLAYER_MOVEMENT_SPEED * deltaTime;
 			if (frameTimer >= 0.2f) {
 				player->animation.play_Anim();
 				player->animation.next_Frame(player->transform);
@@ -97,8 +91,8 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 				frameTimer = 0;
 			}
 		}
-		if (player->d_Pressed) {
-			newPos.x = player->moveSpeed * deltaTime;
+		if (player->dPressed) {
+			newPos.x = PLAYER_MOVEMENT_SPEED * deltaTime;
 			curDir = DirPressed::RIGHT;
 			if (curDir != prevDir) {
 				prevDir = curDir;
@@ -112,12 +106,12 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 			}
 		}
 
-		acc = (newPos * dirSpeed);
+		acc = (newPos * PLAYER_DIRECTION_SPEED);
 		vel = (vel + acc);
 		newPos = (newPos + vel);
 
 		
-		player->left_mouse_pressed = AEInputCheckTriggered(AEVK_LBUTTON);
+		player->leftMousePressed = AEInputCheckTriggered(AEVK_LBUTTON);
 		//player->left_mouse_pressed = AEInputCheckCurr(AEVK_LBUTTON);
 
 		timeSinceLastFired += deltaTime;
@@ -151,7 +145,7 @@ void Draw_Player(Player* player,BulletPool &bulletPool) {
 	Draw_Bullet(bulletPool);
 }
 
-void player_dmg(PlayerInfo& info,int dmg) {
+void Damage_Player(PlayerInfo& info,int dmg) {
 	info.health -= dmg;
 	if (info.health <= 0) {
 		info.playerDead= 1;

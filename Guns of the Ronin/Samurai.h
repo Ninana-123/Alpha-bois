@@ -67,7 +67,7 @@ public:
 };
 
 struct SamuraiPool {
-	Samurai samurais[SAMURAI_COUNT];
+	Samurai samurais[SAMURAI_COUNT]{};
 	Samurai* activeSamurais[SAMURAI_COUNT]{ };
 	int activeSize = 0;
 };

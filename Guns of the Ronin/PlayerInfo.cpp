@@ -5,13 +5,16 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file PlayerInfo.cpp
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@date 31 January 2023
+@brief This file contains definition for playerinfo.
+		Playerinfo file was initially integrated for the Shop. However, after our product pitch
+		it was reccomended to focus on our unique shrines and scrape the shop. Thus, this file
+		is here.
 *//*______________________________________________________________________*/
 #include "PlayerInfo.h"
 #include <string>
@@ -19,19 +22,7 @@
 
 
 void PlayerInfo_Init(PlayerInfo* playerinfo) {
-	playerinfo->att = 50;	// max 100 attack?
-	playerinfo->attspd = 1;	// max level 5 attack speed?
+	playerinfo->att = 50;
 	playerinfo->health = 100;
-	playerinfo->movementspd = 10;
-	playerinfo->dash = 0;
 	playerinfo->playerDead = false;
-	//playerinfo->weaponlevel = 0;	
-}
-
-void PlayerInfo_Update(PlayerInfo *playerinfo, std::string name) {
-
-}
-
-void PlayerInfo_Exit() {
-
 }

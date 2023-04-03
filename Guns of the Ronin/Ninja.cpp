@@ -175,7 +175,7 @@ void AI_Ninja(NinjaPool& pool, Player& player, PlayerInfo& playerInfo) {
 		proj->timeSince_lastDmgDeal += deltaTime;
 		if (Col_StaticQuadQuad(proj->transform, player.transform)) {
 			if (proj->timeSince_lastDmgDeal > NINJA_ATTACK_INTERVAL) {
-				player_dmg(playerInfo, NINJA_DAMAGE);
+				Damage_Player(playerInfo, NINJA_DAMAGE);
 				proj->timeSince_lastDmgDeal = 0;
 				ShurikenRemove(i, shuriken);
 			}
@@ -193,6 +193,7 @@ void Dmg_Ninja(NinjaPool& pool, PlayerInfo& playerInfo, Player& player, int inde
 		pool.activeNinjas[index]->isHit = true;
 		pool.activeNinjas[index]->anim.reset_Anim(pool.activeNinjas[index]->transform);
 		pool.activeNinjas[index]->dmgDealt = false;
+
 	}
 	// if shield does not exist and ninja health below 0, remove ninja
 	else{

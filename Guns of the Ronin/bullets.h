@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Bullets.h
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@date 31 January 2023
+@brief This file contains declaration for Bullets.cpp source file as well as defines and mesh.
 *//*______________________________________________________________________*/
 #pragma once
 
@@ -24,9 +24,13 @@
 
 
 namespace {
+
 	enum { BULLET_COUNT = 20 };
-	//int PROJDAMAGE = 50;
-	float BULLET_HEIGHT = 20, BULLET_WIDTH = 20;
+	#define BULLET_HEIGHT 20
+	#define BULLET_WIDTH 20
+	#define BULLET_SCALE_X 1.5f
+	#define BULLET_SCALE_Y 1.5f
+	#define BULLET_SPEED 500.0f
 	AEGfxVertexList* bulletMesh = 0;
 	AEGfxTexture* bulletTexture = 0;
 }
@@ -34,17 +38,16 @@ class Bullet {
 public:
 	Transform transform;
 	bool enabled;
-	//int dmg;
 	Vector2 direction;
 };
 
 struct BulletPool {
-	Bullet bullets[BULLET_COUNT];
-	Bullet* activeBullets[BULLET_COUNT];
-	int activeSize;
+	Bullet bullets[BULLET_COUNT]{};
+	Bullet* activeBullets[BULLET_COUNT]{};
+	int activeSize = 0;
 };
 
-void BulletAdd(BulletPool& bullet,Vector2 playerPos);
+void Add_Bullet(BulletPool& bullet,Vector2 playerPos);
 
 void Init_BulletPool(BulletPool& bullet);
 
@@ -52,7 +55,7 @@ void Draw_Bullet(BulletPool& bullet);
 
 void Bullet_AI(BulletPool& pool);
 
-void BulletRemove(int index, BulletPool& pool);
+void Remove_Bullet(int index, BulletPool& pool);
 
 void Free_Bullet();
 

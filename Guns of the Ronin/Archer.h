@@ -59,8 +59,8 @@ public:
 };
 
 struct ArcherPool {
-	Archer archers[ARCHER_COUNT];
-	Archer* activeArchers[ARCHER_COUNT];
+	Archer archers[ARCHER_COUNT]{};
+	Archer* activeArchers[ARCHER_COUNT]{};
 	int activeSize = 0;
 };
 

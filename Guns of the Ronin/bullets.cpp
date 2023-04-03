@@ -5,13 +5,13 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file Bullets.h
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@date 31 January 2023
+@brief This file contains definitions for player's bullet system
 *//*______________________________________________________________________*/
 #include "Bullets.h"
 #include "Player.h"
@@ -22,7 +22,7 @@ float halfX, halfY;
 float screenBoundaryX, screenBboundaryY;
 
 //When a Bullet dies / destroyed / you want to hide it / etc..
-void BulletRemove(int index, BulletPool& pool) {
+void Remove_Bullet(int index, BulletPool& pool) {
 	pool.activeBullets[index]->enabled = false;
 	if (index < (pool.activeSize - 1)) {
 		Bullet* temp = pool.activeBullets[index];
@@ -33,19 +33,17 @@ void BulletRemove(int index, BulletPool& pool) {
 }
 
 //Spawning a new Bullet
-void BulletAdd(BulletPool& pool,Vector2 playerPos ) {
+void Add_Bullet(BulletPool& pool,Vector2 playerPos ) {
 	AEInputGetCursorPosition(&mouseX, &mouseY);
 
 	for (int i = 0; i < BULLET_COUNT; i++) {
 		if (pool.activeBullets[i]->enabled == false) {
 			pool.activeBullets[i]->enabled = true;
-			//pool.activeBullets[i]->dmg = PROJDAMAGE;
 			pool.activeBullets[i]->transform.position = playerPos;			
 			pool.activeBullets[i]->direction =  (Vector2(mouseX >= halfX ? mouseX - halfX : -(halfX - mouseX),mouseY >= halfY ? -(mouseY - halfY) :halfY - mouseY) - playerPos).normalize();
 			pool.activeSize += 1; 
 			pool.activeBullets[i]->transform.texture = &bulletTexture;
 			pool.activeBullets[i]->transform.rotation = std::atan2(pool.activeBullets[i]->direction.y, pool.activeBullets[i]->direction.x);
-			//pool.activeBullets[i]->transform.scale = { 1,12 };
 			break;
 		}
 	}
@@ -63,7 +61,7 @@ void Init_BulletPool(BulletPool& pool) {
 		pool.bullets[i].enabled = false;
 		pool.bullets[i].transform.height = BULLET_HEIGHT;
 		pool.bullets[i].transform.width = BULLET_WIDTH;
-		pool.bullets[i].transform.scale = { 1.5f,1.5f };
+		pool.bullets[i].transform.scale = { BULLET_SCALE_X,BULLET_SCALE_Y };
 		pool.bullets[i].transform.mesh = &bulletMesh;
 		pool.bullets[i].transform.colliderSize = { BULLET_WIDTH, BULLET_HEIGHT * 0.35f };
 		//pool.bullets[i].dmg = PROJDAMAGE;
@@ -82,18 +80,18 @@ void Draw_Bullet(BulletPool& pool) {
 
 void Bullet_AI(BulletPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		pool.activeBullets[i]->transform.position += pool.activeBullets[i]->direction * deltaTime * 500.0f;
+		pool.activeBullets[i]->transform.position += pool.activeBullets[i]->direction * deltaTime * BULLET_SPEED;
 		if (pool.activeBullets[i]->transform.position.x > screenBoundaryX) {
-			BulletRemove(i, pool);
+			Remove_Bullet(i, pool);
 		}
 		else if (pool.activeBullets[i]->transform.position.x < -screenBoundaryX) {
-			BulletRemove(i, pool);
+			Remove_Bullet(i, pool);
 		}
 		else if (pool.activeBullets[i]->transform.position.y > screenBboundaryY) {
-			BulletRemove(i, pool);
+			Remove_Bullet(i, pool);
 		}
 		else if (pool.activeBullets[i]->transform.position.y < -screenBboundaryY) {
-			BulletRemove(i, pool);
+			Remove_Bullet(i, pool);
 		}
 	}
 }

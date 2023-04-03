@@ -5,13 +5,17 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@file MainMenu.h
+@author Kai Alexander Van Adrichem Boogaert
+@Email kaialexander.v@digipen.edu
+@course CSD 1451
 @section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@date 14 Febuary 2023
+@brief This file contains definition for the MainMenu page.
+		In MainMenu cheats are eneabled where pressing keyboard 
+		"1 to 0" toggles to waves 1 to 10 accordingly.
+		Quit prompt is also available when pressing quit will enable the prompt
+
 *//*______________________________________________________________________*/
 #include "MainMenu.h"
 #include "HighScore.h"
@@ -19,6 +23,8 @@
 AEGfxTexture* mainMenuBG;
 AEGfxTexture* buttonsSprite;
 AEGfxTexture* splashScreenTexture;
+AEGfxTexture* quitPromptTexture;
+
 /*MOUSE INPUT*/
 s32 mainMenuMousePosX;
 s32 mainMenuMousePosY;
@@ -36,6 +42,11 @@ s32 mainMenuMousePosY;
 #define SPLASHSCREEN_BG_Y 900.0f
 #define SPLASHSCREEN_BG_HEIGHT 1.0f
 #define SPLASHSCREEN_BG_WIDTH 1.0f
+
+#define QUIT_PROMPT_BG_HEIGHT 1.0f
+#define QUIT_PROMPT_BG_WIDTH 1.0f
+#define QUIT_PROMPT_FINAL_SCALE_X 1600.0f
+#define QUIT_PROMPT_FINAL_SCALE_Y 900.0f
 
 
 /*BUTTON VALUES*/
@@ -71,6 +82,7 @@ s32 mainMenuMousePosY;
 
 /*LEFT CLICK CHECK*/
 bool leftMousePressed;
+bool quitMenuOpen = false;
 
 MainMenu mainMenu;
 MainMenu playButton;
@@ -79,11 +91,12 @@ MainMenu highscoreButton;
 MainMenu quitButton;
 MainMenu creditButton;
 MainMenu splashScreen;
+MainMenu quitPrompt;
 
 s8 font;
 
 void Init_Menu() {
-	
+	AESysToggleFullScreen(true);
 	// Changing the window title
 	AESysSetWindowTitle("Guns of the Ronin");
 	// reset the system modules
@@ -91,6 +104,7 @@ void Init_Menu() {
 	mainMenuBG = AEGfxTextureLoad("Assets/MainMenu.png");
 	buttonsSprite = AEGfxTextureLoad("Assets/buttonspritesheet.png");
 	splashScreenTexture = AEGfxTextureLoad("Assets/DigiPen_BLACK_rights.png");
+	quitPromptTexture = AEGfxTextureLoad("Assets/QuitScreen.png");
 	
 	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), splashScreenMesh, SPLASHSCREEN_BG_HEIGHT, SPLASHSCREEN_BG_WIDTH);
 	splashScreen.transform.texture = &splashScreenTexture;
@@ -154,6 +168,16 @@ void Init_Menu() {
 	creditButton.transform.width = MAIN_MENU_BUTTON_WIDTH;
 	creditButton.transform.rotation = MAIN_MENU_ROTATION;
 	creditButton.transform.mesh = &quitMesh;
+	
+	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), quitPromptMesh, QUIT_PROMPT_BG_HEIGHT, QUIT_PROMPT_BG_WIDTH);
+	quitPrompt.transform.texture = &quitPromptTexture;
+	quitPrompt.transform.position = { 0.0f,0.0f };
+	quitPrompt.transform.scale = { 0.f,-0.f };
+	quitPrompt.transform.height = QUIT_PROMPT_BG_HEIGHT;
+	quitPrompt.transform.width = QUIT_PROMPT_BG_WIDTH;
+	quitPrompt.transform.rotation = MAIN_MENU_ROTATION;
+	quitPrompt.transform.mesh = &quitPromptMesh;
+	
 
 
 	AEAudioPlay(mainmenuSong,mainmenuAudioGroup, 1.f, 1.f, -1);
@@ -174,7 +198,7 @@ void Update_Menu() {
 	leftMousePressed = AEInputCheckReleased(AEVK_LBUTTON);
 
 	if (splasScreenTimer >= 2.f) {
-		splashScreen.transform.scale = { 0.f,0.f};
+		splashScreen.transform.scale = { 0.f,0.f };
 	}
 
 	if (frameTimer >= 0.3f) {
@@ -183,84 +207,98 @@ void Update_Menu() {
 		mainMenu.bgAnim.update_SpriteAnim(mainMenu.transform);
 		frameTimer = 0;
 	}
+	if (!quitMenuOpen)
+	{
 
-	if (Is_ButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX,&mainMenuMousePosY)) {
-		playButton.spriteIndex = PLAY_BUTTON_SPRITE_HOVER;
-		if (!audioPlayed) {
-			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
-			audioPlayed = true;
+		if (Is_ButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+			playButton.spriteIndex = PLAY_BUTTON_SPRITE_HOVER;
+			if (!audioPlayed) {
+				AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
+				audioPlayed = true;
+			}
+			if (leftMousePressed) {
+				AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+				AEAudioPauseGroup(mainmenuAudioGroup);
+				gGameStateNext = GS_LEVEL1;
+				Set_StartingWave(1);
+			}
 		}
-		if (leftMousePressed) {
-			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
-			AEAudioPauseGroup(mainmenuAudioGroup);
-			gGameStateNext = GS_LEVEL1;
-			Set_StartingWave(1);
+		else playButton.spriteIndex = PLAY_BUTTON_SPRITE;
+
+		if (Is_ButtonHover(MAIN_MENU_GUIDE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+			guideButton.spriteIndex = GUIDE_BUTTON_SPRITE_HOVER;
+			if (!audioPlayed) {
+				AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
+				audioPlayed = true;
+			}
+			if (leftMousePressed) {
+				AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+				AEAudioPauseGroup(mainmenuAudioGroup);
+				gGameStateNext = GS_GUIDE;
+			}
+		}
+		else guideButton.spriteIndex = GUIDE_BUTTON_SPRITE;
+
+		if (Is_ButtonHover(MAIN_MENU_HIGHSCORE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+			highscoreButton.spriteIndex = HIGHSCORE_BUTTON_SPRITE_HOVER;
+			if (!audioPlayed) {
+				AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
+				audioPlayed = true;
+			}
+			if (leftMousePressed) {
+				AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+				AEAudioPauseGroup(mainmenuAudioGroup);
+				gGameStateNext = GS_HIGHSCORES;
+			}
+		}
+		else highscoreButton.spriteIndex = HIGHSCORE_BUTTON_SPRITE;
+
+		if (Is_ButtonHover(MAIN_MENU_QUIT_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+			quitButton.spriteIndex = QUIT_BUTTON_SPRITE_HOVER;
+			if (!audioPlayed) {
+				AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
+				audioPlayed = true;
+			}
+			if (leftMousePressed) {
+				quitMenuOpen = true;
+				quitPrompt.transform.scale = { QUIT_PROMPT_FINAL_SCALE_X,-QUIT_PROMPT_FINAL_SCALE_Y };
+
+			}
+		}
+		else quitButton.spriteIndex = QUIT_BUTTON_SPRITE;
+
+		if (Is_ButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X / 2, -(MAIN_MENU_BUTTON_SCALE_Y / 2), &mainMenuMousePosX, &mainMenuMousePosY)) {
+			creditButton.spriteIndex = CREDIT_BUTTON_SPRITE_HOVER;
+			if (!audioPlayed) {
+				AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
+				audioPlayed = true;
+			}
+			if (leftMousePressed) {
+				AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
+				AEAudioPauseGroup(mainmenuAudioGroup);
+				gGameStateNext = GS_CREDITS;
+			}
+		}
+		else creditButton.spriteIndex = CREDIT_BUTTON_SPRITE;
+
+		if (!Is_ButtonHover(MAIN_MENU_GUIDE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+			!Is_ButtonHover(MAIN_MENU_HIGHSCORE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+			!Is_ButtonHover(MAIN_MENU_QUIT_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+			!Is_ButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
+			!Is_ButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
+			audioPlayed = false;
 		}
 	}
-	else playButton.spriteIndex = PLAY_BUTTON_SPRITE;
 
-	if (Is_ButtonHover(MAIN_MENU_GUIDE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
-		guideButton.spriteIndex = GUIDE_BUTTON_SPRITE_HOVER;
-		if (!audioPlayed) {
-			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
-			audioPlayed = true;
-		}
-		if (leftMousePressed) {
-			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
-			AEAudioPauseGroup(mainmenuAudioGroup);
-			gGameStateNext = GS_GUIDE;
-		}
-	}
-	else guideButton.spriteIndex = GUIDE_BUTTON_SPRITE;
-
-	if (Is_ButtonHover(MAIN_MENU_HIGHSCORE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
-		highscoreButton.spriteIndex = HIGHSCORE_BUTTON_SPRITE_HOVER;
-		if (!audioPlayed) {
-			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
-			audioPlayed = true;
-		}
-		if (leftMousePressed) {
-			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
-			AEAudioPauseGroup(mainmenuAudioGroup);
-			gGameStateNext = GS_HIGHSCORES;
-		}
-	}
-	else highscoreButton.spriteIndex = HIGHSCORE_BUTTON_SPRITE;
-
-	if (Is_ButtonHover(MAIN_MENU_QUIT_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
-		quitButton.spriteIndex = QUIT_BUTTON_SPRITE_HOVER;
-		if (!audioPlayed) {
-			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
-			audioPlayed = true;
-		}
-		if (leftMousePressed) {
+	if (quitPrompt.transform.scale.x == QUIT_PROMPT_FINAL_SCALE_X); {
+		if (AEInputCheckReleased(AEVK_Q)) {
 			gGameStateNext = GS_QUIT;
 		}
-	}
-	else quitButton.spriteIndex = QUIT_BUTTON_SPRITE;
-	
-	if (Is_ButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X / 2, -(MAIN_MENU_BUTTON_SCALE_Y / 2), &mainMenuMousePosX, &mainMenuMousePosY)) {
-		creditButton.spriteIndex = CREDIT_BUTTON_SPRITE_HOVER;
-		if (!audioPlayed) {
-			AEAudioPlay(buttonHoverSound, buttonsAudioGroup, 1.f, 1.f, 0);
-			audioPlayed = true;
-		}
-		if (leftMousePressed) {
-			AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
-			AEAudioPauseGroup(mainmenuAudioGroup);
-			gGameStateNext = GS_CREDITS;
+		if (AEInputCheckReleased(AEVK_E)) {
+			quitMenuOpen = false;
+			quitPrompt.transform.scale = { 0.f,0.f };
 		}
 	}
-	else creditButton.spriteIndex = CREDIT_BUTTON_SPRITE;
-
-	if (!Is_ButtonHover(MAIN_MENU_GUIDE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
-		!Is_ButtonHover(MAIN_MENU_HIGHSCORE_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
-		!Is_ButtonHover(MAIN_MENU_QUIT_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
-		!Is_ButtonHover(MAIN_MENU_CREDITS_BUTTON_X, MAIN_MENU_CREDITS_BUTTON_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY) &&
-		!Is_ButtonHover(MAIN_MENU_PLAY_BUTTON_X, MAIN_MENU_BUTTON_POS_Y, MAIN_MENU_BUTTON_SCALE_X, -MAIN_MENU_BUTTON_SCALE_Y, &mainMenuMousePosX, &mainMenuMousePosY)) {
-		audioPlayed = false;
-	}
-
 	if (AEInputCheckReleased(AEVK_1)) {
 		AEAudioPlay(buttonClickSound, buttonsAudioGroup, 1.f, 1.f, 0);
 		AEAudioPauseGroup(mainmenuAudioGroup);
@@ -331,6 +369,7 @@ void Draw_Menu() {
 	Draw_StaticSprite(&quitButton.transform, quitButton.spriteIndex);
 	Draw_StaticSprite(&creditButton.transform, creditButton.spriteIndex);
 	Draw_Mesh(&splashScreen.transform);
+	Draw_Mesh(&quitPrompt.transform);
 	
 }
 
@@ -342,10 +381,12 @@ void Free_Menu() {
 	AEGfxMeshFree(highscoreMesh);
 	AEGfxMeshFree(quitMesh);
 	AEGfxMeshFree(creditMesh);
+	AEGfxMeshFree(quitPromptMesh);
 
 	AEGfxTextureUnload(splashScreenTexture);
 	AEGfxTextureUnload(mainMenuBG);
 	AEGfxTextureUnload(buttonsSprite);
+	AEGfxTextureUnload(quitPromptTexture);
 
 }
 // ---------------------------------------------------------------------------
