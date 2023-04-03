@@ -180,195 +180,198 @@ void Shrine_Delete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool &ninPool, Player& player, PlayerInfo& playerInfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool)
+void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, Player& player, PlayerInfo& playerInfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool)
 {
-	duration += deltaTime;
-	//std::cout << duration << std::endl;
-	AEInputGetCursorPosition(mouseX, mouseY);
-	*mouseX = *mouseX - 800;
-	*mouseY = (*mouseY - 450) * -1;
-
-	if (duration >= 1.f)
+	if (!IsTime_Paused())
 	{
-		duration = 0;
-		Shrine_Add(shrinePool);
+		duration += deltaTime;
+		//std::cout << duration << std::endl;
+		AEInputGetCursorPosition(mouseX, mouseY);
+		*mouseX = *mouseX - 800;
+		*mouseY = (*mouseY - 450) * -1;
 
-	}
-
-	timeSincePause += deltaTime;
-	for (int i = 0; i < shrinePool.activeSize; i++)
-	{
-		SetQuadPoints(shrinePool.activeShrine[i]->transform);
-		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
+		if (duration >= 1.f)
 		{
-			shrinePool.activeShrine[i]->isColliding = true;
-			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
-			if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
+			duration = 0;
+			Shrine_Add(shrinePool);
+
+		}
+
+		timeSincePause += deltaTime;
+		for (int i = 0; i < shrinePool.activeSize; i++)
+		{
+			SetQuadPoints(shrinePool.activeShrine[i]->transform);
+			if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 			{
-				// Explosion shrine
-				if (shrinePool.activeShrine[i]->types == Shrine::EXPLOSION)
+				shrinePool.activeShrine[i]->isColliding = true;
+				shrinePool.activeShrine[i]->timeElapsed += deltaTime;
+				if (shrinePool.activeShrine[i]->timeElapsed >= 2.f)
 				{
-					AEAudioPlay(explosionSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-					for (int l = 0; l < EXPLOSION_COUNT; l++)
+					// Explosion shrine
+					if (shrinePool.activeShrine[i]->types == Shrine::EXPLOSION)
 					{
-						Explosion_Add(explosionPool);
-					}
-					Explosion_Update(explosionPool, archPool, canPool, ninPool);
-					Shrine_Delete(i, shrinePool);
-					break;
-				}
-
-				// Void shrine
-				if (shrinePool.activeShrine[i]->types == Shrine::VOIDS)
-				{
-					AEAudioPlay(voidSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-					for (int k = 0; k < VOID_COUNT; k++)
-					{
-						Void_Add(voidPool);
-					}
-					Void_Update(voidPool, samPool, archPool, canPool);
-					Shrine_Delete(i, shrinePool);
-					break;
-				}
-
-				// Freeze shrine
-				if (shrinePool.activeShrine[i]->types == Shrine::FREEZE)
-				{
-					AEAudioPlay(freezeSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-					TimePauseEnemy();
-					timeSincePause = 0.0f;
-					Shrine_Delete(i, shrinePool);
-				//std::cout << "Freeze tower" << std::endl;
-					break;
-				}
-
-				// Push shrine
-				if (shrinePool.activeShrine[i]->types == Shrine::PUSH)
-				{
-					AEAudioPlay(windSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-					Push_Enemies(samPool, archPool, HORIZONTAL, PUSH_BY, ninPool);
-					Shrine_Delete(i, shrinePool);
-					//std::cout << "Push tower" << std::endl;
-					break;
-				}
-
-				// Heal shrine
-				if (shrinePool.activeShrine[i]->types == Shrine::HEAL)
-				{
-					if (playerInfo.health < 100) {
-						AEAudioPlay(healthSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-						Heal_player(playerInfo);
+						AEAudioPlay(explosionSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
+						for (int l = 0; l < EXPLOSION_COUNT; l++)
+						{
+							Explosion_Add(explosionPool);
+						}
+						Explosion_Update(explosionPool, archPool, canPool, ninPool);
 						Shrine_Delete(i, shrinePool);
-						//std::cout << "Heal tower" << std::endl;
-						std::cout << playerInfo.health << std::endl;
 						break;
 					}
-				}
 
-				// GOD shrine
-				if (shrinePool.activeShrine[i]->types == Shrine::GOD)
-				{
-					int padding = 50;
-					// Check if its samurai 
-					for (int u = 0; u < samPool.activeSize; ++u)
+					// Void shrine
+					if (shrinePool.activeShrine[i]->types == Shrine::VOIDS)
 					{
-						if (AEInputCheckTriggered(AEVK_LBUTTON))
+						AEAudioPlay(voidSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
+						for (int k = 0; k < VOID_COUNT; k++)
 						{
-							if (*mouseX >= samPool.activeSamurais[u]->transform.position.x - padding &&
-								*mouseX <= samPool.activeSamurais[u]->transform.position.x + samPool.activeSamurais[u]->transform.width + padding &&
-								*mouseY >= samPool.activeSamurais[u]->transform.position.y - padding &&
-								*mouseY <= samPool.activeSamurais[u]->transform.position.y + samPool.activeSamurais[u]->transform.height + padding)
-							{
-								AEAudioPlay(godSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-								Remove_Samurai(u, samPool);
-								break;
-							}
+							Void_Add(voidPool);
 						}
-					}
-
-					// Check if its archers 
-					for (int z = 0; z < archPool.activeSize; ++z)
-					{
-						if (AEInputCheckTriggered(AEVK_LBUTTON))
-						{
-							if (*mouseX >= archPool.activeArchers[z]->transform.position.x - padding &&
-								*mouseX <= archPool.activeArchers[z]->transform.position.x + archPool.activeArchers[z]->transform.width + padding &&
-								*mouseY >= archPool.activeArchers[z]->transform.position.y - padding &&
-								*mouseY <= archPool.activeArchers[z]->transform.position.y + archPool.activeArchers[z]->transform.height + padding)
-							{
-							//std::cout << "Archer Clicked" << std::endl;
-								AEAudioPlay(godSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-								Remove_Archer(z, archPool);
-								break;
-							}
-						}
-					}
-
-					// Check if its ninjas 
-					for (int k = 0; k < ninPool.activeSize; ++k)
-					{
-						if (*mouseX >= ninPool.activeNinjas[k]->transform.position.x - padding &&
-							*mouseX <= ninPool.activeNinjas[k]->transform.position.x + ninPool.activeNinjas[k]->transform.width + padding &&
-							*mouseY >= ninPool.activeNinjas[k]->transform.position.y - padding &&
-							*mouseY <= ninPool.activeNinjas[k]->transform.position.y + ninPool.activeNinjas[k]->transform.height + padding)
-						{
-							if (AEInputCheckTriggered(AEVK_LBUTTON))
-							{
-								AEAudioPlay(godSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-								Remove_Ninja(k, ninPool);
-								break;
-							}
-						}
-					}
-
-					// Check if its cannons
-					for (int c = 0; c < canPool.activeSize; ++c)
-					{
-						if (*mouseX >= canPool.activeCannoneers[c]->transform.position.x - padding &&
-							*mouseX <= canPool.activeCannoneers[c]->transform.position.x + canPool.activeCannoneers[c]->transform.width + padding &&
-							*mouseY >= canPool.activeCannoneers[c]->transform.position.y - padding &&
-							*mouseY <= canPool.activeCannoneers[c]->transform.position.y + canPool.activeCannoneers[c]->transform.height + padding)
-						{
-							if (AEInputCheckTriggered(AEVK_LBUTTON))
-							{
-								AEAudioPlay(godSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-								CannoneerRemove(c, canPool);
-								break;
-							}
-						}
-					}
-
-					// Decrease timer every frame
-					shrinePool.activeShrine[i]->deleteTimer -= deltaTime;
-					// If timer reaches zero, delete shrine
-					if (shrinePool.activeShrine[i]->deleteTimer <= 0.0)
-					{
+						Void_Update(voidPool, samPool, archPool, canPool);
 						Shrine_Delete(i, shrinePool);
+						break;
 					}
-				}
 
+					// Freeze shrine
+					if (shrinePool.activeShrine[i]->types == Shrine::FREEZE)
+					{
+						AEAudioPlay(freezeSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
+						TimePauseEnemy();
+						timeSincePause = 0.0f;
+						Shrine_Delete(i, shrinePool);
+						//std::cout << "Freeze tower" << std::endl;
+						break;
+					}
+
+					// Push shrine
+					if (shrinePool.activeShrine[i]->types == Shrine::PUSH)
+					{
+						AEAudioPlay(windSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
+						Push_Enemies(samPool, archPool, HORIZONTAL, PUSH_BY, ninPool);
+						Shrine_Delete(i, shrinePool);
+						//std::cout << "Push tower" << std::endl;
+						break;
+					}
+
+					// Heal shrine
+					if (shrinePool.activeShrine[i]->types == Shrine::HEAL)
+					{
+						if (playerInfo.health < 100) {
+							AEAudioPlay(healthSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
+							Heal_player(playerInfo);
+							Shrine_Delete(i, shrinePool);
+							//std::cout << "Heal tower" << std::endl;
+							std::cout << playerInfo.health << std::endl;
+							break;
+						}
+					}
+
+					// GOD shrine
+					if (shrinePool.activeShrine[i]->types == Shrine::GOD)
+					{
+						int padding = 50;
+						// Check if its samurai 
+						for (int u = 0; u < samPool.activeSize; ++u)
+						{
+							if (AEInputCheckTriggered(AEVK_LBUTTON))
+							{
+								if (*mouseX >= samPool.activeSamurais[u]->transform.position.x - padding &&
+									*mouseX <= samPool.activeSamurais[u]->transform.position.x + samPool.activeSamurais[u]->transform.width + padding &&
+									*mouseY >= samPool.activeSamurais[u]->transform.position.y - padding &&
+									*mouseY <= samPool.activeSamurais[u]->transform.position.y + samPool.activeSamurais[u]->transform.height + padding)
+								{
+									AEAudioPlay(godSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
+									Remove_Samurai(u, samPool);
+									break;
+								}
+							}
+						}
+
+						// Check if its archers 
+						for (int z = 0; z < archPool.activeSize; ++z)
+						{
+							if (AEInputCheckTriggered(AEVK_LBUTTON))
+							{
+								if (*mouseX >= archPool.activeArchers[z]->transform.position.x - padding &&
+									*mouseX <= archPool.activeArchers[z]->transform.position.x + archPool.activeArchers[z]->transform.width + padding &&
+									*mouseY >= archPool.activeArchers[z]->transform.position.y - padding &&
+									*mouseY <= archPool.activeArchers[z]->transform.position.y + archPool.activeArchers[z]->transform.height + padding)
+								{
+									//std::cout << "Archer Clicked" << std::endl;
+									AEAudioPlay(godSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
+									Remove_Archer(z, archPool);
+									break;
+								}
+							}
+						}
+
+						// Check if its ninjas 
+						for (int k = 0; k < ninPool.activeSize; ++k)
+						{
+							if (*mouseX >= ninPool.activeNinjas[k]->transform.position.x - padding &&
+								*mouseX <= ninPool.activeNinjas[k]->transform.position.x + ninPool.activeNinjas[k]->transform.width + padding &&
+								*mouseY >= ninPool.activeNinjas[k]->transform.position.y - padding &&
+								*mouseY <= ninPool.activeNinjas[k]->transform.position.y + ninPool.activeNinjas[k]->transform.height + padding)
+							{
+								if (AEInputCheckTriggered(AEVK_LBUTTON))
+								{
+									AEAudioPlay(godSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
+									Remove_Ninja(k, ninPool);
+									break;
+								}
+							}
+						}
+
+						// Check if its cannons
+						for (int c = 0; c < canPool.activeSize; ++c)
+						{
+							if (*mouseX >= canPool.activeCannoneers[c]->transform.position.x - padding &&
+								*mouseX <= canPool.activeCannoneers[c]->transform.position.x + canPool.activeCannoneers[c]->transform.width + padding &&
+								*mouseY >= canPool.activeCannoneers[c]->transform.position.y - padding &&
+								*mouseY <= canPool.activeCannoneers[c]->transform.position.y + canPool.activeCannoneers[c]->transform.height + padding)
+							{
+								if (AEInputCheckTriggered(AEVK_LBUTTON))
+								{
+									AEAudioPlay(godSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
+									CannoneerRemove(c, canPool);
+									break;
+								}
+							}
+						}
+
+						// Decrease timer every frame
+						shrinePool.activeShrine[i]->deleteTimer -= deltaTime;
+						// If timer reaches zero, delete shrine
+						if (shrinePool.activeShrine[i]->deleteTimer <= 0.0)
+						{
+							Shrine_Delete(i, shrinePool);
+						}
+					}
+
+				}
+				else
+				{
+
+					// loading bar for shrine
+					for (int g = 0; g < shrinePool.activeSize; g++)
+					{
+						shrinePool.Shrines[g].loading.position = shrinePool.activeShrine[g]->transform.position + Vector2(0, 80);
+						float loadingBarPercentage = shrinePool.activeShrine[g]->timeElapsed / 5.f;
+						shrinePool.Shrines[g].loading.scale = Vector2(loadingBarPercentage, 1.0f);
+					}
+
+				}
 			}
 			else
 			{
-
-			    // loading bar for shrine
-				for (int g = 0; g < shrinePool.activeSize; g++)
-				{
-					shrinePool.Shrines[g].loading.position = shrinePool.activeShrine[g]->transform.position + Vector2(0, 80);
-					float loadingBarPercentage = shrinePool.activeShrine[g]->timeElapsed / 5.f;
-					shrinePool.Shrines[g].loading.scale = Vector2(loadingBarPercentage, 1.0f);
-				}
-
+				shrinePool.activeShrine[i]->isColliding = false;
 			}
 		}
-		else
+		if (timeSincePause >= 2.0f)
 		{
-			shrinePool.activeShrine[i]->isColliding = false;
+			TimeEnemyResume();
 		}
-	}
-	if (timeSincePause >= 2.0f)
-	{
-		TimeEnemyResume();
 	}
 }
 
