@@ -68,8 +68,8 @@ public:
 
 struct SamuraiPool {
 	Samurai samurais[SAMURAI_COUNT];
-	Samurai* activeSamurais[SAMURAI_COUNT];
-	int activeSize =0;
+	Samurai* activeSamurais[SAMURAI_COUNT]{ };
+	int activeSize = 0;
 };
 
 void Add_Samurai(SamuraiPool& pool, Vector2 playerPos);

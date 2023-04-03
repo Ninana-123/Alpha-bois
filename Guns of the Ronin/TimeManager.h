@@ -26,19 +26,15 @@ extern bool gameEnded;
 namespace {
 	bool isPaused = false;
 	bool enemypause = false;
-	bool explosiontrigger = false;
 }
 
 void Reset_TimeMan();
-void Update_Time();
-void TimePause();
-void TimeResume();
-void TimePauseEnemy();
-void TimeEnemyResume();
-void ExplosionYes();
-void ExplosionNo();
-bool IsTime_Paused();
-bool IsTime_Paused_Enemy();
-bool IsExplosionTriggered();
+void Update_TimeMan();
+void Pause_Time();
+void Resume_Time();
+void Pause_EnemyTime();
+void Resume_EnemyTime();
+bool Is_TimePaused();
+bool Is_EnemyTimePaused();
 
 #endif // !TIMEMANAGER_H

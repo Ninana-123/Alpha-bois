@@ -55,7 +55,7 @@ void ShurikenAdd(ShurikenPool& pool, Vector2 ninPos, Vector2 playerPos) {
 // initialise projectile pool
 void Init_ShurikenPool(ShurikenPool& pool) {
 	pool.activeSize = 0;
-	CreateQuadMesh(SHURIKEN_WIDTH, SHURIKEN_HEIGHT, Color(1, 0, 1), shurikenMesh);
+	Create_QuadMesh(SHURIKEN_WIDTH, SHURIKEN_HEIGHT, Color(1, 0, 1), shurikenMesh);
 	for (int i = 0; i < SHURIKEN_COUNT; i++) {
 		pool.shuriken[i].enabled = false;
 		pool.shuriken[i].transform.height = SHURIKEN_HEIGHT;
@@ -70,7 +70,7 @@ void Init_ShurikenPool(ShurikenPool& pool) {
 void Draw_Shuriken(ShurikenPool& pool) {
 
 	for (int i = 0; i < pool.activeSize; i++) {
-		DrawMesh(&pool.activeShuriken[i]->transform);
+		Draw_Mesh(&pool.activeShuriken[i]->transform);
 	}
 
 }
@@ -78,7 +78,7 @@ void Draw_Shuriken(ShurikenPool& pool) {
 // Remove shuriken if out of boundary
 void Shuriken_AI(ShurikenPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		SetQuadPoints(pool.activeShuriken[i]->transform);
+		Set_QuadPoints(pool.activeShuriken[i]->transform);
 		pool.activeShuriken[i]->transform.position += pool.activeShuriken[i]->direction * deltaTime * shurikenSpeed;
 		if (pool.activeShuriken[i]->transform.position.x > shurikenBoundaryX) {
 			ShurikenRemove(i, pool);

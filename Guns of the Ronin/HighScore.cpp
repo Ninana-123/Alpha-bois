@@ -71,7 +71,7 @@ void Finalize_HighScore(bool playerDead) {
 	//the bonus score from time, only playthroughs that cleared all waves will recieve it
 	if (!playerDead && curGameTime < MAX_TIME_FOR_BONUS) {
 		//it is equal to maxTimeBonus * 10(make number bigger) - (time took to complete all 10 waves) * 10
-		curHighScore += MAX_TIME_FOR_BONUS * 10.0f - (static_cast<int>(curGameTime) * 10.0f);
+		curHighScore += static_cast<int>(MAX_TIME_FOR_BONUS * 10.0f - (curGameTime * 10.0f));
 	}
 	highscores.push_back(curHighScore);
 	Sort_HighScores();
@@ -126,7 +126,7 @@ void Update_HighScoreFile() {
 	}
 
 	//Write highscore to file 
-	int numOfHighScores = highscores.size() < NUM_OF_HIGH_SCORES ? highscores.size() : NUM_OF_HIGH_SCORES;
+	int numOfHighScores = static_cast<int>(highscores.size()) < NUM_OF_HIGH_SCORES ? static_cast<int>(highscores.size()) : NUM_OF_HIGH_SCORES;
 	for (int i = 0; i < numOfHighScores; ++i) {
 		file << highscores[i] << "\n";
 	}
@@ -138,7 +138,7 @@ void Init_HighScoreScreen() {
 
 	/*     QUIT BUTTON     */
 	quitButtonTexture = AEGfxTextureLoad("Assets/buttonspritesheet.png");
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), quitButtonMesh, 1.0f / 10.0f, 1.0f);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), quitButtonMesh, 1.0f / 10.0f, 1.0f);
 	quitButton.texture = &quitButtonTexture;
 	quitButton.position = { QUIT_BUTTON_X_POS, QUIT_BUTTON_Y_POS };
 	quitButton.scale = { QUIT_BUTTON_X_SCALE, QUIT_BUTTON_Y_SCALE };
@@ -148,7 +148,7 @@ void Init_HighScoreScreen() {
 	quitButton.rotation = 0.0f;
 
 
-	CreateQuadMesh(1.0f, 1.0f, Color(0, 0, 0), highScoreBGMesh);
+	Create_QuadMesh(1.0f, 1.0f, Color(0, 0, 0), highScoreBGMesh);
 	highScoreWindow.mesh = &highScoreBGMesh;
 	highScoreWindow.height = 900;
 	highScoreWindow.width = 1600;
@@ -173,13 +173,13 @@ void Update_HighScoreScreen() {
 
 void Draw_HighScoreScreen() {
 
-	DrawMesh(&highScoreWindow);
+	Draw_Mesh(&highScoreWindow);
 	char strBuffer[2048];
 	float curYPos = HIGH_SCORE_TOP_Y_POS;
 	sprintf_s(strBuffer, "High Scores:");
 	AEGfxPrint(font, strBuffer, HIGH_SCORE_X_POS, curYPos += HIGH_SCORE_Y_OFFSET, 1.0f, 1.0f, 1.0f, 0);
 	Sort_HighScores();
-	int numOfHighScores = highscores.size() < NUM_OF_HIGH_SCORES ? highscores.size() : NUM_OF_HIGH_SCORES;
+	int numOfHighScores = static_cast<int>(highscores.size()) < NUM_OF_HIGH_SCORES ? static_cast<int>(highscores.size()) : NUM_OF_HIGH_SCORES;
 	for (int i = 0; i < numOfHighScores; ++i) {
 		sprintf_s(strBuffer, "%d", highscores[i]);
 		AEGfxPrint(font, strBuffer, HIGH_SCORE_X_POS, curYPos += HIGH_SCORE_Y_OFFSET, 1.0f, 1.0f, 1.0f, 1.0f);

@@ -92,7 +92,7 @@ void Init_Menu() {
 	buttonsSprite = AEGfxTextureLoad("Assets/buttonspritesheet.png");
 	splashScreenTexture = AEGfxTextureLoad("Assets/DigiPen_BLACK_rights.png");
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), splashScreenMesh, SPLASHSCREEN_BG_HEIGHT, SPLASHSCREEN_BG_WIDTH);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), splashScreenMesh, SPLASHSCREEN_BG_HEIGHT, SPLASHSCREEN_BG_WIDTH);
 	splashScreen.transform.texture = &splashScreenTexture;
 	splashScreen.transform.position = { 0.0f,0.0f };
 	splashScreen.transform.scale = { SPLASHSCREEN_BG_X,-SPLASHSCREEN_BG_Y };
@@ -101,7 +101,7 @@ void Init_Menu() {
 	splashScreen.transform.rotation = MAIN_MENU_ROTATION;
 	splashScreen.transform.mesh = &splashScreenMesh;
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), BGMesh, MAIN_MENU_BG_HEIGHT / MAIN_MENU_BG_WIDTH, MAIN_MENU_BG_HEIGHT);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), BGMesh, MAIN_MENU_BG_HEIGHT / MAIN_MENU_BG_WIDTH, MAIN_MENU_BG_HEIGHT);
 	mainMenu.transform.texture = &mainMenuBG;
 	mainMenu.transform.position = { 0.0f,0.0f };
 	mainMenu.transform.scale = { MAIN_MENU_BG_X,-MAIN_MENU_BG_Y };
@@ -110,7 +110,7 @@ void Init_Menu() {
 	mainMenu.transform.rotation = MAIN_MENU_ROTATION;
 	mainMenu.transform.mesh = &BGMesh;
 
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), playMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), playMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
 	playButton.transform.texture = &buttonsSprite;
 	playButton.transform.position = { MAIN_MENU_PLAY_BUTTON_X,MAIN_MENU_BUTTON_POS_Y };
 	playButton.transform.scale = { MAIN_MENU_BUTTON_SCALE_X,-MAIN_MENU_BUTTON_SCALE_Y };
@@ -119,7 +119,7 @@ void Init_Menu() {
 	playButton.transform.rotation = MAIN_MENU_ROTATION;
 	playButton.transform.mesh = &playMesh;
 
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), guideMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), guideMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
 	guideButton.transform.texture = &buttonsSprite;
 	guideButton.transform.position = { MAIN_MENU_GUIDE_BUTTON_X,MAIN_MENU_BUTTON_POS_Y };
 	guideButton.transform.scale = { MAIN_MENU_BUTTON_SCALE_X,-MAIN_MENU_BUTTON_SCALE_Y };
@@ -128,7 +128,7 @@ void Init_Menu() {
 	guideButton.transform.rotation = MAIN_MENU_ROTATION;
 	guideButton.transform.mesh = &guideMesh;
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), highscoreMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), highscoreMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
 	highscoreButton.transform.texture = &buttonsSprite;
 	highscoreButton.transform.position = { MAIN_MENU_HIGHSCORE_BUTTON_X,MAIN_MENU_BUTTON_POS_Y };
 	highscoreButton.transform.scale = { MAIN_MENU_BUTTON_SCALE_X,-MAIN_MENU_BUTTON_SCALE_Y };
@@ -137,7 +137,7 @@ void Init_Menu() {
 	highscoreButton.transform.rotation = MAIN_MENU_ROTATION;
 	highscoreButton.transform.mesh = &highscoreMesh;
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), quitMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), quitMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
 	quitButton.transform.texture = &buttonsSprite;
 	quitButton.transform.position = { MAIN_MENU_QUIT_BUTTON_X,MAIN_MENU_BUTTON_POS_Y };
 	quitButton.transform.scale = { MAIN_MENU_BUTTON_SCALE_X,-MAIN_MENU_BUTTON_SCALE_Y };
@@ -146,7 +146,7 @@ void Init_Menu() {
 	quitButton.transform.rotation = MAIN_MENU_ROTATION;
 	quitButton.transform.mesh = &quitMesh;
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), creditMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), creditMesh, MAIN_MENU_BUTTON_HIEGHT / MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HIEGHT);
 	creditButton.transform.texture = &buttonsSprite;
 	creditButton.transform.position = { MAIN_MENU_CREDITS_BUTTON_X,MAIN_MENU_CREDITS_BUTTON_Y };
 	creditButton.transform.scale = { MAIN_MENU_BUTTON_SCALE_X /2,-MAIN_MENU_BUTTON_SCALE_Y / 2};
@@ -167,7 +167,7 @@ void Update_Menu() {
 	splasScreenTimer += deltaTime;
 	frameTimer += deltaTime;
 
-	Update_Time();
+	Update_TimeMan();
 	AEInputGetCursorPosition(&mainMenuMousePosX, &mainMenuMousePosY);
 	mainMenuMousePosX = mainMenuMousePosX - MAIN_MENU_WINDOW_HALF_X;
 	mainMenuMousePosY = (mainMenuMousePosY - MAIN_MENU_WINDOW_HALF_Y) * -1;
@@ -178,9 +178,9 @@ void Update_Menu() {
 	}
 
 	if (frameTimer >= 0.3f) {
-		mainMenu.bgAnim.PlayAnim();
-		mainMenu.bgAnim.NextFrame(mainMenu.transform);
-		mainMenu.bgAnim.Update_SpriteAnim(mainMenu.transform);
+		mainMenu.bgAnim.play_Anim();
+		mainMenu.bgAnim.next_Frame(mainMenu.transform);
+		mainMenu.bgAnim.update_SpriteAnim(mainMenu.transform);
 		frameTimer = 0;
 	}
 
@@ -324,13 +324,13 @@ void Update_Menu() {
 }
 
 void Draw_Menu() {
-	DrawMesh(&mainMenu.transform);
+	Draw_Mesh(&mainMenu.transform);
 	Draw_StaticSprite(&playButton.transform, playButton.spriteIndex);
 	Draw_StaticSprite(&guideButton.transform, guideButton.spriteIndex);
 	Draw_StaticSprite(&highscoreButton.transform, highscoreButton.spriteIndex);
 	Draw_StaticSprite(&quitButton.transform, quitButton.spriteIndex);
 	Draw_StaticSprite(&creditButton.transform, creditButton.spriteIndex);
-	DrawMesh(&splashScreen.transform);
+	Draw_Mesh(&splashScreen.transform);
 	
 }
 

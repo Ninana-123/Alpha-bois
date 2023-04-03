@@ -52,8 +52,8 @@ void Shrine_PoolInit(ShrinePool& pool)
 	HalfY = (float)AEGetWindowHeight() / 2.0f;
 	duration = 0;
 	pool.activeSize = 0;
-	CreateQuadMesh(SHRINE_WIDTH, SHRINE_HEIGHT, Color(1, 1, 0, 1), shrineMesh);
-	CreateQuadMesh(LOADING_WIDTH, LOADING_HEIGHT, Color(0, 0, 0, 1), loadingBarMesh);
+	Create_QuadMesh(SHRINE_WIDTH, SHRINE_HEIGHT, Color(1, 1, 0, 1), shrineMesh);
+	Create_QuadMesh(LOADING_WIDTH, LOADING_HEIGHT, Color(0, 0, 0, 1), loadingBarMesh);
 	for (int i = 0; i < SHRINE_COUNT; i++)
 	{
 		
@@ -108,7 +108,7 @@ int Random(int min, int max)
 
 void Shrine_Add(ShrinePool& shrinePool)
 {
-	if (!IsTime_Paused())
+	if (!Is_TimePaused())
 	{
 		for (int i = 0; i < SHRINE_COUNT; i++)
 		{
@@ -121,7 +121,7 @@ void Shrine_Add(ShrinePool& shrinePool)
 				Vector2 randomPosition;
 				do
 				{
-					randomPosition = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+					randomPosition = Random_PointOutsideSquare(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
 				} while (Check_Overlap_With_Active_Shrines(shrinePool, randomPosition));
 
 				shrinePool.activeShrine[i]->transform.position = randomPosition;
@@ -198,8 +198,8 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 	timeSincePause += deltaTime;
 	for (int i = 0; i < shrinePool.activeSize; i++)
 	{
-		SetQuadPoints(shrinePool.activeShrine[i]->transform);
-		if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
+		Set_QuadPoints(shrinePool.activeShrine[i]->transform);
+		if (Col_StaticQuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 		{
 			shrinePool.activeShrine[i]->isColliding = true;
 			shrinePool.activeShrine[i]->timeElapsed += deltaTime;
@@ -235,7 +235,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 				if (shrinePool.activeShrine[i]->types == Shrine::FREEZE)
 				{
 					AEAudioPlay(freezeSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-					TimePauseEnemy();
+					Pause_EnemyTime();
 					timeSincePause = 0.0f;
 					Shrine_Delete(i, shrinePool);
 				//std::cout << "Freeze tower" << std::endl;
@@ -332,7 +332,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 							if (AEInputCheckTriggered(AEVK_LBUTTON))
 							{
 								AEAudioPlay(godSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-								CannoneerRemove(c, canPool);
+								Remove_Cannoneer(c, canPool);
 								break;
 							}
 						}
@@ -368,7 +368,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 	}
 	if (timeSincePause >= 2.0f)
 	{
-		TimeEnemyResume();
+		Resume_EnemyTime();
 	}
 }
 
@@ -380,10 +380,10 @@ void Draw_Shrine(ShrinePool& shrinePool)
 
 		if (shrinePool.activeShrine[i]->hasBeenUsed)
 		{
-			DrawMesh(&shrinePool.activeShrine[i]->transform);
+			Draw_Mesh(&shrinePool.activeShrine[i]->transform);
 			if (shrinePool.activeShrine[i]->isColliding)
 			{
-				DrawMesh(&shrinePool.Shrines[i].loading);
+				Draw_Mesh(&shrinePool.Shrines[i].loading);
 			}
 		}
 

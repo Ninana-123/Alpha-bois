@@ -59,7 +59,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 	cSpawnTimer += deltaTime;
 	ninjaSpawnTimer += deltaTime;
 
-	if (!IsTime_Paused() && !IsTime_Paused_Enemy()) {
+	if (!Is_TimePaused() && !Is_EnemyTimePaused()) {
 		// Samurai
 		if (samuraiSpawnTimer >= SPAWN_RATE_SAMURAI && curSpawnCounts[SAMURAI] < spawnCounts[curWave - 1][SAMURAI]) {
 			samuraiSpawnTimer = 0;
@@ -81,7 +81,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		// Cannoneer
 		if (cSpawnTimer >= SPAWN_RATE_CANNONEER  && curSpawnCounts[CANNON] < spawnCounts[curWave - 1][CANNON]) {
 			cSpawnTimer = 0;
-			CannoneerAdd(cPool);
+			Add_Cannoneer(cPool);
 			++curSpawnCounts[CANNON];
 		}
 		AI_Cannoneer(cPool, player, playerInfo);
@@ -100,7 +100,7 @@ void Update_Enemies(SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& c
 		++curWave;
 		//If final wave 10 is cleared, playthrough is finished
 		if (curWave > NUM_OF_WAVES) {
-			TimePause();
+			Pause_Time();
 			gameEnded = true;
 			Finalize_HighScore(false);
 			return;

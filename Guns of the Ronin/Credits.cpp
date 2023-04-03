@@ -53,7 +53,7 @@ void Init_Credits() {
 	/*     CREDITS SCENE     */
 	AEGfxSetBackgroundColor(0, 0, 0);
 	creditsBGTexture = AEGfxTextureLoad("Assets/CREDITS.png");
-	CreateQuadMesh(AEGetWindowWidth(), -AEGetWindowHeight(), Color(0, 0, 0), CreditsBGMesh);
+	Create_QuadMesh(AEGetWindowWidth(), -AEGetWindowHeight(), Color(0, 0, 0), CreditsBGMesh);
 	creditsBG.transform.texture = &creditsBGTexture;
 	creditsBG.transform.position = { 0.0f, -AEGetWindowWidth() / 2.0f};
 	creditsBG.transform.height = CREDITS_HEIGHT;
@@ -63,7 +63,7 @@ void Init_Credits() {
 
 	/*     QUIT BUTTON     */
 	creditsQuitButtonSprite = AEGfxTextureLoad("Assets/buttonspritesheet.png");
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), backMesh, 1.0f / 10.0f, 1.0f);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), backMesh, 1.0f / 10.0f, 1.0f);
 	quitButton.transform.texture = &creditsQuitButtonSprite;
 	quitButton.transform.position = { BACK_BUTTON_X, BACK_BUTTON_Y };
 	quitButton.transform.scale = { BACK_BUTTON_SCALE_X,BACK_BUTTON_SCALE_Y };
@@ -107,7 +107,7 @@ void Update_Credits() {
 void Draw_Credits() {
 	
 	// Credits text mesh
-	DrawMesh(&creditsBG.transform);
+	Draw_Mesh(&creditsBG.transform);
 
 	/*     QUIT BUTTON     */
 	Draw_StaticSprite(&quitButton.transform, quitButton.spriteIndex);

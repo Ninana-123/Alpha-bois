@@ -58,7 +58,7 @@ void Init_BulletPool(BulletPool& pool) {
 	halfY = AEGetWindowHeight() / 2.0f;
 	screenBoundaryX = halfX + 100;
 	screenBboundaryY = halfY + 100;
-	CreateQuadMesh(BULLET_WIDTH, BULLET_HEIGHT, Color(0, 0, 0), bulletMesh);
+	Create_QuadMesh(BULLET_WIDTH, BULLET_HEIGHT, Color(0, 0, 0), bulletMesh);
 	for (int i = 0; i < BULLET_COUNT; i++) {
 		pool.bullets[i].enabled = false;
 		pool.bullets[i].transform.height = BULLET_HEIGHT;
@@ -76,7 +76,7 @@ void Init_BulletPool(BulletPool& pool) {
 //Draw active Bullets
 void Draw_Bullet(BulletPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		DrawMesh(&pool.activeBullets[i]->transform);
+		Draw_Mesh(&pool.activeBullets[i]->transform);
 	}
 }
 

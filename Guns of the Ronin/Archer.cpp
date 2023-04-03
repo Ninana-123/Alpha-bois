@@ -45,7 +45,7 @@ void Add_Archer(ArcherPool& pool, Vector2 playerPos) {
 			pool.activeArchers[i]->health = ARCHER_HEALTH;
 			pool.activeArchers[i]->transform.texture = &archerTexture;
 			pool.activeArchers[i]->transform.scale = { 4, 4 };
-			pool.activeArchers[i]->transform.position = RandomPoint_OutsideSqaure(ARCHER_MIN_SPAWN_DIST, ARCHER_MAX_SPAWN_DIST, playerPos);
+			pool.activeArchers[i]->transform.position = Random_PointOutsideSquare(ARCHER_MIN_SPAWN_DIST, ARCHER_MAX_SPAWN_DIST, playerPos);
 			pool.activeSize += 1;
 			break;
 		}
@@ -55,7 +55,7 @@ void Add_Archer(ArcherPool& pool, Vector2 playerPos) {
 // Initialising archer pool
 void Init_ArcherPool(ArcherPool& pool) {
 	pool.activeSize = 0;
-	CreateQuadMesh(ARCHER_WIDTH, ARCHER_HEIGHT, Color(1, 0, 0), archerMesh, 0.25f, 1.f);
+	Create_QuadMesh(ARCHER_WIDTH, ARCHER_HEIGHT, Color(1, 0, 0), archerMesh, 0.25f, 1.f);
 	for (int i = 0; i < ARCHER_COUNT; i++) {
 		pool.archers[i].enabled = false;
 		pool.archers[i].health = ARCHER_HEALTH;
@@ -82,10 +82,10 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 			curArcher->targetPos = playerPos;
 
 			// if player is within attack range, switch to ARCHER_ATTACKING case
-			if (curArcher->transform.position.within_dist(playerPos, ARCHER_ATT_RANGE)) {
+			if (curArcher->transform.position.within_Dist(playerPos, ARCHER_ATT_RANGE)) {
 				curArcher->aiState = ARCHER_ATTACKING;
-				curArcher->anim.PlayAnim();
-				curArcher->anim.NextFrame(curArcher->transform);
+				curArcher->anim.play_Anim();
+				curArcher->anim.next_Frame(curArcher->transform);
 			}
 
 			// if player is not within attack range, move towards player
@@ -106,9 +106,9 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 			curArcher->timeLastAttack += deltaTime;
 
 			// if player not within archer's attacking range, switch to ARCHER_MOVING case
-			if (!curArcher->transform.position.within_dist(playerPos, ARCHER_ATT_RANGE)) {
+			if (!curArcher->transform.position.within_Dist(playerPos, ARCHER_ATT_RANGE)) {
 				curArcher->aiState = ARCHER_MOVING;
-				curArcher->anim.ResetAnim(curArcher->transform);
+				curArcher->anim.reset_Anim(curArcher->transform);
 			}
 
 			// if player within archer's attacking range, start attacking
@@ -125,14 +125,14 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 		case ARCHER_BLOWNAWAY:
 			Vector2 direction = (curArcher->targetPos - curArcher->transform.position).normalize();
 			curArcher->transform.position += direction * ARCHER_SWEEP_MS * deltaTime;
-			if (curArcher->transform.position.within_dist(curArcher->targetPos, 15.0f)) {
+			if (curArcher->transform.position.within_Dist(curArcher->targetPos, 15.0f)) {
 				curArcher->aiState = ARCHER_MOVING;
 			}
 			break;
 		}
 
 		// Sprite animation of archers
-		curArcher->anim.Update_SpriteAnim(curArcher->transform);
+		curArcher->anim.update_SpriteAnim(curArcher->transform);
 
 
 	}
@@ -144,7 +144,7 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 	for (int i = 0; i < arrow.activeSize; ++i) {
 		Arrow* proj = arrow.activeArrow[i];
 		proj->timeSince_lastDmgDeal += deltaTime;
-		if (StaticCol_QuadQuad(proj->transform, player.transform)) {
+		if (Col_StaticQuadQuad(proj->transform, player.transform)) {
 			if (proj->timeSince_lastDmgDeal > ARCHER_ATTACK_INTERVAL) {
 				player_dmg(playerInfo, ARCHER_DAMAGE);
 				proj->timeSince_lastDmgDeal = 0;
@@ -187,7 +187,7 @@ void Push_Archer(ArcherPool& pool, DIRECTION direction, float targetAxis) {
 void Draw_Archer(ArcherPool& pool) {
 
 	for (int i = 0; i < pool.activeSize; i++) {
-		DrawMesh(&pool.activeArchers[i]->transform);
+		Draw_Mesh(&pool.activeArchers[i]->transform);
 	}
 	Draw_Arrow(arrow);
 }

@@ -20,7 +20,7 @@
 #include <iostream>
 
 
-bool Col_Circle_Circle(Vector2 pos1, float radius1, Vector2 pos2, float radius2) {
+bool Col_StaticCircleCircle(Vector2 pos1, float radius1, Vector2 pos2, float radius2) {
 	if ((pos1 - pos2).magnitude() < (radius1 + radius2)) {
 		return true;
 	}
@@ -29,7 +29,7 @@ bool Col_Circle_Circle(Vector2 pos1, float radius1, Vector2 pos2, float radius2)
 
 
 
-Vector2 RandomPoint_OutsideSqaure(float minDist, float maxDist, Vector2 centerPos) {
+Vector2 Random_PointOutsideSquare(float minDist, float maxDist, Vector2 centerPos) {
 
 	int randGrid = rand() % 8 + 1;
 	//std::cout << randGrid;
@@ -78,7 +78,7 @@ Vector2 RandomPoint_OutsideSqaure(float minDist, float maxDist, Vector2 centerPo
 	}
 	return Vector2(x, y);
 }
-Vector2 BulletDir(float mouseX, float mouseY, Vector2 PlayerPos) {
+Vector2 Bullet_Dir(float mouseX, float mouseY, Vector2 PlayerPos) {
 	Vector2 direction;
 	direction.x = mouseX - PlayerPos.x;
 	direction.y = mouseY - PlayerPos.y;

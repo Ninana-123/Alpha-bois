@@ -42,13 +42,13 @@ void Add_Samurai(SamuraiPool& pool, Vector2 playerPos) {
 		if (pool.activeSamurais[i]->enabled == false) {
 			pool.activeSamurais[i]->enabled = true;
 			pool.activeSamurais[i]->health = SAMURAI_HEALTH;
-			pool.activeSamurais[i]->transform.position = RandomPoint_OutsideSqaure(MIN_SPAWN_DIST, MAX_SPAWN_DIST, playerPos);
+			pool.activeSamurais[i]->transform.position = Random_PointOutsideSquare(MIN_SPAWN_DIST, MAX_SPAWN_DIST, playerPos);
 			//The random offset position of the player that the samurai will be chasing
 			pool.activeSamurais[i]->offsetPos = Vector2(AERandFloat() * 2.0f * SAMURAI_CHASING_ERROR - SAMURAI_CHASING_ERROR, 2.0f * SAMURAI_CHASING_ERROR - SAMURAI_CHASING_ERROR);
 			pool.activeSamurais[i]->hitByPlayer = false;
 			pool.activeSamurais[i]->timeSinceLastHit = 0;
 			pool.activeSamurais[i]->dmgDealt = false;
-			pool.activeSamurais[i]->anim.ResetAnim(pool.activeSamurais[i]->transform);
+			pool.activeSamurais[i]->anim.reset_Anim(pool.activeSamurais[i]->transform);
 			pool.activeSize += 1;
 			break;
 		}
@@ -57,7 +57,7 @@ void Add_Samurai(SamuraiPool& pool, Vector2 playerPos) {
 
 void Init_SamuraiPool(SamuraiPool& pool) {
 	pool.activeSize = 0;
-	CreateQuadMesh(SAMURAI_WIDTH, SAMURAI_HEIGHT, Color(0, 1, 0), samuraiMesh, SAMURAI_TEXTURE_WIDTH, SAMURAI_TEXTURE_HEIGHT);
+	Create_QuadMesh(SAMURAI_WIDTH, SAMURAI_HEIGHT, Color(0, 1, 0), samuraiMesh, SAMURAI_TEXTURE_WIDTH, SAMURAI_TEXTURE_HEIGHT);
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		pool.samurais[i].enabled = false;
 		pool.samurais[i].health = SAMURAI_HEALTH;
@@ -82,11 +82,11 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 		{
 		case MOVING:
 			curSamurai->targetPos = playerPos;
-			if (curSamurai->transform.position.within_dist(playerPos, SAMURAI_ATT_RANGE)) {
+			if (curSamurai->transform.position.within_Dist(playerPos, SAMURAI_ATT_RANGE)) {
 				curSamurai->aiState = ATTACKING;
-				curSamurai->anim.ResetAnim(player.transform);
-				curSamurai->anim.PlayAnim();
-				curSamurai->anim.NextFrame(curSamurai->transform);
+				curSamurai->anim.reset_Anim(player.transform);
+				curSamurai->anim.play_Anim();
+				curSamurai->anim.next_Frame(curSamurai->transform);
 			}
 			else {
 				Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position - curSamurai->offsetPos).normalize();
@@ -118,14 +118,14 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 			break;
 		case ATTACKING:
 			//If the player moved outside of the attack range chase the player
-			if (!curSamurai->transform.position.within_dist(playerPos, SAMURAI_ATT_RANGE)) {
+			if (!curSamurai->transform.position.within_Dist(playerPos, SAMURAI_ATT_RANGE)) {
 				curSamurai->aiState = MOVING;
-				curSamurai->anim.ResetAnim(curSamurai->transform);
+				curSamurai->anim.reset_Anim(curSamurai->transform);
 				curSamurai->dmgDealt = false;
 			}
 			else {
 				//If currently playing the attack animation
-				if (curSamurai->anim.CurrentFrame() == SAMURAI_ATT_ANIM_FRAME) {
+				if (curSamurai->anim.current_Frame() == SAMURAI_ATT_ANIM_FRAME) {
 					if (!curSamurai->dmgDealt) {
 						AEAudioPlay(samuraiSlash, mainsceneAudioGroup, 0.1f, 1.f, 0);
 						player_dmg(playerInfo, SAMURAI_DAMAGE);
@@ -133,8 +133,8 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 					}
 				}
 				//attack animation is over, restart animation
-				if (!curSamurai->anim.IsPlaying()) {
-					curSamurai->anim.PlayAnim();
+				if (!curSamurai->anim.is_Playing()) {
+					curSamurai->anim.play_Anim();
 					curSamurai->dmgDealt = false;
 				}
 			}
@@ -142,12 +142,12 @@ void AI_Samurai(SamuraiPool& pool, Player& player, PlayerInfo& playerInfo) {
 		case BLOWNAWAY:
 			Vector2 direction = (curSamurai->targetPos - curSamurai->transform.position).normalize();
 			curSamurai->transform.position += direction * SAMURAI_SWEEP_MS * deltaTime;
-			if (curSamurai->transform.position.within_dist(curSamurai->targetPos, SAMURAI_BLOWN_AWAY_ERROR)) {
+			if (curSamurai->transform.position.within_Dist(curSamurai->targetPos, SAMURAI_BLOWN_AWAY_ERROR)) {
 				curSamurai->aiState = MOVING;
 			}
 			break;
 		}
-		curSamurai->anim.Update_SpriteAnim(curSamurai->transform);
+		curSamurai->anim.update_SpriteAnim(curSamurai->transform);
 
 	}
 
@@ -186,7 +186,7 @@ void Push_Samurai(SamuraiPool& pool, DIRECTION direction, float targetAxis) {
 
 void Draw_Samurai(SamuraiPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		DrawMesh(&pool.activeSamurais[i]->transform);
+		Draw_Mesh(&pool.activeSamurais[i]->transform);
 	}
 }
 

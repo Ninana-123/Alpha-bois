@@ -33,6 +33,23 @@ AEGfxTexture* pauseQuitButtonTexture = 0;
 #define PAUSE_QUIT_BUTTON_HEIGHT 1.0f
 #define PAUSE_QUIT_BUTTON_X_SCALE 200.f
 #define PAUSE_QUIT_BUTTON_Y_SCALE -100.0f
+
+#define DEAD_TEXT_X_POS -0.16f
+#define DEAD_TEXT_Y_POS 0.32f
+#define DEAD_TEXT_SCALE 2.2f
+
+#define YOU_TEXT_X_POS -0.14f
+#define YOU_TEXT_Y_POS -0.15f
+#define YOU_TEXT_SCALE 2.2f
+
+#define WIN_TEXT_X_POS -0.145f
+#define WIN_TEXT_Y_POS -0.45f
+#define WIN_TEXT_SCALE 2.2f
+
+#define CUR_HIGH_SCORE_X_POS -0.98f
+#define CUR_HIGH_SCORE_Y_POS 0.9f
+#define CUR_HIGH_SCORE_SCALE 0.8f
+
 int quitButtonSpriteIndex = 0;
 
 s32 pausedMouseX;
@@ -59,7 +76,7 @@ void Init_PauseMenu() {
 	deadMenuBG = AEGfxTextureLoad("Assets/pauseMenuNoResume.png");
 	pauseMenuWinBG = AEGfxTextureLoad("Assets/pauseMenuWin.png");
 	
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), pauseMesh);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), pauseMesh);
 	pauseMenu.transform.texture = &pauseMenuBG;
 	pauseMenu.transform.position = { 0.0f,0.0f };
 	pauseMenu.transform.scale = { (float)-AEGetWindowWidth(),  (float)AEGetWindowHeight()};
@@ -68,7 +85,7 @@ void Init_PauseMenu() {
 	pauseMenu.transform.mesh = &pauseMesh;
 
 	pauseQuitButtonTexture = AEGfxTextureLoad("Assets/buttonspritesheet.png");
-	CreateQuadMesh(1.f, 1.f, Color(1, 1, 1), pauseQuitButtonMesh, 1.0f / 10.0f, 1.0f);
+	Create_QuadMesh(1.f, 1.f, Color(1, 1, 1), pauseQuitButtonMesh, 1.0f / 10.0f, 1.0f);
 	pauseQuitButton.texture = &pauseQuitButtonTexture;
 	pauseQuitButton.position = { PAUSE_QUIT_BUTTON_X_POS, PAUSE_QUIT_BUTTON_Y_POS };
 	pauseQuitButton.scale = { PAUSE_QUIT_BUTTON_X_SCALE, PAUSE_QUIT_BUTTON_Y_SCALE };
@@ -85,17 +102,17 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	// if esc is pressed
 	if (pauseMenu.esc_pressed) {
 		AEAudioPauseGroup(mainsceneAudioGroup);
-		if (!IsTime_Paused()) {	
-			TimePause();		// pause time if time is not paused
+		if (!Is_TimePaused()) {	
+			Pause_Time();		// pause time if time is not paused
 		}
 		else {
-			TimeResume();		// unpause time
+			Resume_Time();		// unpause time
 		}
 
 	}
 
 	// if time is paused, do nothing
-	if (!IsTime_Paused()) {
+	if (!Is_TimePaused()) {
 		return;
 	}
 
@@ -112,7 +129,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 		if (Is_ButtonHover(BUTTONS_X, RESUME_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY)) {
 			//playButton.spriteIndex = 1;
 			if (leftClick) {
-				TimeResume();
+				Resume_Time();
 				leftClick = false;
 			}
 		}
@@ -122,7 +139,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 	if (Is_ButtonHover(BUTTONS_X, RESTART_Y, BUTTONS_WIDTH, BUTTONS_HEIGHT, &pausedMouseX, &pausedMouseY) && !gameEnded) {
 		if (leftClick) {
 			gGameStateNext = GS_RESTART;
-			TimeResume();
+			Resume_Time();
 			leftClick = false;
 		}
 	}
@@ -132,7 +149,7 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 		if (leftClick) {
 			AEAudioStopGroup(mainsceneAudioGroup);
 			gGameStateNext = GS_MAINMENU;
-			TimeResume();
+			Resume_Time();
 			leftClick = false;
 		}
 	}
@@ -142,15 +159,13 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 		quitButtonSpriteIndex = 3;
 		if (AEInputCheckReleased(AEVK_LBUTTON)) {
 			gGameStateNext = GS_MAINMENU;
-			TimeResume();
+			Resume_Time();
 		}
 	}
 	else quitButtonSpriteIndex = 2;
 }
 
 void Draw_PauseMenu(PlayerInfo const& playerInfo) {
-
-	
 
 	//If player is dead
 	if (playerInfo.playerDead) {
@@ -162,25 +177,24 @@ void Draw_PauseMenu(PlayerInfo const& playerInfo) {
 	}
 
 	// If time is paused, draw pause menu
-	if (IsTime_Paused()) {		
-		DrawMesh(&pauseMenu.transform);
+	if (Is_TimePaused()) {		
+		Draw_Mesh(&pauseMenu.transform);
 	}
 
 	char strBuffer[1024];
 	if (playerInfo.playerDead && !gameEnded) {
 		sprintf_s(strBuffer, "DEAD");
-		AEGfxPrint(font, strBuffer, -0.16f, 0.32f, 2.2f, 1, 0, 0);
-		//G_DrawText(dead, -50.0f, 0.f, 2.0f, Color(0, 0, 0));
+		AEGfxPrint(font, strBuffer, DEAD_TEXT_X_POS, DEAD_TEXT_Y_POS, DEAD_TEXT_SCALE, 1, 0, 0);
 	}
 	if (gameEnded) {
 		Draw_StaticSprite(&pauseQuitButton, quitButtonSpriteIndex);
 		sprintf_s(strBuffer, "YOU");
-		AEGfxPrint(font, strBuffer, -0.14f, -0.15f, 2.2f, 1, 1, 0);
+		AEGfxPrint(font, strBuffer, YOU_TEXT_X_POS, YOU_TEXT_Y_POS, YOU_TEXT_SCALE, 1, 1, 0);
 		sprintf_s(strBuffer, "WIN!!");
-		AEGfxPrint(font, strBuffer, -0.145f, -0.45f, 2.2f, 1, 1, 0);
+		AEGfxPrint(font, strBuffer, WIN_TEXT_X_POS, WIN_TEXT_Y_POS, WIN_TEXT_SCALE, 1, 1, 0);
 	}
 	sprintf_s(strBuffer, "Score: %d", curHighScore);
-	AEGfxPrint(font, strBuffer, -0.98f, 0.90f, 0.8f, 1, 1, 1);
+	AEGfxPrint(font, strBuffer, CUR_HIGH_SCORE_X_POS, CUR_HIGH_SCORE_Y_POS, CUR_HIGH_SCORE_SCALE, 1, 1, 1);
 }
 
 void Free_PauseMenu() {

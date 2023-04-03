@@ -15,6 +15,8 @@
 *//*______________________________________________________________________*/
 #include "Graphics.h"
 #include "TimeManager.h"
+
+
 //void G_Init() {
 //	font = AEGfxCreateFont("Assets/Roboto-Regular.ttf", 20);
 //}
@@ -45,15 +47,15 @@ float Absf(float val) {
 }
 
 
-unsigned int createARGB(float r, float g, float b, float a)
+unsigned int Create_ARGB(float r, float g, float b, float a)
 {
 	int ca = int(a * 255), cr = int(r * 255), cg = int(g * 255), cb = int(b * 255);
 	return ((ca & 0xff) << 24) + ((cr & 0xff) << 16) + ((cg & 0xff) << 8) + ((cb & 0xff));
 }
 
-void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float texture_w, float texture_h) {
+void Create_QuadMesh(float width, float height, Color color, AEGfxVertexList*& mesh, float texture_w, float texture_h) {
 	//AEGfxVertexList* pMesh = 0;
-	unsigned int colorCode = createARGB(color.r, color.g, color.b, color.a);
+	unsigned int colorCode = Create_ARGB(color.r, color.g, color.b, color.a);
 	AEGfxMeshStart();
 	// This shape has 2 triangles that makes up a square
 	// Color parameters represent colours as ARGB
@@ -71,7 +73,7 @@ void CreateQuadMesh(float width, float height, Color color, AEGfxVertexList*& me
 }
 
 
-void SetQuadPoints(Transform& trans, bool useCol) {
+void Set_QuadPoints(Transform& trans, bool useCol) {
 	float height = useCol ? trans.colliderSize.y / 2.0f : trans.height * Absf(trans.scale.y) / 2.0f;
 	float width = useCol ? trans.colliderSize.x / 2.0f : trans.width * Absf(trans.scale.x) / 2.0f;
 
@@ -85,7 +87,7 @@ void SetQuadPoints(Transform& trans, bool useCol) {
 		trans.position.y + (useCol ? trans.colliderOffsetPos.y : 0) - height);
 }
 
-bool StaticCol_QuadQuad(Transform trans1, Transform trans2) {
+bool Col_StaticQuadQuad(Transform trans1, Transform trans2) {
 	bool collided = true;
 	if (trans1.quadPoints[0].x > trans2.quadPoints[1].x) {
 		collided = false;
@@ -107,7 +109,7 @@ bool StaticCol_QuadQuad(Transform trans1, Transform trans2) {
 	This function by default uses transform's height and width with scale applied
 	if useQuadCol/useCircleCol is set to true the function uses the transform's colliderSize and colliderOffsetPos instead 
 */
-bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans, bool useQuadCol, bool useCircleCol) {
+bool Col_QuadCircle(Transform const& quadTrans, Transform const& circleTrans, bool useQuadCol, bool useCircleCol) {
 
 	//float circleDistX = Absf(quadTrans.position.x - circleTrans.position.x);
 	float circleDistX = Absf(quadTrans.position.x + (useQuadCol ? quadTrans.colliderOffsetPos.x : 0) - 
@@ -152,7 +154,7 @@ bool ColQuadCircle(Transform const& quadTrans, Transform const& circleTrans, boo
 
 
 
-void DrawMesh(Transform* trans) {
+void Draw_Mesh(Transform* trans) {
 
 	//If the transform has texture, draw the texture
 	if (trans->texture) {
@@ -168,7 +170,7 @@ void DrawMesh(Transform* trans) {
 
 		//Set the texture map 
 		//If using sprite animation use class Sprite_Animation to update texture offset
-		AEGfxTextureSet(*trans->texture, trans->texture_offset_x, trans->texture_offset_y);
+		AEGfxTextureSet(*trans->texture, trans->textureOffsetX, trans->textureOffsetY);
 	}
 	//Otherwise draw simple colours
 	else {
@@ -236,8 +238,8 @@ void Draw_QuadCollider(Transform* trans, AEGfxVertexList*& colliderMesh) {
 	AEGfxMeshDraw(colliderMesh, AE_GFX_MDM_TRIANGLES);
 }
 
-void CreateCircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {
-	unsigned int colorCode = createARGB(color.r, color.g, color.b, color.a);
+void Create_CircleMesh(float radius, Color color, AEGfxVertexList*& mesh) {
+	unsigned int colorCode = Create_ARGB(color.r, color.g, color.b, color.a);
 	AEGfxMeshStart();
 	int noOfVertices = 32;
 	//Creating the circle shape
@@ -256,100 +258,85 @@ Sprite_Animation::Sprite_Animation() {
 
 }
 Sprite_Animation::Sprite_Animation(float frame_Rate, int x_Count, int y_Count, Anim_Mode mode) :
-	frameRate{ frame_Rate }, x_count{ x_Count }, y_count{ y_Count }, playMode{ mode }
+	frameRate{ frame_Rate }, xCount{ x_Count }, yCount{ y_Count }, playMode{ mode }
 {
-	frame_count = x_count * y_count;
-	texture_width = 1.0f / x_count;
-	texture_height = 1.0f / y_count;
-	frame_time = 1.0f / frameRate;
+	frameCount = xCount * yCount;
+	textureWidth = 1.0f / xCount;
+	textureHeight = 1.0f / yCount;
+	frameTime = 1.0f / frameRate;
 }
 
-void Sprite_Animation::PlayAnim() {
-	play_anim = true;
+void Sprite_Animation::play_Anim() {
+	playAnim = true;
 }
 
-void Sprite_Animation::PauseAnim() {
-	play_anim = false;
+void Sprite_Animation::pause_Anim() {
+	playAnim = false;
 }
 
 //Get the current frame number
-int Sprite_Animation::CurrentFrame() {
-	return frame_current;
+int Sprite_Animation::current_Frame() {
+	return frameCurrent;
 }
 //Check if animation is playing
-bool Sprite_Animation::IsPlaying() {
-	return play_anim;
+bool Sprite_Animation::is_Playing() {
+	return playAnim;
 }
 
-void Sprite_Animation::ResetAnim(Transform& trans) {
-	play_anim = false;
-	texture_index_x = 0;
-	texture_index_y = 0;
-	trans.texture_offset_x = 0;
-	trans.texture_offset_y = 0;
-	frame_current = 1;
-	anim_timer = 0;
+void Sprite_Animation::reset_Anim(Transform& trans) {
+	playAnim = false;
+	textureXIndex = 0;
+	textureYIndex = 0;
+	trans.textureOffsetX = 0;
+	trans.textureOffsetY = 0;
+	frameCurrent = 1;
+	animTimer = 0;
 }
 
 
-void Sprite_Animation::NextFrame(Transform& trans) {
-	++frame_current;
+void Sprite_Animation::next_Frame(Transform& trans) {
+	++frameCurrent;
 	
-	++texture_index_x;
-	if (texture_index_x > x_count - 1) {
-		texture_index_x = 0;
-		++texture_index_y;
-		if (texture_index_y > y_count - 1) {
-			texture_index_y = 0;
+	++textureXIndex;
+	if (textureXIndex > xCount - 1) {
+		textureXIndex = 0;
+		++textureYIndex;
+		if (textureYIndex > yCount - 1) {
+			textureYIndex = 0;
 		}
 	}
-	trans.texture_offset_x = texture_width * texture_index_x;
-	trans.texture_offset_y = texture_height * texture_index_y;
+	trans.textureOffsetX = textureWidth * textureXIndex;
+	trans.textureOffsetY = textureHeight * textureYIndex;
 
-	if (frame_current > frame_count) {
-		frame_current = 1;
+	if (frameCurrent > frameCount) {
+		frameCurrent = 1;
 		if (playMode == Anim_Mode::ONE_TIME) {
-			play_anim = false;
+			playAnim = false;
 		}
 	}
 }
-void Sprite_Animation::Update_SpriteAnim(Transform& trans) {
+void Sprite_Animation::update_SpriteAnim(Transform& trans) {
 	//If animation is not supposed to play
-	if (!play_anim) {
+	if (!playAnim) {
 		return;
 	}
 
-	anim_timer += deltaTime;
-	if (anim_timer >= frame_time) {
-		NextFrame(trans);
-		anim_timer = 0;
+	animTimer += deltaTime;
+	if (animTimer >= frameTime) {
+		next_Frame(trans);
+		animTimer = 0;
 	}
 
 }
 
-void FlipTexture_x(Transform& trans) {
-	trans.scale.x *= -1;
+void Flip_TextureX(Transform& trans) {
+	trans.scale.x *= -1.0f;
 }
 
-void FlipTexture_y(Transform& trans) {
-	trans.scale.y *= -1;
+void Flip_TextureY(Transform& trans) {
+	trans.scale.y *= -1.0f;
 }
 
-//void CreateSpriteMesh(Transform* trans, AEGfxVertexList*& mesh) {
-//	//float BG_Width = 1.0f / 4.0f;
-//	AEGfxMeshStart();
-//	AEGfxTriAdd(
-//		-0.5f, -0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 1.0f,
-//		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
-//		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
-//	);
-//	AEGfxTriAdd(
-//		0.5f, -0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 1.0f,
-//		0.5f, 0.5f, 0xFFFFFFFF, (0 + 1) * (trans->height / trans->width), 0.0f,
-//		-0.5f, 0.5f, 0xFFFFFFFF, 0 * (trans->height / trans->width), 0.0f
-//	);
-//	mesh = AEGfxMeshEnd();
-//}
 
 void Draw_StaticSprite(Transform* trans,int index) {
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);

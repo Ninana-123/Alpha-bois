@@ -30,7 +30,7 @@ float timeSinceLastFired = 0.0f;
 void Player_Init(Player* player,BulletPool &bulletPool) {
 
 	player->transform.color = Color(1, 1, 1, 1);
-	CreateQuadMesh(PLAYER_HEIGHT, PLAYER_WIDTH, player->transform.color, playerMesh,1.0f/5.0f,1.0f);
+	Create_QuadMesh(PLAYER_HEIGHT, PLAYER_WIDTH, player->transform.color, playerMesh,1.0f/5.0f,1.0f);
 	playerTexture = AEGfxTextureLoad("Assets/RoninSpriteSheet.png");
 	player->transform.texture = &playerTexture;
 	player->transform.height = PLAYER_HEIGHT;
@@ -47,7 +47,7 @@ void Player_Init(Player* player,BulletPool &bulletPool) {
 
 void Player_Update(Player* player,BulletPool &bulletPool) {
 
-	if (!IsTime_Paused()) {
+	if (!Is_TimePaused()) {
 		
 		static float frameTimer = 0;
 		frameTimer += deltaTime;
@@ -67,9 +67,9 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 			
 			newPos.y = player->moveSpeed * deltaTime;
 			if (frameTimer >= 0.2f) {
-				player->animation.PlayAnim();
-				player->animation.NextFrame(player->transform);
-				player->animation.Update_SpriteAnim(player->transform);
+				player->animation.play_Anim();
+				player->animation.next_Frame(player->transform);
+				player->animation.update_SpriteAnim(player->transform);
 				frameTimer = 0;
 			}
 		}
@@ -77,13 +77,13 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 			newPos.x = -player->moveSpeed * deltaTime;
 			curDir = DirPressed::LEFT;
 			if (curDir != prevDir) {
-				FlipTexture_x(player->transform);
+				Flip_TextureX(player->transform);
 				prevDir = curDir;
 			}
 			if (frameTimer >= 0.2f) {
-				player->animation.PlayAnim();
-				player->animation.NextFrame(player->transform);
-				player->animation.Update_SpriteAnim(player->transform);
+				player->animation.play_Anim();
+				player->animation.next_Frame(player->transform);
+				player->animation.update_SpriteAnim(player->transform);
 				frameTimer = 0;
 			}
 		}
@@ -91,9 +91,9 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 		if (player->s_Pressed) {
 			newPos.y = -player->moveSpeed * deltaTime;
 			if (frameTimer >= 0.2f) {
-				player->animation.PlayAnim();
-				player->animation.NextFrame(player->transform);
-				player->animation.Update_SpriteAnim(player->transform);
+				player->animation.play_Anim();
+				player->animation.next_Frame(player->transform);
+				player->animation.update_SpriteAnim(player->transform);
 				frameTimer = 0;
 			}
 		}
@@ -102,12 +102,12 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 			curDir = DirPressed::RIGHT;
 			if (curDir != prevDir) {
 				prevDir = curDir;
-				FlipTexture_x(player->transform);
+				Flip_TextureX(player->transform);
 			}
 			if (frameTimer >= 0.2f) {
-				player->animation.PlayAnim();
-				player->animation.NextFrame(player->transform);
-				player->animation.Update_SpriteAnim(player->transform);
+				player->animation.play_Anim();
+				player->animation.next_Frame(player->transform);
+				player->animation.update_SpriteAnim(player->transform);
 				frameTimer = 0;
 			}
 		}
@@ -122,16 +122,15 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 
 		timeSinceLastFired += deltaTime;
 
-		if (player->left_mouse_pressed) {
-			if (!audioPlayed) {
-				AEAudioPlay(playerShootSound, playerAudioGroup, 0.1f, 1.f, 0);
-				audioPlayed = true;
-			}
+		if (player->left_mouse_pressed) {		
 			if (timeSinceLastFired >= PLAYER_FIRERATE) {
 				BulletAdd(bulletPool, player->transform.position);
 				timeSinceLastFired = 0;
+				if (!audioPlayed) {
+					AEAudioPlay(playerShootSound, playerAudioGroup, 0.1f, 1.f, 0);
+					audioPlayed = true;
+				}
 			}
-
 		}
 		else audioPlayed = false;
 
@@ -147,7 +146,7 @@ void Player_Update(Player* player,BulletPool &bulletPool) {
 }
 
 void Draw_Player(Player* player,BulletPool &bulletPool) {
-	DrawMesh(&player->transform);
+	Draw_Mesh(&player->transform);
 	
 	Draw_Bullet(bulletPool);
 }
@@ -156,7 +155,7 @@ void player_dmg(PlayerInfo& info,int dmg) {
 	info.health -= dmg;
 	if (info.health <= 0) {
 		info.playerDead= 1;
-		TimePause();
+		Pause_Time();
 	}
 }
 

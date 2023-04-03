@@ -58,7 +58,7 @@ void ArrowAdd(ArrowPool& pool, Vector2 archPos, Vector2 playerPos) {
 //	Initialising arrow pool
 void Init_ArrowPool(ArrowPool& pool) {
 	pool.activeSize = 0;
-	CreateQuadMesh(ARROW_WIDTH, ARROW_HEIGHT, Color(0, 0, 1), arrowMesh);
+	Create_QuadMesh(ARROW_WIDTH, ARROW_HEIGHT, Color(0, 0, 1), arrowMesh);
 	for (int i = 0; i < ARROW_COUNT; i++) {
 		pool.arrow[i].enabled = false;
 		pool.arrow[i].transform.height = ARROW_HEIGHT;
@@ -74,7 +74,7 @@ void Init_ArrowPool(ArrowPool& pool) {
 void Draw_Arrow(ArrowPool& pool) {
 	
 		for (int i = 0; i < pool.activeSize; i++) {
-			DrawMesh(&pool.activeArrow[i]->transform);
+			Draw_Mesh(&pool.activeArrow[i]->transform);
 		}
 	
 }
@@ -82,7 +82,7 @@ void Draw_Arrow(ArrowPool& pool) {
 // Arrow direction, Arrow boundary - if out of the boundary / screen, delete it
 void Arrow_AI(ArrowPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		SetQuadPoints(pool.activeArrow[i]->transform, true);
+		Set_QuadPoints(pool.activeArrow[i]->transform, true);
 		pool.activeArrow[i]->transform.position += pool.activeArrow[i]->direction * deltaTime * arrowSpeed;
 		if (pool.activeArrow[i]->transform.position.x > arrowBoundaryX) {
 			ArrowRemove(i, pool);

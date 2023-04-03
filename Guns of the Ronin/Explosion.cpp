@@ -27,7 +27,7 @@ void Explosion_PoolInit(ExplosionPool& explosionPool)
 		{
 			timing = 0;
 			explosionPool.activeSize = 0;
-			CreateQuadMesh(EXPLOSION_WIDTH, EXPLOSION_HEIGHT, Color(1, 0, 0, 1), explosionsMesh);
+			Create_QuadMesh(EXPLOSION_WIDTH, EXPLOSION_HEIGHT, Color(1, 0, 0, 1), explosionsMesh);
 			for (int i = 0; i < EXPLOSION_COUNT; i++)
 			{
 				explosionPool.Explosions[i].hasBeenUsed = false;
@@ -80,7 +80,7 @@ void Explosion_Add(ExplosionPool& explosionPool)
 			Vector2 randomPosition;
 			do
 			{
-				randomPosition = RandomPoint_OutsideSqaure(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
+				randomPosition = Random_PointOutsideSquare(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
 			} while (Check_Overlap_With_Active_Explosion(explosionPool, randomPosition));
 			explosionPool.activeExplosion[i]->transform.position = randomPosition;
 			
@@ -112,13 +112,13 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 	// Loop over all active explosions in the explosion pool
 	for (int i = 0; i < explosionPool.activeSize; i++)
 	{
-		SetQuadPoints(explosionPool.activeExplosion[i]->transform);
+		Set_QuadPoints(explosionPool.activeExplosion[i]->transform);
 
 		// Loop over all active archers in the archer pool
 		for (int j = 0; j < archPool.activeSize; j++)
 		{
 			// Check for collision between the explosion and the archer
-			if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, archPool.activeArchers[j]->transform))
+			if (Col_StaticQuadQuad(explosionPool.activeExplosion[i]->transform, archPool.activeArchers[j]->transform))
 			{
 				// If the archer has not already been damaged by this explosion, subtract health
 				if (!archPool.activeArchers[j]->damagedByExplosion)
@@ -138,7 +138,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 			
 		for (int z = 0; z < canPool.activeSize; z++)
 		{
-			if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, canPool.activeCannoneers[z]->transform))
+			if (Col_StaticQuadQuad(explosionPool.activeExplosion[i]->transform, canPool.activeCannoneers[z]->transform))
 			{
 				if (!canPool.activeCannoneers[z]->damagedByExplosion)
 				{
@@ -147,7 +147,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 					//std::cout << "Health:" << canPool.activeArchers[j]->health << std::endl;
 					if (canPool.activeCannoneers[z]->health <= 0)
 					{
-						CannoneerRemove(z, canPool);
+						Remove_Cannoneer(z, canPool);
 					}
 				}
 				canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
@@ -156,7 +156,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 			
 		for (int k = 0; k < ninPool.activeSize; k++)
 		{
-			if (StaticCol_QuadQuad(explosionPool.activeExplosion[i]->transform, ninPool.activeNinjas[k]->transform))
+			if (Col_StaticQuadQuad(explosionPool.activeExplosion[i]->transform, ninPool.activeNinjas[k]->transform))
 			{
 				if (!ninPool.activeNinjas[k]->damagedByExplosion)
 				{
@@ -185,7 +185,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 	//	archPool.activeArchers[j]->isCollidingWithExplosion = false;
 	//	for (int i = 0; i < explosionPool.activeSize; i++)
 	//	{
-	//		if (StaticCol_QuadQuad(archPool.activeArchers[j]->transform, explosionPool.activeExplosion[i]->transform))
+	//		if (Col_StaticQuadQuad(archPool.activeArchers[j]->transform, explosionPool.activeExplosion[i]->transform))
 	//		{
 	//			archPool.activeArchers[j]->isCollidingWithExplosion = true;
 	//			Explosion_Delete(i, explosionPool);
@@ -203,7 +203,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 	//	canPool.activeCannoneers[z]->isCollidingWithExplosion = false;
 	//	for (int i = 0; i < explosionPool.activeSize; i++)
 	//	{
-	//		if (StaticCol_QuadQuad(canPool.activeCannoneers[z]->transform, explosionPool.activeExplosion[i]->transform))
+	//		if (Col_StaticQuadQuad(canPool.activeCannoneers[z]->transform, explosionPool.activeExplosion[i]->transform))
 	//		{
 	//			canPool.activeCannoneers[z]->isCollidingWithExplosion = true;
 	//			Explosion_Delete(i, explosionPool);
@@ -220,7 +220,7 @@ void Explosion_Update(ExplosionPool& explosionPool, ArcherPool& archPool, Cannon
 	//	ninPool.activeNinjas[k]->isCollidingWithExplosion = false;
 	//	for (int i = 0; i < explosionPool.activeSize; i++)
 	//	{
-	//		if (StaticCol_QuadQuad(ninPool.activeNinjas[k]->transform, explosionPool.activeExplosion[i]->transform))
+	//		if (Col_StaticQuadQuad(ninPool.activeNinjas[k]->transform, explosionPool.activeExplosion[i]->transform))
 	//		{
 	//			ninPool.activeNinjas[k]->isCollidingWithExplosion = true;
 	//			Explosion_Delete(i, explosionPool);
@@ -242,7 +242,7 @@ void Draw_Explosions(ExplosionPool& explosionPool)
 
 		if (explosionPool.activeExplosion[i]->hasBeenUsed)
 		{
-			DrawMesh(&explosionPool.activeExplosion[i]->transform);
+			Draw_Mesh(&explosionPool.activeExplosion[i]->transform);
 			if (explosionPool.activeExplosion[i]->isColliding)
 			{
 				Explosion_Delete(i, explosionPool);

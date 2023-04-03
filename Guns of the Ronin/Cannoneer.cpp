@@ -20,7 +20,7 @@
 
 
 //When a cannoneer dies 
-void CannoneerRemove(int index, CannoneerPool& pool) {
+void Remove_Cannoneer(int index, CannoneerPool& pool) {
 	pool.activeCannoneers[index]->enabled = false;
 	if (index < (pool.activeSize - 1)) {
 		Cannoneer* temp = pool.activeCannoneers[index];
@@ -33,13 +33,13 @@ void CannoneerRemove(int index, CannoneerPool& pool) {
 }
 
 //Spawning a new cannoneer
-void CannoneerAdd(CannoneerPool& pool) {
+void Add_Cannoneer(CannoneerPool& pool) {
 	for (int i = 0; i < CANNONEER_COUNT; i++) {
 		if (pool.activeCannoneers[i]->enabled == false) {
 			pool.activeCannoneers[i]->enabled = true;
 			pool.activeCannoneers[i]->health = C_HEALTH;
 			pool.activeCannoneers[i]->transform.texture = &cannoneerTexture;
-			pool.activeCannoneers[i]->transform.position = RandomPoint_OutsideSqaure(C_MIN_SPAWN_DIST, C_MAX_SPAWN_DIST, Vector2(0, 0));
+			pool.activeCannoneers[i]->transform.position = Random_PointOutsideSquare(C_MIN_SPAWN_DIST, C_MAX_SPAWN_DIST, Vector2(0, 0));
 			pool.activeCannoneers[i]->transform.position.y = AEClamp(pool.activeCannoneers[i]->transform.position.y, -C_MAX_Y_SPAWN_DIST, C_MAX_Y_SPAWN_DIST);
 			pool.activeSize += 1;
 			break;
@@ -50,9 +50,9 @@ void CannoneerAdd(CannoneerPool& pool) {
 void Init_CannoneerPool(CannoneerPool& pool) {
 	pool.activeSize = 0;
 	pool.activeCBSize = 0;
-	CreateQuadMesh(C_WIDTH, C_HEIGHT, Color(0, 0, 1), cannoneerMesh);
-	CreateQuadMesh(CB_WIDTH, CB_HEIGHT, Color(0, 0, 0), cannonBallMesh);
-	CreateCircleMesh(CB_EXPLOSION_RADIUS, Color(1, 0.1f, 0.1f), explosionMesh);
+	Create_QuadMesh(C_WIDTH, C_HEIGHT, Color(0, 0, 1), cannoneerMesh);
+	Create_QuadMesh(CB_WIDTH, CB_HEIGHT, Color(0, 0, 0), cannonBallMesh);
+	Create_CircleMesh(CB_EXPLOSION_RADIUS, Color(1, 0.1f, 0.1f), explosionMesh);
 	for (int i = 0; i < CANNONEER_COUNT; i++) {
 		pool.cannoneers[i].enabled = false;
 		pool.cannoneers[i].health = C_HEALTH;
@@ -131,14 +131,14 @@ void AI_Cannoneer(CannoneerPool& pool, Player& player, PlayerInfo& playerInfo) {
 				--i; //Replaced curCB with the last active one in the array so reduce i to recheck curCB
 			}
 
-			if (!curCB.dmgDealt && ColQuadCircle(player.transform, curCB.transform, true)) {
+			if (!curCB.dmgDealt && Col_QuadCircle(player.transform, curCB.transform, true)) {
 				curCB.dmgDealt = true;
 				player_dmg(playerInfo, CB_DAMAGE);
 			}
 			curCB.transform.color.a = 1.0f - curCB.explosionTimer / CB_EXPLOSION_DURATION;
 		}
 		else {
-			if (curCB.transform.position.within_dist(curCB.LZ, CB_LZ_ERROR)) {
+			if (curCB.transform.position.within_Dist(curCB.LZ, CB_LZ_ERROR)) {
 				AEAudioPlay(cannonShoot, mainsceneAudioGroup, 0.1f, 1.f, 0);
 				curCB.exploded = true;
 				continue;
@@ -161,7 +161,7 @@ void AI_Cannoneer(CannoneerPool& pool, Player& player, PlayerInfo& playerInfo) {
 void Dmg_Cannoneer(CannoneerPool& pool, PlayerInfo playerInfo, int index) {
 
 	if ((pool.activeCannoneers[index]->health -= playerInfo.att) <= 0) {
-		CannoneerRemove(index, pool);
+		Remove_Cannoneer(index, pool);
 	}
 }
 
@@ -169,10 +169,10 @@ void Dmg_Cannoneer(CannoneerPool& pool, PlayerInfo playerInfo, int index) {
 
 void Draw_Cannoneer(CannoneerPool& pool) {
 	for (int i = 0; i < pool.activeSize; i++) {
-		DrawMesh(&pool.activeCannoneers[i]->transform);
+		Draw_Mesh(&pool.activeCannoneers[i]->transform);
 	}
 	for (int i = 0; i < pool.activeCBSize; ++i) {
-		DrawMesh(&pool.cannonBalls[i].transform);
+		Draw_Mesh(&pool.cannonBalls[i].transform);
 	}
 }
 

@@ -81,7 +81,7 @@ void Init_Scene() {
 	Init_PauseMenu();
 	PlayerInfo_Init(&playerinfo);
 	LevelBG = AEGfxTextureLoad("Assets/GameBG1.png");
-	CreateQuadMesh(1.f,1.f,Color(1,1,1), levelMesh);
+	Create_QuadMesh(1.f,1.f,Color(1,1,1), levelMesh);
 	level.transform.texture = &LevelBG;
 	level.transform.position = { 0.0f,0.0f };
 	level.transform.scale = { 1600.0f,-900.0f };
@@ -101,8 +101,8 @@ void Init_Scene() {
 void Update_Scene() {
 
 	AEAudioResumeGroup(mainsceneAudioGroup);
-	Update_Time();
-	SetQuadPoints(player.transform, true);
+	Update_TimeMan();
+	Set_QuadPoints(player.transform, true);
 
 	//DummyPlayer_Update(&dummyPlayer);
 
@@ -122,12 +122,12 @@ void Update_Scene() {
 	// Player bullets collision with samurais
 	for (int i = 0; i < samPool.activeSize; ++i) {
 		//Update AABB position of samurai
-		SetQuadPoints(samPool.activeSamurais[i]->transform);
+		Set_QuadPoints(samPool.activeSamurais[i]->transform);
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
-			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, samPool.activeSamurais[i]->transform)) {
+			Set_QuadPoints(bulletPool.activeBullets[u]->transform, true);
+			if (Col_StaticQuadQuad(bulletPool.activeBullets[u]->transform, samPool.activeSamurais[i]->transform)) {
 				Dmg_Samurai(samPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
 			}
@@ -137,12 +137,12 @@ void Update_Scene() {
 	// Player bullets collision with archers
 	for (int i = 0; i < archPool.activeSize; ++i) {
 		//Update AABB position of archers
-		SetQuadPoints(archPool.activeArchers[i]->transform);
+		Set_QuadPoints(archPool.activeArchers[i]->transform);
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
-			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, archPool.activeArchers[i]->transform)) {
+			Set_QuadPoints(bulletPool.activeBullets[u]->transform, true);
+			if (Col_StaticQuadQuad(bulletPool.activeBullets[u]->transform, archPool.activeArchers[i]->transform)) {
 				Dmg_Archer(archPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
 			}
@@ -152,12 +152,12 @@ void Update_Scene() {
 	//	Player bullets collision with cannoneers
 	for (int i = 0; i < cPool.activeSize; ++i) {
 		//Update AABB position of cannoneers
-		SetQuadPoints(cPool.activeCannoneers[i]->transform);
+		Set_QuadPoints(cPool.activeCannoneers[i]->transform);
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
-			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, cPool.activeCannoneers[i]->transform)) {
+			Set_QuadPoints(bulletPool.activeBullets[u]->transform, true);
+			if (Col_StaticQuadQuad(bulletPool.activeBullets[u]->transform, cPool.activeCannoneers[i]->transform)) {
 				Dmg_Cannoneer(cPool, playerinfo, i);
 				BulletRemove(u, bulletPool);
 			}
@@ -167,12 +167,12 @@ void Update_Scene() {
 	//	Player bullets collision with ninja
 	for (int i = 0; i < ninPool.activeSize; ++i) {
 		//Update AABB position of ninjas
-		SetQuadPoints(ninPool.activeNinjas[i]->transform);
+		Set_QuadPoints(ninPool.activeNinjas[i]->transform);
 
 		for (int u = 0; u < bulletPool.activeSize; ++u) {
 			//Update AABB position of bullets
-			SetQuadPoints(bulletPool.activeBullets[u]->transform, true);
-			if (StaticCol_QuadQuad(bulletPool.activeBullets[u]->transform, ninPool.activeNinjas[i]->transform)) {
+			Set_QuadPoints(bulletPool.activeBullets[u]->transform, true);
+			if (Col_StaticQuadQuad(bulletPool.activeBullets[u]->transform, ninPool.activeNinjas[i]->transform)) {
 				Dmg_Ninja(ninPool, playerinfo, player, i);
 				BulletRemove(u, bulletPool);
 			}
@@ -196,12 +196,12 @@ void Update_Scene() {
 
 	//time freeze for enemy
 	if (AEInputCheckTriggered(AEVK_P)) {
-		//TimePauseEnemy();
+		//Pause_EnemyTime();
 		//timeSincePause = 0.0f;
 	}
 
 	/*if (timeSincePause >= 2.0f) {
-		TimeEnemyResume();
+		Resume_EnemyTime();
 	}*/
 
 
@@ -218,7 +218,7 @@ void Draw_Scene() {
 
 	// Set the background 
 	AEGfxSetBackgroundColor(0.0f, 0.6f, 0.8f);
-	DrawMesh(&level.transform);
+	Draw_Mesh(&level.transform);
 	Draw_Enemies(samPool, archPool, cPool, ninPool);
 	Draw_Shrine( shrinePool);
 	Draw_Explosions(explosionPool);

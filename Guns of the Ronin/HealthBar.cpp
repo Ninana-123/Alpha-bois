@@ -20,25 +20,25 @@
 #include <iostream>
 
 void Init_Health_Bar(BarPool& barPool, Health* health) { 
-	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(0, 1.0f, 0, 1.0f), healthMesh);
+	Create_QuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(0, 1.0f, 0, 1.0f), healthMesh);
 	health->playerBar.mesh = &healthMesh;
 
-	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), samMesh);
+	Create_QuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), samMesh);
 	for (int i = 0; i < SAMURAI_COUNT; i++) {
 		barPool.samurais[i].samBar.mesh = &samMesh;
 	}
 
-	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), archMesh);
+	Create_QuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), archMesh);
 	for (int i = 0; i < ARCHER_COUNT; i++) {
 		barPool.archers[i].archBar.mesh = &archMesh;
 	}
 
-	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), ninMesh);
+	Create_QuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), ninMesh);
 	for (int i = 0; i < NINJA_COUNT; i++) {
 		barPool.ninjas[i].ninBar.mesh = &ninMesh;
 	}
 
-	CreateQuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), canMesh);
+	Create_QuadMesh(HEALTH_WIDTH, HEALTH_HEIGHT, Color(1.0f, 0, 0, 1.0f), canMesh);
 	for (int i = 0; i < CANNONEER_COUNT; i++) {
 		barPool.cannon[i].canBar.mesh = &canMesh;
 	}
@@ -80,22 +80,22 @@ void Health_Bar_Update(BarPool& barPool, Health* health, PlayerInfo& playerinfo,
 }
 
 void Health_Bar_Draw(BarPool& barPool, Health* health, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, CannoneerPool& canPool) {
-	DrawMesh(&health->playerBar);
+	Draw_Mesh(&health->playerBar);
 	
 	for (int i = 0; i < samPool.activeSize; i++) {
-		DrawMesh(&barPool.samurais[i].samBar);
+		Draw_Mesh(&barPool.samurais[i].samBar);
 	}
 
 	for (int i = 0; i < archPool.activeSize; i++) {
-		DrawMesh(&barPool.archers[i].archBar);
+		Draw_Mesh(&barPool.archers[i].archBar);
 	}
 
 	for (int i = 0; i < ninPool.activeSize; i++) {
-		DrawMesh(&barPool.ninjas[i].ninBar);
+		Draw_Mesh(&barPool.ninjas[i].ninBar);
 	}
 	
 	for (int i = 0; i < canPool.activeSize; i++) {
-		DrawMesh(&barPool.cannon[i].canBar);
+		Draw_Mesh(&barPool.cannon[i].canBar);
 	}
 }
 

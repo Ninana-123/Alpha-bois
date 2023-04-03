@@ -25,7 +25,7 @@ void Reset_TimeMan() {
 	deltaTime = 0;
 }
 
-void Update_Time() {
+void Update_TimeMan() {
 
 	if (!isPaused) {
 		deltaTime = (float)AEFrameRateControllerGetFrameTime();
@@ -34,38 +34,26 @@ void Update_Time() {
 
 }
 
-void TimePause() {
+void Pause_Time() {
 	isPaused = true;
 }
 
-void TimeResume() {
+void Resume_Time() {
 	isPaused = false;
 }
 
-void TimePauseEnemy() {
+void Pause_EnemyTime() {
 	enemypause = true;
 }
 
-void TimeEnemyResume() {
+void Resume_EnemyTime() {
 	enemypause = false;
 }
 
-void ExplosionYes() {
-	explosiontrigger = true;
-}
-
-void ExplosionNo() {
-	explosiontrigger = false;
-}
-
-bool IsTime_Paused() {
+bool Is_TimePaused() {
 	return isPaused;
 }
 
-bool IsTime_Paused_Enemy() {
+bool Is_EnemyTimePaused() {
 	return enemypause;
-}
-
-bool IsExplosionTriggered() {
-	return explosiontrigger;
 }
