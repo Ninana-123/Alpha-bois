@@ -23,7 +23,7 @@
 
 
 float durations;
-void Void_PoolInit(VoidPool& voidPool)
+void Init_VoidPool(VoidPool& voidPool)
 {
 	durations = 0;
 	voidPool.activeSize = 0;
@@ -66,7 +66,7 @@ bool Check_OverlapWithActiveVoid(const VoidPool& voidPool, const Vector2& positi
 	return false;
 }
 
-void Void_Add(VoidPool& voidPool)
+void Add_Void(VoidPool& voidPool)
 {
 	for (int i = 0; i < VOID_COUNT; i++)
 	{
@@ -97,7 +97,7 @@ void Void_Add(VoidPool& voidPool)
 	}
 }
 
-void Void_Delete(int index, VoidPool& voidPool)
+void Delete_Void(int index, VoidPool& voidPool)
 {
 	
 		voidPool.activeVoid[index]->hasBeenUsed = false;
@@ -111,7 +111,7 @@ void Void_Delete(int index, VoidPool& voidPool)
 	
 }
 
-void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& canPool)
+void Update_Void(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool, CannoneerPool& canPool)
 {
 	
 	// Animation
@@ -198,7 +198,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 			if (voidPool.activeVoid[i]->timeElapsed >= 4.f)
 			{
 				// If the void has been active for more than 1 second, remove it from the VoidPool
-				Void_Delete(i, voidPool);
+				Delete_Void(i, voidPool);
 			}
 			else
 			{
@@ -210,7 +210,7 @@ void Void_Update(VoidPool& voidPool, SamuraiPool& samPool, ArcherPool& archPool,
 		else
 		{
 			// If there are collided samurais, remove the void from the VoidPool
-			Void_Delete(i, voidPool);
+			Delete_Void(i, voidPool);
 		}
 	}
 }
@@ -224,7 +224,7 @@ void Draw_Void(VoidPool& voidPool)
 			Draw_Mesh(&voidPool.activeVoid[i]->transform);
 			if (voidPool.activeVoid[i]->isColliding)
 			{
-				Void_Delete(i, voidPool);
+				Delete_Void(i, voidPool);
 			}
 		}
 

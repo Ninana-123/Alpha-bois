@@ -73,7 +73,7 @@ namespace {
 void Init_Scene() {
 
 	Init_ShrinePool(shrinePool);
-	Explosion_PoolInit(explosionPool);
+	Init_ExplosionPool(explosionPool);
 	Init_Player(&player, bulletPool);
 	Init_Enemies(samPool, archPool, cPool, ninPool, startingWave);
 	Init_PauseMenu();
@@ -91,7 +91,7 @@ void Init_Scene() {
 	Reset_TimeMan();
 	Reset_HighScore();
 	Init_HealthBar(barPool, &health);
-	Void_PoolInit(voidPool);
+	Init_VoidPool(voidPool);
 	AEAudioPlay(mainsceneSong, mainsceneAudioGroup, 1.f, 1.f, -1);
 
 }
@@ -104,9 +104,9 @@ void Update_Scene() {
 
 	Update_Shrine(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool, voidPool, cPool);
 
-	Explosion_Update( explosionPool,  archPool,  cPool,  ninPool);
+	Update_Explosion( explosionPool,  archPool,  cPool,  ninPool);
 
-	Void_Update( voidPool, samPool,archPool,cPool);
+	Update_Void( voidPool, samPool,archPool,cPool);
 
 	Update_Enemies(samPool, archPool, cPool, ninPool, player, playerinfo);
 
