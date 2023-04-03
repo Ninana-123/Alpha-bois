@@ -5,7 +5,7 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*
-@file void.cpp
+@file shrine.cpp
 @author Teo Sheen Yeoh
 @Co-Author Vance Tay
 @Email t.sheenyeoh@digipen.edu & Junfengvance.t@digipen.edu

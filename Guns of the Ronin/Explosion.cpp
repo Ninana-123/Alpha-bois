@@ -5,7 +5,7 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
+@file explosion.cpp
 @author Teo Sheen Yeoh
 @Email t.sheenyeoh@digipen.edu
 @course CSD 1450
