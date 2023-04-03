@@ -5,7 +5,7 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file		Bullets.h
+@file		Bullets.cpp
 @author		Kai Alexander Van Adrichem Boogaert
 @Email		kaialexander.v@digipen.edu
 @course		CSD 1451

@@ -5,13 +5,16 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*!
-@file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
-@section Section A
-@date 3 March 2023
-@brief This file contains code for the credit screen.
+@file			MainScene.cpp
+@co-author		Teo Sheen Yeoh,							t.sheenyeoh@digipen.edu
+@co-author      Zeng ZhiCheng,							z.zhicheng@digipen.edu			
+@co-author      Sean Ang JiaBao,						ang.s@digipen.edu
+@co-author      Kai Alexander Van Adrichem Boogaert,	kaialexander.v@digipen.edu
+@co-author      Vance Tay Jun Feng,						junfengvance.t@digipen.edu
+@course			CSD 1451
+@section		Section A
+@date			3 March 2023
+@brief			This file contains the main function and the definition of main scene functions
 *//*______________________________________________________________________*/
 
 #include <iostream>
