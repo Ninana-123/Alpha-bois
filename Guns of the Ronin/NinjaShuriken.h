@@ -39,8 +39,8 @@ public:
 };
 
 struct ShurikenPool {
-	Shuriken shuriken[SHURIKEN_COUNT];
-	Shuriken* activeShuriken[SHURIKEN_COUNT];
+	Shuriken shuriken[SHURIKEN_COUNT]{};
+	Shuriken* activeShuriken[SHURIKEN_COUNT]{};
 	int activeSize =0;
 };
 

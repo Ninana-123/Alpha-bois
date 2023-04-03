@@ -101,8 +101,8 @@ void Update_PauseMenu(PlayerInfo const& playerInfo) {
 
 	// Getting mouse position
 	AEInputGetCursorPosition(&pausedMouseX, &pausedMouseY);
-	pausedMouseX = pausedMouseX - AEGetWindowWidth() / 2.0f;
-	pausedMouseY = -(pausedMouseY - AEGetWindowHeight() / 2.0f);
+	pausedMouseX = (s32)pausedMouseX - s32(AEGetWindowWidth() / 2.0f);
+	pausedMouseY = -((s32)pausedMouseY - s32(AEGetWindowHeight() / 2.0f));
 	leftClick = AEInputCheckReleased(AEVK_LBUTTON);
 
 

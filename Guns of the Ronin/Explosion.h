@@ -51,8 +51,8 @@ public:
 struct ExplosionPool 
 {
 public:
-	Explosion Explosions[EXPLOSION_COUNT];
-	Explosion* activeExplosion[EXPLOSION_COUNT];
+	Explosion Explosions[EXPLOSION_COUNT]{};
+	Explosion* activeExplosion[EXPLOSION_COUNT]{};
 	int activeSize = 0;
 	
 };
