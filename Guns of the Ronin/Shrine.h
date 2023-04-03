@@ -38,7 +38,7 @@ namespace
 	#define SHRINE_WIDTH  50
 	#define LOADING_WIDTH  150
 	#define LOADING_HEIGHT  10
-	#define PUSH_BY  -700asdwdadwasdad
+	#define PUSH_BY  -700
 	#define BUFFER_DIST 100
 	AEGfxVertexList* shrineMesh;
 	AEGfxVertexList* shrineBoundary;
