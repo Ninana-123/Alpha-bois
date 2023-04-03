@@ -375,7 +375,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	Load_HighScoreFile();
 
 	// Using custom window procedure
-	AESysInit(hInstance, nCmdShow, 1600, 900, 1, 60, true, NULL);
+	AESysInit(hInstance, nCmdShow, 1600, 900, 0, 60, true, NULL);
 
 	font = AEGfxCreateFont("Assets/Fonts/Roboto-Regular.ttf", 50);
 	Audio_Load();
