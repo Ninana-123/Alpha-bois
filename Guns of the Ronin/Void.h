@@ -28,7 +28,7 @@
 
 namespace
 {
-#define VOID_COUNT 5
+#define VOID_COUNT 8
 #define VOID_HEIGHT  100
 #define VOID_WIDTH  100
 	AEGfxVertexList* voidMesh;

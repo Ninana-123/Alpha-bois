@@ -31,7 +31,7 @@ namespace
 	
 	#define EXPLOSION_HEIGHT  100
 	#define EXPLOSION_WIDTH  100
-	#define EXPLOSION_COUNT 5
+	#define EXPLOSION_COUNT 8
 	AEGfxVertexList* explosionsMesh;
 	AEGfxTexture* assetExplosions = 0;
 }
