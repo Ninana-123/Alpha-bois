@@ -78,9 +78,9 @@ struct CannonBall {
 };
 
 struct CannoneerPool {
-	Cannoneer cannoneers[CANNONEER_COUNT];
-	Cannoneer* activeCannoneers[CANNONEER_COUNT];
-	CannonBall cannonBalls[CANNON_BALL_COUNT];
+	Cannoneer cannoneers[CANNONEER_COUNT]{};
+	Cannoneer* activeCannoneers[CANNONEER_COUNT]{};
+	CannonBall cannonBalls[CANNON_BALL_COUNT]{};
 	int activeCBSize =0;
 	int activeSize =0;
 };

@@ -49,11 +49,12 @@ public:
 	Sprite_Animation bgAnim{ 30.f,4,1, Anim_Mode::ONE_TIME };
 };
 
-struct VoidPool 
+struct VoidPool
 {
 public:
 	Void Voids[VOID_COUNT];
-	Void* activeVoid[VOID_COUNT];
+	Void* activeVoid[VOID_COUNT]{};
+
 	int activeSize = 0;;
 	
 };
