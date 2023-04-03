@@ -182,7 +182,7 @@ void Shrine_Delete(int index, ShrinePool& shrinePool)
 
 void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, Player& player, PlayerInfo& playerInfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool)
 {
-	if (!IsTime_Paused())
+	if (!Is_TimePaused())
 	{
 		duration += deltaTime;
 		//std::cout << duration << std::endl;
@@ -200,8 +200,8 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 		timeSincePause += deltaTime;
 		for (int i = 0; i < shrinePool.activeSize; i++)
 		{
-			SetQuadPoints(shrinePool.activeShrine[i]->transform);
-			if (StaticCol_QuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
+			Set_QuadPoints(shrinePool.activeShrine[i]->transform);
+			if (Col_StaticQuadQuad(shrinePool.activeShrine[i]->transform, player.transform))
 			{
 				shrinePool.activeShrine[i]->isColliding = true;
 				shrinePool.activeShrine[i]->timeElapsed += deltaTime;
@@ -237,7 +237,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 					if (shrinePool.activeShrine[i]->types == Shrine::FREEZE)
 					{
 						AEAudioPlay(freezeSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-						TimePauseEnemy();
+						Pause_EnemyTime();
 						timeSincePause = 0.0f;
 						Shrine_Delete(i, shrinePool);
 						//std::cout << "Freeze tower" << std::endl;
@@ -334,7 +334,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 								if (AEInputCheckTriggered(AEVK_LBUTTON))
 								{
 									AEAudioPlay(godSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
-									CannoneerRemove(c, canPool);
+									Remove_Cannoneer(c, canPool);
 									break;
 								}
 							}
@@ -370,7 +370,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 		}
 		if (timeSincePause >= 2.0f)
 		{
-			TimeEnemyResume();
+			Resume_EnemyTime();
 		}
 	}
 }
