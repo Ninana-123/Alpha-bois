@@ -92,7 +92,7 @@ void Init_Scene() {
 	Reset_HighScore();
 	Init_HealthBar(barPool, &health);
 	Void_PoolInit(voidPool);
-	AEAudioPlay(mainsceneSong, mainsceneAudioGroup, 1.f, 1.f, -1);
+	AEAudioPlay(mainsceneSong, mainsceneAudioGroup, 0.2f, 1.f, -1);
 
 }
 
