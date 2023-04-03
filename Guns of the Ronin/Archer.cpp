@@ -143,11 +143,11 @@ void AI_Archer(ArcherPool& pool, Player& player, PlayerInfo& playerInfo) {
 	// Arrow collision with player
 	for (int i = 0; i < arrow.activeSize; ++i) {
 		Arrow* proj = arrow.activeArrow[i];
-		proj->timeSince_lastDmgDeal += deltaTime;
+		proj->timeSinceLastDmgDeal += deltaTime;
 		if (Col_StaticQuadQuad(proj->transform, player.transform)) {
-			if (proj->timeSince_lastDmgDeal > ARCHER_ATTACK_INTERVAL) {
+			if (proj->timeSinceLastDmgDeal > ARCHER_ATTACK_INTERVAL) {
 				Damage_Player(playerInfo, ARCHER_DAMAGE);
-				proj->timeSince_lastDmgDeal = 0;
+				proj->timeSinceLastDmgDeal = 0;
 				ArrowRemove(i, arrow);
 			}
 		}
