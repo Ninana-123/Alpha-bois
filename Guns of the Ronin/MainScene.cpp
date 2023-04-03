@@ -74,7 +74,7 @@ void Init_Scene() {
 	//G_Init();
 
 	//DummyPlayer_Init(&dummyPlayer);
-	Shrine_PoolInit(shrinePool);
+	Init_ShrinePool(shrinePool);
 	Explosion_PoolInit(explosionPool);
 	Init_Player(&player, bulletPool);
 	Init_Enemies(samPool, archPool, cPool, ninPool, startingWave);
@@ -106,7 +106,7 @@ void Update_Scene() {
 
 	//DummyPlayer_Update(&dummyPlayer);
 
-	Shrine_Update(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool, voidPool, cPool);
+	Update_Shrine(shrinePool,samPool, archPool, ninPool, player, playerinfo, explosionPool, voidPool, cPool);
 
 	Explosion_Update( explosionPool,  archPool,  cPool,  ninPool);
 

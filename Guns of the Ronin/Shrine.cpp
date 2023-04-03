@@ -46,7 +46,7 @@ float HalfY;
 
 
 
-void Shrine_PoolInit(ShrinePool& pool)
+void Init_ShrinePool(ShrinePool& pool)
 {
 	HalfX = (float)AEGetWindowWidth() / 2.0f;
 	HalfY = (float)AEGetWindowHeight() / 2.0f;
@@ -106,7 +106,7 @@ int Random(int min, int max)
 	return dis(gen);
 }
 
-void Shrine_Add(ShrinePool& shrinePool)
+void Add_Shrine(ShrinePool& shrinePool)
 {
 	if (!Is_TimePaused())
 	{
@@ -168,7 +168,7 @@ void Shrine_Add(ShrinePool& shrinePool)
 
 
 
-void Shrine_Delete(int index, ShrinePool& shrinePool)
+void Delete_Shrine(int index, ShrinePool& shrinePool)
 {
 	shrinePool.activeShrine[index]->hasBeenUsed = false;
 	if (index < (shrinePool.activeSize - 1))
@@ -180,7 +180,7 @@ void Shrine_Delete(int index, ShrinePool& shrinePool)
 	shrinePool.activeSize -= 1;
 }
 
-void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, Player& player, PlayerInfo& playerInfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool)
+void Update_Shrine(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& archPool, NinjaPool& ninPool, Player& player, PlayerInfo& playerInfo, ExplosionPool& explosionPool, VoidPool& voidPool, CannoneerPool& canPool)
 {
 	if (!Is_TimePaused())
 	{
@@ -193,7 +193,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 		if (duration >= 1.f)
 		{
 			duration = 0;
-			Shrine_Add(shrinePool);
+			Add_Shrine(shrinePool);
 
 		}
 
@@ -216,7 +216,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 							Explosion_Add(explosionPool);
 						}
 						Explosion_Update(explosionPool, archPool, canPool, ninPool);
-						Shrine_Delete(i, shrinePool);
+						Delete_Shrine(i, shrinePool);
 						break;
 					}
 
@@ -229,7 +229,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 							Void_Add(voidPool);
 						}
 						Void_Update(voidPool, samPool, archPool, canPool);
-						Shrine_Delete(i, shrinePool);
+						Delete_Shrine(i, shrinePool);
 						break;
 					}
 
@@ -239,7 +239,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 						AEAudioPlay(freezeSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
 						Pause_EnemyTime();
 						timeSincePause = 0.0f;
-						Shrine_Delete(i, shrinePool);
+						Delete_Shrine(i, shrinePool);
 						//std::cout << "Freeze tower" << std::endl;
 						break;
 					}
@@ -249,7 +249,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 					{
 						AEAudioPlay(windSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
 						Push_Enemies(samPool, archPool, HORIZONTAL, PUSH_BY, ninPool);
-						Shrine_Delete(i, shrinePool);
+						Delete_Shrine(i, shrinePool);
 						//std::cout << "Push tower" << std::endl;
 						break;
 					}
@@ -260,7 +260,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 						if (playerInfo.health < 100) {
 							AEAudioPlay(healthSound, mainsceneAudioGroup, 0.1f, 1.f, 0);
 							Heal_player(playerInfo);
-							Shrine_Delete(i, shrinePool);
+							Delete_Shrine(i, shrinePool);
 							//std::cout << "Heal tower" << std::endl;
 							std::cout << playerInfo.health << std::endl;
 							break;
@@ -345,7 +345,7 @@ void Shrine_Update(ShrinePool& shrinePool, SamuraiPool& samPool, ArcherPool& arc
 						// If timer reaches zero, delete shrine
 						if (shrinePool.activeShrine[i]->deleteTimer <= 0.0)
 						{
-							Shrine_Delete(i, shrinePool);
+							Delete_Shrine(i, shrinePool);
 						}
 					}
 
