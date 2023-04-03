@@ -6,9 +6,9 @@
 */
 /*!
 @file void.cpp
-@author Teo Sheen Yeoh
-@Email t.sheenyeoh@digipen.edu
-@course CSD 1450
+@co-author Teo Sheen Yeoh , Zhi Cheng, Kai Alexander Van Adrichem Boogaert, Sean Ang JiaBao, Zeng ZhiCheng , Vance Tay Jun Feng( 20% each)
+@Email t.sheenyeoh@digipen.edu, kaialexander.v@digipen.edu,z.zhicheng@digipen.edu,ang.s@digipen.edu,junfengvance.t@digipen.edu
+@course CSD 1451
 @section Section A
 @date 3 March 2023
 @brief This file contains code for the credit screen.

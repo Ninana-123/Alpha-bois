@@ -5,7 +5,7 @@
 		written consent of DigiPen Institute of Technology is prohibited.
 */
 /*
-@file void.cpp
+@file shrine.cpp
 @author Teo Sheen Yeoh
 @Co-Author Vance Tay
 @Email t.sheenyeoh@digipen.edu & Junfengvance.t@digipen.edu
@@ -17,7 +17,6 @@
 #include "Shrine.h"
 #include "Explosion.h"
 #include "Graphics.h"
-#include "DummyPlayer.h"
 #include "Player.h"
 #include "AEMath.h"
 #include "Physics.h"
@@ -85,7 +84,7 @@ float Vector_2Distance(const Vector2& a, const Vector2& b)
 	return sqrt(dx * dx + dy * dy);
 }
 
-bool Check_Overlap_With_Active_Shrines(const ShrinePool& shrinePool, const Vector2& position)
+bool Check_OverlapWithActiveShrines(const ShrinePool& shrinePool, const Vector2& position)
 {
 	for (int i = 0; i < SHRINE_COUNT; i++)
 	{
@@ -122,7 +121,7 @@ void Add_Shrine(ShrinePool& shrinePool)
 				do
 				{
 					randomPosition = Random_PointOutsideSquare(1, AEGetWindowHeight() / 2.f, Vector2(0, 0));
-				} while (Check_Overlap_With_Active_Shrines(shrinePool, randomPosition));
+				} while (Check_OverlapWithActiveShrines(shrinePool, randomPosition));
 
 				shrinePool.activeShrine[i]->transform.position = randomPosition;
 				shrinePool.Shrines[i].loading.position = randomPosition;
